@@ -1,0 +1,32 @@
+/* Georgia Font Styles */
+@import url('https://fonts.googleapis.com/css2?family=Georgia&display=swap');
+
+:root {
+    --font-georgia: "Georgia", serif;
+}
+
+/* Georgia font utility classes */
+.font-georgia {
+    font-family: var(--font-georgia);
+}
+
+.heading-georgia {
+    font-family: var(--font-georgia);
+    font-weight: 600;
+}
+
+.text-georgia {
+    font-family: var(--font-georgia);
+    font-weight: normal;
+}
+
+/* Apply Georgia to specific elements if needed */
+.georgia-title {
+    font-family: var(--font-georgia);
+    font-weight: bold;
+}
+
+.georgia-text {
+    font-family: var(--font-georgia);
+    line-height: 1.6;
+}

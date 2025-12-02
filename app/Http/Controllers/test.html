@@ -1,0 +1,144 @@
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sidebar with Overlay</title>
+    <style>
+        /* Basic reset and layout styling */
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Prevent scrolling */
+        }
+
+        /* Disable body scroll when the sidebar is open */
+        .no-scroll {
+            overflow: hidden;
+        }
+
+        /* Layout styling */
+        body {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Sidebar styling */
+        .sidebar {
+            width: 250px;
+            background-color: #2f837f;
+            color: white;
+            overflow-y: auto;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            transform: translateX(-100%); /* Hidden initially */
+            transition: transform 0.3s ease;
+        }
+
+        /* Active sidebar */
+        .sidebar.active {
+            transform: translateX(0); /* Slide into view */
+        }
+
+        /* Main content styling */
+        .main-content {
+            flex-grow: 1;
+            padding: 16px;
+            margin-left: 250px; /* Adjust based on sidebar width */
+        }
+
+        /* Overlay styling */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+        }
+
+        /* Show overlay when sidebar is active */
+        .overlay.active {
+            display: block;
+        }
+
+        /* Close button styling */
+        .close-btn {
+            position: sticky;
+            top: 0;
+            background-color: #2f837f;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+
+        /* Sidebar content styling */
+        .sidebar-content {
+            padding-top: 50px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="sidebar" id="sidebar">
+    <button class="close-btn" onclick="toggleSidebar()">✖</button>
+    <div class="sidebar-content">
+        <p onclick="toggleSidebar()">Home Screen</p>
+        <p onclick="toggleSidebar()">Operations Dashboard</p>
+        <p onclick="toggleSidebar()">Create Case</p>
+        <!-- Add more sidebar items here -->
+    </div>
+</div>
+
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<div class="main-content">
+    <h1>Main Content</h1>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+
+
+
+    <!-- Add more content here to test scrolling -->
+</div>
+
+<script>
+    // Toggle sidebar and overlay
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const body = document.body;
+
+        // Toggle active classes
+        sidebar.classList.toggle('active');
+        overlay.classList.toggle('active');
+
+        // Toggle body scroll
+        if (sidebar.classList.contains('active')) {
+            body.classList.add('no-scroll'); // Disable scrolling
+        } else {
+            body.classList.remove('no-scroll'); // Enable scrolling
+        }
+    }
+</script>
+
+</body>
+</html>

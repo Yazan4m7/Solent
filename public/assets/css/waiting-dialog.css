@@ -1,0 +1,246 @@
+.silicon-valley-choice {
+    cursor: pointer;
+    position: relative;
+    /* transition: transform 0.2s, filter 0.2s; */
+    width: 200px; /* Original width for device cards */
+    margin: 10px;
+    display: inline-block;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.7);
+    }
+
+    50% {
+        transform: scale(1.15);
+        box-shadow: 0 0 0 10px rgba(52, 152, 219, 0);
+    }
+
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(52, 152, 219, 0);
+    }
+}
+
+.pulse-animation {
+    animation: pulse 0.8s;
+}
+
+.silicon-valley-choice img {
+    max-width: 180px; /* Original max width for images */
+    max-height: 140px; /* Original max height for images */
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+}
+
+.silicon-valley-choice.silicon-valley-enabled img {
+    filter: brightness(1.0) saturate(1.9);
+    /* transform: scale(1.1) translateY(-10px); */
+    transform: scale(1.1) translateY(-10px);
+}
+
+.silicon-valley-choice:not(.silicon-valley-enabled) img {
+    filter: grayscale(200%);
+    pointer-events: none;
+}
+
+.silicon-valley-overlay.silicon-valley-active {
+    display: flex;
+}
+
+.silicon-valley-input {
+    border: 2px solid;
+    border-radius: 15px;
+    border-color: #ffacac85;
+    padding: 9px 20px;
+    width: 100%;
+    background: white;
+}
+
+/* Input field hover and focus effects */
+.silicon-valley-input:hover {
+    border-color: #8e44ad; /* Light purple */
+}
+
+.silicon-valley-input:focus {
+    border-color: #3498db; /* Soft blue */
+    box-shadow: 3px 2px 8px rgb(117 117 117 / 40%);
+}
+
+/* Add spacing below the input field */
+.silicon-valley-input + * {
+    margin-top: 20px; /* Adjust for more spacing */
+}
+
+.silicon-valley-input disabled{
+    background: #ffffff00;
+}
+
+.silicon-valley-card {
+    display: inline-block;
+    text-align: center;
+    padding: 10px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    width: 120px;
+}
+
+.silicon-valley-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.silicon-valley-input-container {
+    margin-top: 20px;
+    width: 80%;
+
+    max-width: 400px;
+    /*display: none;*/
+    flex-direction: column;
+    align-items: center;
+}
+
+.silicon-valley-button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: #fff;
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.silicon-valley-button.enabled {
+    cursor: pointer;
+    opacity: 1;
+}
+
+.silicon-valley-choice-title {
+    text-align: -webkit-center;
+    margin: 10px 0 0 0;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    color: #181818;
+}
+
+.blackbox-button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+/*.blackbox-button-outer{*/
+/*    background: var(--outer-gradient-disabled);*/
+/*}*/
+/*.blackbox-button-inner{*/
+/*    background: var(--inner-gradient-disabled);*/
+/*}*/
+
+.blackbox-button-inner:not(.orange):not(.blue):not(.green):not(.silicon-valley-enabled) {
+    background: var(--inner-gradient-disabled);
+    -webkit-transition: background 2s ease-out;
+    -moz-transition: background 2s ease-out;
+    -o-transition: background 2s ease-out;
+    transition: background 2s ease-out;
+}
+
+.blackbox-button-outer:not(.orange):not(.blue):not(.green):not(.silicon-valley-enabled) {
+    background: var(--outer-gradient-disabled);
+    -webkit-transition: background 2s ease-out;
+    -moz-transition: background 2s ease-out;
+    -o-transition: background 2s ease-out;
+    transition: background 2s cubic-bezier(0, 0, 0.24, 0.87);
+}
+
+.blackbox-button-inner.enabled.blue {
+    background: var(--inner-gradient-blue);
+    /* background: #2975d4; */
+    cursor: pointer;
+}
+
+.blackbox-button-outer.enabled.blue {
+    background: #4b9dff;
+    background: var(--outer-gradient-blue);
+    cursor: pointer;
+}
+
+.blackbox-button-inner {
+    background: var(--outer-gradient-disabled);
+    /* background: #2975d4; */
+    cursor: not-allowed;
+}
+
+.blackbox-button-outer {
+    background: var(--outer-gradient-disabled);
+    /* background: #2975d4; */
+    cursor: pointer;
+}
+
+.blackbox-button-inner.orange {
+    /* background: #4b9dff; */
+    background: var(--inner-gradient-orange);
+    cursor: pointer;
+}
+.blackbox-button-outer.enabled.orange {
+    /* background: #4b9dff; */
+    background: var(--outer-gradient-orange);
+    cursor: pointer;
+}
+.blackbox-button-inner.enabled.green {
+    background: var(--inner-gradient-green);
+    /* background: #2975d4; */
+    cursor: pointer;
+}
+
+.blackbox-button-outer.enabled.green {
+    background: #4b9dff;
+    background: var(--outer-gradient-green);
+    cursor: pointer;
+}
+
+.popup-blackbox-images {
+    /* height: 400px; */ /* Match height of left menu */
+    overflow-y: auto;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center; /* Changed back to center */
+    gap: 10px;
+    padding: 15px;
+    justify-content: center;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .silicon-valley-choice {
+        width: 150px; /* Original width for small screens */
+    }
+
+    .silicon-valley-choice img {
+        max-width: 130px; /* Original max width for small screens */
+        max-height: 100px; /* Original max height for small screens */
+    }
+
+    .popup-blackbox-images {
+        /* height: 350px; */
+    }
+}
+
+@media (max-width: 600px) {
+
+    .silicon-valley-choice {/* margin: 0; */}
+
+}
+

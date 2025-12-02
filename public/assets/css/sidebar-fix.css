@@ -1,0 +1,48 @@
+/* Sidebar scroll fix - Ensures sidebar content scrolls properly when expanded */
+
+/* Make sidebar wrapper scrollable with full height */
+.sidebar .sidebar-wrapper {
+    height: 100vh;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    position: relative;
+    max-height: none !important;
+    scrollbar-width: thin;
+    padding-bottom: 100px; /* Extra padding at bottom to ensure visibility of expanded items */
+}
+
+/* Customize scrollbar appearance */
+.sidebar .sidebar-wrapper::-webkit-scrollbar {
+    width: 4px;
+}
+
+.sidebar .sidebar-wrapper::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+.sidebar .sidebar-wrapper:hover::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Add some space at the bottom of the nav list */
+.sidebar .sidebar-wrapper .nav {
+    /*margin-bottom: 3rem;*/
+}
+
+/* Fix expanded area to ensure it's visible */
+.sidebar .sidebar-wrapper .collapse.show,
+.sidebar .sidebar-wrapper .collapsing {
+    position: relative;
+    scroll-margin-top: 150px;
+}
+
+/* Subtle animation when expanding section */
+.sidebar .sidebar-wrapper [aria-expanded="true"] + .collapse.show {
+    animation: smooth-appear 0.3s ease;
+}
+
+@keyframes smooth-appear {
+    0% { opacity: 0.5; }
+    100% { opacity: 1; }
+}

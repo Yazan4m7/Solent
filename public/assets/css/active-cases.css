@@ -1,0 +1,314 @@
+
+
+    body {font-family: 'Roboto', sans-serif;/* background-color: #471c1c; */ /* Light background for contrast */}
+
+    .modal-overlay {
+        z-index: 9990;
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(31, 41, 55, 0.5);
+    }
+
+    .modal-container {
+        background-color: #ffffff;
+        border-radius: 0.5rem;
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 35rem;
+        padding: 2rem;
+        position: relative;
+        height: fit-content;
+    }
+
+    .close-button {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background-color: #ef4444;
+        color: #ffffff;
+        border: none;
+        border-radius: 50%;
+        width: 2rem;
+        height: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 1.25rem;
+        font-weight: bold;
+        transition: background-color 0.3s;
+    }
+
+    .close-button:hover {
+        background-color: #dc2626;
+    }
+
+    .modal-title {
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        font: caption;
+        font-size: clamp(1.4rem, 2.5vw, 1.5rem);
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .option-row {
+        display: flex;
+        align-items: center;
+        /* padding: 1rem; */
+        font-weight: bold;
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: 0.5rem;
+        font-size: 1rem;
+        height: 2.5rem;
+    }
+
+    .option-row.orange {
+        background-color: #cd5d0e;
+        /* color: #ffffff; */
+    }
+
+    .option-row.blue {
+        background-color: #3b82f6;
+        color: #ffffff;
+    }
+
+    /*.option-row.blue > .id-circle {*/
+    /*    color: #f97316;*/
+    /*}*/
+
+    /*.option-row.orange > .id-circle {*/
+    /*    color: #3b82f6;*/
+    /*}*/
+
+    /*.id-circle {*/
+    /*    background-color: #ffffff;*/
+    /*    color: #1f1f1f;*/
+    /*    border-radius: 50%;*/
+    /*    width: 2rem;*/
+    /*    height: 2rem;*/
+    /*    display: flex;*/
+    /*    align-items: center;*/
+    /*    justify-content: center;*/
+    /*    font-weight: bold;*/
+    /*    font-size: 1rem;*/
+    /*    border: 2px solid #d1d5db;*/
+    /*    cursor: pointer;*/
+    /*}*/
+    .id-circle {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background-color: #fefeff; /* Dark blue color for ID circle */
+        color: #333333;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        padding: 10PX;
+    }
+    .id-circle.selected {
+        background-color: #3b82f6;
+        color: #ffffff;
+    }
+
+    .blackbox-modal .modal-title {
+        text-transform: capitalize;
+    }
+
+    .option-row.blue {
+        background-color: #3b82f6;
+        color: #ffffff;
+
+    }
+    .option-row {
+        line-height: normal;
+        /* text-align: right; */
+        display: flex;
+        padding: 10px;
+        /* border-bottom: 1px solid #e0e0e0; */
+        transition: background 0.3s;
+        display: flex;
+        width: 100%;
+        text-align: center;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+
+    .option-row.blue:hover {
+        background-color: #1fa5fe; /* Darker blue on hover */
+    }
+    .option-row.orange:hover {
+        background-color: #d8b200; /* Darker blue on hover */
+    }
+
+    .text-container {
+        color: whitesmoke;
+        display: flex;
+        width: 100%;
+        text-align: right;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: center;
+    }
+    .checkbox {
+        height: 2rem;
+        width: 2rem;
+        border-radius: 75%;
+        border: 2px solid #d1d5db;
+        margin-right: 1rem;
+        cursor: pointer;
+    }
+
+    .checkbox:disabled {
+        cursor: not-allowed;
+    }
+
+    .id-circle {
+        /* background-color: #ffffff; */
+        /* color: #000000; */
+        /* border-radius: 50%; */
+        /* width: 1.7rem; */
+        height: 4;
+        /* display: flex; */
+        /* align-items: center; */
+        /* justify-content: center; */
+        margin-left: 0.4rem;
+    }
+
+    /*.text-container {*/
+    /*    display: flex;*/
+    /*    flex: 1;*/
+    /*    gap: 0.5rem;*/
+    /*    flex-direction: row;*/
+    /*    justify-content: space-between;*/
+    /*    flex-wrap: nowrap;*/
+    /*}*/
+
+    .separator {
+        margin: 0 0.5rem;
+    }
+
+    .button-container {
+        text-align: center;
+        margin-top: 2rem;
+    }
+
+    .action-button {
+        background: linear-gradient(to right, #3b82f6, #8b5cf6);
+        color: #ffffff;
+        padding: 0.75rem 1.5rem;
+        border-radius: 9999px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: background 0.3s;
+        font-size: 1.25rem;
+    }
+
+    .action-button:hover {
+        background: linear-gradient(to right, #2563eb, #7c3aed);
+    }
+
+    @media (max-width: 400px) {
+        .modal-container {
+            padding: 2rem 0.5rem;
+        }
+    }
+
+    @media (max-width: 575.98px) {
+
+    }
+
+    /* === Korvion brand palette overrides for active cases modal === */
+    :root {
+        --ops-primary: var(--brand-primary, #0f7c63);
+        --ops-secondary: var(--brand-secondary, #0ab39c);
+        --ops-surface: #ffffff;
+        --ops-surface-alt: #f5f8fa;
+        --ops-panel: #ffffff;
+        --ops-border: #d9e2ec;
+        --ops-text: #1f2a3d;
+        --ops-muted: #6b7280;
+    }
+
+    body {
+        background: var(--ops-surface);
+        color: var(--ops-text);
+    }
+
+    .modal-container {
+        background-color: var(--ops-panel);
+        color: var(--ops-text);
+        border: 1px solid var(--ops-border);
+    }
+
+    .modal-title {
+        color: var(--ops-text);
+    }
+
+    .close-button {
+        background-color: var(--ops-primary);
+        color: #0b0e14;
+    }
+
+    .close-button:hover {
+        background-color: #a67e2f;
+    }
+
+    .option-row {
+        background-color: var(--ops-surface-alt);
+        color: var(--ops-text);
+        box-shadow: none;
+        border: 1px solid var(--ops-border);
+    }
+
+    .option-row.orange {
+        background-color: var(--ops-secondary);
+        color: #0b0e14;
+    }
+
+    .option-row.blue {
+        background-color: var(--ops-primary);
+        color: #0b0e14;
+    }
+
+    .option-row.blue:hover,
+    .option-row.orange:hover {
+        background-color: rgba(200, 155, 60, 0.22);
+    }
+
+    .id-circle {
+        background-color: var(--ops-panel);
+        color: var(--ops-text);
+        border: 2px solid var(--ops-border);
+    }
+
+    .id-circle.selected {
+        background-color: var(--ops-primary);
+        color: #0b0e14;
+    }
+
+    .checkbox {
+        border: 2px solid var(--ops-border);
+    }
+
+    .text-container {
+        color: var(--ops-text);
+    }
+
+    .action-button {
+        background: linear-gradient(to right, var(--ops-primary), var(--ops-secondary));
+        color: #0b0e14;
+        box-shadow: 0 4px 12px rgba(200, 155, 60, 0.25);
+    }
+
+    .action-button:hover {
+        background: linear-gradient(to right, #a67e2f, var(--ops-primary));
+    }

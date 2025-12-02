@@ -1,0 +1,512 @@
+/* Tect
+ Dental Lab Custom Components
+   Created to provide enhanced UI components that match the existing application style
+   Version 1.0
+*/
+
+/* =========== 1. Enhanced Device Selection Cards =========== */
+.Tect
+-device-card {
+  position: relative;
+  width: 220px;
+  height: 180px;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 10px;
+  border: 2px solid transparent;
+}
+
+.Tect
+-device-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+}
+
+.Tect
+-device-card.selected {
+  border-color: #15679b;
+  box-shadow: 0 0 0 2px rgba(43, 123, 125, 0.3);
+}
+
+.Tect
+-device-image {
+  height: 120px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 15px;
+}
+
+.Tect
+-device-image img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.Tect
+-device-card:hover .Tect
+-device-image img {
+  transform: scale(1.05);
+}
+
+.Tect
+-device-details {
+  padding: 10px 15px;
+  background: #f6f9fa;
+  border-top: 1px solid #eaeaea;
+  transition: background 0.3s ease;
+}
+
+.Tect
+-device-card.selected .Tect
+-device-details {
+  background: rgba(43, 123, 125, 0.1);
+}
+
+.Tect
+-device-name {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+  color: #333;
+  text-align: center;
+}
+
+.Tect
+-device-status {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #4CAF50;
+}
+
+.Tect
+-device-status.busy {
+  background: #FFC107;
+}
+
+.Tect
+-device-status.offline {
+  background: #F44336;
+}
+
+/* =========== 2. Modern "Assign" and "Complete" Buttons =========== */
+.Tect
+-button {
+    color: white;
+  position: relative;
+  display: inline-block;
+  padding: 10px 20px;
+  background: #15679b;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  outline: none;
+  width: 100%;
+}
+
+.Tect
+-button:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: all 0.5s ease;
+}
+
+.Tect
+-button:hover:before {
+  left: 100%;
+}
+
+.Tect
+-button:hover {
+  background: #1d6062;
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
+}
+
+.Tect
+-button:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.Tect
+-button.assign {
+  background: #15679b;
+}
+
+.Tect
+-button.complete {
+  background: #4CAF50;
+}
+
+.Tect
+-button.cancel {
+  background: #757575;
+}
+
+.Tect
+-button.warning {
+  background: #ff8400;
+}
+
+.Tect
+-button.danger {
+  background: #F44336;
+}
+
+.Tect
+-button.icon-button {
+  padding-left: 15px;
+}
+
+.Tect
+-button i {
+  margin-right: 8px;
+}
+
+/* =========== 3. Improved Case Listing UI =========== */
+.Tect
+-case-row {
+  display: flex;
+  background: white;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  padding: 12px 15px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  align-items: center;
+}
+
+.Tect
+-case-row:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.Tect
+-case-row.selected {
+  background: rgba(43, 123, 125, 0.05);
+  border-left: 4px solid #15679b;
+}
+
+.Tect
+-case-checkbox {
+  width: 22px;
+  height: 22px;
+  margin-right: 15px;
+  cursor: pointer;
+}
+
+.Tect
+-case-info {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.Tect
+-case-patient {
+  width: 25%;
+  font-weight: 600;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 15px;
+}
+
+.Tect
+-case-doctor {
+  width: 25%;
+  color: #555;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 15px;
+}
+
+.Tect
+-case-date {
+  width: 15%;
+  color: #777;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.Tect
+-case-units {
+  width: 10%;
+  color: #15679b;
+  font-weight: 600;
+  background: rgba(43, 123, 125, 0.1);
+  border-radius: 50px;
+  height: 24px;
+  width: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+}
+
+.Tect
+-case-tags {
+  width: 15%;
+  display: flex;
+  gap: 5px;
+}
+
+.Tect
+-case-tag {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 3px;
+}
+
+.Tect
+-case-tag.urgent {
+  background: #F44336;
+}
+
+.Tect
+-case-tag.vip {
+  background: #2196F3;
+}
+
+.Tect
+-case-tag.notes {
+  background: #FFC107;
+}
+
+/* =========== 4. Better Dialog Box Styling =========== */
+.Tect
+-dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.Tect
+-dialog.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.Tect
+-dialog-content {
+  width: 90%;
+  max-width: 550px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  transform: translateY(20px);
+  transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.Tect
+-dialog.active .Tect
+-dialog-content {
+  transform: translateY(0);
+}
+
+.Tect
+-dialog-header {
+  padding: 20px 25px;
+  border-bottom: 1px solid #eaeaea;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.Tect
+-dialog-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.Tect
+-dialog-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #888;
+  font-size: 22px;
+  line-height: 1;
+  transition: color 0.2s ease;
+}
+
+.Tect
+-dialog-close:hover {
+  color: #333;
+}
+
+.Tect
+-dialog-body {
+  padding: 25px;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.Tect
+-dialog-section {
+  margin-bottom: 20px;
+}
+
+.Tect
+-dialog-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.Tect
+-dialog-footer {
+  padding: 15px 25px;
+  background: #f9f9f9;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* Notes in Dialog */
+.Tect
+-note {
+  background: #f8f9fa;
+  border-left: 3px solid #15679b;
+  padding: 10px 15px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.Tect
+-note-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.Tect
+-note-text {
+  font-size: 13px;
+  color: #333;
+  line-height: 1.4;
+}
+
+/* Case info in dialog */
+.Tect
+-case-detail-row {
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.Tect
+-case-detail-col {
+  flex: 1;
+}
+
+.Tect
+-case-detail-label {
+  font-size: 13px;
+  color: #777;
+  margin-bottom: 4px;
+}
+
+.Tect
+-case-detail-value {
+  font-size: 15px;
+  font-weight: 500;
+  color: #333;
+}
+
+/* Jobs list in dialog */
+.Tect
+-job-item {
+  display: flex;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.Tect
+-job-item:last-child {
+  border-bottom: none;
+}
+
+.Tect
+-job-units {
+  color: #15679b;
+  font-weight: 600;
+  margin-right: 10px;
+  min-width: 30px;
+}
+
+.Tect
+-job-details {
+  flex: 1;
+  font-size: 14px;
+  color: #555;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .Tect
+-dialog-content {
+    width: 95%;
+  }
+
+  .Tect
+-case-detail-row {
+    flex-direction: column;
+  }
+
+  .Tect
+-case-detail-col:not(:last-child) {
+    margin-bottom: 15px;
+  }
+}

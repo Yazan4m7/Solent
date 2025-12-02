@@ -1,0 +1,132 @@
+/* Brand overrides (tenant-aware) - light/green defaults */
+:root {
+    --korvion-primary: var(--brand-primary, #0f7c63);
+    --korvion-secondary: var(--brand-secondary, #0ab39c);
+    --korvion-surface: #ffffff;
+    --korvion-surface-alt: #f5f8fa;
+    --korvion-panel: #ffffff;
+    --korvion-border: #d9e2ec;
+    --korvion-text: #1f2a3d;
+    --korvion-muted: #6b7280;
+}
+
+body.white-content {
+    background: var(--korvion-surface) !important;
+    color: var(--korvion-text);
+}
+
+.sidebar,
+.sidebar .sidebar-wrapper {
+    background: linear-gradient(180deg, var(--korvion-surface), #f0f4f8) !important;
+}
+
+.sidebar .nav li > a,
+.sidebar .nav li > a p,
+.sidebar .nav li > a i {
+    color: var(--korvion-text) !important;
+}
+
+.sidebar .nav li.active > a,
+.sidebar .nav li:hover > a {
+    background: var(--korvion-surface-alt) !important;
+    border-left: 3px solid var(--korvion-primary);
+}
+
+.navbar,
+.navbar.navbar-transparent {
+    background: var(--korvion-panel) !important;
+    color: var(--korvion-text) !important;
+    border-bottom: 1px solid var(--korvion-border);
+}
+
+.card,
+.card .card-body {
+    background: var(--korvion-panel) !important;
+    color: var(--korvion-text) !important;
+    border: 1px solid var(--korvion-border) !important;
+}
+
+.card .card-header {
+    background: var(--korvion-surface-alt) !important;
+    color: var(--korvion-text) !important;
+    border-bottom: 1px solid var(--korvion-border) !important;
+}
+
+.nav-tabs .nav-link {
+    color: var(--korvion-text) !important;
+    background: var(--korvion-surface-alt) !important;
+    border: 1px solid var(--korvion-border) !important;
+}
+
+.nav-tabs .nav-link.active {
+    background: var(--korvion-primary) !important;
+    color: #0b0e14 !important;
+    border-color: var(--korvion-primary) !important;
+}
+
+table.dataTable thead th,
+.dataTables_wrapper .dataTables_scrollHead th,
+table th {
+    background: var(--korvion-surface-alt) !important;
+    color: var(--korvion-text) !important;
+    border-color: var(--korvion-border) !important;
+}
+
+table.dataTable tbody tr,
+table tbody tr {
+    background: var(--korvion-panel) !important;
+    color: var(--korvion-text) !important;
+}
+
+table.dataTable tbody tr:nth-child(even),
+table tbody tr:nth-child(even) {
+    background: var(--korvion-surface-alt) !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    color: var(--korvion-text) !important;
+    background: var(--korvion-panel) !important;
+    border: 1px solid var(--korvion-border) !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background: var(--korvion-primary) !important;
+    color: #0b0e14 !important;
+    border-color: var(--korvion-primary) !important;
+}
+
+.dataTables_wrapper .dataTables_filter input,
+.dataTables_wrapper .dataTables_length select {
+    background: var(--korvion-surface-alt) !important;
+    color: var(--korvion-text) !important;
+    border: 1px solid var(--korvion-border) !important;
+}
+
+.btn-primary,
+.badge-primary {
+    background: var(--korvion-primary) !important;
+    border-color: var(--korvion-primary) !important;
+    color: #0b0e14 !important;
+}
+
+.btn-info,
+.badge-info {
+    background: var(--korvion-secondary) !important;
+    border-color: var(--korvion-secondary) !important;
+    color: #0b0e14 !important;
+}
+
+.btn-secondary,
+.badge-secondary {
+    background: var(--korvion-surface-alt) !important;
+    border-color: var(--korvion-border) !important;
+    color: var(--korvion-text) !important;
+}
+
+input,
+select,
+textarea {
+    background: var(--korvion-surface-alt);
+    color: var(--korvion-text);
+    border: 1px solid var(--korvion-border);
+}

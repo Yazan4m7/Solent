@@ -1,0 +1,135 @@
+/*
+    Manual Adjustment the styling of the website
+ */
+
+.slctUnitsBtn{
+    color: #007070 !important;
+    border: solid 0.5px #00707054 !important;
+    background-color: #f0f0f0 !important;
+}
+
+
+body{
+    font-family: 'Rubik', sans-serif;
+    /* font-family: 'Nunito Sans', sans-serif ;*/
+}
+.sidebar , .sidebar .nav li>a{
+    font-family: 'Raleway', sans-serif;
+    font-size:10px;
+}
+#kt_repeater_1{
+    overflow: overlay;
+}
+
+.align-right {
+    text-align: right;
+}
+.badge {
+    font-size: 14px;
+    font-weight: normal;
+    color: #ffffff;
+    border-radius: 12px;
+
+}
+
+.card{
+    padding:20px;
+}
+.SDTP {
+    cursor: alias !important;
+}
+.bootstrap-select>.dropdown-toggle.bs-placeholder{
+    color: #fff !important;
+}
+.row{
+    width: 100%;
+    padding:15px;
+    margin:0;
+
+    /* below is card class attributes, moved to row to save time */
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #ffffff;
+
+}
+
+.full-width{
+    max-width: none;
+    padding: 0;
+}
+.content{
+    background-clip: border-box;
+    border: 0.0625rem solid rgba(34, 42, 66, 0.05);
+    border-radius: 0.2857rem;
+}
+.container{
+    /*padding: 20px*/
+
+}
+.bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
+    /*noinspection CssInvalidPropertyValue*/
+    width: -webkit-fill-available;
+}
+@media screen and (max-width: 461px) {
+    .nav-tabs > li {
+        width:auto !important;
+
+    }
+    .tab {
+        width:100% !important;
+        margin-bottom:20px;
+    }
+    .tabcontent {
+        width: 100% !important;
+    }
+    .adContainer{
+        flex-direction: column !important;
+    }
+}
+@media screen and (max-width: 991px) {
+    #datatable_wrapper {
+        overflow: auto;
+    }
+    .navbar .navbar-brand {
+        top: 0px;
+        /* position: fixed;
+         top: 5px;
+         left: 50px; */
+    }
+    .logo-navbar{
+        display:none;
+    }
+
+    .main-panel>.content{
+        padding-top:60px;
+    }
+
+    .noPadOnMobile{
+        padding:0 !important;
+    }
+    .logo-col{
+        width:auto !important;
+    }
+    .logo{
+        /*width: 150px;*/
+    }
+    .pageTitle{/*padding-left: 50px !important;*/}
+    .navbar-nav {
+        position: fixed;
+        right: 0px;
+        top: 60px;
+        background-color: white;
+        -moz-box-shadow: 0 0 4px #ccc;
+        -webkit-box-shadow: 0 0 4px #ccc;
+        box-shadow: 0 0 4px #ccc;
+    }
+
+}
+
+
+
+
+
