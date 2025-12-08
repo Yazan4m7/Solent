@@ -18,7 +18,8 @@
 
 /* Updated styles for YSH-build components */
 .YSH-build-row {
-   background: #ffffff;
+   background: var(--ops-panel);
+   color: var(--ops-text);
    border-radius: 10px;
    margin-bottom: 12px;
    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -40,13 +41,13 @@
 }
 
 .YSH-build-header {
-   background: #007bff;
-   color: white;
+   background: var(--ops-primary);
+   color: #0b0e14;
 }
 
 .YSH-build-header-inactive {
-   background: #ffc414;
-   color: white;
+   background: var(--ops-accent);
+   color: #0b0e14;
 }
 
 .YSH-build-title {
@@ -66,8 +67,8 @@
 
 .YSH-build-jobs-indicator,
 .YSH-build-jobs-indicator-active {
-   background: white;
-   color: #424242;
+   background: var(--ops-surface-alt);
+   color: var(--ops-text);
    font-size: 13px;
    border-radius: 50%;
    width: 28px;
@@ -80,13 +81,13 @@
 
 .YSH-build-body {
    display: none;
-   background: #ffffff;
+   background: var(--ops-panel);
    padding: 12px 18px;
    border-bottom-left-radius: 10px;
    border-bottom-right-radius: 10px;
    min-height: 50px;
    /* Ensure there is visible content */
-   border-top: 1px solid #eaeaea;
+   border-top: 1px solid var(--ops-border);
 }
 
 .YSH-jobs-table {
@@ -98,10 +99,10 @@
 .YSH-job-row {
    display: flex;
    justify-content: space-between;
-   background: #f5f5f5;
+   background: var(--ops-surface-alt);
    padding: 8px 12px;
    border-radius: 6px;
-   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
 }
 
 .toggle-build-btn {
@@ -192,9 +193,9 @@
    height: 90%;
    min-width: 300px;
    max-width: 500px;
-   background: #ffffff;
+   background: var(--ops-panel);
    border-radius: 12px;
-   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
    transition: right 0.3s ease;
 }
 
@@ -210,17 +211,19 @@
 
 .YSH-slide-header {
    padding: 15px;
-   border-bottom: 1px solid #ddd;
+   border-bottom: 1px solid var(--ops-border);
    display: flex;
    justify-content: space-between;
    align-items: center;
+   color: var(--ops-text);
 }
 
 .YSH-slide-body {
     padding: 0px 30px 0 30px;
-    background: linear-gradient(135deg, #fff 0%, #f9fafb 100%);
+    background: linear-gradient(135deg, var(--ops-surface-alt) 0%, var(--ops-surface) 100%);
     overflow-y: scroll;
     height: 60vh;
+    color: var(--ops-text);
 }
 
 .YSH-close-slide {
@@ -917,7 +920,7 @@ YSH-slide-grid {
    align-items: center;
    justify-content: space-between;
    text-align: center;
-   background-color: #034c4d !important;
+   background-color: #0c141e !important;
    color: var(--tab-text-color);
    fill: var(--tab-text-color);
    padding: 0.8rem 0.5rem;
@@ -940,10 +943,10 @@ YSH-slide-grid {
 
 .macaw-tabs.macaw-aurora-tabs > [role="tablist"] > [role="tab"][aria-selected="true"] {
    font-family: 'Nunito Sans', sans-serif;
-   background-color: var(--tab-active-bg-color);
-   color: var(--tab-active-text-color);
-   fill: var(--tab-active-text-color);
-   border-left: 5px solid var(--tab-active-border-color);
+   background-color: var(--ops-primary);
+   color: #0b0e14;
+   fill: #0b0e14;
+   border-left: 5px solid var(--ops-accent);
    padding-left: 0.2rem;
 }
 
@@ -2136,10 +2139,11 @@ blackbox-button-inner.enabled.orange{
 :root {
    --ops-primary: var(--brand-primary, #0f7c63);
    --ops-secondary: var(--brand-secondary, #0ab39c);
-   --ops-surface: #ffffff;
-   --ops-surface-alt: #f5f8fa;
+   --ops-accent: var(--brand-accent, #9f9886);
+   --ops-surface: #f7f8f9;
+   --ops-surface-alt: #eef2f4;
    --ops-panel: #ffffff;
-   --ops-border: #d9e2ec;
+   --ops-border: #d3d9e0;
    --ops-text: #1f2a3d;
    --ops-muted: #6b7280;
 }

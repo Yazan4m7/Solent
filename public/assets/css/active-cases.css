@@ -230,6 +230,7 @@
     :root {
         --ops-primary: var(--brand-primary, #0f7c63);
         --ops-secondary: var(--brand-secondary, #0ab39c);
+        --ops-accent: var(--brand-accent, #9f9886);
         --ops-surface: #ffffff;
         --ops-surface-alt: #f5f8fa;
         --ops-panel: #ffffff;

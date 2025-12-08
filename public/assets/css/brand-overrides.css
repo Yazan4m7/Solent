@@ -1,7 +1,8 @@
-/* Brand overrides (tenant-aware) - light/green defaults */
+/* Brand overrides (tenant-aware) - bright palette */
 :root {
     --korvion-primary: var(--brand-primary, #0f7c63);
     --korvion-secondary: var(--brand-secondary, #0ab39c);
+    --korvion-accent: var(--brand-accent, #9f9886);
     --korvion-surface: #ffffff;
     --korvion-surface-alt: #f5f8fa;
     --korvion-panel: #ffffff;
@@ -11,7 +12,7 @@
 }
 
 body.white-content {
-    background: var(--korvion-surface) !important;
+    background: linear-gradient(180deg, #ffffff 0%, #f7f8f9 60%, #eef2f4 100%) !important;
     color: var(--korvion-text);
 }
 
@@ -30,6 +31,88 @@ body.white-content {
 .sidebar .nav li:hover > a {
     background: var(--korvion-surface-alt) !important;
     border-left: 3px solid var(--korvion-primary);
+}
+
+.macaw-aurora-tabs [role="tab"],
+.macaw-silk-tabs [role="tab"] {
+    background: #0c141e !important;
+    color: #f6f7fb !important;
+    border: 1px solid var(--korvion-border);
+}
+
+.macaw-aurora-tabs [role="tab"][aria-selected="true"],
+.macaw-silk-tabs [role="tab"][aria-selected="true"] {
+    background: var(--korvion-primary) !important;
+    color: #0b0e14 !important;
+    border-color: var(--korvion-primary);
+}
+
+/* Operations table polish */
+.dataTables_wrapper {
+    background: var(--korvion-panel);
+    border: 1px solid var(--korvion-border);
+    border-radius: 12px;
+    padding: 10px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+}
+
+.sunriseTable {
+    width: 100% !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.sunriseTable thead th {
+    background: #0c141e !important;
+    color: #f6f7fb !important;
+    padding: 12px 14px !important;
+    border-bottom: 0 !important;
+    background-image: none !important;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+.sunriseTable thead th.sorting,
+.sunriseTable thead th.sorting_asc,
+.sunriseTable thead th.sorting_desc {
+    background-image: none !important;
+    background-repeat: no-repeat !important;
+    padding-right: 14px !important;
+}
+
+.sunriseTable tbody td {
+    padding: 12px 14px !important;
+    color: var(--korvion-text);
+    border-bottom: 1px solid var(--korvion-border);
+    background: var(--korvion-panel);
+}
+
+.sunriseTable tbody tr:nth-child(odd) td {
+    background: #f5f8fa;
+}
+
+.sunriseTable tbody tr:hover td {
+    background: #eef2f4;
+}
+
+.dataTables_wrapper .dataTables_paginate {
+    padding: 10px 0;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    border-radius: 8px !important;
+    padding: 6px 12px !important;
+    background: var(--korvion-surface-alt) !important;
+    border: 1px solid var(--korvion-border) !important;
+    color: var(--korvion-text) !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background: var(--korvion-primary) !important;
+    color: #0b0e14 !important;
+    border-color: var(--korvion-primary) !important;
 }
 
 .navbar,
@@ -70,6 +153,7 @@ table th {
     background: var(--korvion-surface-alt) !important;
     color: var(--korvion-text) !important;
     border-color: var(--korvion-border) !important;
+    background-image: none !important;
 }
 
 table.dataTable tbody tr,
@@ -81,6 +165,11 @@ table tbody tr {
 table.dataTable tbody tr:nth-child(even),
 table tbody tr:nth-child(even) {
     background: var(--korvion-surface-alt) !important;
+}
+
+table.dataTable tbody tr:hover,
+table tbody tr:hover {
+    background: #eef2f4 !important;
 }
 
 .dataTables_wrapper .dataTables_paginate .paginate_button {
@@ -121,6 +210,50 @@ table tbody tr:nth-child(even) {
     background: var(--korvion-surface-alt) !important;
     border-color: var(--korvion-border) !important;
     color: var(--korvion-text) !important;
+}
+
+/* DataTable sort arrows override */
+table.dataTable thead th.sorting:before,
+table.dataTable thead th.sorting:after,
+table.dataTable thead th.sorting_asc:before,
+table.dataTable thead th.sorting_asc:after,
+table.dataTable thead th.sorting_desc:before,
+table.dataTable thead th.sorting_desc:after {
+    content: "" !important;
+    display: none !important;
+}
+
+table.dataTable thead th.sorting,
+table.dataTable thead th.sorting_asc,
+table.dataTable thead th.sorting_desc {
+    position: relative;
+    padding-right: 20px;
+}
+
+table.dataTable thead th.sorting::after,
+table.dataTable thead th.sorting_asc::after,
+table.dataTable thead th.sorting_desc::after {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--korvion-muted);
+    opacity: 0.7;
+    content: "\f0dc";
+}
+
+table.dataTable thead th.sorting_asc::after {
+    content: "\f0de";
+    color: var(--korvion-primary);
+    opacity: 0.9;
+}
+
+table.dataTable thead th.sorting_desc::after {
+    content: "\f0dd";
+    color: var(--korvion-primary);
+    opacity: 0.9;
 }
 
 input,

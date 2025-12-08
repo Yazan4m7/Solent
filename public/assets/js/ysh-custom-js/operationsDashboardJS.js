@@ -388,31 +388,37 @@ function selectAll(ele, classname) {
 
 
 
-$(document).ready(function () {
-    var tables2 = $('.sunriseTable');
-    if (tables2.length) {
-        tables2.each(function () {
-            // Check if table has valid structure with thead and tbody
-            if ($(this).find('thead').length > 0 && $(this).find('tbody').length > 0) {
-                try {
-
-                    $(this).DataTable({
-                        // "pageLength": 1,
-                        "searching": false,
-                        "lengthChange": false,
-
-                        // buttons: [
-                        //     {extend: 'excel',text: 'Export Excel'}
-                    });
-                    $(this).addClass("nowrap hover compact stripe");
-                } catch (e) {
-                    console.log("DataTable initialization error:", e);
-                }
-            } else {
-                console.log("Table missing thead or tbody:", this.id || "unnamed table");
-            }
-        });
+function initSunriseTable($table) {
+    if ($table.data('dt-init')) return;
+    if ($table.find('thead').length === 0 || $table.find('tbody').length === 0) {
+        console.log("Table missing thead or tbody:", $table.attr('id') || "unnamed table");
+        return;
     }
+    try {
+        const dt = $table.DataTable({
+            searching: false,
+            lengthChange: false,
+            autoWidth: false
+        });
+        $table.addClass("nowrap hover compact stripe");
+        $table.data('dt-init', true);
+        $table.data('dt-instance', dt);
+    } catch (e) {
+        console.log("DataTable initialization error:", e);
+    }
+}
+
+function adjustSunriseTables(container) {
+    $(container).find('.sunriseTable').each(function () {
+        const dt = $(this).data('dt-instance');
+        if (dt) {
+            dt.columns.adjust();
+        }
+    });
+}
+
+$(document).ready(function () {
+    $('.sunriseTable').each(function () { initSunriseTable($(this)); });
 
     // Initialize scrollable containers
     $('.YSH-job-list-container').each(function() {
@@ -472,6 +478,12 @@ $(document).ready(function () {
         // Nested Tabs
         $(".macaw-silk-tabs").macawTabs({
             autoVerticalOrientation: false,
+        });
+        $(document).on('click', '[role="tab"]', function () {
+            const target = $(this).attr('aria-controls');
+            if (target) {
+                setTimeout(() => adjustSunriseTables('#' + target), 150);
+            }
         });
 
         // Add debug button to reset tabs (only in development)

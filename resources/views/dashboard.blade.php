@@ -1,118 +1,108 @@
 @extends('layouts.app', ['pageSlug' => 'Home'])
 
 @section('content')
-   <style>
-        .card {
-            padding:5px;
+    @php
+        $paymentsCount = collect($paymentsReceivedToday ?? [])->count();
+        $deliveriesTodayCount = collect($DeliveriesToday ?? [])->count();
+    @endphp
+    <style>
+        .dashboard-page {
+            position: relative;
         }
-        .row{
-            padding:5px;
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
         }
-        .navbar .navbar-brand {
-            /*font-family: 'Black Ops One', cursive !important;*/
-            /*font-size: 2rem !important;*/
-            margin-top: 0;
+        .grid-span-2 {
+            grid-column: span 2;
         }
-        .pageTitleContainer{
-            /*text-align: center;*/
-            /*background:none;*/
-
+        .grid-card {
+            border-radius: 1.25rem;
+            border: none;
+            box-shadow: 0 15px 40px rgba(23, 43, 77, 0.08);
+            overflow: hidden;
         }
-        .card-title{
-            font-weight: bold !important;
+        .grid-card .card-header {
+            background: transparent;
         }
-        /* Cases & Units Btns colors : */
-        .btn-primary.bar.active{
-
+        .card-eyebrow {
+            font-size: .75rem;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+            color: #7d8a99;
         }
-
-        @media screen and (max-width: 768px) {
-
-            .main-panel, .content {
-                padding-left: 0px !important;
-                padding-right: 0px !important;
+        .chart-area {
+            min-height: 260px;
+        }
+        .chart-toggle .btn {
+            border-radius: 999px;
+            font-weight: 600;
+            border: 1px solid rgba(31, 42, 61, 0.15);
+            color: var(--rich-black);
+            margin: 0 .25rem;
+            transition: all .2s ease;
+        }
+        .chart-toggle .btn.active,
+        .chart-toggle .btn:hover {
+            background-color: var(--main-blue);
+            border-color: var(--main-blue);
+            color: #fff;
+            box-shadow: 0 10px 20px rgba(15, 124, 99, 0.2);
+        }
+        .barsBtns,
+        .performanceBtns {
+            background-color: rgba(15, 124, 99, 0.08);
+        }
+        .barsBtns.active,
+        .performanceBtns.active {
+            background: var(--main-blue);
+            color: #fff;
+        }
+        .table-modern table {
+            margin-bottom: 0;
+        }
+        .table-modern thead th {
+            border-top: none;
+            font-size: .75rem;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            color: #7d8a99;
+        }
+        .table-modern tbody tr {
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        @media (max-width: 575px) {
+            .chart-area {
+                min-height: 220px;
             }
-            .main-panel > .content {
-                margin: 0px;
-
-            }
-
         }
-
-        @media screen and (max-width: 991px) {
-        .main-panel > .content {        margin-top: 60px;
-            height: fit-content;
-        }
-        }
-       .barsBtns,.performanceBtns {
-           background-color: #2b7b7d  !important;
-           border-color: #2b7b7d !important;
-       }
-        .barsBtns.active,.performanceBtns.active {
-            background-color: #1e5253 !important;
-            border-color: #1e5253 !important;
-        }
-        .barsBtns:hover,.performanceBtns:hover{
-            background-color: #4daeb0 !important;
-            border-color: #4daeb0 !important;
-        }
-        .barsBtns:focus,.performanceBtns:focus
-        {
-            /*box-shadow: 0 0 0 .2, shadow: rgba(89 141 142);*/
-        }
-        /* Device image container styles */
-        .device-container {
-            height: calc(100vh - 400px); /* Adjust height to match left menu */
-            overflow-y: auto;
-            padding: 15px;
-        }
-        .device-image {
-            max-width: 250px; /* Limit image width */
-            max-height: 200px; /* Limit image height */
-            object-fit: contain;
-            margin: 10px auto;
-            display: block;
-        }
-        .device-card {
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-</style>
-    {{--<div class="row"  style="background-color: transparent">--}}
-        {{--<h2 class="subheader-title">--}}
-            {{--<i class="fa-solid fa-chart-area"></i><b> Main </b><span >Dashboard</span>--}}
-            {{--<small>--}}
-            {{--</small>--}}
-        {{--</h2>--}}
-    {{--</div>--}}
-        <div class="row"  style="background-color: transparent">
-        <div class="col-lg-6 noLeftPadding">
-            <div class="card card-chart">
-                <div class="card-header ">
-                    <div class="row"  style="background-color: transparent">
-                        <div class="col-sm-7 text-left">
-                            <h4 class="card-title" style="">Completed in 7 Days</h4>
-
-
+    </style>
+    <div class="dashboard-page container-fluid px-0">
+        <div class="dashboard-grid">
+            <div class="grid-card card card-chart shadow-sm">
+                <div class="card-header border-0 pb-0">
+                    <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                        <div>
+                            <p class="card-eyebrow mb-1">Production</p>
+                            <h4 class="card-title mb-0">Completed in 7 Days</h4>
                         </div>
-                        <div class="col-sm-5">
-                            <div class="btn-group btn-group-toggle float-right" data-toggle="buttons">
-                                <label class="btn btn-sm btn-primary btn-simple bar active barsBtns" id="completedChartCases">
-                                    <input type="radio" name="options" checked>
-                                    <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Units</span>
-                                    <span class="d-block d-sm-none">
-                                   <i class="fa-solid fa-boxes-stacked"></i>
+                        <div class="btn-group btn-group-toggle chart-toggle" data-toggle="buttons">
+                            <label class="btn btn-sm btn-primary btn-simple barsBtns active" id="completedChartCases">
+                                <input type="radio" name="options" checked>
+                                <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Units</span>
+                                <span class="d-inline d-sm-none">
+                                    <i class="fa-solid fa-boxes-stacked"></i>
                                 </span>
-                                </label>
-                                <label class="btn btn-sm btn-primary btn-simple bar barsBtns" id="completedChartUnits">
-                                    <input type="radio" class="d-none d-sm-none" name="options">
-                                    <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Cases</span>
-                                    <span class="d-block d-sm-none">
+                            </label>
+                            <label class="btn btn-sm btn-primary btn-simple barsBtns" id="completedChartUnits">
+                                <input type="radio" class="d-none d-sm-none" name="options">
+                                <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Cases</span>
+                                <span class="d-inline d-sm-none">
                                     <i class="fa-solid fa-box"></i>
                                 </span>
-                                </label>
-                            </div>
+                            </label>
                         </div>
                     </div>
                 </div>
@@ -122,67 +112,53 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-6 ">
-            <div class="card card-chart">
-                <div class="card-header ">
-                    <div class="row"  style="background-color: transparent;padding:0">
-                        <div class="col-sm-12 text-left">
-                            <h4 class="card-title" style="">Cases/Units Currently in-work</h4>
-
-                        </div>
-                    </div>
-
+            <div class="grid-card card card-chart shadow-sm">
+                <div class="card-header border-0 pb-0">
+                    <p class="card-eyebrow mb-1">Capacity</p>
+                    <h4 class="card-title mb-0">Cases/Units Currently In Work</h4>
                 </div>
                 <div class="card-body">
                     <div class="chart-area">
                         <div id="chartContainer" style="height: 100%; width: 100%;"></div>
-
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="row noLeftPadding" style="background-color: transparent">
-        <div class="col-12 noLeftPadding">
-            <div class="card card-chart">
-                <div class="card-header ">
-                    <div class="row"  style="background-color: transparent">
-                        <div class="col-sm-6 text-left">
-
-                            <h4 class="card-title">Monthly Performance</h4>
+            <div class="grid-card card card-chart shadow-sm grid-span-2">
+                <div class="card-header border-0 pb-0">
+                    <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                        <div>
+                            <p class="card-eyebrow mb-1">Performance</p>
+                            <h4 class="card-title mb-0">Monthly Performance</h4>
                         </div>
-                        <div class="col-sm-6">
-                            <div class="btn-group btn-group-toggle float-right" data-toggle="buttons">
-                            <label class="btn btn-sm btn-primary btn-simple active performanceBtns" id="0">
+                        <div class="btn-group btn-group-toggle chart-toggle" data-toggle="buttons">
+                            <label class="btn btn-sm btn-primary btn-simple performanceBtns active" id="0">
                                 <input type="radio" name="options" checked>
                                 <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Units</span>
-                                <span class="d-block d-sm-none">
-                                   <i class="fa-solid fa-boxes-stacked"></i>
+                                <span class="d-inline d-sm-none">
+                                    <i class="fa-solid fa-boxes-stacked"></i>
                                 </span>
                             </label>
                             <label class="btn btn-sm btn-primary btn-simple performanceBtns" id="1">
                                 <input type="radio" class="d-none d-sm-none" name="options">
                                 <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Cases</span>
-                                <span class="d-block d-sm-none">
+                                <span class="d-inline d-sm-none">
                                     <i class="fa-solid fa-box"></i>
                                 </span>
                             </label>
-                                <label class="btn btn-sm btn-primary btn-simple performanceBtns" id="3">
-                                    <input type="radio" class="d-none" name="options">
-                                    <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Sales</span>
-                                    <span class="d-block d-sm-none">
-                                   <i class="fa-solid fa-money-bill-trend-up"></i>
+                            <label class="btn btn-sm btn-primary btn-simple performanceBtns" id="3">
+                                <input type="radio" class="d-none" name="options">
+                                <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Sales</span>
+                                <span class="d-inline d-sm-none">
+                                    <i class="fa-solid fa-money-bill-trend-up"></i>
                                 </span>
-                                </label>
+                            </label>
                             <label class="btn btn-sm btn-primary btn-simple performanceBtns" id="2">
                                 <input type="radio" class="d-none" name="options">
                                 <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Payments</span>
-                                <span class="d-block d-sm-none">
+                                <span class="d-inline d-sm-none">
                                     <i class="fa-regular fa-money-bill-1"></i>
                                 </span>
                             </label>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -192,272 +168,232 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="row"  style="background-color: transparent">
-        <div class="col-lg-6 col-md-12 noLeftPadding">
-            <div class="card ">
-                <div class="card-header">
-                    <h4 class="card-title">Payments Collected Today</h4>
+            <div class="grid-card card shadow-sm">
+                <div class="card-header border-0 pb-0">
+                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                        <div>
+                            <p class="card-eyebrow mb-1">Finance</p>
+                            <h4 class="card-title mb-0">Payments Collected Today</h4>
+                        </div>
+                        <span class="badge badge-light text-primary font-weight-bold">{{ $paymentsCount }} logs</span>
+                    </div>
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive ">
-                        <table id="datatable" class="datatable hover compact stripe sunriseTable" style="width:100%" >
+                    <div class="table-responsive table-modern">
+                        <table id="datatable" class="datatable hover compact stripe sunriseTable" style="width:100%">
                             <thead>
-                            <tr>
-
-                                <th>
-                                    Doctor
-                                </th>
-                                <th>
-                                    Payment
-                                </th>
-                                <th class="text-center">
-                                    Collector
-                                </th>
-                                <th class="text-center">
-                                    Time Collected
-                                </th>
-                                <th>
-                                    Received by
-                                </th>
-                            </tr>
+                                <tr>
+                                    <th>Doctor</th>
+                                    <th>Payment</th>
+                                    <th class="text-center">Collector</th>
+                                    <th class="text-center">Time Collected</th>
+                                    <th>Received by</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            @foreach ($paymentsReceivedToday as $payment)
-                            <tr class="clickable" data-toggle="modal" data-target="#receivePaymentModal{{$payment->id}}">
-
-                                <td>
-                                    {{$payment->client->name}}
-                                </td>
-                                <td>
-                                    {{$payment->amount}} JOD
-                                </td>
-                                <td class="text-center">
-                                    {{$payment->collectorUserRecord->name_initials}}
-                                </td>
-                                <td class="text-center">
-                                    {{date("g:i a", strtotime(substr(str_replace("T", " ",$payment->recieved_on),0,-3)))}}
-
-                                </td>
-                                <td>
-
-                                    @if($payment->receivedBy)
-                                    <span style="color:green">{{$payment->receivedBy->name_initials;}}</span>
-                                    @else
-                                    <span style="color:red">NONE</span>
-                                    @endif
-
-                                </td>
-                            </tr>
-
-                            <!-- Modal -->
-                            <div class="modal fade" id="receivePaymentModal{{$payment->id}}" tabindex="-1" role="dialog"  aria-hidden="true" aria-labelledby="exampleModalLabelform" >
-                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Receive Payment</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body lightGrayTopBorder">
-                                            <div class="container">
-                                         <div class="row">
-
-                                             <div class="col-md-6"><strong>Doctor:</strong></div>
-                                             <div class="col-md-6">{{$payment->client->name}}</div>
-
-                                         </div>
-                                            </div>
-                                            <hr class="noMargin lightGrayTopBorder">
-                                            <div class="container">
-                                            <div class="row">
-                                                <div class="col-md-6"><strong>Collected from doctor by: </strong></div>
-                                                <div class="col-md-6">{{$payment->collectorFullName()}}</div>
-                                            </div>
-                                            </div>
-                                            <hr class="noMargin lightGrayTopBorder">
-                                                <div class="container">
-                                            <div class="row">
-                                                <div class="col-md-6"><strong>Payment Amount:</strong></div>
-                                                <div class="col-md-6">{{$payment->amount}} JOD</div>
-                                            </div>
-                                                </div>
-                                            <hr class="noMargin lightGrayTopBorder">
-                                            <div class="container">
-                                                <div class="row">
-                                                    <div class="col-md-6"><strong>Collected On:</strong></div>
-                                                    <div class="col-md-6">{{$payment->created_at}}</div>
-                                                </div>
-                                            </div>
-                                            @if($payment->isCollected())
-                                            <hr class="noMargin lightGrayTopBorder">
-                                            <div class="container">
-                                                <div class="row">
-                                                    <div class="col-md-6"><strong>Received On:</strong></div>
-                                                    <div class="col-md-6">{{$payment->recieved_on}}</div>
-                                                </div>
-                                            </div>
-                                            <hr class="noMargin lightGrayTopBorder">
-                                            <div class="container">
-                                                <div class="row">
-                                                    <div class="col-md-6"><strong>Received by:</strong></div>
-                                                    <div class="col-md-6">{{$payment->receiverFullName()}}</div>
-                                                </div>
-                                            </div>
+                                @foreach ($paymentsReceivedToday as $payment)
+                                    <tr class="clickable" data-toggle="modal" data-target="#receivePaymentModal{{ $payment->id }}">
+                                        <td>{{ $payment->client->name }}</td>
+                                        <td>{{ $payment->amount }} JOD</td>
+                                        <td class="text-center">{{ $payment->collectorUserRecord->name_initials }}</td>
+                                        <td class="text-center">
+                                            {{ date('g:i a', strtotime(substr(str_replace('T', ' ', $payment->recieved_on), 0, -3))) }}
+                                        </td>
+                                        <td>
+                                            @if ($payment->receivedBy)
+                                                <span style="color:green">{{ $payment->receivedBy->name_initials }}</span>
+                                            @else
+                                                <span style="color:red">NONE</span>
                                             @endif
-                                            <hr class="noMargin lightGrayTopBorder">
-                                            <div class="container">
-                                                <div class="row">
-                                                    <div class="col-md-6"><strong>Payment Method: </strong></div>
-                                                    <div class="col-md-6">{{$payment->notes}} </div>
+                                        </td>
+                                    </tr>
+                                    <div class="modal fade" id="receivePaymentModal{{ $payment->id }}" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="exampleModalLabelform">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Receive Payment</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
                                                 </div>
-                                            </div>
-                                            @if($payment->additional_notes)
-                                                <hr class="noMargin lightGrayTopBorder">
-                                                <div class="container">
-                                                    <div class="row">
-                                                        <div class="col-md-12">{{$payment->additional_notes}} </div>
+                                                <div class="modal-body lightGrayTopBorder">
+                                                    <div class="container">
+                                                        <div class="row">
+                                                            <div class="col-md-6"><strong>Doctor:</strong></div>
+                                                            <div class="col-md-6">{{ $payment->client->name }}</div>
+                                                        </div>
                                                     </div>
+                                                    <hr class="noMargin lightGrayTopBorder">
+                                                    <div class="container">
+                                                        <div class="row">
+                                                            <div class="col-md-6"><strong>Collected from doctor by: </strong></div>
+                                                            <div class="col-md-6">{{ $payment->collectorFullName() }}</div>
+                                                        </div>
+                                                    </div>
+                                                    <hr class="noMargin lightGrayTopBorder">
+                                                    <div class="container">
+                                                        <div class="row">
+                                                            <div class="col-md-6"><strong>Payment Amount:</strong></div>
+                                                            <div class="col-md-6">{{ $payment->amount }} JOD</div>
+                                                        </div>
+                                                    </div>
+                                                    <hr class="noMargin lightGrayTopBorder">
+                                                    <div class="container">
+                                                        <div class="row">
+                                                            <div class="col-md-6"><strong>Collected On:</strong></div>
+                                                            <div class="col-md-6">{{ $payment->created_at }}</div>
+                                                        </div>
+                                                    </div>
+                                                    @if ($payment->isCollected())
+                                                        <hr class="noMargin lightGrayTopBorder">
+                                                        <div class="container">
+                                                            <div class="row">
+                                                                <div class="col-md-6"><strong>Received On:</strong></div>
+                                                                <div class="col-md-6">{{ $payment->recieved_on }}</div>
+                                                            </div>
+                                                        </div>
+                                                        <hr class="noMargin lightGrayTopBorder">
+                                                        <div class="container">
+                                                            <div class="row">
+                                                                <div class="col-md-6"><strong>Received by:</strong></div>
+                                                                <div class="col-md-6">{{ $payment->receiverFullName() }}</div>
+                                                            </div>
+                                                        </div>
+                                                    @endif
+                                                    <hr class="noMargin lightGrayTopBorder">
+                                                    <div class="container">
+                                                        <div class="row">
+                                                            <div class="col-md-6"><strong>Payment Method: </strong></div>
+                                                            <div class="col-md-6">{{ $payment->notes }}</div>
+                                                        </div>
+                                                    </div>
+                                                    @if ($payment->additional_notes)
+                                                        <hr class="noMargin lightGrayTopBorder">
+                                                        <div class="container">
+                                                            <div class="row">
+                                                                <div class="col-md-12">{{ $payment->additional_notes }}</div>
+                                                            </div>
+                                                        </div>
+                                                    @endif
                                                 </div>
-                                            @endif
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    @if (! $payment->isCollected())
+                                                        <a href="{{ route('receive-payment', $payment->id) }}">
+                                                            <button type="button" class="btn btn-danger">Receive</button>
+                                                        </a>
+                                                    @endif
+                                                </div>
+                                                <small style="text-align:center;font-size: 60%;color: gray;">PAYMENT ID : {{ $payment->id }}</small>
+                                            </div>
                                         </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary " data-dismiss="modal">Close</button>
-                                            @if(!$payment->isCollected())
-                                                <a href="{{route("receive-payment",$payment->id)}}"><button  type="button" class="btn btn-danger">Receive</button></a>
-                                            @endif
-                                        </div>
-                                        <small style="text-align:center;font-size: 60%;color: gray;">PAYMENT ID : {{$payment->id}}</small>
                                     </div>
-                                </div>
-                            </div>
-                            @endforeach
-
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-6 col-md-12">
-            <div class="card ">
-                <div class="card-header">
-                    <h4 class="card-title">Deliveries Today</h4>
+            <div class="grid-card card shadow-sm">
+                <div class="card-header border-0 pb-0">
+                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                        <div>
+                            <p class="card-eyebrow mb-1">Logistics</p>
+                            <h4 class="card-title mb-0">Deliveries Today</h4>
+                        </div>
+                        <span class="badge badge-light text-primary font-weight-bold">{{ $deliveriesTodayCount }} scheduled</span>
+                    </div>
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive">
+                    <div class="table-responsive table-modern">
                         <table class="datatable compact hover stripe sunriseTable" id="datatable2">
-                            <thead >
-                            <tr >
-
-                                <th>
-                                    Doctor
-                                </th>
-                                <th>
-                                    Patient name
-                                </th>
-                                <th class="text-center">
-                                    Delivery time
-                                </th>
-                                <th class="text-center">
-                                    Status
-                                </th>
-                            </tr>
+                            <thead>
+                                <tr>
+                                    <th>Doctor</th>
+                                    <th>Patient name</th>
+                                    <th class="text-center">Delivery time</th>
+                                    <th class="text-center">Status</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            @foreach($DeliveriesToday as $case)
-                            <tr class="clickable" data-toggle="modal" data-target="#updateDeliveryDate{{$case->id}}">
-
-                                <td>
-                                    {{$case->client->name}}
-                                </td>
-                                <td>
-                                    {{$case->patient_name}}
-                                </td>
-                                <td class="text-center">
-                                    {{date("g:i a", strtotime(str_replace("T", " ", $case->initial_delivery_date)))}}
-
-                                </td>
-                                <td>
-                                    @php
-                                    $status = $case->status();
-                                    $active = true;
-                                    if(str_contains($status,"Waiting"))
-                                    $active = false;
-                                    @endphp
-
-                                    @if($active)
-                                        <span style="width:auto; margin: auto; text-align: center"
-                                              class="badge badge-primary">{{$status}}</span>
-                                    @else
-                                        <span style="width:auto; margin: auto; text-align: center"
-                                              class="badge badge-danger">
-                                         {{$case->status()}} </span>
-                                    @endif
-                                </td>
-                            </tr>
-                            <div class="modal fade" id="updateDeliveryDate{{$case->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelform" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Update Delivery Time</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form action="{{route('edit-delivery-date')}}" method="POST">
-                                                @csrf
-                                                <input type="hidden" name="id" value="{{$case->id}}">
-                                            <div class="container">
-                                                <div class="row">
-                                                    <div class="col-md-6"><strong>Doctor Name </strong></div>
-                                                    <div class="col-md-6">{{$case->client->name}}</div>
-                                                </div>
-                                            </div>
-                                            <hr class="noMargin lightGrayTopBorder">
-                                            <div class="container">
-                                                <div class="row">
-                                                    <div class="col-md-6"><strong>Patient Name:</strong></div>
-                                                    <div class="col-md-6">{{$case->patient_name}}</div>
-                                                </div>
-                                            </div>
-                                                @php
-                                                    $time = date('Y-m-d g:i a',strtotime($case->initial_delivery_date));
-                                                @endphp
-                                            <hr class="noMargin lightGrayTopBorder">
-                                            <div class="container">
-                                                <div class="row">
-                                                    <div class="col-md-6"><strong>Current Delivery Time:</strong></div>
-                                                    <div class="col-md-6">{{ $time}}</div>
-                                                </div>
-                                            </div>
-                                            <hr class="noMargin lightGrayTopBorder">
-                                            <div class="container">
-                                                <div class="row">
-                                                    <div class="col-md-6"><strong>Change To:</strong></div>
-                                                    <div class="col-md-6">
-
-                                                        <input class="form-control SDTP" name="delivery_date"  type="text"  value="{{$time}}" required readonly/>
+                                @foreach ($DeliveriesToday as $case)
+                                    <tr class="clickable" data-toggle="modal" data-target="#updateDeliveryDate{{ $case->id }}">
+                                        <td>{{ $case->client->name }}</td>
+                                        <td>{{ $case->patient_name }}</td>
+                                        <td class="text-center">
+                                            {{ date('g:i a', strtotime(str_replace('T', ' ', $case->initial_delivery_date))) }}
+                                        </td>
+                                        <td>
+                                            @php
+                                                $status = $case->status();
+                                                $active = true;
+                                                if (str_contains($status, 'Waiting')) {
+                                                    $active = false;
+                                                }
+                                            @endphp
+                                            @if ($active)
+                                                <span class="badge badge-primary" style="width:auto; margin:auto; text-align:center">{{ $status }}</span>
+                                            @else
+                                                <span class="badge badge-danger" style="width:auto; margin:auto; text-align:center">{{ $case->status() }}</span>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    <div class="modal fade" id="updateDeliveryDate{{ $case->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelform" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <form action="{{ route('edit-delivery-date') }}" method="POST">
+                                                    @csrf
+                                                    <input type="hidden" name="id" value="{{ $case->id }}">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Update Delivery Time</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
                                                     </div>
-                                                </div>
+                                                    <div class="modal-body">
+                                                        <div class="container">
+                                                            <div class="row">
+                                                                <div class="col-md-6"><strong>Doctor Name </strong></div>
+                                                                <div class="col-md-6">{{ $case->client->name }}</div>
+                                                            </div>
+                                                        </div>
+                                                        <hr class="noMargin lightGrayTopBorder">
+                                                        <div class="container">
+                                                            <div class="row">
+                                                                <div class="col-md-6"><strong>Patient Name:</strong></div>
+                                                                <div class="col-md-6">{{ $case->patient_name }}</div>
+                                                            </div>
+                                                        </div>
+                                                        @php
+                                                            $time = date('Y-m-d g:i a', strtotime($case->initial_delivery_date));
+                                                        @endphp
+                                                        <hr class="noMargin lightGrayTopBorder">
+                                                        <div class="container">
+                                                            <div class="row">
+                                                                <div class="col-md-6"><strong>Current Delivery Time:</strong></div>
+                                                                <div class="col-md-6">{{ $time }}</div>
+                                                            </div>
+                                                        </div>
+                                                        <hr class="noMargin lightGrayTopBorder">
+                                                        <div class="container">
+                                                            <div class="row">
+                                                                <div class="col-md-6"><strong>Change To:</strong></div>
+                                                                <div class="col-md-6">
+                                                                    <input class="form-control SDTP" name="delivery_date" type="text" value="{{ $time }}" required readonly />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-danger">UPDATE</button>
+                                                    </div>
+                                                    <small style="text-align:center;font-size: 60%;color: gray;">CASE ID : {{ $case->id }}</small>
+                                                </form>
                                             </div>
-
                                         </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary " data-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-danger">UPDATE</button>
-                                        </div>
-                                        <small style="text-align:center;font-size: 60%;color: gray;">CASE ID : {{$case->id}}</small>
                                     </div>
-                                    </form>
-                                </div>
-                            </div>
-
-                            @endforeach
-
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

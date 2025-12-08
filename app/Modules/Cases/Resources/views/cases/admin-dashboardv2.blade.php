@@ -692,6 +692,206 @@
 }
 
     </style>
+    <style>
+        /* Korvion-inspired override */
+        :root {
+            --korvion-navy: #0d1526;
+            --korvion-panel: #111d31;
+            --korvion-panel-2: #17263d;
+            --korvion-gold: #c4a14a;
+            --korvion-gold-soft: #e3c675;
+            --korvion-ink: #e2e8f5;
+            --korvion-muted: #97a1b6;
+            --korvion-border: #243756;
+            --korvion-glow: 0 12px 32px rgba(196, 154, 74, 0.18);
+        }
+
+        body.white-content {
+            background: radial-gradient(circle at 15% 20%, rgba(196,154,60,0.12), transparent 26%),
+            radial-gradient(circle at 82% 12%, rgba(95,125,183,0.14), transparent 30%),
+            linear-gradient(135deg, #0e182b, #0b1220);
+            color: var(--korvion-ink);
+        }
+
+        .site-wrapper {
+            background: transparent;
+        }
+
+        .macaw-tabs.macaw-aurora-tabs {
+            --tab-color-white: var(--korvion-panel-2);
+            --tab-color-black: var(--korvion-ink);
+            --tab-color-cadet: var(--korvion-panel);
+            --tab-color-fighter: #1a2a44;
+            --tab-color-space: var(--korvion-border);
+            --tab-color-gray: var(--korvion-muted);
+            --tab-color-english: var(--korvion-gold);
+            --tab-bg-color: var(--korvion-panel);
+            --tab-text-color: var(--korvion-muted);
+            --tab-active-bg-color: var(--korvion-panel-2);
+            --tab-active-text-color: var(--korvion-ink);
+            --tab-active-border-color: var(--korvion-gold);
+            --tab-focus-bg-color: #1c2d48;
+            --tab-focus-text-color: var(--korvion-ink);
+            --tab-focus-text-secondary-color: var(--korvion-gold);
+            --tab-focus-border-color: var(--korvion-border);
+        }
+
+        .macaw-tabs.macaw-aurora-tabs > [role="tablist"] > [role="tab"] {
+            background-color: rgba(23, 38, 61, 0.82) !important;
+            color: var(--korvion-ink);
+            border: 1px solid rgba(36, 55, 86, 0.7);
+            border-radius: 14px;
+            margin-bottom: 10px;
+            box-shadow: var(--korvion-glow);
+            padding: 0.8rem 0.7rem !important;
+        }
+
+        .macaw-tabs.macaw-aurora-tabs > [role="tablist"] > [role="tab"][aria-selected="true"] {
+            border-left: 5px solid var(--korvion-gold);
+            background: linear-gradient(120deg, rgba(196,154,74,0.26), rgba(23,38,61,0.96));
+        }
+
+        .macaw-tabs .macaw-silk-tabs > [role="tablist"] {
+            background: rgba(17, 27, 45, 0.72);
+            border-radius: 14px;
+            border: 1px solid rgba(36, 55, 86, 0.7);
+            box-shadow: var(--korvion-glow);
+            padding: 6px;
+        }
+
+        .innerBtn {
+            background: rgba(17,27,45,0.8) !important;
+            color: var(--korvion-ink) !important;
+            border: 1px solid var(--korvion-border) !important;
+            border-radius: 10px !important;
+            box-shadow: var(--korvion-glow);
+        }
+
+        .innerBtn[aria-selected="true"] {
+            background: linear-gradient(135deg, var(--korvion-gold), var(--korvion-gold-soft)) !important;
+            color: #0b1220 !important;
+            border-color: var(--korvion-gold) !important;
+        }
+
+        .card,
+        .card .card-body {
+            background: var(--korvion-panel-2);
+            border: 1px solid var(--korvion-border);
+            color: var(--korvion-ink);
+            border-radius: 18px;
+            box-shadow: var(--korvion-glow);
+        }
+
+        .card .card-header {
+            background: linear-gradient(135deg, rgba(196,154,60,0.18), rgba(17,27,45,0.85));
+            border-bottom: 1px solid var(--korvion-border);
+            color: var(--korvion-ink);
+        }
+
+        .badge-primary,
+        .btn-primary {
+            background: linear-gradient(135deg, var(--korvion-gold), var(--korvion-gold-soft)) !important;
+            border-color: var(--korvion-gold) !important;
+            color: #0b1220 !important;
+            box-shadow: var(--korvion-glow);
+        }
+
+        .badge-info,
+        .btn-info {
+            background: rgba(95, 125, 183, 0.2) !important;
+            border-color: #5f7db7 !important;
+            color: var(--korvion-ink) !important;
+            box-shadow: none;
+        }
+
+        table.dataTable thead th {
+            background: rgba(17, 27, 45, 0.95);
+            color: var(--korvion-ink);
+            border-color: var(--korvion-border);
+        }
+
+        table.dataTable tbody tr {
+            background: rgba(22, 36, 58, 0.74);
+            color: var(--korvion-ink);
+        }
+
+        table.dataTable tbody tr:nth-child(even) {
+            background: rgba(17, 27, 45, 0.8);
+        }
+
+        table.dataTable tbody tr:hover {
+            background: rgba(196,154,74,0.08);
+        }
+
+        .ops-hero {
+            display: grid;
+            grid-template-columns: 1.6fr 1fr;
+            gap: 14px;
+            margin: 0 0 18px 0;
+            padding: 18px;
+            background: linear-gradient(135deg, rgba(196,154,74,0.16), rgba(17,27,45,0.78));
+            border: 1px solid var(--korvion-border);
+            border-radius: 18px;
+            box-shadow: var(--korvion-glow);
+        }
+
+        .ops-hero h2 {
+            margin: 0 0 6px 0;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            color: var(--korvion-ink);
+        }
+
+        .ops-hero p {
+            margin: 0;
+            color: var(--korvion-muted);
+        }
+
+        .ops-hero .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px;
+        }
+
+        .ops-chip {
+            padding: 12px;
+            background: rgba(17, 27, 45, 0.85);
+            border: 1px solid var(--korvion-border);
+            border-radius: 14px;
+            box-shadow: var(--korvion-glow);
+        }
+
+        .ops-chip .label {
+            color: var(--korvion-muted);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.08em;
+            margin-bottom: 4px;
+        }
+
+        .ops-chip .value {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--korvion-ink);
+        }
+
+        .ops-chip .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
+            color: var(--korvion-ink);
+            background: rgba(196,154,60,0.14);
+            padding: 4px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(196,154,60,0.45);
+            margin-top: 6px;
+        }
+
+        @media (max-width: 1100px) {
+            .ops-hero { grid-template-columns: 1fr; }
+        }
+    </style>
 
     @php $color = "#01292b"; @endphp
 
@@ -803,11 +1003,43 @@
           if (!$case->shouldShowForFinishing())
           unset($stages['Finishing']['waitingCases'][$key]);
 
+        $activeTotal = collect($stages)->sum(function ($s) { return count($s['activeCases']); });
+        $waitingTotal = collect($stages)->sum(function ($s) { return count($s['waitingCases']); });
+        $stagesCount = count($stages);
+        $devicesCount = isset($devices) ? count($devices) : 0;
     @endphp
         <!-- Begin .site-wrapper -->
     <div class="site-wrapper">
+        <div class="ops-hero">
+            <div>
+                <h2>Operations Pulse</h2>
+                <p>Korvion-styled cockpit for live case flow. Move work forward and keep devices loaded.</p>
+            </div>
+            <div class="stat-grid">
+                <div class="ops-chip">
+                    <div class="label">Active Units</div>
+                    <div class="value">{{ $activeTotal }}</div>
+                    <div class="pill">In progress</div>
+                </div>
+                <div class="ops-chip">
+                    <div class="label">Waiting Queue</div>
+                    <div class="value">{{ $waitingTotal }}</div>
+                    <div class="pill">Ready to start</div>
+                </div>
+                <div class="ops-chip">
+                    <div class="label">Stages Live</div>
+                    <div class="value">{{ $stagesCount }}</div>
+                    <div class="pill">Pipelines</div>
+                </div>
+                <div class="ops-chip">
+                    <div class="label">Devices</div>
+                    <div class="value">{{ $devicesCount }}</div>
+                    <div class="pill">Tracked hardware</div>
+                </div>
+            </div>
+        </div>
         <!-- Begin Main -->
-        <main style="background-color: white">
+        <main style="background: transparent">
             <!-- Begin .macaw-tabs -->
             <div class="macaw-tabs macaw-aurora-tabs notransition">
                 <div role="tablist" class="stageSidebar" aria-orientation="vertical">
