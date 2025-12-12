@@ -88,7 +88,7 @@ body {
 
 }
 .searchBoxesDiv  a {
-    color: #15679b !important;
+    color: var(--color-accent-gold, #B3872D) !important;
     font-weight: 700;
 
 }
@@ -126,11 +126,11 @@ p {
 }
 
 .bg-primary {
-    background-color: #2e61f2 !important;
+    background-color: var(--color-accent-gold, #B3872D) !important;
 }
 
 .bg-secondary {
-    background-color: #a0a9b3 !important;
+    background-color: var(--color-surface-alt, #B9CDDA) !important;
 }
 
 .bg-success {
@@ -146,7 +146,7 @@ p {
 }
 
 .bg-info {
-    background-color: #00bcd2 ;
+    background-color: var(--color-surface-soft, #A6D8D4) ;
 }
 
 .bg-dark {
@@ -184,8 +184,8 @@ p {
 /*-- Button---*/
 
 .btn-primary {
-    background-color: #2e61f2 !important;
-    border-color: #2e61f2 !important;
+    background-color: #B3872D !important;
+    border-color: #B3872D !important;
     color: #fff;
 }
 
@@ -290,7 +290,7 @@ p {
 /*--color--*/
 
 .primary {
-    color: #2e61f2;
+    color: #B3872D;
 }
 
 .secondary {
@@ -376,7 +376,7 @@ p {
     font-size: 20px;
     font-weight: 700;
     padding:5px 5px 5px 15px;
-    color: #15679b;
+    color: var(--color-accent-gold, #B3872D);
 }
 
 .page-head .sub-title {
@@ -495,7 +495,7 @@ p {
 }
 
 .nav-tabs {
-    /*border-bottom: 1px solid #2e61f2;*/
+    /*border-bottom: 1px solid #B3872D;*/
 }
 
 .nav-tabs .nav-link:focus,
@@ -508,18 +508,18 @@ p {
 .nav-tabs .nav-link.active {
     color: #495057;
     background-color: #fff;
-    border-color: #fff #fff #2e61f2;
+    border-color: #fff #fff #B3872D;
 }
 
 .profile-link i {
     padding: 5px;
     font-size: 16px;
-    color: #2e61f2;
+    color: #B3872D;
 }
 
 .home-text {
     text-align: center;
-    color: #2e61f2;
+    color: #B3872D;
 }
 
 
@@ -543,7 +543,7 @@ p {
 }
 
 .tab-right {
-    border-bottom: 1px solid #2e61f2;
+    border-bottom: 1px solid #B3872D;
 }
 
 .nav-justified i {
@@ -572,7 +572,7 @@ p {
 }
 
 .tab-7 .nav-link {
-    color: #2e61f2;
+    color: #B3872D;
     padding-top: 12px;
     padding-bottom: 12px;
     border-bottom: 1px solid #eee;
@@ -939,7 +939,7 @@ p {
 }
 
 .fc-event .bg-primary {
-    background-color: #2e61f2;
+    background-color: #B3872D;
 }
 
 #external-events .fc-event {
@@ -1782,7 +1782,7 @@ lesshat-selector {
 .wizard > .steps .current a,
 .wizard > .steps .current a:active,
 .wizard > .steps .current a:hover {
-  background-color: #2e61f2;
+  background-color: #B3872D;
   color: #ffffff; }
 
 .wizard > .steps .disabled a,
@@ -1792,7 +1792,7 @@ lesshat-selector {
 .wizard > .steps .done a:active,
 .wizard > .steps .done a:hover {
     background-color: #e9f2fb;
-    color: #2e61f2;
+    color: #B3872D;
     font-weight: 700;
     font-size: 15px;
 }
@@ -1808,7 +1808,7 @@ lesshat-selector {
 .wizard > .steps .done a .number,
 .wizard > .steps .done a:active .number,
 .wizard > .steps .done a:hover .number {
-  border-color: #2e61f2; }
+  border-color: #B3872D; }
 
 .wizard > .content {
   background-color: transparent;
@@ -1838,14 +1838,14 @@ lesshat-selector {
 .wizard > .actions .disabled a:active,
 .wizard > .actions .disabled a:hover {
   opacity: .65;
-  background-color: #2e61f2;
+  background-color: #B3872D;
   color: #ffffff;
   cursor: not-allowed; }
 
 .wizard > .actions a,
 .wizard > .actions a:active,
 .wizard > .actions a:hover {
-  background-color: #2e61f2;
+  background-color: #B3872D;
   border-radius: 4px;
   padding: 8px 15px; }
 
@@ -2177,9 +2177,9 @@ input[type="checkbox"]:checked:after {
 .mail-inbox .list-group-item.active,
 .mail-inbox .list-group-item:hover,
 .mail-inbox .list-group-item:focus {
-    color: #2e61f2;
-    background-color: #2e61f240;
-    border-color: #2e61f240;
+    color: #B3872D;
+    background-color: #B3872D40;
+    border-color: #B3872D40;
 }
 
 .border-r {
@@ -2205,8 +2205,8 @@ input[type="checkbox"]:checked:after {
     color: #fff;
     font-size: 24px;
     line-height: 40px;
-    background: #2e61f2;
-    border: solid 3px #2e61f2;
+    background: #B3872D;
+    border: solid 3px #B3872D;
     border-radius: 4px;
     box-shadow: 2px 2px 10px #333;
     text-shadow: 1px 1px 1px #666;
@@ -2225,14 +2225,14 @@ input[type="checkbox"]:checked:after {
     bottom: -15px;
     border-left: 16px solid transparent;
     border-right: 16px solid transparent;
-    border-top: 16px solid #2e61f2;
+    border-top: 16px solid #B3872D;
 }
 
 .overlay_arrow.below {
     top: -15px;
     border-left: 16px solid transparent;
     border-right: 16px solid transparent;
-    border-bottom: 16px solid #2e61f2;
+    border-bottom: 16px solid #B3872D;
 }
 
 .profile-block i {

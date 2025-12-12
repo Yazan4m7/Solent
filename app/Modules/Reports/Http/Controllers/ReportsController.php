@@ -379,6 +379,10 @@ class ReportsController extends Controller
         //dd(job::whereNotNull('assignee')->get());
         $DeliveriesToday = sCase::where('initial_delivery_date','like', '%' . $last7DaysLabels[6] . '%')->where('delivered_to_client',0)->orderBy('initial_delivery_date')->get();
         $paymentsReceivedToday = payment::where('created_at','like', '%' . $last7DaysLabels[6] . '%')->orderBy('created_at')->get();
+        $newCustomers = $DeliveriesToday->pluck('client_id')->unique()->count();
+
+        $totalUnits = ($CompletedJobsToday ?? 0) + ($ActiveJobsToday ?? 0) + ($waitingJobsToday ?? 0);
+        $conversionRate = $totalUnits ? round((($CompletedJobsToday ?? 0) / $totalUnits) * 100, 2) : 0;
 
         $labelToLookFor = substr($last30DaysLabels[29],0,8) . "01";
         $key = array_search($labelToLookFor, $last30DaysLabels);
@@ -388,7 +392,7 @@ class ReportsController extends Controller
         return view('dashboard',compact('compUnitsCount7Days','compCasesCount7Days',
             'waitingJobsToday','CompletedJobsToday','ActiveJobsToday','DeliveriesToday',
             'paymentsReceivedToday','last7DaysLabels','compCasesObjectsIn30Days','compUnitsCount30Days',
-            'collectionsInLast30Days','last30DaysLabels','compCasesCount30Days','sales30Days'));
+            'collectionsInLast30Days','last30DaysLabels','compCasesCount30Days','sales30Days','newCustomers','conversionRate'));
     }
     public function handleEmployeeRedirection(){
         return redirect('/operations-dashboard');

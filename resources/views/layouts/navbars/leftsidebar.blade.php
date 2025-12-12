@@ -126,7 +126,7 @@
 
                 <li>
                     <a data-toggle="collapse" href="#laravel-examples" aria-expanded="{{ $reportsExpanded }}">
-                        <i class="fab fa-laravel"></i>
+                        <i class="fa-solid fa-chart-pie"></i>
                         <span class="nav-link-text">{{ __('Reports') }}</span>
                         <b class="caret mt-1"></b>
                     </a>
@@ -135,37 +135,31 @@
                         <ul class="nav pl-4">
                             <li class="{{ Route::currentRouteName() == 'num-of-units-report' ? 'active' : '' }}">
                                 <a href="{{ route('num-of-units-report') }}">
-                                    <i class="tim-icons icon-bullet-list-67"></i>
+                                    <i class="fa-solid fa-layer-group"></i>
                                     <p>{{ 'Number Of Units' }}</p>
                                 </a>
                             </li>
                             <li class="{{ Route::currentRouteName() == 'job-types-report' ? 'active' : '' }}">
                                 <a href="{{ route('job-types-report') }}">
-                                    <i class="tim-icons icon-bullet-list-67"></i>
+                                    <i class="fa-solid fa-sitemap"></i>
                                     <p>{{ 'Job Types' }}</p>
                                 </a>
                             </li>
                             <li class="{{ Route::currentRouteName() == 'QC-report' ? 'active' : '' }}">
                                 <a href="{{ route('QC-report') }}">
-                                    <i class="tim-icons icon-bullet-list-67"></i>
+                                    <i class="fa-solid fa-clipboard-check"></i>
                                     <p>{{ __('QC') }}</p>
                                 </a>
                             </li>
                             <li class="{{ Route::currentRouteName() == 'repeats-report' ? 'active' : '' }}">
                                 <a href="{{ route('repeats-report') }}">
-                                    <i class="tim-icons icon-bullet-list-67"></i>
+                                    <i class="fa-solid fa-rotate-right"></i>
                                     <p>{{ 'Repeats' }}</p>
-                                </a>
-                            </li>
-                            <li class="{{ Route::currentRouteName() == 'implants-report' ? 'active' : '' }}">
-                                <a href="{{ route('implants-report') }}">
-                                    <i class="tim-icons icon-bullet-list-67"></i>
-                                    <p>{{ 'Implants' }}</p>
                                 </a>
                             </li>
                             <li class="{{ Route::currentRouteName() == 'materials-report' ? 'active' : '' }}">
                                 <a href="{{ route('materials-report') }}">
-                                    <i class="tim-icons icon-bullet-list-67"></i>
+                                    <i class="fa-solid fa-flask"></i>
                                     <p>Materials Report</p>
                                 </a>
                             </li>

@@ -37,6 +37,30 @@
     </style>
     <link href="{{ asset('assets') }}/css/timeline.css" rel="stylesheet"/>
 
+    @php
+        $jobs = ($stage == -2 || $stage > 5) ? $case->jobs : $case->jobs->where('stage', $stage);
+        $jobs = $jobs->values();
+        $deliveryDateTime = $case->initial_delivery_date
+            ? \Carbon\Carbon::parse(str_replace('T', ' ', $case->initial_delivery_date))
+            : null;
+        $printLabelData = [
+            'caseId' => $case->case_id,
+            'doctor' => $case->client->name,
+            'patient' => $case->patient_name,
+            'deliveryDate' => $deliveryDateTime ? $deliveryDateTime->format('d-M') : '',
+            'deliveryTime' => $deliveryDateTime ? $deliveryDateTime->format('g:i a') : '',
+            'jobs' => $jobs->map(function ($job) {
+                $units = array_filter(array_map('trim', explode(',', $job->unit_num ?? '')));
+                return [
+                    'jobType' => $job->jobType->name ?? '',
+                    'material' => $job->material->name ?? '',
+                    'color' => $job->color ? trim($job->color) : '-',
+                    'quantity' => count($units) ?: 0,
+                ];
+            })->values(),
+        ];
+    @endphp
+
 
     <div class="col-lg-12 col-sm-12 ">
         <div class="row btnsRow" style="padding-left: 10px;padding-top: 10px; background-color: transparent">
@@ -143,14 +167,6 @@
                 <div data-repeater-item>
                     <div class="form-group form-group ">
                         <div data-repeater-list="repeat" class="col-12">
-                            @php
-                            if($stage == -2 || $stage >5)
-                            $jobs = $case->jobs;
-                            else
-                            $jobs = $case->jobs->where('stage',$stage);
-                            @endphp
-
-
                                 <table id="tech-companies-1" class="table sunriseTable table-striped jobsTable">
                                     <thead>
                                     <tr>
@@ -597,207 +613,12 @@
 
 
 @endsection
-@push('js')
-
-
-    <script>
-        $(document).ready(function () {
-            $('#lightgallery').lightGallery();
-        });
-        function PrintLabel()
-        {
-
-            //height=192,width=288
-            var mywindow = window.open('', 'PRINT', 'height=600,width=800');
-            mywindow.document.write(`
-
-            <style>
-            @media all{
-              #kt-invoice__head {}
-              .kt-invoice__item {display:none;}
-
-                        }
-
-            body {
-                font-family: Arial;
-                font-weight : bold;
-            }
-
-
-            .tablesHeaders{
-                font-size:12px;
-                color:black;
-
-            }
-
-
-        .tableContent{
-            font-size:13px;
-            color:black;
-
-        }
-
-        hr.solid {
-            border-top: 1px solid #bbb;
-            width:95%;
-        }
-
-        .headerTitle{
-            color:black;
-        }
-
-        #tableTail{
-            padding-left:1px;
-            padding-right:2px;
-            width:100%;
-            position: absolute;
-            bottom: 3px;
-        }
-        .jobcolor
-        {
-            padding-left:0px;
-            padding-right:5px;
-        }
-        .paddingLeft
-        {
-            padding-left:2px;
-
-        }
-        </style>
-        </head>
-        <body>
-
-        <div id="kt-invoice__head" style="height:35px; overflow: hidden; position: relative;padding:0px;">
-
-
-            <div style="float:right;text-align:right; padding-right:4px;padding-top:2px;width:35%">
-            <p style="font-size: 8px;font-weight:bold;color:black;text-align:right;margin:0px">{{$case->case_id}}</p>
-            @php
-                $date = date("d-M * g:i a", strtotime(str_replace("T", " ",$case->initial_delivery_date)));
-                $date = explode(' * ', $date);
-
-            @endphp
-            <p style="font-size: 10px;font-weight:bolder;color:black;text-align:right;margin:0px;line-height: 1em;padding-bottom: 3px;padding-top: 4px;">{{$date[0]}}</p>
-            <p style="font-size: 10px;font-weight:bolder;color:black;text-align:right;margin:0px;line-height: 0.5em;">{{$date[1]}}</p>
-            <div style="padding-top:5px;">
-                {{--@if($isRemake)--}}
-            {{--<text style="border:1px; border-style:solid;padding:1px;">RM</text>--}}
-                {{--@endif--}}
-                {{--@if($isRedo)--}}
-            {{--<text style="border:1px; border-style:solid;padding:1px;">RD</text>--}}
-                {{--@endif--}}
-
-            </div>
-
-            </div>
-
-
-            <div id="headerInfo" style="width:60%;color:black;float:left;">
-
-            <table >
-            <tr style="color:black;">
-            <th style="width:20%;text-align:left;font-size:11px;">Dr:</th>
-        <th style="width:80%;font-size:12px;text-align:left;font-weight:bold;"><b>{{$case->client->name}}</b> </th>
-            </tr>
-            <tr style="color:black;">
-            <th style="width:20%;font-size:11px;text-align:left;">Patient:</th>
-        <th style="width:70%;text-align:left;font-size:12px;font-weight:bold;">{{$case->patient_name}}</th>
-            </tr>
-            </table>
-
-            </div>
-
-
-
-            </div>
-                <hr style=" margin-top: 5px; margin-bottom: 0; border-color: white;">
-            <div id="jobs" style="width:100%;display: flex;  ">
-            <table class="table"  style="width: 100%;height: 100%;border-spacing: 1px 1px; margin: 0 auto;align-self: center;padding-top:5px;margin:0;padding-right:2px;">
-            <thead>
-            <tr>
-            <th class="tablesHeaders" style="text-align:left" width="200"> Job Type</th>
-        <th class="tablesHeaders" style="text-align:left" width="80;padding-left:0px">Material</th>
-            <th class="tablesHeaders jobcolor" style="text-align:left;padding-left:0px" width="40">Color</th>
-            <th class="tablesHeaders" style="text-align:left;" width="20">Qty</th>
-
-            </tr>
-
-            </thead>
-
-            <tbody>
-
-                @foreach($jobs as $job)
-            <tr style="text-align:center">
-            <td class="tableContent" style="text-align:left;font-size:11px" width="200"> {{$job->jobType->name}}</td>
-            <td class="tableContent " style="text-align:left;font-size:11px"  width="80">{{ $job->material->name}}</td>
-            <td class="tableContent jobcolor paddingLeft" style="text-align:left;font-size:11px" width="40">{{$job->color == null ? "-" : $job->color}}</td>
-            <td class="tableContent paddingLeft" style="text-align:left;font-size:11px" width="20">{{count(explode(',', $job->unit_num))}}</td>
-
-            </tr>
-                @endforeach
-
-
-            </tbody>
-            </table>
-
-            <div id="tableTail">
-
-
-            </div>
-
-
-            </div>
-
-            </body></html>
-            `);
-  mywindow.document.close(); // necessary for IE >= 10
-    mywindow.focus(); // necessary for IE >= 10*/
-    setTimeout(function(){ mywindow.print(); /*mywindow.close();*/},1000);
-
-    return true;
-}
-        function PrintMinimizedLabel()
-        {
-
-            //height=192,width=288
-            var mywindow = window.open('', 'PRINT', 'height=600,width=800');
-            mywindow.document.write(`
-
-    <head>
-    <style>
-    @media all{
-
-      .kt-invoice__item {display:none;}
-           }
-        body {
-            font-family: Arial;
-            font-weight : bold;
-        }
-        .paddingLeft
-        {padding-left:2px;}
-        </style>
-        </head>
-        <body>
- @php
-                $date = date("d-M * g:i a", strtotime(str_replace("T", " ",$case->initial_delivery_date)));
-                $date = explode(' * ', $date);
-            @endphp
-            <div id="kt-invoice__head" style="text-align:center;height:100%; overflow: hidden; position: relative;padding:0px;">
-            <p style="font-size: 29px;font-weight:bold;color:black;margin:0px">{{$case->client->name}}</p>
-            <p style="font-size: 29px;font-weight:bold;color:black;margin:0px">{{$case->patient_name}}</p>
-            <hr>
-            <p style="font-size: 21px;font-weight:bold;color:black;margin:0px;">{{$date[0]}}</p>
-            <p style="font-size: 21px;font-weight:bold;color:black;margin:0px;">{{$date[1]}}</p>
-            </div>
-            </body></html>
-            `);
-            mywindow.document.close(); // necessary for IE >= 10
-            mywindow.focus(); // necessary for IE >= 10*/
-            setTimeout(function(){ mywindow.print(); mywindow.close();},1000);
-
-            return true;
-        }
-    </script>
-
+@push('js')
+    <script>
+        $(document).ready(function () {
+            $('#lightgallery').lightGallery();
+        });
+        window.casePrintData = @json($printLabelData);
+    </script>
+    <script src="{{ asset('assets/js/case-printing.js') }}"></script>
 @endpush
-

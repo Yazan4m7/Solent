@@ -25,9 +25,9 @@ Author:
 .sidebar-collapsed .side-navigation li.nav-hover.active a span,
 .sidebar-collapsed .side-navigation li a span,
 .sidebar-collapsed .side-navigation li.nav-hover ul {
-    background-color: #262e36;
+    background-color: rgba(255, 255, 255, 0.08);
     text-decoration: none;
-    border-color: #6699ff;
+    border-color: var(--color-accent-gold, #B3872D);
 }
 .side-navigation > li.active > a,
 .side-navigation > li.active > a:hover,
@@ -54,7 +54,7 @@ Author:
     height: 70px;
 }
 .r-close-btn:hover {
-  background: #2e61f2;
+  background: var(--color-accent-gold, #B3872D);
 }
 .side-navigation .child-list > li > a:hover,
 .side-navigation .child-list > li > a:active,
@@ -73,7 +73,7 @@ Author:
   left: 0;
   width: 240px;
   z-index: 100;
-  background-color: #fff;
+  background-color: var(--color-surface, #D7DAE5);
   text-align: center;
   font-family: 'Orbitron', sans-serif;
 }
@@ -88,7 +88,7 @@ Author:
 }
 .logo a i {
   font-size: 24px;
-  color: #7cd8a9;
+  color: var(--color-accent-gold, #B3872D);
   padding-right: 5px;
 }
 .sidebar-collapsed .logo .brand-name {
@@ -98,7 +98,7 @@ Author:
     sidebar left
 -----------------------*/
 .sidebar-left {
-  background: #15679b;
+  background: var(--color-shell-bg, #11151E);
   width: 240px;
   position: absolute;
   overflow-y: auto;

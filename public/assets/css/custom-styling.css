@@ -42,12 +42,8 @@ label {
 
 /*Modal Stlying*/
 .modal-content{
-    background:linear-gradient(215deg, #f2f2f2, #dfdfdf);
-    background: linear-gradient(180deg, #f2f2f2, #ffffff);
+    background: linear-gradient(180deg, var(--color-surface, #D7DAE5), var(--color-surface-alt, #B9CDDA));
     background-size: 200% 200%;
-
-    /*ebf3f3*/
-    background: linear-gradient(48deg, #fff 0%, #ffffff 100%);
     border-top-right-radius: 25px;
     border-bottom-left-radius: 25px;
     -webkit-animation: Animation 5s ease infinite;
@@ -55,7 +51,7 @@ label {
     animation: Animation 3s ease infinite;
 }
 .modal-backdrop {
-    background: rgb(255 255 255 / 73%);
+    background: rgba(17, 21, 30, 0.65);
 }
 .modal-backdrop.show {
     opacity: 1;
@@ -88,7 +84,7 @@ label {
 .sunriseTable{
     border-spacing: 1;
     border-collapse: collapse;
-    background: white;
+    background: var(--color-surface, #D7DAE5);
     border-radius: 10px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -112,8 +108,8 @@ padding: 0 15px !important;
 }
 .sunriseTable thead tr {
 height: 40px;
-background: #15679b;
-    color:white;
+background: var(--color-shell-bg, #11151E);
+    color: white;
 }
 .sunriseTable thead th {
 font-family: "Open Sans", sans-serif;
@@ -137,7 +133,7 @@ font-weight: unset !important;
     color: #ffffff;
 }
 .white-content .navbar.navbar-transparent .navbar-brand {
-    color: #104c4e;
+    color: var(--color-accent-gold, #B3872D);
 }
 #casesTable_filter > label {
 
@@ -203,8 +199,8 @@ h5, .h5 {
     color:steelblue;
 }
 .btn-light:not(:disabled):not(.disabled):active:focus{
-    background-color: #15679b !important;
-    border-color: #f4f5f9 !important;
+    background-color: var(--color-accent-gold, #B3872D) !important;
+    border-color: var(--color-surface, #D7DAE5) !important;
 }
 /** SIDE BAR HREFS **/
 .sidebar .nav li > a, .off-canvas-sidebar .nav li > a {
@@ -357,7 +353,7 @@ table {
 }
 .pageTitleContainer{
     border-left: 7px solid;
-    border-image: linear-gradient(to bottom, #15679b, #019399) 0 1;
+    border-image: linear-gradient(to bottom, var(--color-accent-gold, #B3872D), var(--color-shell-bg, #11151E)) 0 1;
     background: linear-gradient(272deg, #ffffff00 0%, #ffffff 50%);
     padding-right: 0px;
     border-bottom-left-radius: 4px;
@@ -508,7 +504,7 @@ blueTBBorder{
 
 /* Main box margin, for the sidebar and top banner*/
 .main-panel > .content {
-    margin: 78px 13px 30px 280px;
+    margin: 0 13px 30px 280px;
     min-height: calc(100vh - 70px);
 }
 .deleteBtn{
@@ -630,10 +626,10 @@ blueTBBorder{
         position: fixed;
         right: 0px;
         top: 60px;
-        background-color: white;
-        -moz-box-shadow: 0 0 4px #ccc;
-        -webkit-box-shadow: 0 0 4px #ccc;
-        box-shadow: 0 0 4px #ccc;
+        background-color: var(--color-surface, #D7DAE5);
+        -moz-box-shadow: 0 0 6px rgba(17, 21, 30, 0.18);
+        -webkit-box-shadow: 0 0 6px rgba(17, 21, 30, 0.18);
+        box-shadow: 0 0 6px rgba(17, 21, 30, 0.18);
     }
 }
 
@@ -652,13 +648,13 @@ blueTBBorder{
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: #15679b;
+    background: var(--color-accent-gold, #B3872D);
     border-radius: 10px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-    background: #0d3132;
+    background: #8c6b20;
 }
 .example::-webkit-scrollbar {
     display: none;
@@ -666,14 +662,14 @@ blueTBBorder{
 
 /* Brand palette defaults (light/green) for legacy components */
 :root {
-    --korvion-primary: var(--brand-primary, #0f7c63);
-    --korvion-secondary: var(--brand-secondary, #0ab39c);
-    --korvion-surface: #ffffff;
-    --korvion-surface-alt: #f5f8fa;
-    --korvion-panel: #ffffff;
-    --korvion-border: #d9e2ec;
-    --korvion-text: #1f2a3d;
-    --korvion-muted: #6b7280;
+    --korvion-primary: var(--color-accent-gold, #B3872D);
+    --korvion-secondary: var(--color-surface-soft, #A6D8D4);
+    --korvion-surface: var(--color-surface, #D7DAE5);
+    --korvion-surface-alt: var(--color-surface-alt, #B9CDDA);
+    --korvion-panel: var(--color-surface, #D7DAE5);
+    --korvion-border: rgba(17, 21, 30, 0.12);
+    --korvion-text: #11151E;
+    --korvion-muted: #4b5563;
 }
 
 
@@ -692,9 +688,9 @@ blueTBBorder{
     width: 120px;
     height: 120px;
     margin: -76px 0 0 -76px;
-    border: 16px solid #f3f3f3;
+    border: 16px solid var(--color-surface-alt, #B9CDDA);
     border-radius: 50%;
-    border-top: 16px solid #3498db;
+    border-top: 16px solid var(--color-accent-gold, #B3872D);
     -webkit-animation: spin 2s linear infinite;
     animation: spin 2s linear infinite;
 }

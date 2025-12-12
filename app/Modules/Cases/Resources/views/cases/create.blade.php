@@ -1,71 +1,314 @@
 @extends('layouts.app' ,[ 'pageSlug' => "New Case"])
 
-@section('content')
-    <link rel="stylesheet" href="assets/css/jquery.imagesloader.css"/>
-    @php
-        $color= "#212529";
-        $permissions = Cache::get('user'.Auth()->user()->id);
-    @endphp
+@push('css')
+    <link rel="stylesheet" href="{{ asset('assets/css/jquery.imagesloader.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('assets/css/elegant-dashboard.css') }}"/>
     <style>
-
-        @media screen and (max-width: 991px) {
-            .modal-content .modal-footer button {
-                margin: 0;
-                /*padding-left: 0px;*/
-                /*padding-right: 2px;*/
-                width: auto;
-                white-space: break-spaces;
-            }
+        .create-shell {
+            background: radial-gradient(circle at 12% 20%, rgba(179, 135, 45, 0.08), transparent 36%), radial-gradient(circle at 85% -10%, rgba(166, 216, 212, 0.3), transparent 32%), linear-gradient(180deg, #f6f8fb 0%, #e4e8f1 100%);
+            padding: 24px 22px 36px;
+            max-width: 1280px;
+            margin: 0 auto;
         }
 
-
-        .fa, .fas {
-            color: black;
+        .create-shell .ed-header-bar {
+            margin-bottom: 22px;
         }
 
-
-        .checked {
-            filter: invert(26%) sepia(73%) saturate(492%) hue-rotate(133deg) brightness(94%) contrast(86%);
+        .cc-card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(215, 218, 229, 0.94));
+            border: 1px solid rgba(17, 21, 30, 0.08);
+            border-radius: 16px;
+            box-shadow: 0 14px 30px rgba(17, 21, 30, 0.12);
+            padding: 16px;
+            margin-bottom: 16px;
+            overflow: visible;
         }
 
-
-        .hidden {
-            display: none;
+        .cc-card .ed-card-header {
+            margin-bottom: 12px;
         }
 
+        .cc-top-grid,
+        .cc-bottom-grid {
+            gap: 16px;
+        }
 
-        h5 {
-            font-weight: bold;
+        .cc-field-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 14px 18px;
+        }
+
+        .cc-label,
+        .cc-field label {
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            font-size: 11px;
+            color: var(--ed-muted);
+            margin-bottom: 6px;
+            font-weight: 700;
+        }
+
+        .cc-input {
+            background: #f7f9fb;
+            border-radius: 12px;
+            border: 1px solid rgba(17, 21, 30, 0.1);
+            padding: 11px 12px;
+            box-shadow: inset 0 1px 1px rgba(17, 21, 30, 0.04);
+        }
+
+        .cc-input:focus,
+        .cc-input:active,
+        .cc-input:focus-visible {
+            border-color: var(--ed-primary);
+            box-shadow: 0 0 0 3px rgba(179, 135, 45, 0.18);
+            outline: none;
+        }
+
+        .cc-case-id {
+            display: grid;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .cc-id-prefix {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 12px;
+            background: rgba(179, 135, 45, 0.12);
+            color: var(--ed-dark);
+            border-radius: 10px;
+            font-weight: 700;
+            border: 1px solid rgba(179, 135, 45, 0.25);
+            width: fit-content;
+        }
+
+        .cc-id-inputs {
+            display: inline-flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .cc-id-inputs input {
+            width: 62px;
+            text-align: center;
+        }
+
+        .cc-id-inputs input:last-child {
+            width: 84px;
+        }
+
+        .mandatorySmallTag {
+            color: #c0392b;
+            font-weight: 600;
         }
 
         .slctUnitsBtn {
             margin: 0;
             width: 100%;
-            height: 100%; /* change this from auto */
+            height: 100%;
             display: block;
-            padding: 10px 5px !important;
+            padding: 12px 10px !important;
             white-space: break-spaces !important;
         }
 
-
-        .btn:not(.unstyled) {
-
+        .cc-ghost-btn {
+            background: #f7f9fb !important;
+            color: var(--ed-dark) !important;
+            border: 1px dashed rgba(17, 21, 30, 0.2) !important;
+            border-radius: 12px;
         }
 
+        .cc-ghost-btn:hover {
+            border-color: var(--ed-primary) !important;
+            color: var(--ed-primary) !important;
+        }
+
+        .create-shell .bootstrap-select > .dropdown-toggle,
+        .create-shell .bootstrap-select > .dropdown-toggle:focus,
+        .create-shell .bootstrap-select > .dropdown-toggle:active {
+            background: #fff;
+            border-radius: 12px;
+            border: 1px solid rgba(17, 21, 30, 0.15);
+            height: 44px;
+            padding: 10px 12px;
+            box-shadow: inset 0 1px 1px rgba(17, 21, 30, 0.04);
+            color: var(--ed-dark);
+            outline: none !important;
+        }
+
+        .create-shell .bootstrap-select.show > .dropdown-toggle,
+        .create-shell .bootstrap-select > .dropdown-toggle:focus-visible {
+            border-color: var(--ed-primary);
+            box-shadow: 0 0 0 3px rgba(179, 135, 45, 0.18);
+            background: #fff;
+        }
+
+        .create-shell .bootstrap-select .filter-option-inner-inner {
+            font-weight: 600;
+        }
+
+        .create-shell .form-control.cc-input:not(textarea),
+        .create-shell .form-control:not(textarea),
+        .create-shell select.cc-input {
+            height: 44px;
+        }
+
+        .cc-jobs-card .cc-job-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .cc-job-block {
+            background: #ffffff;
+            border: 1px solid rgba(17, 21, 30, 0.08);
+            border-radius: 16px;
+            padding: 14px 14px 10px;
+            box-shadow: var(--ed-shadow);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .cc-job-block:before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg, rgba(179, 135, 45, 0.12), transparent 45%);
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .cc-job-block > div {
+            position: relative;
+            z-index: 1;
+        }
+
+        .cc-job-grid {
+            width: 100%;
+        }
+
+        .cc-job-grid .col-md-2,
+        .cc-job-grid .col-md-3,
+        .cc-job-grid .col-md-12 {
+            padding-top: 6px;
+            padding-bottom: 6px;
+        }
+
+        .cc-job-grid label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--ed-muted);
+            font-weight: 700;
+        }
+
+        .cc-job-actions {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .cc-add-btn {
+            border-radius: 999px;
+            box-shadow: 0 10px 20px rgba(179, 135, 45, 0.25);
+            border: none;
+            padding: 8px 14px;
+        }
+
+        .cc-abutment-card {
+            margin-top: 8px;
+            border: 1px solid rgba(225, 78, 202, 0.3);
+            border-radius: 12px;
+            padding: 12px 10px;
+            background: #f9f4ff;
+        }
+
+        .cc-abutment-row {
+            align-items: flex-end;
+            margin: 10px 0;
+            border: 1px solid #e14eca;
+            border-radius: 0.5rem;
+            padding: 10px 10px;
+        }
+
+        .cc-note-area textarea {
+            min-height: 140px;
+            border-radius: 12px;
+            padding: 12px 14px;
+            resize: vertical;
+        }
+
+        .cc-upload {
+            padding: 12px;
+            border: 1px dashed rgba(17, 21, 30, 0.15);
+            border-radius: 12px;
+            background: #f7f9fb;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+        }
+
+        .cc-upload label {
+            cursor: pointer;
+            color: var(--ed-dark);
+        }
+
+        .cc-upload input[type="file"] {
+            height: 44px;
+            padding: 10px 12px;
+            background: #fff;
+            border-radius: 10px;
+        }
+
+        .cc-submit-card .cc-submit-actions {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .cc-submit-card p {
+            margin: 0;
+            color: var(--ed-muted);
+        }
+
+        .cc-testing-helper {
+            background: linear-gradient(120deg, rgba(214, 67, 67, 0.1), rgba(214, 67, 67, 0.05));
+            border: 1px solid rgba(214, 67, 67, 0.3);
+            border-radius: 12px;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        .checked {
+            filter: invert(26%) sepia(73%) saturate(492%) hue-rotate(133deg) brightness(94%) contrast(86%);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .fa,
+        .fas {
+            color: var(--ed-dark);
+        }
 
         .modal.show .modal-dialog {
             -webkit-transform: translate(0, 0%);
             transform: translate(0, 0%);
         }
 
-
         .row {
-            padding: 0
+            padding: 0;
         }
 
-
         .xdsoft_time_box {
-
             width: 100px !important;
         }
 
@@ -73,453 +316,411 @@
             padding-right: 50px;
         }
 
-        hr {
-            border-color: rgba(28, 86, 88, 0.81);
-            margin-top: 0px
+        #addJobBtn2 {
+            background-color: var(--ed-primary);
+            border-color: var(--ed-primary-dark);
         }
-        #addJobBtn2{
-            background-color: #ca0399;
-            border-color: #970371;
-        }
-        .purpleBorder{
+
+        .purpleBorder {
             border: 1px solid #e14eca !important;
             border-radius: 0.5rem;
             background-color: #f8f9fa;
+        }
 
+        img {
+            max-width: unset;
         }
-        img{
-            max-width:unset;
+
+        @media screen and (max-width: 991px) {
+            .modal-content .modal-footer button {
+                margin: 0;
+                width: auto;
+                white-space: break-spaces;
+            }
         }
+
         @media (min-width: 576px) {
             .modal-dialog {
-                max-width: 400px;
+                max-width: 480px;
                 margin: 1.75rem auto;
             }
-
         }
     </style>
-    <div class="card">
+@endpush
+
+@section('content')
+    @php
+        $color= "#212529";
+        $permissions = Cache::get('user'.Auth()->user()->id);
+    @endphp
+    <div class="ed-shell container-fluid px-0 create-shell">
+        <div class="ed-header-bar">
+            <div>
+                <div class="ed-title">Create Case</div>
+                <div class="ed-subtitle">Mirror the dashboard polish for a premium intake flow</div>
+            </div>
+            <div class="ed-card-actions">
+                <span class="ed-badge ed-badge-primary"><i class="fa-solid fa-sparkles"></i>&nbsp;New case</span>
+                <span class="ed-badge ed-badge-soft">ID {{ $tempCaseId }}</span>
+            </div>
+        </div>
         @if (config('site_vars.environment') == 'testing')
-            <form style="padding:0px" class="kt-form" method="POST" enctype="multipart/form-data"
+            <form class="kt-form create-case-form" method="POST" enctype="multipart/form-data"
                   action="{{route('create-and-send-case-to')}}">
-                @else
-                    <form style="padding:10px" class="kt-form" method="POST" enctype="multipart/form-data"
-                          action="{{route('new-case-post')}}">
-                        @endif
-                        @csrf
-                        <div class="portlet__head">
-                            <div class="portlet__head-label">
-                                <h5 class="portlet__head-title">
-                                    <i class="fa-solid fa-folder-closed" style="height:3%;color:inherit"></i> Case
-                                    information
-                                </h5>
-                            </div>
+        @else
+            <form class="kt-form create-case-form" method="POST" enctype="multipart/form-data"
+                  action="{{route('new-case-post')}}">
+        @endif
+            @csrf
+            <div class="ed-grid cc-top-grid">
+                <div class="ed-card cc-card">
+                    <div class="ed-card-header">
+                        <div>
+                            <div class="ed-card-kicker">Case</div>
+                            <h4 class="ed-card-title">Patient & Doctor</h4>
                         </div>
-                        <hr>
-                        <!-- ORDER INFO -->
-                        <div class="row">
-                            <div class="col-md-3 col-xs-6 col-l-3 col-xl-3">
-                                <div class="col-md-12 col-xs-12 noBottomPadding"><label class="noBottomMargin  bold">Doctor:</label>
-                                </div>
-                                <div class="col-md-12 col-xs-12 padding5px">
+                        <span class="ed-badge ed-badge-primary">Required</span>
+                    </div>
+                    <div class="cc-field-grid">
+                        <div class="cc-field">
+                            <label class="cc-label">Doctor</label>
+                            <select class="selectpicker cc-input" name="doctor" data-live-search="true"
+                                    required title="Select a doctor" data-tap-disabled="true">
+                                @foreach($doctors as $doctor)
+                                    <option value="{{$doctor->id}}">{{$doctor->name}}</option>
+                                @endforeach
+                            </select>
+                            <small class="mandatorySmallTag">* Mandatory</small>
+                        </div>
+                        <div class="cc-field">
+                            <label class="cc-label">Patient name</label>
+                            <input class="form-control cc-input" type="text" name="patient_name" required/>
+                            <small class="mandatorySmallTag">* Mandatory</small>
+                        </div>
+                        <div class="cc-field cc-field--id">
+                            <label class="cc-label">Case ID</label>
+                            <div class="cc-case-id">
+                                <div class="cc-id-prefix">{{ $tempCaseId }}</div>
+                                <input type="hidden" name="temp_case_id" value="{{$tempCaseId}}">
+                            </div>
+                            <small class="mandatorySmallTag">* Auto-generated</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="ed-card cc-card">
+                    <div class="ed-card-header">
+                        <div>
+                            <div class="ed-card-kicker">Timeline</div>
+                            <h4 class="ed-card-title">Delivery & Tags</h4>
+                        </div>
+                        <span class="ed-badge ed-badge-soft"><i class="fa-regular fa-clock"></i>&nbsp;Schedule</span>
+                    </div>
+                    <div class="cc-field-grid">
+                        <div class="cc-field">
+                            <label class="cc-label">Impression Type</label>
+                            <select class="form-control cc-input" name="impression_type"
+                                    type="text" data-container="body"
+                                    data-live-search="true"
+                                    title="Select impression"
+                                    data-hide-disabled="true">
+                                @foreach($impressionTypes as $impression)
+                                    <option value="{{$impression->id}}">
+                                        {{$impression->name}}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="cc-field">
+                            <label class="cc-label">Delivery Date</label>
+                            @php
+                                $time = new DateTime("tomorrow 13:00");
+                                $time = $time->format("d M, Y h:i a");
+                            @endphp
 
-                                    <div class="dropdown">
-                                        <select class="selectpicker greyBG" name="doctor" data-live-search="true"
-                                                required title="Select a doctor" data-tap-disabled="true">
+                            <input class="form-control SDTP cc-input" name="delivery_date" type="text" value="{{$time}}"
+                                   required readonly/>
+                            <small class="mandatorySmallTag">* Mandatory</small>
+                        </div>
+                        <div class="cc-field">
+                            <label class="cc-label">Tags</label>
+                            <select class="select selectpicker cc-input" name="tags[]" multiple
+                                    data-mdb-placeholder="Tags">
+                                @foreach($tags as $tag)
+                                    <option style="color:{{$tag->color}}"
+                                            value="{{$tag->id}}">{{$tag->text}}</option>
+                                @endforeach
+                            </select>
 
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                                        @foreach($doctors as $doctor)
-                                                    <option value="{{$doctor->id}}">{{$doctor->name}}</option>
+            <div class="ed-card cc-card cc-jobs-card">
+                <div class="repeater jobsRepeater">
+                    <div class="ed-card-header cc-jobs-header">
+                        <div>
+                            <div class="ed-card-kicker">Production</div>
+                            <h4 class="ed-card-title">Jobs information</h4>
+                        </div>
+                        <div class="ed-card-actions">
+                            <a href="javascript:" data-repeater-create="" class="btn btn-primary cc-add-btn" id="addJobBtn">
+                                <i class="fa fa-plus-square"></i> Add job
+                            </a>
+                        </div>
+                    </div>
+                    <div data-repeater-list="repeat" class="cc-job-list">
+                        <div data-repeater-item class="jobRow">
+                            <div class="form-group form-group">
+                                <div data-repeater-list="repeat" class="cc-job-inner">
+                                    <div data-repeater-item class="form-group row align-items-start row-item cc-job-block cc-job-grid">
+                                        <div class="col-md-2">
+                                            <label class="cc-label">Units</label>
+                                            <input type="hidden" name="units" id="units"
+                                                   class="hiddenUnitsInput" required>
+                                            <button type="button" class="btn btn-secondary slctUnitsBtn cc-ghost-btn"
+                                                    data-toggle="modal" data-target="#unitsDialog"
+                                                    name="openDialogBtn"
+                                                    onclick="preOpenDialog(this)">Select Units</button>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label class="cc-label">Job type</label>
+                                            <select class="form-control cc-input" id="jobType" name="jobType"
+                                                    onchange="jobTypeChanged(this)">
+                                                @foreach($types as $type)
+                                                    <option value="{{$type->id}}">{{$type->name}}</option>
                                                 @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label class="cc-label">Material</label>
+                                            <select class="form-control cc-input" id="material_id"
+                                                    name="material_id">
+                                                @foreach($materials as $m)
+                                                    <option value="{{$m->id}}">
+                                                        {{$m->name}}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label class="cc-label">Color</label>
+                                            <select class="form-control cc-input" id="color" name="color">
+                                                <option value="0" selected>None</option>
+                                                <option value="A1">A1</option>
+                                                <option value="A2">A2</option>
+                                                <option value="A3">A3</option>
+                                                <option value="A3.5">A3.5</option>
+                                                <option value="A4">A4</option>
+                                                <option value="B1">B1</option>
+                                                <option value="B2">B2</option>
+                                                <option value="B3">B3</option>
+                                                <option value="B4">B4</option>
+                                                <option value="C1">C1</option>
+                                                <option value="C2">C2</option>
+                                                <option value="C3">C3</option>
+                                                <option value="C4">C4</option>
+                                                <option value="D2">D2</option>
+                                                <option value="D3">D3</option>
+                                                <option value="D4">D4</option>
+                                                <option value="BL1">BL1</option>
+                                                <option value="BL2">BL2</option>
+                                                <option value="BL3">BL3</option>
+                                                <option value="BL4">BL4</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label class="cc-label">Style</label>
+                                            <div class="kt-radio-inline">
+                                                <label class="kt-radio">
+                                                    <input type="radio" class="single" checked="checked"
+                                                           name="style" value="Single"> Single
+                                                    <span></span>
+                                                </label>
+                                                <label class="kt-radio">
+                                                    <input type="radio" class="bridge" name="style"
+                                                           value="Bridge"> Bridge
+                                                    <span></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 cc-job-actions">
+                                            <button data-repeater-delete class="btn deleteBtn btn-sm"
+                                                    type="button" value="Delete"><i
+                                                    class="fa fa-trash "\></i>
+                                            </button>
+                                        </div>
+                                        <div class="col-md-12 abutment abutmentsArea cc-abutment-card" style="display:none;">
 
-                                        </select>
-                                        <small class="mandatorySmallTag">* Mandatory</small>
+                                            <div class="abutments-repeater abutmentsRepeater">
+                                                <div data-repeater-list="abutments" class="dataRepeaterList">
+                                                    <div data-repeater-item class="abutmentsRow">
+                                                        <div class="row cc-abutment-row">
+                                                            <div class="col-md-3">
+                                                                <label class="kt-label m-label--single">Abt./Implant Units:</label>
+                                                                <select class="select abutmentsUnitsPicker greyBG purpleBorder" name="abutmentUnits[]" multiple
+                                                                        data-mdb-placeholder="Tags">
+
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-md-2" >
+                                                                <label class="kt-label m-label--single">Implant
+                                                                    type:</label>
+                                                                <select class="form-control purpleBorder"
+                                                                        id="implant" name="implant" >
+                                                                    <option value="0" selected>None
+                                                                    </option>
+                                                                    @foreach($implants as $implant)
+                                                                        <option value="{{$implant->id}}">{{$implant->name}}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <label class="kt-label m-label--single">Abutment
+                                                                    type:</label>
+                                                                <select class="form-control purpleBorder" id="abutment"
+                                                                        name="abutment">
+                                                                    <option value="0" selected>None</option>
+                                                                    @foreach($abutments as $abutment)
+                                                                        <option value="{{$abutment->id}}">{{$abutment->name}}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="col-md-2">
+                                                                <label class="kt-label m-label--single">Code:</label>
+
+                                                                <input type="text" name="abutmentCode" class="form-control purpleBorder">
+
+                                                            </div>
+                                                            <div class="col-md-1">
+                                                                <button data-repeater-delete class="btn deleteBtn2 btn-sm"
+                                                                        type="button" value="Delete"><i
+                                                                        class="fa fa-trash "\></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                                <a href="javascript:" data-repeater-create="" class="btn btn-success btn-sm" id="addJobBtn2"  onClick = "addAbutmentJob(this)">
+                                                    <i class="fa fa-plus-square" style="color:white"></i> Add Abutment
+                                                </a>
+
+                                            </div>
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-5  col-xs-6 col-l-5  col-xl-4">
-                                <div class="col-md-12 col-xs-12 noBottomPadding"><label class="noBottomMargin bold">Patient
-                                        name:</label></div>
-                                <div class="col-md-12 col-xs-12 ">
-                                    <input class="form-control blueTBBorder" type="text" name="patient_name"  required/>
-                                    <small class="mandatorySmallTag">* Mandatory</small>
-                                </div>
-                            </div>
-                            <div class="col-md-4  col-xs-6 col-l-4  col-xl-3">
-                                <div class="col-md-12 col-xs-12 noBottomPadding"><label class="noBottomMargin bold">Case
-                                        ID:</label></div>
-                                <div class="col-md-12 col-xs-12">
-
-                                    <label>{{$tempCaseId}}</label>
-                                    <input type="hidden" name="temp_case_id" value="{{$tempCaseId}}">
-
-                                </div>
-
-                            </div>
-
-
                         </div>
 
+                    </div>
+                </div>
+            </div>
 
-                        <div class="row">
-                            <div class="col-md-3 col-xs-6 col-l-3 col-xl-3">
-                                <div class="col-md-12 col-xs-12"><label class="noBottomMargin bold">Impression
-                                        Type:</label></div>
-                                <div class="col-md-12 col-xs-12"><select class="form-control" name="impression_type"
-                                                                         type="text" data-container="body"
-                                                                         data-live-search="true"
-                                                                         title="Select impression"
-                                                                         data-hide-disabled="true">
-                                        @foreach($impressionTypes as $impression)
-                                            <option value="{{$impression->id}}">
-                                                {{$impression->name}}
-                                            </option>
-                                        @endforeach
+            @if(Auth()->user()->is_admin || ($permissions && ($permissions->contains('permission_id', 114))))
+                <div class="ed-card cc-card">
+                    <div class="ed-card-header">
+                        <div>
+                            <div class="ed-card-kicker">Finance</div>
+                            <h4 class="ed-card-title">
+                                Discount
+                            </h4>
+                        </div>
+                    </div>
+                    <label style="cursor: pointer" class="cc-label">
+                        <input type="checkbox" class="discountCB" name="discountCB"
+                               onclick='toggleDiscountPortion(this)'/>
+                        Make a Discount
+                    </label>
+                    <div class="form-group form-group row discountPortion" style="display:none">
+                        <div class="col-md-3 col-xs-6">
+                            <input class="form-control" type="number" name="discount_amount"
+                                   placeholder="Amount (JOD)"/>
+                            <small>JOD</small>
+                        </div>
+                        <div class="col-md-6 col-xs-6">
+                            <input class="form-control" type="text" name="discount_reason"
+                                   placeholder="Explanation of discount">
+                        </div>
+                    </div>
+                </div>
+            @endif
 
-                                    </select></div>
-                            </div>
-                            <div class="col-md-5  col-xs-6 col-l-5  col-xl-4">
-                                <div class="col-md-12 col-xs-12"><label class="noBottomMargin bold">Delivery
-                                        Date:</label></div>
-                                @php
-                                    $time = new DateTime("tomorrow 13:00");
-                                   // $time = $time->format("Y-m-d\TH:i");
-                                    $time = $time->format("d M, Y h:i a");
-                                @endphp
+            <div class="ed-grid cc-bottom-grid">
+                <div class="ed-card cc-card cc-note-area">
+                    <div class="ed-card-header">
+                        <div>
+                            <div class="ed-card-kicker">Notes</div>
+                            <h4 class="ed-card-title">
+                                Additional information
+                            </h4>
+                        </div>
+                    </div>
 
-                                <div class="col-md-12 col-xs-12">
-                                    <input class="form-control SDTP" name="delivery_date" type="text" value="{{$time}}"
-                                           required readonly/>
-                                    <small class="mandatorySmallTag">* Mandatory</small>
-                                </div>
-                            </div>
-                            <div class="col-md-4  col-xs-6 col-l-4  col-xl-3">
-                                <div class="col-md-12 col-xs-12"><label class="noBottomMargin bold">Tags:</label></div>
-                                <div class="col-md-12 col-xs-12">
-                                    <select class="select selectpicker greyBG" name="tags[]" multiple
-                                            data-mdb-placeholder="Tags">
-                                        @foreach($tags as $tag)
-                                            <option style="color:{{$tag->color}}"
-                                                    value="{{$tag->id}}">{{$tag->text}}</option>
-                                        @endforeach
+                    <div class="form-group form-group-last mb-0">
+                        <textarea class="form-control cc-input" name="note" id="exampleTextarea"
+                                  rows="3">{{old('note')}}</textarea>
+                    </div>
+                </div>
+                <div class="ed-card cc-card">
+                    <div class="ed-card-header">
+                        <div>
+                            <div class="ed-card-kicker">Assets</div>
+                            <h4 class="ed-card-title">
+                                Attachments
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-last mb-0 cc-upload">
+                        <label for="images"><h4><i class="fa-solid fa-circle-plus"></i>
+                            </h4></label>
+                        <input type="file" id="images" class="form-control cc-input" name="images[]" placeholder="address"
+                               multiple>
+                    </div>
+
+                    @if (config('site_vars.environment') == 'testing')
+
+                        <div class="cc-testing-helper">
+                            <div class="kt-form__actions"><label for="sendTo">Testing helpers:</label><br>
+                                <div class="btn-group show" role="group">
+                                    <select class="form-control" id="stageToSendTo" name="stageToSendTo">
+
+                                        <option value="1">Design</option>
+                                        <option value="6">Finishing</option>
+                                        <option value="7">QC</option>
+                                        <option value="8">Delivery</option>
+                                        <option value="10" style="color:green">Completed</option>
                                     </select>
 
                                 </div>
                             </div>
                         </div>
-                        <div class="verticalSpacing"></div>
 
-                        <!-- JOB INFO ICON-->
+                    @endif
+                </div>
+            </div>
 
+            <div class="ed-card cc-card cc-submit-card">
+                <div class="ed-card-header">
+                    <div>
+                        <div class="ed-card-kicker">Finalize</div>
+                        <h4 class="ed-card-title">
+                            Submit case
+                        </h4>
+                    </div>
+                </div>
+                <div class="cc-submit-actions">
+                    <button type="submit" class="btn btn-primary extraPadding">Submit</button>
+                    <p>Files, units, and timeline are saved together for the team.</p>
+                </div>
+            </div>
+        </form>
+    </div>
 
-                        <div class="portlet__head">
-                            <div class="portlet__head-label">
-                                <h5 class="portlet__head-title">
-                                    <i class="fa-solid fa-boxes-stacked" style="height:3%;color:inherit"></i> Jobs
-                                    information
-                                </h5>
-                            </div>
-                        </div>
-                        <hr>
-                        <!-- JOBS REPEATER -->
-                        <div id="" style="" class="repeater jobsRepeater">
-                            <div data-repeater-list="repeat" >
-                                <div data-repeater-item class="jobRow">
-                                    <div class="form-group form-group ">
-                                        <div data-repeater-list="repeat" class="col-12 padding5px">
-                                            <div data-repeater-item class="form-group row align-items-center row-item"
-                                                 style="border: 1px solid #ccc;border-radius: 16px;padding:5px">
-
-
-                                                <div class="col-md-2">
-                                                    <div class="kt-form__label">
-                                                        <label class="kt-label m-label--single bold">Units:</label>
-                                                    </div>
-                                                    <input type="hidden" name="units" id="units"
-                                                           class="hiddenUnitsInput" required>
-                                                    <button type="button" class="btn btn-secondary slctUnitsBtn"
-                                                            data-toggle="modal" data-target="#unitsDialog"
-                                                            name="openDialogBtn"
-                                                            onclick="preOpenDialog(this)">Select Units</button>
-
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <div class="kt-form__group--inline">
-                                                        <div class="kt-form__label">
-                                                            <label class="kt-label m-label--single">Job type:</label>
-                                                        </div>
-                                                        <div class="kt-form__control">
-                                                            <select class="form-control" id="jobType" name="jobType"
-                                                                    onchange="jobTypeChanged(this)">
-                                                                @foreach($types as $type)
-                                                                    <option value="{{$type->id}}">{{$type->name}}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <div class="kt-form__group--inline">
-                                                        <div class="kt-form__label">
-                                                            <label>Material:</label>
-                                                        </div>
-                                                        <div class="kt-form__control">
-                                                            <select class="form-control" id="material_id"
-                                                                    name="material_id">
-
-                                                                @foreach($materials as $m)
-                                                                    <option value="{{$m->id}}">
-                                                                        {{$m->name}}
-                                                                    </option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <div class="kt-form__group--inline">
-                                                        <div class="kt-form__label">
-                                                            <label>Color:</label>
-                                                        </div>
-                                                        <div class="kt-form__control">
-                                                            <select class="form-control" id="color" name="color">
-                                                                <option value="0" selected>None</option>
-                                                                <option value="A1">A1</option>
-                                                                <option value="A2">A2</option>
-                                                                <option value="A3">A3</option>
-                                                                <option value="A3.5">A3.5</option>
-                                                                <option value="A4">A4</option>
-                                                                <option value="B1">B1</option>
-                                                                <option value="B2">B2</option>
-                                                                <option value="B3">B3</option>
-                                                                <option value="B4">B4</option>
-                                                                <option value="C1">C1</option>
-                                                                <option value="C2">C2</option>
-                                                                <option value="C3">C3</option>
-                                                                <option value="C4">C4</option>
-                                                                <option value="D2">D2</option>
-                                                                <option value="D3">D3</option>
-                                                                <option value="D4">D4</option>
-                                                                <option value="BL1">BL1</option>
-                                                                <option value="BL2">BL2</option>
-                                                                <option value="BL3">BL3</option>
-                                                                <option value="BL4">BL4</option>
-                                                            </select>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <div class="kt-form__group--inline">
-                                                        <div class="kt-form__label">
-                                                            <label>Style:</label>
-                                                        </div>
-                                                        <div class="kt-radio-inline">
-                                                            <label class="kt-radio">
-                                                                <input type="radio" class="single" checked="checked"
-                                                                       name="style" value="Single"> Single
-                                                                <span></span>
-                                                            </label>
-                                                            <label class="kt-radio">
-                                                                <input type="radio" class="bridge" name="style"
-                                                                       value="Bridge"> Bridge
-                                                                <span></span>
-                                                            </label>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-
-                                                <!-- DELETE BUTTON -->
-                                                <div class="col-md-2">
-                                                    <div class="kt-form__group--inline">
-
-                                                        <div class="kt-form__control">
-                                                            <button data-repeater-delete class="btn deleteBtn btn-sm"
-                                                                    type="button" value="Delete" style=""><i
-                                                                        class="fa fa-trash " style=""></i></span>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12 abutment abutmentsArea" style="display:none;">
-
-                                                    <!-- inner repeater -->
-                                                    <div class="abutments-repeater abutmentsRepeater">
-                                                        <div data-repeater-list="abutments" class="dataRepeaterList">
-                                                                    <div data-repeater-item class="abutmentsRow">
-                                                                        <div class="row" style="align-items: flex-end;margin: 10px 0px;border: 1px solid #e14eca;border-radius: 0.5rem; padding: 10px 10px;">
-                                                                        <div class="col-md-3">
-                                                                                <label class="kt-label m-label--single">Abt./Implant Units:</label>
-                                                                            <select class="select abutmentsUnitsPicker greyBG purpleBorder" name="abutmentUnits[]" multiple
-                                                                                    data-mdb-placeholder="Tags">
-
-                                                                            </select>
-                                                                            </div>
-                                                                            <div class="col-md-2" >
-                                                                                <label class="kt-label m-label--single">Implant
-                                                                                    type:</label>
-                                                                                <select class="form-control purpleBorder"
-                                                                                        id="implant" name="implant" >
-                                                                                    <option value="0" selected>None
-                                                                                    </option>
-                                                                                    @foreach($implants as $implant)
-                                                                                        <option value="{{$implant->id}}">{{$implant->name}}</option>
-                                                                                    @endforeach
-                                                                                </select>
-                                                                            </div>
-                                                                        <div class="col-md-2">
-                                                                        <label class="kt-label m-label--single">Abutment
-                                                                            type:</label>
-                                                                        <select class="form-control purpleBorder" id="abutment"
-                                                                                name="abutment">
-                                                                            <option value="0" selected>None</option>
-                                                                            @foreach($abutments as $abutment)
-                                                                                <option value="{{$abutment->id}}">{{$abutment->name}}</option>
-                                                                            @endforeach
-                                                                        </select>
-                                                                        </div>
-
-                                                                        <div class="col-md-2">
-                                                                                <label class="kt-label m-label--single">Code:</label>
-
-                                                                                    <input type="text" name="abutmentCode" class="form-control purpleBorder">
-
-                                                                            </div>
-                                                                        <div class="col-md-1">
-                                                                        <button data-repeater-delete class="btn deleteBtn2 btn-sm"
-                                                                                type="button" value="Delete" style=""><i
-                                                                                    class="fa fa-trash " style=""></i></span>
-                                                                        </button>
-                                                                        </div>
-                                                                        </div>
-
-                                                        </div>
-
-                                                    </div>
-                                                        <a href="javascript:" data-repeater-create="" class="btn btn-success btn-sm" id="addJobBtn2"  onClick = "addAbutmentJob(this)">
-                                                            <i class="fa fa-plus-square" style="color:white"></i> Add Abutment
-                                                        </a>
-
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                            <a href="javascript:" data-repeater-create="" class="btn btn-success btn-sm" id="addJobBtn">
-                                <i class="fa fa-plus-square" style="color:white"></i> Add
-                            </a>
-                        <div class="verticalSpacing"></div>
-                        <!-- DISCOUNTS SECTION -->
-                        @if(Auth()->user()->is_admin || ($permissions && ($permissions->contains('permission_id', 114))))
-                            <div class="kt-portlet__head">
-                                <div class="kt-portlet__head-label">
-                                    <h5 class="kt-portlet__head-title">
-                                        <i class="fa-regular fa-circle-down" style="height:3%"></i> Discount
-                                    </h5>
-                                </div>
-                            </div>
-                            <hr>
-                            <label style="cursor: pointer">
-                                <input type="checkbox" class="discountCB" name="discountCB"
-                                       onclick='toggleDiscountPortion(this)'/>
-                                Make a Discount
-                            </label>
-                            <br>
-                            <div class="form-group form-group row discountPortion" style="display:none">
-                                <div class="col-md-3 col-xs-6">
-                                    <input class="form-control" type="number" name="discount_amount"
-                                           placeholder="Amount (JOD)"/>
-                                    <small>JOD</small>
-                                </div>
-                                <div class="col-md-6 col-xs-6">
-                                    <input class="form-control" type="text" name="discount_reason"
-                                           placeholder="Explanation of discount"/></textarea>
-                                </div>
-                            </div>
-                            <div class="verticalSpacing"></div>
-                        @endif
-
-                          <!-- NOTES SECTION -->
-                        <br>
-                        <div class="kt-portlet__head">
-                            <div class="kt-portlet__head-label">
-                                <h5 class="kt-portlet__head-title">
-                                    <i class="fa fa-sticky-note" style="height:3%;color:inherit"></i> Additional
-                                    information
-                                </h5>
-                            </div>
-                        </div>
-                        <hr>
-
-                        <div class="form-group form-group-last">
-                            <label for="exampleTextarea">Note</label>
-                            <textarea class="form-control" name="note" id="exampleTextarea"
-                                      rows="3">{{old('note')}}</textarea>
-                        </div>
-                        <div class="verticalSpacing"></div>
-                        <!-- Attachments SECTION -->
-                        <div class="kt-portlet__head">
-                            <div class="kt-portlet__head-label">
-                                <h5 class="kt-portlet__head-title">
-                                    <i class="fa fa-photo" style="height:3%;color:inherit"></i> Attachments
-                                </h5>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="form-group form-group-last">
-                            <label for="images" style="cursor: pointer;"><h4><i class="fa-solid fa-circle-plus"></i>
-                                </h4></label>
-                            <input type="file" id="images" class="form-control" name="images[]" placeholder="Upload any file type (max 50MB each)"
-                                   multiple style="cursor: pointer;">
-                            <small class="form-text text-muted">Upload any file type. Maximum size: 50MB per file.</small>
-
-                            <!-- File Upload Preview Container -->
-                            <div id="file-preview-container" class="mt-3" style="display: none;">
-                                <h6>Selected Files:</h6>
-                                <div id="file-preview-list" class="row"></div>
-                            </div>
-                        </div>
-
-                        <br>
-                        @if (config('site_vars.environment') == 'testing')
-
-                            <div class="col-md-3"
-                                 style="border: 1px solid red;padding:10px;border-radius: 10px;margin:5px">
-                                <div class="kt-form__actions"><label for="sendTo">Testing helpers:</label><br>
-                                    <div class="btn-group show" role="group">
-                                        <select class="form-control" id="stageToSendTo" name="stageToSendTo">
-
-                                            <option value="1">Design</option>
-                                            <option value="6">Finishing</option>
-                                            <option value="7">QC</option>
-                                            <option value="8">Delivery</option>
-                                            <option value="10" style="color:green">Completed</option>
-                                        </select>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                        @endif
-
-                        <div class="kt-portlet__foot">
-                            <div class="kt-form__actions">
-                                <button type="submit" class="btn btn-primary extraPadding">Submit</button>
-
-                            </div>
-                        </div>
-                        </div>
-                    </form>
-
-    <!-- TEETH PICK DIALOG -->
+<!-- TEETH PICK DIALOG -->
 
     <div data-repeater-item class="modal fade" id="unitsDialog" tabindex="-1" role="dialog"
          aria-labelledby="exampleModalLongTitle" style="display: none;" aria-hidden="true" name="dialog">
@@ -1158,4 +1359,3 @@ $(document).ready(function() {
 </script>
 
 @endpush
-

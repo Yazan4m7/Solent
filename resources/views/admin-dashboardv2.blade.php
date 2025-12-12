@@ -30,14 +30,14 @@
     <link href="{{ asset('assets') }}/css/ysh-custom-css/OperationsDashboardStyling.css" rel="stylesheet">
     <style>
         :root {
-            --ops-primary: var(--brand-primary, #c89b3c);
-            --ops-secondary: var(--brand-secondary, #e6c77a);
-            --ops-surface: #111722;
-            --ops-surface-alt: #0b1117;
-            --ops-panel: #161f2b;
-            --ops-border: #243042;
-            --ops-text: #f5f5f5;
-            --ops-muted: #a6acb8;
+            --ops-primary: var(--color-accent-gold, #B3872D);
+            --ops-secondary: var(--color-surface-soft, #A6D8D4);
+            --ops-surface: var(--color-surface, #D7DAE5);
+            --ops-surface-alt: var(--color-surface-alt, #B9CDDA);
+            --ops-panel: var(--color-surface, #D7DAE5);
+            --ops-border: rgba(17, 21, 30, 0.12);
+            --ops-text: #11151E;
+            --ops-muted: #4b5563;
         }
 
         body.white-content {
@@ -47,19 +47,20 @@
 
         .sidebar,
         .sidebar .sidebar-wrapper {
-            background: linear-gradient(180deg, var(--ops-surface), var(--ops-panel)) !important;
+            background: var(--color-shell-bg, #11151E) !important;
         }
 
         .sidebar .nav li > a,
         .sidebar .nav li > a p,
         .sidebar .nav li > a i {
-            color: var(--ops-text) !important;
+            color: #f5f7fb !important;
         }
 
         .sidebar .nav li.active > a,
         .sidebar .nav li:hover > a {
-            background: var(--ops-surface-alt) !important;
+            background: rgba(255, 255, 255, 0.06) !important;
             border-left: 3px solid var(--ops-primary);
+            color: var(--ops-primary) !important;
         }
 
         .card,
@@ -82,13 +83,13 @@
 
         .nav-tabs .nav-link.active {
             background: var(--ops-primary);
-            color: #0b0e14;
+            color: #11151E;
             border-color: var(--ops-primary);
         }
 
         table.dataTable thead th,
         .dataTables_wrapper .dataTables_scrollHead th {
-            background: var(--ops-surface-alt);
+            background: var(--ops-surface);
             color: var(--ops-text);
             border-color: var(--ops-border);
         }
@@ -99,6 +100,10 @@
         }
 
         table.dataTable tbody tr:nth-child(even) {
+            background: var(--ops-secondary);
+        }
+
+        table.dataTable tbody tr:hover {
             background: var(--ops-surface-alt);
         }
 
@@ -106,14 +111,14 @@
         .btn-primary {
             background: var(--ops-primary);
             border-color: var(--ops-primary);
-            color: #0b0e14;
+            color: #11151E;
         }
 
         .badge-info,
         .btn-info {
             background: var(--ops-secondary);
             border-color: var(--ops-secondary);
-            color: #0b0e14;
+            color: #11151E;
         }
 
         .dataTables_wrapper .dataTables_paginate .paginate_button {
@@ -137,7 +142,9 @@
 
         .header .navbar,
         .navbar.navbar-transparent {
-            background: var(--ops-panel) !important;
+            background: var(--color-shell-bg, #11151E) !important;
+            color: #f5f7fb !important;
+            border-bottom: 1px solid rgba(179, 135, 45, 0.35);
         }
 
         input[type="checkbox"],

@@ -270,7 +270,7 @@
         <div class="row headerRow" style="display:flex;">
 
             <!-- Logo and title -->
-            <div class="col-lg-7 col-md-7 noPadOnMobile">
+            <div class="col-lg-7 col-md-7 noPadOnMobile" style="flex:1 1 100%;">
                 <div class="container-fluid noPadOnMobile" style="padding-left: 0;">
                     <div class="row left-toggler-container"
                         style="background-color:transparent;padding: 0;flex-wrap: nowrap;align-items: center;">
@@ -293,10 +293,12 @@
                         </div>
 
                         <!--Page Title -->
-                        <div class=" col-sm-9 col-lg-6 noPadOnMobile pageTitleContainer">
-                            <span class="navbar-brand pageTitle"
-                                style="font-weight: 800;">{{ $pageSlug ?? ($brandingName ?? 'Korvion') }}</span>
-                        </div>
+                        @if (!isset($pageSlug) || strtolower($pageSlug) !== 'home')
+                            <div class=" col-sm-9 col-lg-6 noPadOnMobile pageTitleContainer" style="flex:1 1 100%;">
+                                <span class="navbar-brand pageTitle"
+                                    style="font-weight: 800; width: 100%;">{{ $pageSlug ?? ($brandingName ?? 'Korvion') }}</span>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>

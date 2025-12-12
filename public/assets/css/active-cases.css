@@ -1,6 +1,6 @@
 
 
-    body {font-family: 'Roboto', sans-serif;/* background-color: #471c1c; */ /* Light background for contrast */}
+    body {font-family: 'Roboto', sans-serif; background: var(--ops-surface, #D7DAE5); color: var(--ops-text, #11151E);}
 
     .modal-overlay {
         z-index: 9990;
@@ -13,7 +13,7 @@
     }
 
     .modal-container {
-        background-color: #ffffff;
+        background-color: var(--ops-panel, #D7DAE5);
         border-radius: 0.5rem;
         box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
         width: 100%;
@@ -27,8 +27,8 @@
         position: absolute;
         top: 1rem;
         right: 1rem;
-        background-color: #ef4444;
-        color: #ffffff;
+        background-color: var(--ops-primary, #B3872D);
+        color: #11151E;
         border: none;
         border-radius: 50%;
         width: 2rem;
@@ -43,7 +43,7 @@
     }
 
     .close-button:hover {
-        background-color: #dc2626;
+        background-color: #8c6b20;
     }
 
     .modal-title {
@@ -69,13 +69,13 @@
     }
 
     .option-row.orange {
-        background-color: #cd5d0e;
-        /* color: #ffffff; */
+        background-color: var(--ops-secondary, #A6D8D4);
+        color: #11151E;
     }
 
     .option-row.blue {
-        background-color: #3b82f6;
-        color: #ffffff;
+        background-color: var(--ops-primary, #B3872D);
+        color: #11151E;
     }
 
     /*.option-row.blue > .id-circle {*/
@@ -104,17 +104,18 @@
         width: 30px;
         height: 30px;
         border-radius: 50%;
-        background-color: #fefeff; /* Dark blue color for ID circle */
-        color: #333333;
+        background-color: var(--ops-panel, #D7DAE5);
+        color: var(--ops-text, #11151E);
         display: flex;
         justify-content: center;
         align-items: center;
         font-weight: bold;
         padding: 10PX;
+        border: 2px solid var(--ops-border, rgba(17, 21, 30, 0.16));
     }
     .id-circle.selected {
-        background-color: #3b82f6;
-        color: #ffffff;
+        background-color: var(--ops-primary, #B3872D);
+        color: #11151E;
     }
 
     .blackbox-modal .modal-title {
@@ -122,8 +123,8 @@
     }
 
     .option-row.blue {
-        background-color: #3b82f6;
-        color: #ffffff;
+        background-color: var(--ops-primary, #B3872D);
+        color: #11151E;
 
     }
     .option-row {
@@ -143,10 +144,10 @@
     }
 
     .option-row.blue:hover {
-        background-color: #1fa5fe; /* Darker blue on hover */
+        background-color: var(--ops-surface-alt, #B9CDDA); /* Brand hover tint */
     }
     .option-row.orange:hover {
-        background-color: #d8b200; /* Darker blue on hover */
+        background-color: var(--ops-surface-alt, #B9CDDA); /* Brand hover tint */
     }
 
     .text-container {
@@ -202,8 +203,8 @@
     }
 
     .action-button {
-        background: linear-gradient(to right, #3b82f6, #8b5cf6);
-        color: #ffffff;
+        background: linear-gradient(to right, var(--ops-primary, #B3872D), var(--ops-secondary, #A6D8D4));
+        color: #11151E;
         padding: 0.75rem 1.5rem;
         border-radius: 9999px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -213,7 +214,7 @@
     }
 
     .action-button:hover {
-        background: linear-gradient(to right, #2563eb, #7c3aed);
+        background: linear-gradient(to right, #8c6b20, var(--ops-primary, #B3872D));
     }
 
     @media (max-width: 400px) {
@@ -228,15 +229,15 @@
 
     /* === Korvion brand palette overrides for active cases modal === */
     :root {
-        --ops-primary: var(--brand-primary, #0f7c63);
-        --ops-secondary: var(--brand-secondary, #0ab39c);
-        --ops-accent: var(--brand-accent, #9f9886);
-        --ops-surface: #ffffff;
-        --ops-surface-alt: #f5f8fa;
-        --ops-panel: #ffffff;
-        --ops-border: #d9e2ec;
-        --ops-text: #1f2a3d;
-        --ops-muted: #6b7280;
+        --ops-primary: var(--color-accent-gold, #B3872D);
+        --ops-secondary: var(--color-surface-soft, #A6D8D4);
+        --ops-accent: var(--color-accent-gold, #B3872D);
+        --ops-surface: var(--color-surface, #D7DAE5);
+        --ops-surface-alt: var(--color-surface-alt, #B9CDDA);
+        --ops-panel: var(--color-surface, #D7DAE5);
+        --ops-border: rgba(17, 21, 30, 0.16);
+        --ops-text: #11151E;
+        --ops-muted: #4b5563;
     }
 
     body {
@@ -260,7 +261,7 @@
     }
 
     .close-button:hover {
-        background-color: #a67e2f;
+        background-color: #8c6b20;
     }
 
     .option-row {
@@ -282,7 +283,7 @@
 
     .option-row.blue:hover,
     .option-row.orange:hover {
-        background-color: rgba(200, 155, 60, 0.22);
+        background-color: rgba(179, 135, 45, 0.22);
     }
 
     .id-circle {
@@ -311,5 +312,5 @@
     }
 
     .action-button:hover {
-        background: linear-gradient(to right, #a67e2f, var(--ops-primary));
+        background: linear-gradient(to right, #8c6b20, var(--ops-primary));
     }

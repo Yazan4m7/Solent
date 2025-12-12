@@ -852,13 +852,13 @@ YSH-slide-grid {
         * Color Palette
         --------
         */
-   --tab-color-white: #f9f9f9;
-   --tab-color-black: #004345;
-   --tab-color-cadet: #15679b;
-   --tab-color-fighter: #315f5f;
-   --tab-color-space: #383961;
-   --tab-color-gray: #d7d9d7;
-   --tab-color-english: #15679b;
+   --tab-color-white: var(--color-surface, #D7DAE5);
+   --tab-color-black: var(--color-shell-bg, #11151E);
+   --tab-color-cadet: var(--color-accent-gold, #B3872D);
+   --tab-color-fighter: var(--color-shell-bg, #11151E);
+   --tab-color-space: var(--color-shell-bg, #11151E);
+   --tab-color-gray: var(--color-surface-alt, #B9CDDA);
+   --tab-color-english: var(--color-accent-gold, #B3872D);
    /*
         --------
         * CSS Vars
@@ -1119,12 +1119,12 @@ YSH-slide-grid {
         * Color Palette
         --------
         */
-   --tab-color-white: #fff;
-   --tab-color-black: #000;
-   --tab-color-metallic: #358491;
-   --tab-color-platihum: #e6eced;
-   --tab-color-cultured: #f2f9fa;
-   --tab-color-isabelline: #f4f4f4;
+   --tab-color-white: var(--color-surface, #D7DAE5);
+   --tab-color-black: var(--color-shell-bg, #11151E);
+   --tab-color-metallic: var(--color-accent-gold, #B3872D);
+   --tab-color-platihum: var(--color-surface-alt, #B9CDDA);
+   --tab-color-cultured: var(--color-surface, #D7DAE5);
+   --tab-color-isabelline: var(--color-surface-soft, #A6D8D4);
    /*
         --------
         * CSS Vars
@@ -2137,15 +2137,15 @@ blackbox-button-inner.enabled.orange{
 
 /* === Korvion brand palette overrides for operations dashboard === */
 :root {
-   --ops-primary: var(--brand-primary, #0f7c63);
-   --ops-secondary: var(--brand-secondary, #0ab39c);
-   --ops-accent: var(--brand-accent, #9f9886);
-   --ops-surface: #f7f8f9;
-   --ops-surface-alt: #eef2f4;
-   --ops-panel: #ffffff;
-   --ops-border: #d3d9e0;
-   --ops-text: #1f2a3d;
-   --ops-muted: #6b7280;
+   --ops-primary: var(--color-accent-gold, #B3872D);
+   --ops-secondary: var(--color-surface-soft, #A6D8D4);
+   --ops-accent: var(--color-accent-gold, #B3872D);
+   --ops-surface: var(--color-surface, #D7DAE5);
+   --ops-surface-alt: var(--color-surface-alt, #B9CDDA);
+   --ops-panel: var(--color-surface, #D7DAE5);
+   --ops-border: rgba(17, 21, 30, 0.16);
+   --ops-text: #11151E;
+   --ops-muted: #4b5563;
 }
 
 body {

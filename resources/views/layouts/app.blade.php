@@ -27,15 +27,28 @@
             --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
             /* Brand palette (configurable) */
-            --main-blue: var(--brand-primary, #0f7c63);
-            --main-orange: var(--brand-secondary, #0ab39c);
-            --main-green: var(--brand-secondary, #0ab39c);
-            --air-force-blue: var(--brand-primary, #0f7c63);
-            --timber-wolf: #d9e2ec;
-            --rich-black: #1f2a3d;
-            --indigo-dye: #1f2a3d;
-            --cadet-gray: #9FA5AD;
-            --dark-teal: #0f7c63;
+            --color-shell-bg: #11151E;
+            --color-accent-gold: #B3872D;
+            --color-surface: #D7DAE5;
+            --color-surface-alt: #B9CDDA;
+            --color-surface-soft: #A6D8D4;
+            --color-text: #11151E;
+            --color-muted: #4b5563;
+
+            --brand-primary: var(--color-accent-gold);
+            --brand-secondary: var(--color-surface-soft);
+            --brand-accent: var(--color-accent-gold);
+
+            /* Legacy aliases */
+            --main-blue: var(--color-accent-gold);
+            --main-orange: var(--color-accent-gold);
+            --main-green: var(--color-surface-soft);
+            --air-force-blue: var(--color-shell-bg);
+            --timber-wolf: var(--color-surface);
+            --rich-black: var(--color-shell-bg);
+            --indigo-dye: var(--color-shell-bg);
+            --cadet-gray: var(--color-surface-alt);
+            --dark-teal: var(--color-shell-bg);
         }
 
         @font-face {

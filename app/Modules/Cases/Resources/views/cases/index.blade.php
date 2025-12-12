@@ -3,7 +3,7 @@
 
     <style>
         .content{
-            background: #ffffff00;
+
         }
         /* Tooltip styling */
         .tooltiptext {

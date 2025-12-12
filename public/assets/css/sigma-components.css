@@ -10,7 +10,7 @@
   position: relative;
   width: 220px;
   height: 180px;
-  background: white;
+  background: var(--color-surface, #D7DAE5);
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -28,8 +28,8 @@
 
 .Tect
 -device-card.selected {
-  border-color: #15679b;
-  box-shadow: 0 0 0 2px rgba(43, 123, 125, 0.3);
+  border-color: var(--color-accent-gold, #B3872D);
+  box-shadow: 0 0 0 2px rgba(179, 135, 45, 0.3);
 }
 
 .Tect
@@ -60,15 +60,15 @@
 .Tect
 -device-details {
   padding: 10px 15px;
-  background: #f6f9fa;
-  border-top: 1px solid #eaeaea;
+  background: var(--color-surface-alt, #B9CDDA);
+  border-top: 1px solid rgba(17, 21, 30, 0.12);
   transition: background 0.3s ease;
 }
 
 .Tect
 -device-card.selected .Tect
 -device-details {
-  background: rgba(43, 123, 125, 0.1);
+  background: rgba(179, 135, 45, 0.16);
 }
 
 .Tect
@@ -104,12 +104,12 @@
 /* =========== 2. Modern "Assign" and "Complete" Buttons =========== */
 .Tect
 -button {
-    color: white;
+    color: #11151E;
   position: relative;
   display: inline-block;
   padding: 10px 20px;
-  background: #15679b;
-  color: white;
+  background: var(--color-accent-gold, #B3872D);
+  color: #11151E;
   border: none;
   border-radius: 6px;
   font-weight: 500;
@@ -148,7 +148,7 @@
 
 .Tect
 -button:hover {
-  background: #1d6062;
+  background: #8c6b20;
   box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
 }
 
@@ -160,7 +160,7 @@
 
 .Tect
 -button.assign {
-  background: #15679b;
+  background: var(--color-accent-gold, #B3872D);
 }
 
 .Tect
@@ -215,8 +215,8 @@
 
 .Tect
 -case-row.selected {
-  background: rgba(43, 123, 125, 0.05);
-  border-left: 4px solid #15679b;
+  background: rgba(179, 135, 45, 0.08);
+  border-left: 4px solid var(--color-accent-gold, #B3872D);
 }
 
 .Tect
@@ -266,9 +266,9 @@
 .Tect
 -case-units {
   width: 10%;
-  color: #15679b;
+  color: var(--color-accent-gold, #B3872D);
   font-weight: 600;
-  background: rgba(43, 123, 125, 0.1);
+  background: rgba(179, 135, 45, 0.14);
   border-radius: 50px;
   height: 24px;
   width: 24px;
@@ -416,8 +416,8 @@
 /* Notes in Dialog */
 .Tect
 -note {
-  background: #f8f9fa;
-  border-left: 3px solid #15679b;
+  background: var(--color-surface, #D7DAE5);
+  border-left: 3px solid var(--color-accent-gold, #B3872D);
   padding: 10px 15px;
   border-radius: 4px;
   margin-bottom: 10px;
@@ -480,7 +480,7 @@
 
 .Tect
 -job-units {
-  color: #15679b;
+  color: var(--color-accent-gold, #B3872D);
   font-weight: 600;
   margin-right: 10px;
   min-width: 30px;

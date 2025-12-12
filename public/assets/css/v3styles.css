@@ -33,8 +33,8 @@
 
 .Tect
 -machine-card.selected {
-    border-color: #007bff;
-    background: #f0f7ff;
+    border-color: var(--ops-primary);
+    background: var(--ops-surface-alt);
     animation: pulse 1.5s infinite;
 }
 
@@ -105,7 +105,7 @@
 .Tect
 -info-icon {
     font-size: 1.25rem;
-    color: #007bff;
+    color: var(--ops-primary);
     margin-right: 12px;
 }
 
@@ -245,7 +245,7 @@
 .Tect
 -info-icon {
     font-size: 1.25rem;
-    color: #007bff;
+    color: var(--ops-primary);
     margin-right: 12px;
 }
 
@@ -281,15 +281,15 @@
 
 /* === Korvion brand palette overrides for operations UI === */
 :root {
-    --ops-primary: var(--brand-primary, #0f7c63);
-    --ops-secondary: var(--brand-secondary, #0ab39c);
-    --ops-accent: var(--brand-accent, #9f9886);
-    --ops-surface: #ffffff;
-    --ops-surface-alt: #f5f8fa;
-    --ops-panel: #ffffff;
-    --ops-border: #d9e2ec;
-    --ops-text: #1f2a3d;
-    --ops-muted: #6b7280;
+    --ops-primary: var(--color-accent-gold, #B3872D);
+    --ops-secondary: var(--color-surface-soft, #A6D8D4);
+    --ops-accent: var(--color-accent-gold, #B3872D);
+    --ops-surface: var(--color-surface, #D7DAE5);
+    --ops-surface-alt: var(--color-surface-alt, #B9CDDA);
+    --ops-panel: var(--color-surface, #D7DAE5);
+    --ops-border: rgba(17, 21, 30, 0.12);
+    --ops-text: #11151E;
+    --ops-muted: #4b5563;
 }
 
 .Tect
@@ -555,19 +555,19 @@
 .YSH-container {
     width: -webkit-fill-available;
 
-    border: 1px solid #d1d5db; /* Tailwind gray-300 */
+    border: 1px solid rgba(17, 21, 30, 0.12); /* Tailwind gray-300 */
     border-radius: 0.5rem;
-    background: linear-gradient(to bottom, #ffffff, #154fa5); /* from-gray-100 to-gray-300 */
+    background: linear-gradient(to bottom, var(--color-surface, #D7DAE5), var(--color-surface-alt, #B9CDDA)); /* from-gray-100 to-gray-300 */
     box-shadow: inset 0 2px 4px rgb(0 0 0 / 0.1);
 }
 .YSH-header {
-    background-color: #15679b;
-    border-bottom: 1px solid #133f81;
+    background-color: var(--color-shell-bg, #11151E);
+    border-bottom: 1px solid var(--color-accent-gold, #B3872D);
     text-align: center;
     font-weight: 600;
-    color: white; /* Tailwind gray-800 */
+    color: #f5f7fb; /* Tailwind gray-800 */
     padding: 0.5rem 0.5rem;
-    border-bottom: 1px solid #d1d5db;
+    border-bottom: 1px solid rgba(17, 21, 30, 0.12);
     border-top-left-radius: 0.5rem;
     border-top-right-radius: 0.5rem;
     user-select: none;
@@ -578,12 +578,12 @@
     width: -webkit-fill-available;
     box-shadow: inset 0 2px 4px rgba(60, 60, 60, 0.1);
     max-height: 95%;
-    border: 1px solid #d1d5db;
+    border: 1px solid rgba(17, 21, 30, 0.12);
     display: flex;
     justify-content: center;
     gap: 2rem;
     padding: 2rem;
-    background: linear-gradient(to bottom, #ffffff, #d1d5db); /* from-gray-200 to-gray-300 */
+    background: linear-gradient(to bottom, var(--color-surface, #D7DAE5), var(--color-surface-soft, #A6D8D4)); /* from-gray-200 to-gray-300 */
     border-bottom-left-radius: 0.5rem;
     border-bottom-right-radius: 0.5rem;
     flex-wrap: nowrap;
@@ -902,8 +902,8 @@
 
 .Tect
 -machine-card.selected {
-    border-color: #007bff;
-    background: #f0f7ff;
+    border-color: var(--ops-primary);
+    background: var(--ops-surface-alt);
 }
 
 .Tect
@@ -986,7 +986,7 @@
 .Tect
 -info-icon {
     font-size: 1.25rem;
-    color: #007bff;
+    color: var(--ops-primary);
     margin-right: 12px;
 }
 
@@ -1124,7 +1124,7 @@
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background-color: white;
+    background-color: var(--ops-panel);
     border-radius: 8px;
     padding: 12px 16px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
@@ -1134,7 +1134,8 @@
     z-index: 10001;
     max-width: 300px;
     font-size: 14px;
-    border-left: 4px solid #007bff;
+    border-left: 4px solid var(--ops-primary);
+    color: var(--ops-text);
 }
 
 .Tect
@@ -1568,6 +1569,167 @@
         0 0 30px rgba(44, 168, 255, 0.8),
         0 0 60px rgba(44, 168, 255, 0.6),
         0 0 90px rgba(44, 168, 255, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.neon-action-button:active {
+    transform: translateY(-1px);
+    transition: transform 0.1s ease;
+}
+
+/* Theme alignment overrides */
+.Tect
+-form-control:focus {
+    border-color: var(--ops-primary);
+    box-shadow: 0 0 0 3px rgba(179, 135, 45, 0.22);
+    outline: none;
+}
+
+.Tect
+-info-block {
+    background-color: var(--ops-surface-soft);
+    color: var(--ops-text);
+    border: 1px solid var(--ops-border);
+}
+
+.Tect
+-info-icon {
+    color: var(--ops-primary);
+}
+
+.Tect
+-workflow-header {
+    background-color: var(--ops-surface);
+    background-image: none;
+    border-bottom: 1px solid var(--ops-border);
+    color: var(--ops-text);
+}
+
+.Tect
+-workflow-title {
+    color: var(--ops-text);
+    text-shadow: none;
+}
+
+.Tect
+-close-button {
+    background: var(--ops-panel);
+    color: var(--ops-text);
+    box-shadow: 0 2px 5px rgba(17, 21, 30, 0.12);
+}
+
+.Tect
+-close-button:hover {
+    color: var(--ops-primary);
+    background: var(--ops-surface-alt);
+    box-shadow: 0 2px 8px rgba(179, 135, 45, 0.3);
+    transform: scale(1.05);
+}
+
+.delivery-dialog .modal-content,
+.delivery-dialog .Tect
+-workflow-body {
+    background: var(--ops-panel);
+    color: var(--ops-text);
+}
+
+.delivery-cases-container {
+    background-color: var(--ops-surface);
+    border: 1px solid var(--ops-border);
+}
+
+.Tect
+-device-card {
+    background-color: var(--ops-panel);
+    border: 1px solid var(--ops-border);
+    color: var(--ops-text);
+}
+
+.delivery-header-row {
+    background-color: var(--color-shell-bg, #11151E);
+    color: #f5f7fb;
+}
+
+.delivery-case-item {
+    background-color: var(--ops-panel);
+    color: var(--ops-text);
+    border-bottom: 1px solid var(--ops-border);
+}
+
+.delivery-case-item:nth-child(even) {
+    background-color: var(--ops-surface-alt);
+}
+
+.delivery-case-item:hover {
+    background-color: var(--ops-surface-alt);
+}
+
+.delivery-case-item.selected {
+    background-color: rgba(179, 135, 45, 0.18);
+    box-shadow: inset 0 0 0 1px var(--ops-primary);
+}
+
+.delivery-actions,
+.delivery-progress {
+    background-color: var(--ops-surface);
+}
+
+.delivery-actions {
+    border-top: 1px solid var(--ops-border);
+}
+
+.delivery-progress {
+    border-bottom: 1px solid var(--ops-border);
+}
+
+.delivery-step:not(:last-child)::after {
+    background-color: var(--ops-border);
+}
+
+.delivery-step-circle {
+    background-color: var(--ops-panel);
+    color: var(--ops-text);
+}
+
+.delivery-step.active .delivery-step-circle {
+    background-color: var(--ops-primary);
+    color: #11151E;
+    box-shadow: 0 0 0 5px rgba(179, 135, 45, 0.25);
+}
+
+.delivery-step-label {
+    color: var(--ops-muted);
+}
+
+.delivery-step.active .delivery-step-label {
+    color: var(--ops-primary);
+}
+
+/* Neon action button realignment */
+.neon-action-button {
+    background: var(--ops-primary);
+    border: 2px solid var(--ops-primary);
+    box-shadow: 0 0 20px rgba(179, 135, 45, 0.35), 0 0 40px rgba(179, 135, 45, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.neon-action-button:hover {
+    color: white;
+    background: #9c7226;
+    box-shadow:
+        0 0 30px rgba(179, 135, 45, 0.55),
+        0 0 60px rgba(179, 135, 45, 0.35),
+        0 0 90px rgba(179, 135, 45, 0.22),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    border-color: #9c7226;
+    transform: translateY(-2px);
+}
+
+.neon-action-button:focus {
+    outline: none;
+    box-shadow:
+        0 0 30px rgba(179, 135, 45, 0.55),
+        0 0 60px rgba(179, 135, 45, 0.35),
+        0 0 90px rgba(179, 135, 45, 0.22),
         inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 

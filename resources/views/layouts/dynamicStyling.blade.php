@@ -39,17 +39,17 @@
 
     <!-- Sidebar -->
     a {
-        color: {{config('site_vars.sidebarFirstColor')}} ;
+        color: var(--color-accent-gold, {{config('site_vars.sidebarFirstColor')}});
     }
     a:hover, a:focus {
-        color: {{config('site_vars.sidebarSecondColor')}};
+        color: var(--color-surface-soft, {{config('site_vars.sidebarSecondColor')}});
     }
     .sidebar, .off-canvas-sidebar {
 
-        linear-gradient(318deg, #0d71ac 0%, #002829 100%);
+        background: var(--color-shell-bg, {{config('site_vars.sidebarFirstColor')}});
        }
     .main-panel {
-        border-top: 2px solid {{config('site_vars.sidebarFirstColor')}};
+        border-top: 2px solid var(--color-accent-gold, {{config('site_vars.sidebarFirstColor')}});
     }
 
     <!-- Buttons -->

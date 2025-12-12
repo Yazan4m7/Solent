@@ -49,6 +49,7 @@
   --breakpoint-xl: 1200px;
   --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    --ed-sidebar-width: 260px;
 }
 
 *,
@@ -66,9 +67,9 @@ html {
   -webkit-tap-highlight-color: rgba(34, 42, 66, 0);
 }
 
-@-ms-viewport {
-  width: device-width;
-}
+/*@-ms-viewport {*/
+/*  width: device-width;*/
+/*}*/
 
 article,
 aside,
@@ -2393,7 +2394,7 @@ fieldset:disabled a.btn {
 .btn-primary:not(:disabled):not(.disabled):active:focus,
 .btn-primary:not(:disabled):not(.disabled).active:focus,
 .show>.btn-primary.dropdown-toggle:focus {
-  box-shadow: none, 0 0 0 0 rgba(225, 78, 202, 0.5);
+  box-shadow: 0 0 0 rgba(225, 78, 202, 0.5);
 }
 
 .btn-secondary {
@@ -2432,7 +2433,7 @@ fieldset:disabled a.btn {
 .btn-secondary:not(:disabled):not(.disabled):active:focus,
 .btn-secondary:not(:disabled):not(.disabled).active:focus,
 .show>.btn-secondary.dropdown-toggle:focus {
-  box-shadow: none, 0 0 0 0 rgba(244, 245, 247, 0.5);
+  box-shadow:  0 0 rgba(244, 245, 247, 0.5);
 }
 
 .btn-success {
@@ -2471,7 +2472,7 @@ fieldset:disabled a.btn {
 .btn-success:not(:disabled):not(.disabled):active:focus,
 .btn-success:not(:disabled):not(.disabled).active:focus,
 .show>.btn-success.dropdown-toggle:focus {
-  box-shadow: none, 0 0 0 0 rgba(0, 242, 195, 0.5);
+  box-shadow:  0 0 0 rgba(0, 242, 195, 0.5);
 }
 
 .btn-info {
@@ -2510,7 +2511,7 @@ fieldset:disabled a.btn {
 .btn-info:not(:disabled):not(.disabled):active:focus,
 .btn-info:not(:disabled):not(.disabled).active:focus,
 .show>.btn-info.dropdown-toggle:focus {
-  box-shadow: none, 0 0 0 0 rgba(29, 140, 248, 0.5);
+  box-shadow:  0 0 0 hsla(210, 94%, 54%, 0.5);
 }
 
 .btn-warning {
@@ -2549,7 +2550,7 @@ fieldset:disabled a.btn {
 .btn-warning:not(:disabled):not(.disabled):active:focus,
 .btn-warning:not(:disabled):not(.disabled).active:focus,
 .show>.btn-warning.dropdown-toggle:focus {
-  box-shadow: none, 0 0 0 0 rgba(255, 141, 114, 0.5);
+  box-shadow: 0 0 0 rgba(255, 141, 114, 0.5);
 }
 
 .btn-danger {
@@ -2588,7 +2589,7 @@ fieldset:disabled a.btn {
 .btn-danger:not(:disabled):not(.disabled):active:focus,
 .btn-danger:not(:disabled):not(.disabled).active:focus,
 .show>.btn-danger.dropdown-toggle:focus {
-  box-shadow: none, 0 0 0 0 rgba(253, 93, 147, 0.5);
+  box-shadow: 0 0 0 rgba(253, 93, 147, 0.5);
 }
 
 .btn-light {
@@ -2627,7 +2628,7 @@ fieldset:disabled a.btn {
 .btn-light:not(:disabled):not(.disabled):active:focus,
 .btn-light:not(:disabled):not(.disabled).active:focus,
 .show>.btn-light.dropdown-toggle:focus {
-  box-shadow: none, 0 0 0 0 rgba(173, 181, 189, 0.5);
+  box-shadow: 0 0 0 rgba(173, 181, 189, 0.5);
 }
 
 .btn-dark {
@@ -2666,7 +2667,7 @@ fieldset:disabled a.btn {
 .btn-dark:not(:disabled):not(.disabled):active:focus,
 .btn-dark:not(:disabled):not(.disabled).active:focus,
 .show>.btn-dark.dropdown-toggle:focus {
-  box-shadow: none, 0 0 0 0 rgba(33, 37, 41, 0.5);
+  box-shadow: 0 0 0 rgba(33, 37, 41, 0.5);
 }
 
 .btn-default {
@@ -2705,7 +2706,7 @@ fieldset:disabled a.btn {
 .btn-default:not(:disabled):not(.disabled):active:focus,
 .btn-default:not(:disabled):not(.disabled).active:focus,
 .show>.btn-default.dropdown-toggle:focus {
-  box-shadow: none, 0 0 0 0 rgba(52, 70, 117, 0.5);
+  box-shadow: 0 0 0 rgba(52, 70, 117, 0.5);
 }
 
 .btn-white {
@@ -2744,7 +2745,7 @@ fieldset:disabled a.btn {
 .btn-white:not(:disabled):not(.disabled):active:focus,
 .btn-white:not(:disabled):not(.disabled).active:focus,
 .show>.btn-white.dropdown-toggle:focus {
-  box-shadow: none, 0 0 0 0 rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 0 rgba(255, 255, 255, 0.5);
 }
 
 .btn-neutral {
@@ -2783,7 +2784,7 @@ fieldset:disabled a.btn {
 .btn-neutral:not(:disabled):not(.disabled):active:focus,
 .btn-neutral:not(:disabled):not(.disabled).active:focus,
 .show>.btn-neutral.dropdown-toggle:focus {
-  box-shadow: none, 0 0 0 0 rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 0 rgba(255, 255, 255, 0.5);
 }
 
 .btn-darker {
@@ -2822,7 +2823,7 @@ fieldset:disabled a.btn {
 .btn-darker:not(:disabled):not(.disabled):active:focus,
 .btn-darker:not(:disabled):not(.disabled).active:focus,
 .show>.btn-darker.dropdown-toggle:focus {
-  box-shadow: none, 0 0 0 0 rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0.5);
 }
 
 .btn-outline-primary {
@@ -10395,7 +10396,7 @@ a.text-darker:focus {
   background-image: -webkit-linear-gradient(to bottom left, #344675, #263148, #344675);
   background-image: -o-linear-gradient(to bottom left, #344675, #263148, #344675);
   background-image: -moz-linear-gradient(to bottom left, #344675, #263148, #344675);
-  background-image: linear-gradient(to bottom left, #c5ddc9, #6c6c6c, #6c6c6c)
+  background-image: linear-gradient(to bottom left, #c5ddc9, #6c6c6c, #6c6c6c);
   background-size: 210% 210%;
   background-position: top right;
   background-color: #979797;
@@ -17964,7 +17965,7 @@ Copyright (c) 2015 Daniel Eden
 
 .white-content.bd-docs .bd-example {
   background: linear-gradient(#f5f6fa, #f5f6fa);
-}  
+}
 
 .breadcrumb-item.active {
   color: rgba(34, 42, 66, 0.7);

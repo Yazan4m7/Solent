@@ -443,7 +443,7 @@
 
     <div class="copyright">
         {{ now()->year }}
-        <a target="_blank">©  <b style="color: var(--brand-primary, #c89b3c)"> {{ $brandingName ?? 'Korvion' }} </b></a>
+        <a target="_blank">©  <b style="color: var(--brand-primary, #c89b3c)"> Korvex </b></a>
 
     </div>
     <script>
