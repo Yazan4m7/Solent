@@ -42,7 +42,7 @@
                 <div class="hero-inner" style="position: absolute;
     right: 0;">
                     <div class="hero-copy">
-                        <h1 class="hero-title mt-0">Welcome to {{ $brandingName ?? 'Korvion' }}</h1>
+                        <h1 class="hero-title mt-0">Welcome to {{ $brandingName ?? 'Korvex' }}</h1>
                         <p class="hero-paragraph">Click on one of the options on the left sidebar to get started, if none exists contact admin.</p>
 
                     </div>

@@ -1,27 +1,30 @@
 @extends('layouts.app' ,[ 'pageSlug' => "Edit Case"])
 
 @section('content')
+    @php
+        $currencyLabel = (string) ($currencyContext['display'] ?? $currencyContext['code'] ?? 'JOD');
+    @endphp
     <link rel="stylesheet" href="{{asset('assets/css/lightgallery.css')}}" />
     <link rel="stylesheet" href="{{asset('assets/css/jquery.imagesloader.css')}}" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://cdn.jsdelivr.net/lightgallery/1.3.9/css/lightgallery.min.css" rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <!-- Alrazi Case Form Styling -->
+    <!-- Albasma Case Form Styling -->
     <style>
         /* ========================================
-           ALRAZI DENTAL LAB - CASE FORM STYLING
+           Albasma DENTAL LAB - CASE FORM STYLING
            ======================================== */
 
         :root {
-            --alrazi-primary: #6A94AF;
-            --alrazi-secondary: #1E4157;
-            --alrazi-accent: #043c4d;
-            --alrazi-light: #E1D9D5;
-            --alrazi-dark: #000C19;
-            --alrazi-gray: #9FA5AD;
-            --alrazi-success: #2dce89;
-            --alrazi-warning: #ff8d72;
+            --Albasma-primary: #6A94AF;
+            --Albasma-secondary: #1E4157;
+            --Albasma-accent: #043c4d;
+            --Albasma-light: #E1D9D5;
+            --Albasma-dark: #000C19;
+            --Albasma-gray: #9FA5AD;
+            --Albasma-success: #2dce89;
+            --Albasma-warning: #ff8d72;
         }
 
         /* Main Form Card */
@@ -35,7 +38,7 @@
 
         /* Form Header Sections */
         .kt-portlet__head {
-            background: linear-gradient(135deg, var(--alrazi-primary) 0%, var(--alrazi-secondary) 100%);
+            background: linear-gradient(135deg, var(--Albasma-primary) 0%, var(--Albasma-secondary) 100%);
             padding: 20px 30px;
             border-radius: 12px;
             margin-bottom: 25px;
@@ -57,7 +60,7 @@
 
         /* Form Labels */
         label, .kt-label {
-            color: var(--alrazi-secondary);
+            color: var(--Albasma-secondary);
             font-weight: 600;
             font-size: 0.9rem;
             margin-bottom: 8px;
@@ -80,7 +83,7 @@
         .form-control:focus,
         .selectpicker:focus,
         select.form-control:focus {
-            border-color: var(--alrazi-primary);
+            border-color: var(--Albasma-primary);
             box-shadow: 0 0 0 3px rgba(106, 148, 175, 0.15);
             outline: none;
         }
@@ -88,7 +91,7 @@
         /* Job Repeater Items */
         .row-item {
             background: linear-gradient(135deg, rgba(225, 217, 213, 0.3) 0%, rgba(255, 255, 255, 0.9) 100%);
-            border: 2px solid var(--alrazi-light) !important;
+            border: 2px solid var(--Albasma-light) !important;
             border-radius: 16px !important;
             padding: 20px !important;
             margin-bottom: 20px;
@@ -99,7 +102,7 @@
         .row-item:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(106, 148, 175, 0.15);
-            border-color: var(--alrazi-primary) !important;
+            border-color: var(--Albasma-primary) !important;
         }
 
         /* Unit Selection Button */
@@ -108,7 +111,7 @@
             width: 100%;
             height: 100%;
             display: block;
-            background: linear-gradient(135deg, var(--alrazi-primary) 0%, var(--alrazi-secondary) 100%);
+            background: linear-gradient(135deg, var(--Albasma-primary) 0%, var(--Albasma-secondary) 100%);
             color: white;
             border: none;
             border-radius: 10px;
@@ -121,7 +124,7 @@
         .slctUnitsBtn:hover:not(:disabled) {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(106, 148, 175, 0.4);
-            background: linear-gradient(135deg, var(--alrazi-secondary) 0%, var(--alrazi-accent) 100%);
+            background: linear-gradient(135deg, var(--Albasma-secondary) 0%, var(--Albasma-accent) 100%);
         }
 
         .slctUnitsBtn:disabled {
@@ -133,7 +136,7 @@
 
         /* Add Job Button */
         #addJobBtn {
-            background: linear-gradient(135deg, var(--alrazi-success) 0%, #20a86b 100%) !important;
+            background: linear-gradient(135deg, var(--Albasma-success) 0%, #20a86b 100%) !important;
             border: none !important;
             padding: 14px 28px !important;
             border-radius: 10px !important;
@@ -160,14 +163,14 @@
         }
 
         .bootstrap-select .dropdown-toggle:focus {
-            border-color: var(--alrazi-primary) !important;
+            border-color: var(--Albasma-primary) !important;
             box-shadow: 0 0 0 3px rgba(106, 148, 175, 0.15);
         }
 
         /* Green/Grey Background Classes */
         .greenBG {
             background-color: rgba(45, 206, 137, 0.1) !important;
-            border-color: var(--alrazi-success) !important;
+            border-color: var(--Albasma-success) !important;
         }
 
         .greyBG {
@@ -176,13 +179,41 @@
 
         /* Horizontal Rules */
         hr {
-            border-top: 2px solid var(--alrazi-light);
+            border-top: 2px solid var(--Albasma-light);
             margin: 25px 0;
         }
 
         /* Row Spacing */
         .row {
             margin-bottom: 15px;
+        }
+
+        .case-summary-row {
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .case-summary-row > [class*="col-"] {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .case-summary-row > [class*="col-"] > .col-md-12,
+        .case-summary-row > [class*="col-"] > .col-md-6 {
+            width: 100%;
+            max-width: 100%;
+            flex: 0 0 100%;
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        .case-summary-row .form-control,
+        .case-summary-row select.form-control,
+        .case-summary-row .bootstrap-select,
+        .case-summary-row .bootstrap-select > .dropdown-toggle {
+            width: 100% !important;
+            margin: 0;
         }
 
         /* Modal Adjustments */
@@ -233,7 +264,7 @@
 
         /* Submit/Action Buttons */
         .btn-primary {
-            background: linear-gradient(135deg, var(--alrazi-primary) 0%, var(--alrazi-secondary) 100%);
+            background: linear-gradient(135deg, var(--Albasma-primary) 0%, var(--Albasma-secondary) 100%);
             border: none;
             border-radius: 10px;
             padding: 12px 24px;
@@ -245,7 +276,7 @@
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(106, 148, 175, 0.4);
-            background: linear-gradient(135deg, var(--alrazi-secondary) 0%, var(--alrazi-accent) 100%);
+            background: linear-gradient(135deg, var(--Albasma-secondary) 0%, var(--Albasma-accent) 100%);
         }
 
         /* Form Section Spacing */
@@ -265,7 +296,7 @@
 
         /* Secondary Buttons (Close, Cancel) */
         .btn-secondary {
-            background: linear-gradient(135deg, var(--alrazi-gray) 0%, #8a9199 100%);
+            background: linear-gradient(135deg, var(--Albasma-gray) 0%, #8a9199 100%);
             border: none;
             border-radius: 10px;
             padding: 12px 24px;
@@ -352,12 +383,12 @@
             justify-content: flex-end;
             margin-top: 30px;
             padding-top: 25px;
-            border-top: 2px solid var(--alrazi-light);
+            border-top: 2px solid var(--Albasma-light);
         }
 
         /* Image Upload Area Enhancement */
         .image-upload-area {
-            border: 2px dashed var(--alrazi-primary);
+            border: 2px dashed var(--Albasma-primary);
             border-radius: 12px;
             padding: 25px;
             background: rgba(106, 148, 175, 0.05);
@@ -366,13 +397,13 @@
 
         .image-upload-area:hover {
             background: rgba(106, 148, 175, 0.1);
-            border-color: var(--alrazi-secondary);
+            border-color: var(--Albasma-secondary);
         }
 
         /* Notes Section */
         .notes-section {
             background: rgba(225, 217, 213, 0.2);
-            border-left: 4px solid var(--alrazi-primary);
+            border-left: 4px solid var(--Albasma-primary);
             padding: 20px;
             border-radius: 8px;
             margin: 20px 0;
@@ -396,7 +427,7 @@
         }
 
         input[name^="caseId"]:focus {
-            border-color: var(--alrazi-primary);
+            border-color: var(--Albasma-primary);
             box-shadow: 0 0 0 3px rgba(106, 148, 175, 0.15);
         }
 
@@ -435,7 +466,7 @@
         <input name="id" type="hidden" value="{{$case->id}}" />
     <!-- CASE INFO -->
 
-        <div class="row">
+        <div class="row case-summary-row">
             <div class="col-md-3 col-xs-6 col-l-3 col-xl-3">
                 <div class="col-md-12 col-xs-12"><label>Doctor:</label></div>
                 <div class="col-md-12 col-xs-12">
@@ -463,7 +494,7 @@
                 <div class="col-md-12 col-xs-12">
 
                     <label >{{$case->case_id}}</label>
-                   
+
                 </div>
 
             </div>
@@ -471,7 +502,7 @@
         </div>
 
             <br/>
-        <div class="row">
+        <div class="row case-summary-row">
 
             <div class="col-md-4  col-xs-6 col-l-2  col-xl-3">
                 <div class="col-md-12 col-xs-12"><label>Delivery Date:</label></div>
@@ -930,15 +961,15 @@
                            {{$discountExists ? 'checked' : ''}}
                            onclick='toggleDiscountPortion(this)'
                    />
-                    Make a Discount  {{$discountExists}} 11
+                    Make a Discount
                 </label>
 
                 <br>
                 <div class="form-group form-group row discountPortion" style="{{$discountExists ? '' : 'display:none'}}" >
                     <div class="col-md-3 col-xs-6">
                         <input class="form-control" type="number" name="discount_amount"
-                               placeholder="Amount (JOD)" value="{{$discountExists ? $case->discount->discount : ""}}"/>
-                        <small>JOD</small>
+                               placeholder="Amount ({{ $currencyLabel }})" value="{{$discountExists ? $case->discount->discount : ""}}"/>
+                        <small>{{ $currencyLabel }}</small>
                     </div>
                     <div class="col-md-6 col-xs-6">
                         <input class="form-control" type="text" name="discount_reason"
@@ -972,7 +1003,6 @@
                     </div>
                 @endforeach
 
-                <form></form>
                 <form  style="" class="noteform " method="POST" enctype="multipart/form-data"   action="{{route('new-note')}}">
                     @csrf
                     <div class="row" style="padding:0px">
@@ -1066,7 +1096,7 @@
                 <input type="file" id="images" class="form-control" name="images[]" placeholder="Upload any file type (max 50MB each)"
                        multiple style="cursor: pointer;">
                 <small class="form-text text-muted">Upload any file type. Maximum size: 50MB per file.</small>
-                
+
                 <!-- File Upload Preview Container -->
                 <div id="file-preview-container" class="mt-3" style="display: none;">
                     <h6>Selected Files:</h6>
@@ -1460,18 +1490,18 @@
                 const files = e.target.files;
                 const previewContainer = $('#file-preview-container');
                 const previewList = $('#file-preview-list');
-                
+
                 // Clear previous previews
                 previewList.empty();
-                
+
                 if (files.length > 0) {
                     previewContainer.show();
-                    
+
                     Array.from(files).forEach(function(file, index) {
                         const fileName = file.name.length > 15 ? file.name.substring(0, 15) + '...' : file.name;
                         const fileSize = (file.size / 1024 / 1024).toFixed(2) + ' MB';
                         const isImage = file.type.startsWith('image/');
-                        
+
                         if (isImage) {
                             const reader = new FileReader();
                             reader.onload = function(e) {
@@ -1483,7 +1513,7 @@
                                                 <div title="${file.name}">${fileName}</div>
                                                 <div class="text-muted">${fileSize}</div>
                                             </div>
-                                            <button type="button" class="btn btn-danger btn-sm remove-new-file" data-index="${index}" 
+                                            <button type="button" class="btn btn-danger btn-sm remove-new-file" data-index="${index}"
                                                     style="position: absolute; top: 5px; right: 5px; padding: 2px 6px; font-size: 10px;">
                                                 <i class="fa fa-times"></i>
                                             </button>
@@ -1502,7 +1532,7 @@
                                             <div title="${file.name}">${fileName}</div>
                                             <div class="text-muted">${fileSize}</div>
                                         </div>
-                                        <button type="button" class="btn btn-danger btn-sm remove-new-file" data-index="${index}" 
+                                        <button type="button" class="btn btn-danger btn-sm remove-new-file" data-index="${index}"
                                                 style="position: absolute; top: 5px; right: 5px; padding: 2px 6px; font-size: 10px;">
                                             <i class="fa fa-times"></i>
                                         </button>
@@ -1516,28 +1546,28 @@
                     previewContainer.hide();
                 }
             });
-            
+
             // Handle new file removal from preview
             $(document).on('click', '.remove-new-file', function() {
                 const indexToRemove = $(this).data('index');
                 const fileInput = document.getElementById('images');
                 const dt = new DataTransfer();
-                
+
                 Array.from(fileInput.files).forEach(function(file, index) {
                     if (index !== indexToRemove) {
                         dt.items.add(file);
                     }
                 });
-                
+
                 fileInput.files = dt.files;
                 $('#images').trigger('change');
             });
-            
+
             // Handle existing attachment deletion
             $(document).on('click', '.delete-attachment', function() {
                 const photoId = $(this).data('photo-id');
                 const attachmentItem = $(this).closest('.col-xs-6, .col-sm-4, .col-md-3, .col-lg-3');
-                
+
                 if (confirm('Are you sure you want to delete this attachment?')) {
                     $.ajax({
                         url: '/attachment/delete/' + photoId,
@@ -1655,7 +1685,7 @@
                 var styleOptionsName = repeaterName  +"[style"+jobId+"]";
                 /* Updating dropdowns according to teeth selection
                  * First if is for jaws, second is for teeth
-                 * @Yazan - Korvion
+                 * @Yazan - Korvex
                  */
 
                 if (jQuery.inArray("lower", teethSelectedAsArr) !== -1 || jQuery.inArray("upper", teethSelectedAsArr) !== -1) {
@@ -1959,6 +1989,10 @@
                 stagesDropDown.append($("<option></option>")
                     .attr("value", 5)
                     .text("Pressing Furnace"));
+            if (materialSelected.metal_work ==1 )
+                stagesDropDown.append($("<option></option>")
+                    .attr("value", 9)
+                    .text("Metal Work"));
             if (materialSelected.finish ==1 )
                 stagesDropDown.append($("<option></option>")
                     .attr("value", 6)
@@ -2073,7 +2107,7 @@
             var styleOptionsName = repeaterName2  +"[style]";
             /* Updating dropdowns according to teeth selection
              * First if is for jaws, second is for teeth
-             * @Yazan - Korvion
+             * @Yazan - Korvex
              */
             console.log("[name='" + repeaterName2 + "[abutment]']");
             if (jQuery.inArray("lower",teethSelectedAsArr)  !== -1|| jQuery.inArray("upper",teethSelectedAsArr) !== -1) {

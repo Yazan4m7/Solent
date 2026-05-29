@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\UserPermission;
 use App\Permission;
+use App\Support\Tenancy\TenantStorage;
 use DB;
 use Hash;
 use Illuminate\Support\Facades\Cache;
@@ -51,9 +52,10 @@ return view('users.index')->with('users', $users)->with('status',$status)->with(
             'username' => 'required|unique:users,username',
             'first_name'     => 'required',
             'last_name'    => 'required',
+            'email' => 'required|email|unique:users,email',
             'password' => 'required|confirmed|min:1',
             'password_confirmation' => 'required',
-            'phone'    => 'required',
+            'phone'    => 'required|unique:users,phone',
             'permission' => 'required_if:is_admin,null',
             'permission.*' => 'exists:permissions,id',
             'photo' => 'nullable|image|mimes:png|max:5120',
@@ -81,16 +83,7 @@ return view('users.index')->with('users', $users)->with('status',$status)->with(
             if ($request->hasFile('driver_image') && !$admin && in_array(131, $request->permission ?? [])) {
                 $driverImage = $request->file('driver_image');
                 $imageName = 'driver_' . time() . '.' . $driverImage->getClientOriginalExtension();
-                $imagePath = 'users/drivers/' . $imageName;
-
-                // Make sure directory exists
-                $directory = public_path('users/drivers');
-                if (!file_exists($directory)) {
-                    mkdir($directory, 0755, true);
-                }
-
-                // Move the file
-                $driverImage->move($directory, $imageName);
+                $imagePath = app(TenantStorage::class)->moveUploadedFile($driverImage, 'users/drivers', $imageName);
 
                 // Add image path to user data
                 $userData['img'] = $imagePath;
@@ -100,14 +93,7 @@ return view('users.index')->with('users', $users)->with('status',$status)->with(
 
             // Handle profile image upload
             if ($request->hasFile('photo')) {
-                // Create directory if it doesn't exist
-                $path = public_path('/users/' . $users->id);
-                if (!file_exists($path)) {
-                    mkdir($path, 0755, true);
-                }
-
-                // Move the uploaded file
-                $request->file('photo')->move($path, 'profile_picture.png');
+                app(TenantStorage::class)->moveUploadedFile($request->file('photo'), 'users/' . $users->id, 'profile_picture.png');
             }
 
             if (!$request->is_admin && $request->permission) {
@@ -164,7 +150,8 @@ return view('users.index')->with('users', $users)->with('status',$status)->with(
             'id'    => 'required',
             'first_name'     => 'required',
             'last_name'     => 'required',
-            'phone' => 'required',
+            'phone' => 'required|unique:users,phone,' . $request->id,
+            'email' => 'required|email|unique:users,email,' . $request->id,
             'permission' => 'required_if:is_admin,null',
             'permission.*' => 'exists:permissions,id',
             'status' => 'nullable',
@@ -189,22 +176,18 @@ return view('users.index')->with('users', $users)->with('status',$status)->with(
 
                 \Log::info('Photo validation passed');
 
-                // Create directory if it doesn't exist
-                $path = public_path('/users/' . $user->id);
-                if (!file_exists($path)) {
-                    mkdir($path, 0755, true);
-                    \Log::info('Created directory: ' . $path);
-                }
+                $tenantProfilePath = app(TenantStorage::class)->path('users/' . $user->id . '/profile_picture.png');
+                $fullTenantProfilePath = public_path($tenantProfilePath);
 
                 // Delete old profile picture if it exists
-                $oldImagePath = $path . '/profile_picture.png';
+                $oldImagePath = $fullTenantProfilePath;
                 if (file_exists($oldImagePath)) {
                     unlink($oldImagePath);
                     \Log::info('Deleted old profile picture');
                 }
 
                 // Move the uploaded file
-                $uploadResult = $request->file('photo')->move($path, 'profile_picture.png');
+                $uploadResult = app(TenantStorage::class)->moveUploadedFile($request->file('photo'), 'users/' . $user->id, 'profile_picture.png');
                 \Log::info('File upload result: ' . ($uploadResult ? 'success' : 'failed'));
 
                 // Update user photo flag
@@ -220,13 +203,7 @@ return view('users.index')->with('users', $users)->with('status',$status)->with(
 
                 $driverImage = $request->file('driver_image');
                 $imageName = 'driver_' . $user->id . '_' . time() . '.' . $driverImage->getClientOriginalExtension();
-                $imagePath = 'users/drivers/' . $imageName;
-
-                // Make sure directory exists
-                $directory = public_path('users/drivers');
-                if (!file_exists($directory)) {
-                    mkdir($directory, 0755, true);
-                }
+                $imagePath = app(TenantStorage::class)->path('users/drivers/' . $imageName);
 
                 // Delete old driver image if exists
                 if (!empty($user->img) && file_exists(public_path($user->img))) {
@@ -234,7 +211,7 @@ return view('users.index')->with('users', $users)->with('status',$status)->with(
                 }
 
                 // Move the file
-                $driverImage->move($directory, $imageName);
+                $imagePath = app(TenantStorage::class)->moveUploadedFile($driverImage, 'users/drivers', $imageName);
 
                 // Update user's img field
                 $user->img = $imagePath;

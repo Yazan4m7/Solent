@@ -9,6 +9,9 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use App\Support\Branding\BrandingManager;
+use App\Support\Tenancy\TenantContext;
+use App\Support\Tenancy\TenantDataCache;
+use App\Support\Tenancy\TenantStorage;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,10 +22,18 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->bind(TenantDataCache::class, function ($app): TenantDataCache {
+            return new TenantDataCache(
+                $app->make('cache')->store(),
+                $app->bound('app.tenant_context') ? $app->make('app.tenant_context') : null
+            );
+        });
 
-        // YSH Telescope  23.4.2025
-
-        //
+        $this->app->bind(TenantStorage::class, function ($app): TenantStorage {
+            return new TenantStorage(
+                $app->bound('app.tenant_context') ? $app->make('app.tenant_context') : null
+            );
+        });
     }
 
     /**
@@ -66,6 +77,7 @@ class AppServiceProvider extends ServiceProvider
         $data = [
             'brandingSettings' => $settings,
             'brandingLogoPath' => $settings->logoPath ?? config('branding.defaults.logo_path'),
+            'brandingMarkPath' => $settings->extra['mark_path'] ?? config('branding.defaults.mark_path'),
             'brandingFaviconPath' => $settings->faviconPath ?? config('branding.defaults.favicon_path'),
             'brandingName' => $settings->name ?? config('branding.defaults.name'),
         ];

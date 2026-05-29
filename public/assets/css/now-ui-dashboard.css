@@ -2924,7 +2924,7 @@ a[data-toggle="collapse"][aria-expanded="true"] .caret,
     display: block;
     opacity: 0;
     filter: alpha(opacity=0);
-    top: 100% !important;
+    top: 100%;
 }
 
 .dropdown .dropdown-menu:not(.inner),

@@ -6,7 +6,7 @@
     <!-- styles to carry on while printing -->
     <div id="style">
         <style>
-            .korvionPanel {
+            .KorvexPanel {
                 padding-bottom:10px;
                 padding-top:10px;
                 margin-bottom:15px;
@@ -83,7 +83,7 @@
         </style>
     </div>
 
-    <form class="kt-form filtersPanel bd-callout bd-callout-info korvionPanel" method="GET" action="{{route('job-types-report')}}" style="/*height:30%*/">
+    <form class="kt-form filtersPanel bd-callout bd-callout-info KorvexPanel" method="GET" action="{{route('job-types-report')}}" style="/*height:30%*/">
 
         <!-- FILTERS -->
         <div class="container">
@@ -175,7 +175,7 @@
 
 
 
-    <div class="korvionPanel" style="">
+    <div class="KorvexPanel" style="">
         <div class="col-lg-12 col-sm-12">
             <div class=" ">
                 <div class="">

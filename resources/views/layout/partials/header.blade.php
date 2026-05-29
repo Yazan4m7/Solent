@@ -6,8 +6,8 @@
                             <span class="logo-img">
 
                             </span>
-     
-            <span class="brand-name">{{ $brandingName ?? 'Korvion' }}</span>
+
+            <span class="brand-name">{{ $brandingName ?? 'Korvex' }}</span>
         </a>
     </div>
 

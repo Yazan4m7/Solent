@@ -377,6 +377,7 @@ class ReportsController extends Controller
         //dd(job::whereNotNull('assignee')->get());
         $DeliveriesToday = sCase::where('initial_delivery_date','like', '%' . $last7DaysLabels[6] . '%')->where('delivered_to_client',0)->orderBy('initial_delivery_date')->get();
         $paymentsReceivedToday = payment::where('created_at','like', '%' . $last7DaysLabels[6] . '%')->orderBy('created_at')->get();
+        $productionLoadRows = $this->getDashboardProductionLoadRows();
 
         $totalUnits = ($CompletedJobsToday ?? 0) + ($ActiveJobsToday ?? 0) + ($waitingJobsToday ?? 0);
         $conversionRate = $totalUnits ? round((($CompletedJobsToday ?? 0) / $totalUnits) * 100, 2) : 0;
@@ -389,7 +390,8 @@ class ReportsController extends Controller
         return view('dashboard',compact('compUnitsCount7Days','compCasesCount7Days',
             'waitingJobsToday','CompletedJobsToday','ActiveJobsToday','DeliveriesToday',
             'paymentsReceivedToday','last7DaysLabels','compCasesObjectsIn30Days','compUnitsCount30Days',
-            'collectionsInLast30Days','last30DaysLabels','compCasesCount30Days','sales30Days','conversionRate'));
+            'collectionsInLast30Days','last30DaysLabels','compCasesCount30Days','sales30Days','conversionRate',
+            'productionLoadRows'));
     }
     public function handleEmployeeRedirection(){
         return redirect('/operations-dashboard');
@@ -432,4 +434,71 @@ class ReportsController extends Controller
         $clients = client::without(['discounts','cases'])->get();
         return view ('reports.case-materials-report',compact('totalAmount','cases','from','to','selectedClients','clients'))->with('patientName',$request->patient_name);
 
-    }}
+    }
+
+    private function getDashboardProductionLoadRows(): array
+    {
+        $stageConfigs = collect([
+            ['stage' => 1, 'label' => 'Design', 'color' => '#4f6ef7', 'hint' => 'assignee-driven'],
+            ['stage' => 2, 'label' => 'Milling', 'color' => '#30c7b5', 'hint' => 'set and active'],
+            ['stage' => 3, 'label' => '3D Printing', 'color' => '#fb8c1f', 'hint' => 'build-linked'],
+            ['stage' => 4, 'label' => 'Sintering', 'color' => '#ee5ea3', 'hint' => 'furnace queue'],
+        ]);
+
+        $jobsByStage = job::query()
+            ->select('stage', 'assignee', 'is_active', 'is_set', 'milling_build_id', 'printing_build_id', 'pressing_build_id')
+            ->whereIn('stage', $stageConfigs->pluck('stage')->all())
+            ->get()
+            ->groupBy('stage');
+
+        $rows = $stageConfigs->map(function (array $stageConfig) use ($jobsByStage) {
+            $stageId = (int) $stageConfig['stage'];
+            $stageJobs = $jobsByStage->get($stageId, collect());
+            $jobsCount = $stageJobs->count();
+            $activeCount = $stageJobs->filter(function ($stageJob) use ($stageId) {
+                return $this->dashboardStageJobIsActive($stageJob, $stageId);
+            })->count();
+
+            return [
+                'label' => $stageConfig['label'],
+                'color' => $stageConfig['color'],
+                'hint' => $stageConfig['hint'],
+                'jobs' => $jobsCount,
+                'active' => $activeCount,
+                'waiting' => max(0, $jobsCount - $activeCount),
+            ];
+        });
+
+        $maxJobs = max(1, (int) $rows->max('jobs'));
+
+        return $rows->map(function (array $row) use ($maxJobs) {
+            $row['utilization'] = $row['jobs'] > 0
+                ? (int) round(($row['active'] / $row['jobs']) * 100)
+                : 0;
+            $row['jobsScaled'] = $row['jobs'] > 0
+                ? max(12, (int) round(($row['jobs'] / $maxJobs) * 100))
+                : 0;
+
+            return $row;
+        })->all();
+    }
+
+    private function dashboardStageJobIsActive(job $job, int $stageId): bool
+    {
+        if (in_array($stageId, [2, 4, 5], true)) {
+            return (int) $job->is_set === 1 || (int) $job->is_active === 1;
+        }
+
+        if ($stageId === 3) {
+            return (int) $job->is_set === 1
+                || (int) $job->is_active === 1
+                || !empty($job->printing_build_id);
+        }
+
+        if ($stageId === 1) {
+            return !empty($job->assignee) || (int) $job->is_active === 1;
+        }
+
+        return (int) $job->is_active === 1;
+    }
+}

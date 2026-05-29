@@ -1,5 +1,6 @@
 @extends('layouts.app' ,[ 'pageSlug' => 'New Material' ])
 @section('content')
+    @php($currencyLabel = (string) ($currencyContext['display'] ?? $currencyContext['code'] ?? 'JOD'))
     <form  method="POST" style="padding:10px" class="card"  action="{{route('material-add-post')}}">
         @csrf
     <div class="kt-portlet__head">
@@ -23,7 +24,7 @@
     <div class="col-md-3  col-xs-6 col-l-3  col-xl-3">
         <div class="col-md-12 col-xs-12"><label >Price:</label></div>
         <div class="col-md-12 col-xs-12">
-            <input class="form-control" type="number" name="price" required placeholder="Price (JOD)" />
+            <input class="form-control" type="number" name="price" required placeholder="Price ({{ $currencyLabel }})" />
             <span class="help-block text-muted"><small></small></span>
         </div>
     </div>
@@ -121,6 +122,13 @@
                     <input type="radio" id="furnace2" name="furnace" value="5" required>
                     <i class="fa"></i>
                     Press Furnace
+                </label>
+            </div>
+            <div class="form-check-inline my-1">
+                <label class="cr-styled" for="furnace3">
+                    <input type="radio" id="furnace3" name="furnace" value="9">
+                    <i class="fa"></i>
+                    Metal Work
                 </label>
             </div>
 

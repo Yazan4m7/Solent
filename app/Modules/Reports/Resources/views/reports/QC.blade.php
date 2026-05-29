@@ -7,7 +7,7 @@
     <div id="style">
         <style>
             footer{display:none}
-            .korvionPanel {
+            .KorvexPanel {
                 padding-bottom:10px;
                 padding-top:10px;
                 margin-bottom:15px;
@@ -86,7 +86,7 @@
         </style>
     </div>
 
-    <form class="kt-form filtersPanel bd-callout bd-callout-info korvionPanel" method="GET" action="{{route('QC-report')}}" style="/*height:30%*/">
+    <form class="kt-form filtersPanel bd-callout bd-callout-info KorvexPanel" method="GET" action="{{route('QC-report')}}" style="/*height:30%*/">
 
 
         <!-- FILTERS -->
@@ -184,7 +184,7 @@
     </form>
 
 
-    <div class="korvionPanel" style="">
+    <div class="KorvexPanel" style="">
         <div class="row" >
             <div class="col-lg-12 col-sm-12  row" style="flex-direction: row;padding-bottom:0px">
                 {{--<div class="col-lg-3 col-md-3 col-3 mb-3">--}}

@@ -14,6 +14,7 @@ use App\JobType;
 use App\material;
 use App\payment;
 use App\sCase;
+use App\Support\Tenancy\TenantDataCache;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use DB;
@@ -321,78 +322,89 @@ class ReportsController extends Controller
              return redirect('/operations-dashboard');
 
     }
-    public function adminHomeScreen(){
+    public function adminHomeScreen(Request $request = null){
 
+        $dashboardSampleDataMode = (bool) config('features.dashboard.sample_data', true);
 
+        $dashboardData = app(TenantDataCache::class)->remember('dashboard.home', (int) config('tenancy.cache_ttls.dashboard', 60), function () {
 
-        $last7DaysLabels = $this->getLastNDays(7,'Y-m-d');
-        $last30DaysLabels = $this->getLastNDays(30,'Y-m-d');
+            $last7DaysLabels = $this->getLastNDays(7,'Y-m-d');
+            $last30DaysLabels = $this->getLastNDays(30,'Y-m-d');
 
-        $compCasesObjectsIn30Days = $this->getCompletedCasesInLastNDays($last30DaysLabels);
-        $collectionsInLast30Days = $this->getCollectionsInLastNDays($last30DaysLabels);
-        $compCasesObjectsIn7Days = [
-            sCase::where('actual_delivery_date', 'like', '%' . $last7DaysLabels[6] . '%')->get(),
-            sCase::where('actual_delivery_date', 'like', '%' . $last7DaysLabels[5] . '%')->get(),
-            sCase::where('actual_delivery_date', 'like', '%' . $last7DaysLabels[4] . '%')->get(),
-            sCase::where('actual_delivery_date', 'like', '%' . $last7DaysLabels[3] . '%')->get(),
-            sCase::where('actual_delivery_date', 'like', '%' . $last7DaysLabels[2] . '%')->get(),
-            sCase::where('actual_delivery_date', 'like', '%' . $last7DaysLabels[1] . '%')->get(),
-            sCase::where('actual_delivery_date', 'like', '%' . $last7DaysLabels[0] . '%')->get(),
+            $compCasesObjectsIn30Days = $this->getCompletedCasesInLastNDays($last30DaysLabels);
+            $collectionsInLast30Days = $this->getCollectionsInLastNDays($last30DaysLabels);
+            $compCasesObjectsIn7Days = [
+                sCase::where('actual_delivery_date', 'like', '%' . $last7DaysLabels[6] . '%')->get(),
+                sCase::where('actual_delivery_date', 'like', '%' . $last7DaysLabels[5] . '%')->get(),
+                sCase::where('actual_delivery_date', 'like', '%' . $last7DaysLabels[4] . '%')->get(),
+                sCase::where('actual_delivery_date', 'like', '%' . $last7DaysLabels[3] . '%')->get(),
+                sCase::where('actual_delivery_date', 'like', '%' . $last7DaysLabels[2] . '%')->get(),
+                sCase::where('actual_delivery_date', 'like', '%' . $last7DaysLabels[1] . '%')->get(),
+                sCase::where('actual_delivery_date', 'like', '%' . $last7DaysLabels[0] . '%')->get(),
             ];
 
 
-        // *** COMPLETED UNITS COUNT IN THE LAST 7 DAYS :: *** //
-        // Index 6 of $compUnitsCount7Days and 0 of $compCasesObjectsIn7Days is today.
-        $compUnitsCount7Days = [
-            $this->getUnitsCountOfCasesObjects($compCasesObjectsIn7Days[6]),
-            $this->getUnitsCountOfCasesObjects($compCasesObjectsIn7Days[5]),
-            $this->getUnitsCountOfCasesObjects($compCasesObjectsIn7Days[4]),
-            $this->getUnitsCountOfCasesObjects($compCasesObjectsIn7Days[3]),
-            $this->getUnitsCountOfCasesObjects($compCasesObjectsIn7Days[2]),
-            $this->getUnitsCountOfCasesObjects($compCasesObjectsIn7Days[1]),
-            $this->getUnitsCountOfCasesObjects($compCasesObjectsIn7Days[0]),
-        ];
+            // *** COMPLETED UNITS COUNT IN THE LAST 7 DAYS :: *** //
+            // Index 6 of $compUnitsCount7Days and 0 of $compCasesObjectsIn7Days is today.
+            $compUnitsCount7Days = [
+                $this->getUnitsCountOfCasesObjects($compCasesObjectsIn7Days[6]),
+                $this->getUnitsCountOfCasesObjects($compCasesObjectsIn7Days[5]),
+                $this->getUnitsCountOfCasesObjects($compCasesObjectsIn7Days[4]),
+                $this->getUnitsCountOfCasesObjects($compCasesObjectsIn7Days[3]),
+                $this->getUnitsCountOfCasesObjects($compCasesObjectsIn7Days[2]),
+                $this->getUnitsCountOfCasesObjects($compCasesObjectsIn7Days[1]),
+                $this->getUnitsCountOfCasesObjects($compCasesObjectsIn7Days[0]),
+            ];
 
-        // *** COMPLETED CASES COUNT IN THE LAST 7 DAYS :: *** //
-        $compCasesCount7Days = [];
-        $compCasesCount30Days = [];
-        $compUnitsCount30Days = [];
-        $sales30Days = [];
-        //dd($compCasesObjectsIn7Days);
-        // Counting..
-        foreach($compCasesObjectsIn7Days as $bunchOfCases)
-            array_push ($compCasesCount7Days,count($bunchOfCases));
-        foreach($compCasesObjectsIn30Days as $bunchOfCases){
-            array_push ($compCasesCount30Days,count($bunchOfCases));
-            array_push($compUnitsCount30Days,$this->getUnitsCountOfCasesObjects($bunchOfCases));
-            array_push ($sales30Days,$this->getValueOfCasesObjects($bunchOfCases));
-        }
+            // *** COMPLETED CASES COUNT IN THE LAST 7 DAYS :: *** //
+            $compCasesCount7Days = [];
+            $compCasesCount30Days = [];
+            $compUnitsCount30Days = [];
+            $sales30Days = [];
+            //dd($compCasesObjectsIn7Days);
+            // Counting..
+            foreach($compCasesObjectsIn7Days as $bunchOfCases)
+                array_push ($compCasesCount7Days,count($bunchOfCases));
+            foreach($compCasesObjectsIn30Days as $bunchOfCases){
+                array_push ($compCasesCount30Days,count($bunchOfCases));
+                array_push($compUnitsCount30Days,$this->getUnitsCountOfCasesObjects($bunchOfCases));
+                array_push ($sales30Days,$this->getValueOfCasesObjects($bunchOfCases));
+            }
 
-        $startOfToday = now() . '00:00:00';
-        $endOfToday = now()->subDays(1) . '23:59:59';
+            $startOfToday = now() . '00:00:00';
+            $endOfToday = now()->subDays(1) . '23:59:59';
 
-        // **  Doughnut Chart Counts ** //
-        $waitingJobsToday = $this->getUnitsCountOfJobsObjects(job::whereNull('assignee')->where('stage','!=',-1)->get());
+            // **  Doughnut Chart Counts ** //
+            $waitingJobsToday = $this->getUnitsCountOfJobsObjects(job::whereNull('assignee')->where('stage','!=',-1)->get());
 
-        $CompletedJobsToday = $compUnitsCount7Days[6];
-        $ActiveJobsToday = $this->getUnitsCountOfJobsObjects(job::whereNotNull('assignee')->where('stage','!=',-1)->get());
-        //dd(job::whereNotNull('assignee')->get());
-        $DeliveriesToday = sCase::where('initial_delivery_date','like', '%' . $last7DaysLabels[6] . '%')->where('delivered_to_client',0)->orderBy('initial_delivery_date')->get();
-        $paymentsReceivedToday = payment::where('created_at','like', '%' . $last7DaysLabels[6] . '%')->orderBy('created_at')->get();
-        $newCustomers = $DeliveriesToday->pluck('client_id')->unique()->count();
+            $CompletedJobsToday = $compUnitsCount7Days[6];
+            $ActiveJobsToday = $this->getUnitsCountOfJobsObjects(job::whereNotNull('assignee')->where('stage','!=',-1)->get());
+            //dd(job::whereNotNull('assignee')->get());
+            $DeliveriesToday = sCase::where('initial_delivery_date','like', '%' . $last7DaysLabels[6] . '%')->where('delivered_to_client',0)->orderBy('initial_delivery_date')->get();
+            $paymentsReceivedToday = payment::where('created_at','like', '%' . $last7DaysLabels[6] . '%')->orderBy('created_at')->get();
+            $newCustomers = $DeliveriesToday->pluck('client_id')->unique()->count();
 
-        $totalUnits = ($CompletedJobsToday ?? 0) + ($ActiveJobsToday ?? 0) + ($waitingJobsToday ?? 0);
-        $conversionRate = $totalUnits ? round((($CompletedJobsToday ?? 0) / $totalUnits) * 100, 2) : 0;
+            $totalUnits = ($CompletedJobsToday ?? 0) + ($ActiveJobsToday ?? 0) + ($waitingJobsToday ?? 0);
+            $conversionRate = $totalUnits ? round((($CompletedJobsToday ?? 0) / $totalUnits) * 100, 2) : 0;
 
-        $labelToLookFor = substr($last30DaysLabels[29],0,8) . "01";
-        $key = array_search($labelToLookFor, $last30DaysLabels);
-        $last30DaysLabels[$key] = "** ".  $last30DaysLabels[$key] . " **";
+            $labelToLookFor = substr($last30DaysLabels[29],0,8) . "01";
+            $key = array_search($labelToLookFor, $last30DaysLabels);
+            $last30DaysLabels[$key] = "** ".  $last30DaysLabels[$key] . " **";
 //        dd($labelToLookFor);
-        $compCasesCount7Days= array_reverse($compCasesCount7Days);
-        return view('dashboard',compact('compUnitsCount7Days','compCasesCount7Days',
+            $compCasesCount7Days= array_reverse($compCasesCount7Days);
+
+            return compact('compUnitsCount7Days','compCasesCount7Days',
             'waitingJobsToday','CompletedJobsToday','ActiveJobsToday','DeliveriesToday',
             'paymentsReceivedToday','last7DaysLabels','compCasesObjectsIn30Days','compUnitsCount30Days',
-            'collectionsInLast30Days','last30DaysLabels','compCasesCount30Days','sales30Days','newCustomers','conversionRate'));
+            'collectionsInLast30Days','last30DaysLabels','compCasesCount30Days','sales30Days','newCustomers','conversionRate');
+        }, [
+            'user_id' => Auth()->id(),
+            'date' => now()->toDateString(),
+        ]);
+
+        $dashboardData['dashboardSampleDataMode'] = $dashboardSampleDataMode;
+
+        return view('dashboard', $dashboardData);
     }
     public function handleEmployeeRedirection(){
         return redirect('/operations-dashboard');

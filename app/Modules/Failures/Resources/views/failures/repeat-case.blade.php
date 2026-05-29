@@ -835,7 +835,7 @@
             var styleOptionsName = repeaterName  +"[style"+jobId+"]";
             /* Updating dropdowns according to teeth selection
              * First if is for jaws, second is for teeth
-             * @Yazan - korvion
+             * @Yazan - Korvex
              */
 
             if (jQuery.inArray("lower", teethSelectedAsArr) !== -1 || jQuery.inArray("upper", teethSelectedAsArr) !== -1) {
@@ -1171,6 +1171,10 @@
                 stagesDropDown.append($("<option></option>")
                     .attr("value", 5)
                     .text("Pressing Furnace"));
+            if (materialSelected.metal_work ==1 )
+                stagesDropDown.append($("<option></option>")
+                    .attr("value", 9)
+                    .text("Metal Work"));
             if (materialSelected.finish ==1 )
                 stagesDropDown.append($("<option></option>")
                     .attr("value", 6)
@@ -1246,7 +1250,7 @@
             var styleOptionsName = repeaterName2  +"[style]";
             /* Updating dropdowns according to teeth selection
              * First if is for jaws, second is for teeth
-             * @Yazan - korvion
+             * @Yazan - Korvex
              */
             console.log("[name='" + repeaterName2 + "[abutment]']");
             if (jQuery.inArray("lower",teethSelectedAsArr)  !== -1|| jQuery.inArray("upper",teethSelectedAsArr) !== -1) {

@@ -1,4 +1,104 @@
 @extends('layouts.app' ,[ 'pageSlug' =>'New User'])
+@push('css')
+    <style>
+        .permissions-box {
+            background: #ffffff;
+            border: 1px solid #dfe3e8;
+            border-radius: 6px;
+            padding: 12px;
+            width: 100%;
+            max-height: 320px;
+            overflow-y: auto;
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 6px 12px;
+        }
+
+        .permission-item {
+            display: flex;
+            align-items: center;
+            padding: 6px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .permission-item:hover {
+            background: #f6f8fb;
+        }
+
+        .permission-item.is-disabled {
+            cursor: not-allowed;
+            background: #f8f9fb;
+        }
+
+        .permission-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .permission-checkbox {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .permission-icon {
+            width: 18px;
+            text-align: center;
+            margin-right: 8px;
+        }
+
+        .permission-icon-off {
+            color: #dc3545;
+            display: inline-flex;
+        }
+
+        .permission-icon-on {
+            color: #28a745;
+            display: none;
+        }
+
+        .permission-checkbox:checked + .permission-icon-off {
+            display: none;
+        }
+
+        .permission-checkbox:checked + .permission-icon-off + .permission-icon-on {
+            display: inline-flex;
+        }
+
+        .permission-checkbox:disabled + .permission-icon-off,
+        .permission-checkbox:disabled + .permission-icon-off + .permission-icon-on {
+            opacity: 0.5;
+        }
+
+        .permission-checkbox:disabled ~ .permission-name {
+            color: #9aa5b1;
+        }
+
+        .permission-item.is-disabled .permission-icon,
+        .permission-item.is-disabled .permission-name {
+            opacity: 0.6;
+        }
+
+        @media (max-width: 1200px) {
+            .permissions-box {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 992px) {
+            .permissions-box {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 576px) {
+            .permissions-box {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+@endpush
 @section('content')
 
     <div class="row card">
@@ -79,16 +179,20 @@
                         </div>
                         <div class="form-group" id="disable">
                             <label for="Permission">Permission</label>
-                            <select class="form-control selectpicker" id="Permission" multiple name="permission[]">
+                            <div class="permissions-box" id="Permission">
                                 @foreach($permissions as $perm)
-                                    <option value="{{$perm->id}}">{{$perm->name}}</option>
+                                    <label class="permission-item {{$perm->enabled ? '' : 'is-disabled'}}">
+                                        <input type="checkbox" class="permission-checkbox" name="permission[]" value="{{$perm->id}}" {{$perm->enabled ? '' : 'disabled'}}>
+                                        <span class="permission-icon permission-icon-off"><i class="fa fa-times"></i></span>
+                                        <span class="permission-icon permission-icon-on"><i class="fa fa-check"></i></span>
+                                        <span class="permission-name">{{$perm->name}}</span>
+                                    </label>
                                 @endforeach
-                            </select>
+                            </div>
                         </div>
 
                         <div class="form-group">
-                            <label>Profile Image</label>
-                            <x-partiels.user-image-picker></x-partiels.user-image-picker>
+
                         </div>
 
                         <div class="form-group delivery-driver-section" style="display: none;">
@@ -134,7 +238,7 @@
             }
 
             // Check if permission ID 131 is selected
-            const hasDeliveryPermission = $('#Permission option[value="131"]:selected').length > 0;
+            const hasDeliveryPermission = $('.permission-checkbox[value="131"]').is(':checked');
 
             if (hasDeliveryPermission) {
                 $('.delivery-driver-section').show();
@@ -165,19 +269,19 @@
             checkDeliveryDriverPermission();
 
             // Check delivery driver permission when permissions change
-            $('#Permission').on('change', function() {
+            $('.permission-checkbox').on('change', function() {
                 checkDeliveryDriverPermission();
             });
         });
 
         $('#is_admin').on('change', function() {
             if(this.checked){
-                $('#Permission').attr('disabled', true);
+                $('.permission-checkbox').prop('disabled', true);
                 $('#disable').css('visibility', 'hidden');
                 // Hide delivery driver section if admin
                 $('.delivery-driver-section').hide();
             } else {
-                $('#Permission').attr('disabled', false);
+                $('.permission-checkbox').prop('disabled', false);
                 $('#disable').css('visibility', 'visible');
                 // Recheck permissions
                 checkDeliveryDriverPermission();

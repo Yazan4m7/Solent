@@ -11,7 +11,7 @@
 <body class="sticky-header">
 
 <section>
-@include('layout.partials.korvionSidebar')
+@include('layout.partials.KorvexSidebar')
 
 <!-- body content start-->
     <div class="body-content">

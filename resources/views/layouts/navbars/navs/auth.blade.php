@@ -5,279 +5,467 @@
 <style>
     @import url(https://fonts.googleapis.com/css?family=Lato:100,300,400,700);
 
-    @media screen and (min-width: 999px) {
-        .logo-col {
-            flex: 0 0 223px;
-            max-width: 223px;
-            padding-left: 0;
-        }
-
-        .logo {
-            width: 180px;
-        }
-
-    }
-
-    /*@media (max-width: 992px) {*/
-    /*#wrapp  #search{*/
-    /*top:3px;*/
-    /*}*/
-    /*}*/
-    /*@media screen and (max-width: 770px) {*/
-    /*.searchBox2{*/
-    /*display:none;*/
-    /*}*/
-    /*}*/
-
     .navbar-wrapper {
         display: none;
     }
 
+    .main-panel {
+        margin-left: 250px !important;
+        width: calc(100% - 250px) !important;
+        min-height: 100vh;
+        background: #f5f6fa !important;
+        border-top: 0 !important;
+    }
+
+    body.white-content,
+    body.white-content .main-panel,
+    body.white-content .main-panel > .content {
+        background: #f5f6fa !important;
+    }
+
+    .navbar.stickMe,
+    .navbar.navbar-transparent.stickMe,
+    .stickMe {
+        position: sticky;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: #ffffff !important;
+        padding: 0 !important;
+        border-bottom: 1px solid #e2e8f0;
+        box-shadow: none;
+        z-index: 1000;
+    }
+
+    .stickMe > .container-fluid {
+        display: flex;
+        padding: 0 !important;
+    }
+
     .headerRow {
+        display: flex;
+        width: 100%;
+        min-height: 84px;
+        margin: 0 !important;
+        padding: 0;
+        align-items: center !important;
         justify-content: space-between !important;
         flex-wrap: nowrap !important;
         background-color: transparent;
+    }
+
+    .headerTitleCol {
+        flex: 1 1 auto !important;
+        max-width: none !important;
+        min-width: 0;
+    }
+
+    .left-toggler-container {
+        display: flex;
+        align-items: center !important;
+        flex-wrap: nowrap !important;
+        min-height: 84px;
+        margin: 0 !important;
+        padding: 0 0 0 24px;
+        background-color: transparent;
+    }
+
+    .logo-col {
+        display: none;
+    }
+
+    .logo-navbar {
+        display: none !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .logo-navbar .logo,
+    .logo-navbar .korvion-horizontal-logo {
+        width: 26px !important;
+        height: 26px !important;
+        max-height: 26px !important;
+        object-fit: contain !important;
+        filter: none !important;
+        position: static !important;
+    }
+
+    .pageTitleContainer {
+        display: flex !important;
+        align-items: center !important;
+        gap: 12px !important;
+        flex: 1 1 auto !important;
+        max-width: none !important;
+        min-width: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: transparent !important;
+        border: 0 !important;
+        border-image: none !important;
+        border-radius: 0 !important;
+    }
+
+    .pageTitleAccent {
+        display: inline-block;
+        width: 4px;
+        height: 30px;
+        flex: 0 0 4px;
+        border-radius: 6px;
+        background: linear-gradient(180deg, #2c6068 0%, #265057 100%);
+    }
+
+    .pageTitle {
+        display: inline-flex !important;
+        align-items: center !important;
+        min-width: 0;
+        margin: 0 !important;
         padding: 0;
-
+        width: auto !important;
+        color: #1f2a3d !important;
+        font-weight: 800 !important;
+        letter-spacing: 0.04em !important;
+        text-transform: uppercase;
+        line-height: 1.1 !important;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
-    /** SEARCH BOXES  **/
-    :root {
-        --tab-color-white: #f9f9f9;
-        --tab-color-black: #004345;
-        --tab-color-cadet: #2b7b7d;
-        --tab-color-fighter: #315f5f;
-        --tab-color-space: #383961;
-        --tab-color-gray: #d7d9d7;
-        --tab-color-english: #2b7b7d;
-        /*
-         --------
-         * CSS Vars
-         --------
-         */
-        --tab-bg-color: var(--tab-color-cadet);
-        --tab-text-color: var(--tab-color-gray);
-        --tab-border-color: var(--tab-color-space);
-        --tab-active-bg-color: var(--tab-color-white);
-        --tab-active-text-color: var(--tab-color-black);
-        --tab-active-border-color: var(--tab-color-english);
-        --tab-focus-bg-color: var(--tab-color-fighter);
-        --tab-focus-text-color: var(--tab-color-white);
-        --tab-focus-text-secondary-color: var(--tab-color-english);
-        --tab-focus-border-color: var(--tab-color-fighter);
-        --color-light: white;
-        --color-dark: #212121;
-        --color-signal: #37b44a;
-        --color-background: #f5f6fa;
-        --color-text: var(--color-dark);
-        --color-accent: var(--color-signal);
-        --size-bezel: 0.2rem;
-        --size-radius: 5px;
-        --global-heading-font-family: "Lato", sans-serif;
-
+    .navbar.stickMe .pageTitle,
+    .navbar.stickMe .navbar-brand.pageTitle {
+        color: #1f2a3d !important;
     }
 
-    .outerSBLabel {
-        position: relative;
-        margin-bottom: 0 !important;
+    .headerSearchCol {
+        display: flex;
+        align-items: center;
+        flex: 0 1 346px;
+        width: 346px;
+        justify-content: flex-end;
+        max-width: 346px;
+        padding-right: 0 !important;
     }
 
-    .outerSBLabel:focus-visible,
-    searchBox:focus-visible,
-    .searchBox,
-    .outerSBLabel {
-        outline: none;
-    }
-
-    input:-internal-autofill-selected {
-        background-color: transparent !important;
-    }
-
-    /**SEACRH BOX 2 **/
-
-
-
-
-    body {
-        /*background: #DDD;*/
-        /*font-size: 15px;*/
+    .headerSearchCol form {
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+        margin: 0;
     }
 
     #wrapp {
-        margin-bottom: 60px;
-        display: inline-block;
-        position: relative;
-        /*height: 80px;*/
-        float: right;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        width: min(336px, 100%);
+        height: 44px;
         padding: 0;
         position: relative;
     }
 
+    #wrapp .SBF2 {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        height: 44px;
+        padding: 0 16px;
+        border: 1px solid rgba(17, 21, 30, 0.12);
+        border-radius: 999px;
+        background: #ffffff;
+        box-sizing: border-box;
+    }
+
     #wrapp input[type="text"] {
-        height: 35px;
-        font-size: 15px;
-        display: inline-block;
+        flex: 1 1 auto;
+        min-width: 0;
+        height: 100%;
+        font-size: 14px;
+        line-height: 1;
+        display: block;
         font-family: "Lato";
         border: none;
         outline: none;
-        color: #555;
-        padding: 3px;
-        padding-right: 60px;
-        width: 0px;
-        position: absolute;
-        top: 3px;
-        right: -74px;
+        color: #334155;
+        padding: 0;
+        width: auto;
+        position: static;
         background: none;
-        z-index: 1;
-        transition: width .4s cubic-bezier(0.000, 0.795, 0.000, 1.000);
-        cursor: pointer;
-    }
-
-    #wrapp input[type="text"]:focus:hover {
-        border-bottom: 1px solid #BBB;
-    }
-
-    #wrapp input[type="text"]:focus {
-        width: 200px;
-        z-index: 1;
-        border-bottom: 1px solid #BBB;
         cursor: text;
     }
 
+    #wrapp input[type="text"]::placeholder {
+        color: #6b7280;
+    }
+
     #wrapp #search_submit {
-        height: 47px;
-        width: 63px;
-        display: inline-block;
-        color: red;
-        float: right;
-        background: url({{ asset('assets') }}/5613.png) center center no-repeat;
+        order: -1;
+        flex: 0 0 16px;
+        height: 16px;
+        width: 16px;
+        display: inline-flex;
+        background: url("data:image/svg+xml,%3Csvg width='18' height='18' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10.75 18.5C6.47 18.5 3 15.03 3 10.75S6.47 3 10.75 3s7.75 3.47 7.75 7.75a7.72 7.72 0 0 1-1.68 4.82l3.31 3.31-1.25 1.25-3.31-3.31a7.72 7.72 0 0 1-4.82 1.68Zm0-1.8a5.95 5.95 0 1 0 0-11.9 5.95 5.95 0 0 0 0 11.9Z' fill='%23111718'/%3E%3C/svg%3E") center center / 16px auto no-repeat;
         text-indent: -10000px;
         border: none;
-        position: absolute;
-        top: 0;
-        right: -90px;
-        z-index: 2;
+        position: static;
         pointer-events: none;
-        cursor: pointer;
         opacity: 0.6;
-        cursor: pointer;
         transition: opacity .4s ease;
-        background-size: 50%;
     }
 
-    #wrapp #search_submit:hover {
-        opacity: 0.8;
+    .headerActionsCol {
+        display: flex !important;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 24px;
+        flex: 0 0 auto;
+        margin-left: auto;
+        padding-right: 24px;
     }
 
-
-
-    /** END SEARCH BOX 2 **/
-
-    .searchBox_label {
-        position: absolute;
-        left: 5px;
-        top: 0;
-        padding: calc(var(--size-bezel) * 0.75) calc(var(--size-bezel) * 0.5);
-        margin: calc(var(--size-bezel) * 0.75 + 3px) calc(var(--size-bezel) * 0.5);
-        background: pink;
-        white-space: nowrap;
-        transform: translate(0, 0);
-        transform-origin: 0 0;
-        background: var(--color-background);
-        transition: transform 120ms ease-in;
-        color: #1d253b80;
-        line-height: 1.2;
+    .dotsDiv {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        flex: 0 0 auto !important;
+        max-width: none !important;
+        min-width: 180px;
+        height: 84px;
+        padding-right: 24px !important;
     }
 
-    .searchBox {
-        box-sizing: border-box;
+    .solent-layout-profile {
+        display: inline-flex !important;
+        align-items: center;
+        gap: 12px;
+        min-width: 220px;
+        margin: 0;
+        padding: 4px 8px 4px 4px !important;
+        border: 0;
+        border-radius: 999px;
+        background: transparent;
+        color: #111827 !important;
+        text-decoration: none;
+        box-shadow: none;
+    }
+
+    .solent-layout-profile:hover,
+    .solent-layout-profile:focus {
+        color: #111827 !important;
+        text-decoration: none;
+        background: rgba(17, 24, 39, 0.04);
+    }
+
+    .solent-layout-profile::after {
+        display: none;
+    }
+
+    .solent-layout-profile-avatar {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+        flex: 0 0 50px;
+        border-radius: 999px;
+        background: linear-gradient(135deg, #6868e8 0%, #18aab2 100%);
+        color: #ffffff;
+        font-size: 16px;
+        font-weight: 800;
+        line-height: 1;
+        text-transform: uppercase;
+    }
+
+    .solent-layout-profile-meta {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        min-width: 0;
+        height: 50px;
+        text-align: left;
+        line-height: 1.1;
+    }
+
+    .solent-layout-profile-name,
+    .solent-layout-profile-role {
         display: block;
-        width: 100%;
-        border: 1px solid #1d253b80;
-        padding: calc(var(--size-bezel) * 1.5) var(--size-bezel);
-        background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' fill='%231d253b80' class='bi bi-search' viewBox='0 0 16 16'> <path d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'></path> </svg>") no-repeat;
-        background-position: 96% 45%;
-        padding-right: 25px;
-        background-size: 16px;
-        border-radius: var(--size-radius);
+        max-width: 142px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
-    .searchBox:not(:-moz-placeholder-shown)+.searchBox_label {
-        transform: translate(0.25rem, -65%) scale(0.8);
-        color: var(--color-accent);
+    .solent-layout-profile-name {
+        color: #111827;
+        font-size: 14px;
+        font-weight: 800;
     }
 
-    .searchBox:not(:-ms-input-placeholder)+.searchBox_label {
-        transform: translate(0.25rem, -65%) scale(0.8);
-        color: var(--color-accent);
+    .solent-layout-profile-role {
+        margin-top: 3px;
+        color: #667085;
+        font-size: 12px;
+        font-weight: 700;
     }
 
-    .searchBox:focus+.searchBox_label,
-    .searchBox:not(:placeholder-shown)+.searchBox_label {
-        transform: translate(0.25rem, -65%) scale(0.8);
-        color: var(--color-accent);
+    .solent-layout-profile-caret {
+        margin-left: 4px;
+        color: #667085;
+        font-size: 12px;
     }
 
-    @media screen and (max-width: 999px) {
-        /*#wrapp #search_submit {*/
-        /*right:-7px !important;*/
-
-        /*}*/
-        /*#wrapp #search {*/
-        /*top: 0px;*/
-
-        /*}*/
-
+    .solent-layout-profile-shell {
+        display: flex !important;
+        align-items: center;
+        justify-content: flex-end;
+        flex: 0 0 auto;
     }
 
-    @media screen and (max-width: 776px) {
-        #wrapp #search_submit {
-            right: -13px !important;
-            top: -12px;
+    .solent-layout-profile-shell .navbar-nav {
+        display: flex;
+        align-items: center;
+        margin: 0 !important;
+    }
+
+    .main-panel > .content {
+        min-height: calc(100vh - 84px);
+        padding-top: 28px !important;
+        background: #f5f6fa !important;
+    }
+
+    @media screen and (max-width: 991.98px) {
+        .main-panel {
+            margin-left: 0 !important;
+            width: 100% !important;
         }
 
-        #wrapp #search {
-            top: -8px;
-            right: 4px;
+        .headerRow {
+            min-height: auto;
+            flex-wrap: wrap !important;
+            gap: 8px 10px;
+        }
+
+        .headerTitleCol {
+            max-width: 100% !important;
+            flex: 1 1 auto !important;
+        }
+
+        .headerActionsCol {
+            flex: 0 0 auto;
+            gap: 12px;
+            padding-right: 12px;
+        }
+
+        .headerSearchCol {
+            flex: 0 1 260px;
+            width: 260px;
+            max-width: 260px !important;
+            justify-content: flex-end;
+            padding: 0 !important;
+        }
+
+        .left-toggler-container {
+            min-height: 64px;
+            padding-left: 12px;
+            gap: 10px;
+        }
+
+        .logo-col {
+            display: flex;
+            flex: 0 0 42px;
+            max-width: 42px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-navbar {
+            display: inline-flex !important;
+            width: 32px !important;
+            height: 32px !important;
+        }
+
+        .pageTitleContainer {
+            max-width: calc(100% - 52px) !important;
+        }
+
+        .headerSearchCol form,
+        #wrapp {
+            width: 100% !important;
+        }
+
+        .dotsDiv {
+            display: flex !important;
+            height: 64px;
+            min-width: 0;
+            padding-right: 0 !important;
+        }
+
+        .solent-layout-profile {
+            min-width: 180px;
         }
     }
 
     @media screen and (max-width: 450px) {
         .pageTitleContainer {
+            display: none !important;
+        }
+
+        .headerRow {
+            align-items: flex-start !important;
+        }
+
+        .headerActionsCol {
+            flex: 1 1 100%;
+            width: 100%;
+            justify-content: space-between;
+            padding: 0 12px 12px;
+        }
+
+        .headerSearchCol {
+            flex: 1 1 auto;
+            width: auto;
+            max-width: none !important;
+        }
+
+        .solent-layout-profile {
+            min-width: 52px;
+            padding-right: 4px !important;
+        }
+
+        .solent-layout-profile-meta,
+        .solent-layout-profile-caret {
             display: none;
-        }
-    }
-
-    @media screen and (max-width: 991px) and (min-width:776px) {
-        #wrapp #search_submit {
-            right: -67px !important;
-            top: -5px;
-
-        }
-
-        #wrapp #search {
-            top: -2px;
-            right: -45px;
         }
     }
 </style>
 
 @php
     $permissions = Cache::get('user' . Auth()->user()->id);
+    $headerBrandIcon = asset($brandingFaviconPath ?? config('branding.defaults.favicon_path'));
+    $authUser = Auth()->user();
+    $profileName = trim(implode(' ', array_filter([
+        $authUser->first_name ?? null,
+        $authUser->last_name ?? null,
+    ])));
+    $profileName = $profileName !== '' ? $profileName : ($authUser->name ?? $authUser->email ?? __('User'));
+    $profileInitials = mb_strtoupper(mb_substr(preg_replace('/\s+/', '', $profileName), 0, 2));
+    $profileInitials = $profileInitials !== '' ? $profileInitials : 'U';
+    $profileRole = ($authUser->is_admin ?? false) ? __('Administrator') : __('Regular User');
 @endphp
-<nav class="navbar navbar-expand-lg navbar-absolute navbar-transparent">
-    <div class="container-fluid noPadOnMobile">
+<nav class="navbar navbar-expand-lg  navbar-transparent stickMe">
+    <div class="container-fluid noPadOnMobile .stickMe" style="display:flex;">
         <div class="row headerRow" style="display:flex;">
 
             <!-- Logo and title -->
-            <div class="col-lg-7 col-md-7 noPadOnMobile" style="flex:1 1 100%;">
+            <div class="col-lg-7 col-md-7 noPadOnMobile headerTitleCol">
                 <div class="container-fluid noPadOnMobile" style="padding-left: 0;">
-                    <div class="row left-toggler-container"
-                        style="background-color:transparent;padding: 0;flex-wrap: nowrap;align-items: center;">
+                    <div class="row left-toggler-container">
 
                         <!-- Logo and mobile bars -->
-                        <div class=" logo-col noPadOnMobile" style="">
-                            <div class="">
+                        <div class="logo-col noPadOnMobile">
+                            <div class="d-flex align-items-center">
                                 <div class="navbar-toggle d-inline">
                                     <button type="button" class="navbar-toggler ">
                                         <span class="navbar-toggler-bar bar1"></span>
@@ -285,70 +473,70 @@
                                         <span class="navbar-toggler-bar bar3"></span>
                                     </button>
                                 </div>
-                                <a class="navbar-brand logo-navbar" href="/home">
-                                    <img class ="logo" src="{{ asset($brandingLogoPath) }}"
-                                        style="POSITION: absolute;TOP: -24PX;LEFT: 47PX;max-height: 87px;width: auto;filter: brightness(51%);" alt="{{ $brandingName ?? 'Brand' }}" />
+                                <a class="navbar-brand logo-navbar" href="{{ route('home') }}">
+                                    <img class="logo korvion-horizontal-logo"
+                                        src="{{ $headerBrandIcon }}"
+                                        alt="{{ $brandingName ?? 'Brand' }}" />
                                 </a>
                             </div>
                         </div>
 
                         <!--Page Title -->
+                        {{-- page title --}}
                         @if (!isset($pageSlug) || strtolower($pageSlug) !== 'home')
-                            <div class=" col-sm-9 col-lg-6 noPadOnMobile pageTitleContainer" style="flex:1 1 100%;">
+                            <div class="col-sm-9 col-lg-6 noPadOnMobile pageTitleContainer">
+                                <span class="pageTitleAccent"></span>
                                 <span class="navbar-brand pageTitle"
-                                    style="font-weight: 800; width: 100%;">{{ $pageSlug ?? ($brandingName ?? 'Korvion') }}</span>
+                                    style="width: 100%;">{{ $pageSlug ?? ($brandingName ?? 'Dashboard') }}</span>
                             </div>
                         @endif
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-3 noPadOnMobile">
-                <form action="{{ route('global-search') }}" method="GET">
-                    <div id="wrapp" class="searchBox2">
-                        <div class="SBF2">
-                            <input id="search" name="searchText" type="text" placeholder="Patient Name?">
-                            <span id="search_submit"></span>
+            <div class="headerActionsCol noPadOnMobile">
+                <div class="headerSearchCol noPadOnMobile">
+                    <form action="{{ route('global-search') }}" method="GET">
+                        <div id="wrapp" class="searchBox2">
+                            <div class="SBF2">
+                                <input id="search" name="searchText" type="text" placeholder="Patient Name?">
+                                <span id="search_submit"></span>
+                            </div>
                         </div>
+                    </form>
+                </div>
+                {{--            <x-weather-widget></x-weather-widget> --}}
+                <div class="mb-1 noPadOnMobile dotsDiv">
+                    <div class="solent-layout-profile-shell" id="navigation">
+                        <ul class="navbar-nav ml-auto">
+
+                            <li class="dropdown nav-item">
+                                <a href="#" class="dropdown-toggle nav-link solent-layout-profile" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    <span class="solent-layout-profile-avatar" aria-hidden="true">{{ $profileInitials }}</span>
+                                    <span class="solent-layout-profile-meta">
+                                        <span class="solent-layout-profile-name">{{ $profileName }}</span>
+                                        <span class="solent-layout-profile-role">{{ $profileRole }}</span>
+                                    </span>
+                                    <i class="fa-solid fa-chevron-down solent-layout-profile-caret" aria-hidden="true"></i>
+                                    <p class="d-lg-none"></p>
+                                </a>
+                                <ul class="dropdown-menu dropdown-navbar">
+                                    {{-- <li class="nav-link"> --}}
+                                    {{-- <a href="{{ route('profile.edit') }}" class="nav-item dropdown-item">{{ __('Profile') }}</a> --}}
+                                    {{-- </li> --}}
+                                    {{-- <li class="nav-link"> --}}
+                                    {{-- <a href="#" class="nav-item dropdown-item">{{ __('Settings') }}</a> --}}
+                                    {{-- </li> --}}
+                                    {{-- <li class="dropdown-divider"></li> --}}
+                                    <li class="nav-link">
+                                        <a href="{{ route('logout') }}" class="nav-item dropdown-item"
+                                            onclick="event.preventDefault();  document.getElementById('logout-form').submit();">{{ __('Log out') }}</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                        </ul>
                     </div>
-                </form>
-            </div>
-            {{--            <x-weather-widget></x-weather-widget> --}}
-            <div class="col-1 col-sm-1  mb-1 noPadOnMobile dotsDiv">
-                <button stlyle= "flex-grow: 3" class="navbar-toggler navbar-toggler-right" type="button"
-                    data-toggle="collapse" data-target="#navigation" aria-expanded="false"
-                    aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-bar navbar-kebab"></span>
-                    <span class="navbar-toggler-bar navbar-kebab"></span>
-                    <span class="navbar-toggler-bar navbar-kebab"></span>
-                </button>
-                <div class="collapse navbar-collapse" style = "flex-grow: 3" id="navigation">
-                    <ul class="navbar-nav ml-auto">
-
-                        <li class="dropdown nav-item">
-                            <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown"
-                                style=" background-color:transparent;border:none;padding: 8px 12px">
-                                <div class="photo">
-                                    <img src="{{ asset('white') }}/img/anime3.png" alt="{{ __('Profile Photo') }}">
-                                </div>
-
-                                <p class="d-lg-none"></p>
-                            </a>
-                            <ul class="dropdown-menu dropdown-navbar">
-                                {{-- <li class="nav-link"> --}}
-                                {{-- <a href="{{ route('profile.edit') }}" class="nav-item dropdown-item">{{ __('Profile') }}</a> --}}
-                                {{-- </li> --}}
-                                {{-- <li class="nav-link"> --}}
-                                {{-- <a href="#" class="nav-item dropdown-item">{{ __('Settings') }}</a> --}}
-                                {{-- </li> --}}
-                                {{-- <li class="dropdown-divider"></li> --}}
-                                <li class="nav-link">
-                                    <a href="{{ route('logout') }}" class="nav-item dropdown-item"
-                                        onclick="event.preventDefault();  document.getElementById('logout-form').submit();">{{ __('Log out') }}</a>
-                                </li>
-                            </ul>
-                        </li>
-
-                    </ul>
                 </div>
             </div>
         </div>

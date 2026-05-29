@@ -136,7 +136,7 @@
             @endif
         </ul><!--sidebar nav end-->
     </div>
-    <div class="sidebarBG" style="">korvion</div>
+    <div class="sidebarBG" style="">Korvex</div>
 </div><!-- sidebar left end-->
 
 </body>

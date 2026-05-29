@@ -97,7 +97,10 @@
                             @php
                                 $profileImagePath = null;
                                 if ($user->has_photo) {
-                                    $profileImagePath = '/users/' . $user->id . '/profile_picture.png?v=' . time();
+                                    $tenantProfilePath = app(\App\Support\Tenancy\TenantStorage::class)->path('users/' . $user->id . '/profile_picture.png');
+                                    $legacyProfilePath = 'users/' . $user->id . '/profile_picture.png';
+                                    $profilePath = file_exists(public_path($tenantProfilePath)) ? $tenantProfilePath : $legacyProfilePath;
+                                    $profileImagePath = '/' . $profilePath . '?v=' . time();
                                 }
                             @endphp
                             <x-user-image-picker current_image="{{ $profileImagePath }}"></x-user-image-picker>

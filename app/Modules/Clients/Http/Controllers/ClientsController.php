@@ -293,7 +293,7 @@ class ClientsController extends Controller
             if (isset($token->token))
                 $this->sendPaymentNotification($token->token,
                     "Payment Received",
-                    $payment->amount . " JOD has been received"
+                    $payment->amount . " " . $this->currentCurrencyCode() . " has been received"
                 );
         }
         return back()->with('success', "Payment received successfully!");
@@ -313,8 +313,9 @@ class ClientsController extends Controller
             $payments = payment::whereBetween('created_at', [$from, $to ])->get();
         $selectedClients = $request->doctor;
         $clients = client::all();
+        $paymentsTotal = $payments->sum('amount');
 
-        return view('generic.payments-list',compact('payments','to','from','clients','selectedClients'));
+        return view('generic.payments-list',compact('payments','paymentsTotal','to','from','clients','selectedClients'));
     }
 
     public function accountDiscount(Request $request){

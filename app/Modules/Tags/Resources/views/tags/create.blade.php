@@ -1,7 +1,6 @@
 @extends('layouts.app' ,[ 'pageSlug' => 'New Tag' ])
 @section('content')
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/gh/GianlucaChiarani/FontAwesomeBrowser@0.3/fontawesome-browser.css" rel="stylesheet">
+    <link href="{{asset('assets/css/fontawesome-browser.css')}}" rel="stylesheet">
     <style>
         .fa-browser-container{z-index:999999}
     </style>
@@ -37,7 +36,7 @@
                 <div class="col-md-12 col-xs-12"><label >Tag icon:</label></div>
                 <div class="col-md-12 col-xs-12">
             <div>
-                <input class="form-control" name ="tag_icon" type="text" placeholder="Select icon" data-fa-browser  autocomplete="off" />
+                <input class="form-control" id="tag-icon-input" name ="tag_icon" type="text" placeholder="Select icon" data-fa-browser autocomplete="off" />
 
             </div>
         </div>
@@ -72,6 +71,10 @@
 
         $(document).ready(function() {
             $.fabrowser();
+
+            $('#tag-icon-input').on('change input', function () {
+                $(this).val(($(this).val() || '').trim());
+            });
         });
 
     </script>

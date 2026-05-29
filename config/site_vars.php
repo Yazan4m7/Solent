@@ -1,5 +1,5 @@
 <?php return array (
-  'projectNameShort' => 'ALRAZI',
+  'projectNameShort' => 'AL BASMA',
   'activeColor' => '#007bff',
   'waitingColor' => '#fd397a',
   'environment' => 'production',

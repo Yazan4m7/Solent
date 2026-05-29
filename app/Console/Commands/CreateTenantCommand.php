@@ -1,0 +1,48 @@
+<?php
+
+namespace App\Console\Commands;
+
+use App\Support\Tenancy\TenantProvisioningService;
+use Illuminate\Console\Command;
+
+class CreateTenantCommand extends Command
+{
+    protected $signature = 'tenants:create
+        {--slug= : Unique tenant slug}
+        {--name= : Tenant display name}
+        {--domain= : Primary tenant domain}
+        {--database= : Tenant database name}
+        {--currency=JOD : Tenant currency code}
+        {--admin-name=Tenant Admin : First admin display name}
+        {--admin-email= : First admin email}
+        {--admin-password= : First admin password}
+        {--resume : Resume a failed/provisioning tenant}';
+
+    protected $description = 'Provision a new isolated tenant database and first admin user.';
+
+    public function handle(TenantProvisioningService $provisioning): int
+    {
+        $payload = [
+            'slug' => $this->option('slug') ?: $this->ask('Tenant slug'),
+            'name' => $this->option('name') ?: $this->ask('Tenant name'),
+            'domain' => $this->option('domain') ?: $this->ask('Primary domain'),
+            'database' => $this->option('database'),
+            'currency_code' => $this->option('currency') ?: 'JOD',
+            'admin_name' => $this->option('admin-name') ?: 'Tenant Admin',
+            'admin_email' => $this->option('admin-email') ?: $this->ask('Admin email'),
+            'admin_password' => $this->option('admin-password') ?: $this->secret('Admin password'),
+        ];
+
+        try {
+            $tenant = $provisioning->create($payload, (bool) $this->option('resume'));
+        } catch (\Throwable $exception) {
+            $this->error($exception->getMessage());
+
+            return self::FAILURE;
+        }
+
+        $this->info('Tenant provisioned: ' . $tenant->slug . ' [' . $tenant->status . ']');
+
+        return self::SUCCESS;
+    }
+}

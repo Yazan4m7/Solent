@@ -53,6 +53,122 @@
             width: 100%;
             max-width: none;
         }
+        .Albasma-workflow-modal {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(8, 13, 20, 0.35);
+            z-index: 1050;
+            padding: 24px;
+        }
+        .Albasma-workflow-modal.active {
+            display: flex;
+        }
+        .Albasma-workflow-dialog {
+            background: #ffffff;
+            border-radius: 14px;
+            width: min(720px, 100%);
+            max-height: 90vh;
+            overflow: auto;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+        }
+        .Albasma-workflow-title {
+            font-size: 18px;
+            margin: 0;
+            color: #1f2a37;
+        }
+        .Albasma-close-button {
+            border: none;
+            background: transparent;
+            font-size: 22px;
+            line-height: 1;
+            cursor: pointer;
+            color: #6b7280;
+        }
+        .Albasma-close-button:hover {
+            color: #111827;
+        }
+        .Albasma-workflow-header,
+        .Albasma-workflow-body,
+        .Albasma-workflow-footer {
+            padding: 16px 20px;
+        }
+        .Albasma-workflow-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(17, 21, 30, 0.08);
+        }
+        .Albasma-workflow-footer {
+            border-top: 1px solid rgba(17, 21, 30, 0.08);
+            display: flex;
+            justify-content: center;
+        }
+        .Albasma-workflow-body {
+            overflow: auto;
+        }
+        .Albasma-drivers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 12px;
+        }
+        .Albasma-driver-card {
+            border: 1px solid rgba(17, 21, 30, 0.12);
+            border-radius: 12px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            background: #f9fafb;
+            transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+        }
+        .Albasma-driver-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px rgba(17, 21, 30, 0.12);
+            border-color: rgba(17, 21, 30, 0.28);
+        }
+        .Albasma-driver-card.selected {
+            border-color: var(--main-orange, #d48b2c);
+            box-shadow: 0 10px 20px rgba(212, 139, 44, 0.25);
+        }
+        .Albasma-driver-image-container {
+            width: 100%;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 8px;
+            background: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .Albasma-driver-image {
+            max-width: 110px;
+            max-height: 110px;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+        }
+        .Albasma-driver-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
+        }
+        .Albasma-button {
+            border: none;
+            border-radius: 8px;
+            padding: 10px 18px;
+            color: #ffffff;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            cursor: pointer;
+            background: var(--main-orange, #d48b2c);
+        }
+        .Albasma-button:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+        }
         .macaw-tabs.macaw-aurora-tabs > [role="tablist"] {
             position: relative;
 
@@ -700,6 +816,7 @@
         $canEditCase = false;
         if(Auth()->user()->is_admin || ($permissions && ($permissions->contains('permission_id', 102))))
         $canEditCase = true;
+        $canAssignEmployees = Auth()->user()->is_admin || ($permissions && $permissions->contains('permission_id', 129));
 
     @endphp
     @php
@@ -772,6 +889,7 @@
 <defs><style>.fa-secondary{opacity:.4}</style>
 </defs><path class='fa-primary' d='M350 206.6c3.781 8.803 1.984 19.03-4.594 26l-136 144.1c-9.062 9.601-25.84 9.601-34.91 0l-136-144.1C31.97 225.7 30.17 215.4 33.95 206.6C37.75 197.8 46.42 192.1 56 192.1L128 192.1V64.03c0-17.69 14.33-32.02 32-32.02h64c17.67 0 32 14.34 32 32.02v128.1l72 .0314C337.6 192.1 346.3 197.8 350 206.6z'/>
 <path class='fa-secondary' d='M352 416H31.1C14.33 416 0 430.3 0 447.1S14.33 480 31.1 480H352C369.7 480 384 465.7 384 448S369.7 416 352 416z'/></svg>"),
+        'MetalWork' => array('activeCases' => $aMetalWork, "waitingCases" => $wMetalWork, "numericStage" => 9,'icon' => "<i class='fa-solid fa-hammer'></i>"),
         'Finishing' => array('activeCases' => $aFinishing, "waitingCases" => $wFinishing, "numericStage" => 6,'icon' =>"<i class='fa-solid fa-broom'></i>"),
         'QC' => array('activeCases' => $aQC, "waitingCases" => $wQC, "numericStage" => 7,"icon" => "<i class='fa-solid fa-magnifying-glass'></i>"),
         'Delivery' => array('activeCases' => $aDelivery, "waitingCases" => $wDelivery, "numericStage" => 8,'icon' => "<i class='fa-solid fa-truck'></i>")
@@ -785,10 +903,12 @@
            unset($stages['3DPrinting']);
              if(!$permissions->contains('permission_id', 4))
            unset($stages['Sintering']);
-             if(!$permissions->contains('permission_id', 5))
-           unset($stages['Pressing']);
-             if(!$permissions->contains('permission_id', 6))
-           unset($stages['Finishing']);
+              if(!$permissions->contains('permission_id', 5))
+            unset($stages['Pressing']);
+              if(!$permissions->contains('permission_id', 5))
+            unset($stages['MetalWork']);
+              if(!$permissions->contains('permission_id', 6))
+            unset($stages['Finishing']);
              if(!$permissions->contains('permission_id', 7))
            unset($stages['QC']);
              if(!$permissions->contains('permission_id', 8))
@@ -805,9 +925,9 @@
 
     @endphp
         <!-- Begin .site-wrapper -->
-    <div class="site-wrapper">
+    <div class="site-wrapper ops-dashboard">
         <!-- Begin Main -->
-        <main style="background-color: white">
+        <main class="ops-main">
             <!-- Begin .macaw-tabs -->
             <div class="macaw-tabs macaw-aurora-tabs notransition">
                 <div role="tablist" class="stageSidebar" aria-orientation="vertical">
@@ -832,8 +952,12 @@
 
                             <div tabindex="0" role="tabpanel" hidden aria-labelledby="{{'waiting-'.$key .'label'}}" id="{{'waiting-'.$key}}">
                                 @if($key == '3DPrinting')
-                                <!-- Assign Selected Button for 3D Printing -->
-                                <button type="button" class="btn btn-primary" id="assign-3dprinting-btn" style="display: none; margin: 5px 0" onclick="openEmployeeModal('3dprinting')">Assign Selected</button>
+                                <div class="d-flex" id="assign-3dprinting-actions" style="display: none; gap: 8px; flex-wrap: wrap; margin: 5px 0;">
+                                    <button type="button" class="btn btn-secondary" id="assign-3dprinting-to-me-btn" onclick="assign3dPrintingToMe()">Assign to me</button>
+                                    @if($canAssignEmployees)
+                                        <button type="button" class="btn btn-primary" id="assign-3dprinting-btn" onclick="openEmployeeModal('3dprinting')">Assign Selected</button>
+                                    @endif
+                                </div>
 
                                 <table class=" waitingTable sunriseTable" style="width:100%">
                                     <thead>
@@ -877,7 +1001,7 @@
                                                     @foreach($case->tags as $tag)
                                                         <i title="{{$tag->originalTagRecord?->text}}"
                                                            style="color:{{$tag->originalTagRecord?->color}}"
-                                                           class="{{$tag->originalTagRecord?->icon}}  fa-lg"></i>
+                                                           class="{{ preg_replace('/[^a-z0-9\-\s]/i', '', (string) ($tag->originalTagRecord?->icon)) }} fa-lg"></i>
                                                     @endforeach
                                                 </td>
                                             </tr>
@@ -887,14 +1011,14 @@
                                     </table>
 
                                     <!-- Employee Assignment Dialog for 3D Printing -->
-{{--                                    <x-waiting-employee-dialog--}}
-{{--                                        title="Assign 3D Printing Cases"--}}
-{{--                                        btnText="ASSIGN"--}}
-{{--                                        type="3dprinting"--}}
-{{--                                        :employees="$printers"--}}
-{{--                                        stageId="{{ $stage['numericStage'] }}"--}}
-{{--                                        stageName="3D Printing"--}}
-{{--                                    />--}}
+                                    <x-waiting-employee-dialog
+                                        title="Assign 3D Printing Cases"
+                                        btnText="ASSIGN"
+                                        type="3dprinting"
+                                        :employees="$printers"
+                                        stageId="{{ $stage['numericStage'] }}"
+                                        stageName="3D Printing"
+                                    />
                                 @else
                                 <table class=" waitingTable sunriseTable" style="width:100%">
                                     <thead>
@@ -950,7 +1074,7 @@
                                                 @foreach($case->tags as $tag)
                                                     <i title="{{$tag->originalTagRecord?->text}}"
                                                        style="color:{{$tag->originalTagRecord?->color}}"
-                                                       class="{{$tag->originalTagRecord?->icon}}  fa-lg"></i>
+                                                       class="{{ preg_replace('/[^a-z0-9\-\s]/i', '', (string) ($tag->originalTagRecord?->icon)) }} fa-lg"></i>
                                                 @endforeach
                                             </td>
                                         </tr>
@@ -1204,6 +1328,7 @@
                                                                                 case '3dprinting': $stageUsers = $printers ?? []; break;
                                                                                 case 'Sintering': $stageUsers = $sinteringUsers ?? []; break;
                                                                                 case 'Pressing': $stageUsers = $pressingUsers ?? []; break;
+                                                                                case 'MetalWork': $stageUsers = $pressingUsers ?? []; break;
                                                                                 case 'Finishing': $stageUsers = $finishingUsers ?? []; break;
                                                                                 case 'QC': $stageUsers = $qcUsers ?? []; break;
                                                                                 default: $stageUsers = [];
@@ -1281,7 +1406,7 @@
                                                     @foreach($case->tags as $tag)
                                                         <i title="{{$tag->originalTagRecord?->text}}"
                                                            style="color:{{$tag->originalTagRecord?->color}}"
-                                                           class="{{$tag->originalTagRecord?->icon}}  fa-lg"></i>
+                                                           class="{{ preg_replace('/[^a-z0-9\-\s]/i', '', (string) ($tag->originalTagRecord?->icon)) }} fa-lg"></i>
                                                     @endforeach
                                                 </td>
 
@@ -1346,7 +1471,7 @@
                                                 @foreach($case->tags as $tag)
                                                     <i title="{{$tag->originalTagRecord?->text}}"
                                                        style="color:{{$tag->originalTagRecord?->color}}"
-                                                       class="{{$tag->originalTagRecord?->icon}}  fa-lg"></i>
+                                                       class="{{ preg_replace('/[^a-z0-9\-\s]/i', '', (string) ($tag->originalTagRecord?->icon)) }} fa-lg"></i>
                                                 @endforeach
                                             </td>
 
@@ -1674,6 +1799,41 @@
             Cookies.set('activeOuterTab', btnElement.id);
         }
 
+        function assign3dPrintingToMe() {
+            const checkboxes = document.querySelectorAll('input[data-stage-type="3dprinting"][data-case-checkbox]:checked');
+            if (!checkboxes.length) {
+                alert('Please select at least one case');
+                return;
+            }
+
+            const form = document.getElementById('employee-form-3dprinting');
+            if (!form) {
+                console.error('Employee form not found for 3dprinting');
+                return;
+            }
+
+            const caseIds = Array.from(checkboxes).map(cb => cb.getAttribute('data-case-id')).join(',');
+            const employeeInput = document.getElementById('employee-id-input-3dprinting');
+            const caseIdsInput = document.getElementById('case-ids-input-3dprinting');
+
+            if (employeeInput) {
+                employeeInput.value = {{ Auth()->user()->id }};
+            }
+            if (caseIdsInput) {
+                caseIdsInput.value = caseIds;
+            }
+
+            form.submit();
+        }
+
+        function update3dPrintingAssignButtons() {
+            const anyChecked = document.querySelectorAll('input[data-stage-type="3dprinting"][data-case-checkbox]:checked').length > 0;
+            const actions = document.getElementById('assign-3dprinting-actions');
+            if (actions) {
+                actions.style.display = anyChecked ? 'flex' : 'none';
+            }
+        }
+
         // Function to handle stage employee selection and immediate form submission
         function selectStageEmployee(employeeId, stageName, caseId) {
             const modalId = `assignModal${stageName}${caseId}`;
@@ -1702,17 +1862,9 @@
         }
 
         $('#select-all-waiting-printing').click(function(event) {
-            if(this.checked) {
-                // Iterate each checkbox
-                $('.case-checkbox-waiting').each(function() {
-                    this.checked = true;
-                });
-            } else {
-                $('.case-checkbox-waiting').each(function() {
-                    this.checked = false;
-                });
-            }
-            $('.case-checkbox-waiting').trigger('change');
+            const boxes = $('input[data-stage-type="3dprinting"][data-case-checkbox]');
+            boxes.prop('checked', this.checked);
+            update3dPrintingAssignButtons();
         });
 
         // Old bulk assign form removed - now using employee dialog
@@ -1744,13 +1896,9 @@
             }
         });
 
-        // Show/hide "Assign Selected" button for 3D Printing
-        $('.case-checkbox-waiting').change(function() {
-            if ($('.case-checkbox-waiting:checked').length > 0) {
-                $('#assign-3dprinting-btn').show();
-            } else {
-                $('#assign-3dprinting-btn').hide();
-            }
+        // Show/hide assignment actions for 3D Printing
+        $('input[data-stage-type="3dprinting"][data-case-checkbox]').change(function() {
+            update3dPrintingAssignButtons();
         });
 
         // Show/hide "Complete Selected" button

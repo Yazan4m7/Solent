@@ -15,8 +15,10 @@ Author:
 .side-navigation > li.active > a,
 .side-navigation > li.active > a:hover,
 .side-navigation > li.active > a:focus {
-  background-color: rgba(255,255,255,0.07); !important;
+  /* consolidated from: same file active color block — kept: active legacy sidebar state belongs with its active background. */
+  background-color: rgba(255,255,255,0.07) !important;
   border-radius: 3px;
+  color: #fff;
 }
 .sidebar-left .nav > li > a:hover,
 .sidebar-left .nav > li > a:focus,
@@ -29,18 +31,12 @@ Author:
     text-decoration: none;
     border-color: var(--color-accent-gold, #B3872D);
 }
-.side-navigation > li.active > a,
-.side-navigation > li.active > a:hover,
-.side-navigation > li.active > a:focus,
-.side-navigation .child-list > li > a:hover,
-.side-navigation .child-list > li > a:active,
-.side-navigation .child-list > li > a:focus,
 .side-navigation > li.nav-active > a,
 .side-navigation > li > a:hover,
-.side-navigation > li > a:active,
-.side-navigation > li.nav-active > a:after {
+.side-navigation > li > a:active {
   color: #fff;
 }
+
 .sidebar-left-info li,
 .sidebar-left a,
 .sb-slidebar a{
@@ -58,7 +54,16 @@ Author:
 }
 .side-navigation .child-list > li > a:hover,
 .side-navigation .child-list > li > a:active,
-.side-navigation .child-list > li > a:focus,
+.side-navigation .child-list > li > a:focus {
+  /* consolidated from: same file child-list color/background/transition blocks — kept: hover/focus/active interaction state in one place. */
+  color: #fff;
+  background: rgba(0, 0, 0, 0.2);
+  text-decoration: none;
+  -moz-transition: all 0.2s ease-out 0s;
+  -webkit-transition: all 0.2s ease-out 0s;
+  transition: all 0.2s ease-out 0s;
+}
+
 .sidebar-collapsed .side-navigation ul a:hover {
   background: rgba(0, 0, 0, 0.2);
 }
@@ -104,9 +109,8 @@ Author:
   overflow-y: auto;
   /*top: 50px;*/
   left: 0;
-}
-.sidebar-left {
-    padding-bottom: 100px;
+  /* consolidated from: same file duplicate .sidebar-left rule — kept with the base legacy sidebar-left definition. */
+  padding-bottom: 100px;
 }
 .sidebar-left .search-content {
   display: none;
@@ -171,6 +175,8 @@ Author:
   right: 0;
 }
 .side-navigation > li.nav-active > a:after {
+  /* consolidated from: same file nav-active arrow color block — kept with arrow content definition. */
+  color: #fff;
   content: "\f107";
   display: inline-block;
   font-family: "FontAwesome";
@@ -202,14 +208,6 @@ Author:
   font-size: 14px;
   display: block;
   padding: 10px 5px 10px 50px;
-  -moz-transition: all 0.2s ease-out 0s;
-  -webkit-transition: all 0.2s ease-out 0s;
-  transition: all 0.2s ease-out 0s;
-}
-.side-navigation .child-list > li > a:hover,
-.side-navigation .child-list > li > a:active,
-.side-navigation .child-list > li > a:focus {
-  text-decoration: none;
   -moz-transition: all 0.2s ease-out 0s;
   -webkit-transition: all 0.2s ease-out 0s;
   transition: all 0.2s ease-out 0s;

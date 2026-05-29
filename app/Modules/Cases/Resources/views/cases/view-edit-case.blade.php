@@ -474,7 +474,7 @@
             var colorsDDName = lstSelectedJobUNName.substr(0,9)  +"[color]";
             /* Updating dropdowns according to teeth selection
              * First if is for jaws, second is for teeth
-             * @Yazan - korvion
+             * @Yazan - Korvex
              */
             if (jQuery.inArray("lower",teethSelectedAsArr)  !== -1|| jQuery.inArray("upper",teethSelectedAsArr) !== -1) {
                 // clear all options

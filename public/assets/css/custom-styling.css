@@ -203,7 +203,7 @@ h5, .h5 {
     border-color: var(--color-surface, #D7DAE5) !important;
 }
 /** SIDE BAR HREFS **/
-.sidebar .nav li > a, .off-canvas-sidebar .nav li > a {
+.off-canvas-sidebar .nav li > a {
     padding:5px 2px !important;
 }
 .kt-nav__link-text,.dropdown-item{
@@ -388,10 +388,6 @@ th{
 }
 .statusCol{width: 15% !important;}
 body{/* font-family: 'Rubik', sans-serif; *//* font-family: 'Nunito Sans', sans-serif; *//* font-weight: 300; */}
-.sidebar , .sidebar .nav li>a{
-    font-family: 'Nunito Sans', sans-serif;
-    font-size:11px;
-}
 #kt_repeater_1{
     overflow: overlay;
 }
@@ -487,9 +483,9 @@ blueTBBorder{
 }
 .content{
     background-clip: border-box;
-    border: 0.0625rem solid rgba(34, 42, 66, 0.05);
+    /*border: 0.0625rem solid rgba(34, 42, 66, 0.05);*/
     border-radius: 0.2857rem;
-    background: white;
+    /*background: white;*/
     height: fit-content !important;
 }
 .container{
@@ -504,7 +500,7 @@ blueTBBorder{
 
 /* Main box margin, for the sidebar and top banner*/
 .main-panel > .content {
-    margin: 0 13px 30px 280px;
+    margin: 0 13px 30px 30px;
     min-height: calc(100vh - 70px);
 }
 .deleteBtn{
@@ -662,14 +658,14 @@ blueTBBorder{
 
 /* Brand palette defaults (light/green) for legacy components */
 :root {
-    --korvion-primary: var(--color-accent-gold, #B3872D);
-    --korvion-secondary: var(--color-surface-soft, #A6D8D4);
-    --korvion-surface: var(--color-surface, #D7DAE5);
-    --korvion-surface-alt: var(--color-surface-alt, #B9CDDA);
-    --korvion-panel: var(--color-surface, #D7DAE5);
-    --korvion-border: rgba(17, 21, 30, 0.12);
-    --korvion-text: #11151E;
-    --korvion-muted: #4b5563;
+    --Korvex-primary: var(--color-accent-gold, #B3872D);
+    --Korvex-secondary: var(--color-surface-soft, #A6D8D4);
+    --Korvex-surface: var(--color-surface, #D7DAE5);
+    --Korvex-surface-alt: var(--color-surface-alt, #B9CDDA);
+    --Korvex-panel: var(--color-surface, #D7DAE5);
+    --Korvex-border: rgba(17, 21, 30, 0.12);
+    --Korvex-text: #11151E;
+    --Korvex-muted: #4b5563;
 }
 
 

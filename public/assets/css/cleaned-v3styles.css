@@ -1,11 +1,11 @@
-/* Add this to your existing CSS or as a new file */ /* Machine selection dialog enhancements */ .korvion-machines-grid{
+/* Add this to your existing CSS or as a new file */ /* Machine selection dialog enhancements */ .Korvex-machines-grid{
     display: flex;
     flex-wrap: nowrap;
     gap: 20px;
     padding: 10px 0;
 }
 
-.korvion-machine-card{
+.Korvex-machine-card{
     display: flex
 ;
     flex-direction: column;
@@ -20,18 +20,18 @@
     background: #f6f6f6;
 }
 
-.korvion-machine-card:hover{
+.Korvex-machine-card:hover{
     transform: translateY(-3px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.korvion-machine-card.selected{
+.Korvex-machine-card.selected{
     border-color: #007bff;
     background: #f0f7ff;
     animation: pulse 1.5s infinite;
 }
 
-.korvion-machine-image-container{
+.Korvex-machine-image-container{
     height: 100px;
     display: flex;
     align-items: center;
@@ -39,29 +39,29 @@
     margin-bottom: 10px;
 }
 
-.korvion-machine-image{
+.Korvex-machine-image{
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
 }
 
-.korvion-machine-name{
+.Korvex-machine-name{
     font-weight: 600;
     color: #333;
     font-size: 0.9rem;
 }
 
-/* Build name input styling */ .korvion-form-group{
+/* Build name input styling */ .Korvex-form-group{
     margin: 15px 0;
 }
 
-.korvion-form-group label{
+.Korvex-form-group label{
     display: block;
     margin-bottom: 6px;
     font-weight: 500;
 }
 
-.korvion-form-control{
+.Korvex-form-control{
     width: 100%;
     padding: 10px;
     border: 1px solid #ced4da;
@@ -70,12 +70,12 @@
     transition: border-color 0.15s ease;
 }
 
-.korvion-form-control:focus{
+.Korvex-form-control:focus{
     border-color: #80bdff;
     outline: none;
 }
 
-/* Info block styling */ .korvion-info-block{
+/* Info block styling */ .Korvex-info-block{
     display: flex;
     align-items: center;
     background-color: #e9f4fe;
@@ -84,18 +84,18 @@
     margin: 15px 0;
 }
 
-.korvion-info-icon{
+.Korvex-info-icon{
     font-size: 1.25rem;
     color: #007bff;
     margin-right: 12px;
 }
 
-.korvion-info-text{
+.Korvex-info-text{
     color: #495057;
     font-size: 0.9rem;
 }
 
-/* Button styling that won't conflict */ .korvion-button{
+/* Button styling that won't conflict */ .Korvex-button{
     padding: 10px 24px;
     border-radius: 6px;
     border: none;
@@ -105,17 +105,17 @@
     font-size: 1rem;
 }
 
-.korvion-button:disabled{
+.Korvex-button:disabled{
     opacity: 0.6;
     cursor: not-allowed;
 }
 
-.korvion-button-success{
+.Korvex-button-success{
     background-color: #28a745;
     color: white;
 }
 
-.korvion-button-orange{
+.Korvex-button-orange{
     background-color: #fd7e14;
     color: white;
 }
@@ -133,55 +133,55 @@
         box-shadow: 0 0 0 0 rgba(0, 123, 255, 0);
     }
 
-} /* Device card enhancements */ .korvion-devices-grid{
+} /* Device card enhancements */ .Korvex-devices-grid{
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 20px;
     padding: 10px 0;
 }
 
-.korvion-device-card{
+.Korvex-device-card{
     position: relative;
 }
 
-.korvion-device-card.clickable:hover{
+.Korvex-device-card.clickable:hover{
     transform: translateY(-5px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
 }
 
 /* Responsive styles */ @media (max-width: 768px){
-    .korvion-machines-grid,
-    .korvion-devices-grid {
+    .Korvex-machines-grid,
+    .Korvex-devices-grid {
         display: flex;
         flex-wrap: nowrap;
 
         gap: 15px;
     }
 
-.korvion-machine-image-container, .korvion-device-image-container{
+.Korvex-machine-image-container, .Korvex-device-image-container{
         height: 80px;
     }
 
-} /* 3D printing specific styles */ .korvion-form-group{
+} /* 3D printing specific styles */ .Korvex-form-group{
     margin: 15px 0;
     display: block;
     width: 100%;
 }
 
-.korvion-form-label{
+.Korvex-form-label{
     display: block;
     margin-bottom: 6px;
     font-weight: 500;
     color: #333;
 }
 
-.korvion-form-hint{
+.Korvex-form-hint{
     font-size: 0.8rem;
     color: #6c757d;
     margin-top: 4px;
 }
 
-.korvion-info-block{
+.Korvex-info-block{
     display: flex;
     align-items: center;
     background-color: #e9f4fe;
@@ -190,36 +190,36 @@
     margin: 15px 0;
 }
 
-/* Fix for 3dprinting class to ensure it's visible */ #silicon-valley-inputs-container .korvion-form-group{
+/* Fix for 3dprinting class to ensure it's visible */ #silicon-valley-inputs-container .Korvex-form-group{
     display: block !important;
 }
 
-/* Machine card styling */ .korvion-machine-card{
+/* Machine card styling */ .Korvex-machine-card{
     transition: opacity 0.3s ease;
     cursor: pointer;
 }
 
-.korvion-machine-card.disabled{
+.Korvex-machine-card.disabled{
     pointer-events: none;
     opacity: 0.5;
 }
 
-/* Form styling */ .korvion-form-group{
+/* Form styling */ .Korvex-form-group{
     display: block !important;
     margin-bottom: 15px;
 }
 
-.korvion-form-control:disabled{
+.Korvex-form-control:disabled{
     background-color: #f1f1f1;
     cursor: not-allowed;
 }
 
-/* Button styling */ .korvion-button:disabled{
+/* Button styling */ .Korvex-button:disabled{
     opacity: 0.5;
     cursor: not-allowed;
 }
 
-.korvion-machine-card.selected::after{
+.Korvex-machine-card.selected::after{
     content: "✓";
     position: absolute;
     top: 10px;
@@ -235,45 +235,45 @@
     font-weight: bold;
 }
 
-/* Make machine images larger */ .korvion-machine-image{
+/* Make machine images larger */ .Korvex-machine-image{
     width: 180px !important;
     height: 180px !important;
     object-fit: contain;
 }
 
-/* Build name input styling */ #korvion-build-name{
+/* Build name input styling */ #Korvex-build-name{
     transition: background-color 0.3s ease;
 }
 
-#korvion-build-name:disabled{
+#Korvex-build-name:disabled{
     background-color: #f5f5f5;
     cursor: not-allowed;
 }
 
-#korvion-build-name:focus{
+#Korvex-build-name:focus{
     border-color: #4CAF50 !important;
     box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
 }
 
-/* Button styling */ .korvion-button{
+/* Button styling */ .Korvex-button{
     transition: opacity 0.3s ease;
 }
 
-/*////////////////////////////////////////////////////////////////////////////////*/ /*// 5/6/2025 11:59 PM*/ /*///////////////////////////////////////////////////////////////////////////////*/ /* Fix for devices display in active tabs */ .korvion-workflow-container{
+/*////////////////////////////////////////////////////////////////////////////////*/ /*// 5/6/2025 11:59 PM*/ /*///////////////////////////////////////////////////////////////////////////////*/ /* Fix for devices display in active tabs */ .Korvex-workflow-container{
     display: block !important;
 }
 
-/* Make sure device cards in the active tab are visible */ #active-milling .korvion-workflow-container, #active-3dprinting .korvion-workflow-container, #active-sintering .korvion-workflow-container, #active-pressing .korvion-workflow-container{
+/* Make sure device cards in the active tab are visible */ #active-milling .Korvex-workflow-container, #active-3dprinting .Korvex-workflow-container, #active-sintering .Korvex-workflow-container, #active-pressing .Korvex-workflow-container{
     display: block !important;
 }
 
-/* Override any modal styling that might be hiding the content */ .korvion-devices-grid{
+/* Override any modal styling that might be hiding the content */ .Korvex-devices-grid{
     display: grid !important;
     visibility: visible !important;
     opacity: 1 !important;
 }
 
-/* Make sure the device cards stand out visually */ .korvion-device-card{
+/* Make sure the device cards stand out visually */ .Korvex-device-card{
     background-color: white;
     border: 1px solid #ddd;
     transition: transform 0.2s, box-shadow 0.2s;
@@ -459,7 +459,7 @@
         flex: 0 0 90%;
     }
 
-} /* workflow-styles.css */ /* Base modal styles */ .korvion-workflow-modal{
+} /* workflow-styles.css */ /* Base modal styles */ .Korvex-workflow-modal{
     position: fixed;
     top: 0;
     left: 0;
@@ -476,12 +476,12 @@
     -webkit-backdrop-filter: blur(5px);
 }
 
-.korvion-workflow-modal.active{
+.Korvex-workflow-modal.active{
     /*display: flex;*/
     opacity: 1;
 }
 
-.korvion-workflow-dialog{
+.Korvex-workflow-dialog{
     background: white;
     border-radius: 16px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
@@ -496,15 +496,15 @@
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.korvion-workflow-modal.active .korvion-workflow-dialog{
+.Korvex-workflow-modal.active .Korvex-workflow-dialog{
     transform: translateY(0) scale(1);
 }
 
-.korvion-workflow-dialog.fade-in{
+.Korvex-workflow-dialog.fade-in{
     animation: dialogFadeIn 0.4s forwards;
 }
 
-.korvion-workflow-dialog.fade-out{
+.Korvex-workflow-dialog.fade-out{
     animation: dialogFadeOut 0.4s forwards;
 }
 
@@ -525,7 +525,7 @@ to{
         transform: translateY(0) scale(1);
     }
 
-} /* Header styles */ .korvion-workflow-header{
+} /* Header styles */ .Korvex-workflow-header{
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -535,7 +535,7 @@ to{
     background-image: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
 }
 
-.korvion-workflow-title{
+.Korvex-workflow-title{
     font-size: 1.5rem;
     font-weight: 700;
     color: #212529;
@@ -543,7 +543,7 @@ to{
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
-.korvion-close-button{
+.Korvex-close-button{
     background: rgba(255, 255, 255, 0.8);
     border: none;
     width: 36px;
@@ -559,20 +559,20 @@ to{
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.korvion-close-button:hover{
+.Korvex-close-button:hover{
     color: #dc3545;
     background: white;
     box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
     transform: scale(1.05);
 }
 
-/* Body styles */ .korvion-workflow-body{
+/* Body styles */ .Korvex-workflow-body{
     padding: 20px;
     overflow-y: auto;
     flex: 1;
 }
 
-/* Machine grid styles */ .korvion-machines-grid{
+/* Machine grid styles */ .Korvex-machines-grid{
 
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(20%, 1fr));
@@ -580,15 +580,15 @@ to{
     margin-bottom: 20px;
 }
 
-/* Form styles */ .korvion-form-group{
+/* Form styles */ .Korvex-form-group{
     margin-bottom: 20px;
 }
 
-.korvion-form-control.error{
+.Korvex-form-control.error{
     border-color: #dc3545;
 }
 
-/* Info block styles */ .korvion-info-block{
+/* Info block styles */ .Korvex-info-block{
     display: flex;
     align-items: center;
     background-color: #e9f4fe;
@@ -597,14 +597,14 @@ to{
     margin-bottom: 20px;
 }
 
-/* Footer styles */ .korvion-workflow-footer{
+/* Footer styles */ .Korvex-workflow-footer{
     padding: 16px 20px;
     border-top: 1px solid #eaeaea;
     display: flex;
     justify-content: flex-end;
 }
 
-/* Button styles */ .korvion-button{
+/* Button styles */ .Korvex-button{
     padding: 10px 24px;
     border-radius: 6px;
     border: none;
@@ -614,15 +614,15 @@ to{
     font-size: 1rem;
 }
 
-.korvion-button-success:not(:disabled):hover{
+.Korvex-button-success:not(:disabled):hover{
     background-color: #218838;
 }
 
-.korvion-button-orange:not(:disabled):hover{
+.Korvex-button-orange:not(:disabled):hover{
     background-color: #e76b06;
 }
 
-/* Loading Indicator */ #korvion-loading-indicator{
+/* Loading Indicator */ #Korvex-loading-indicator{
     position: fixed;
     top: 0;
     left: 0;
@@ -638,11 +638,11 @@ to{
     transition: opacity 0.3s ease;
 }
 
-#korvion-loading-indicator.active{
+#Korvex-loading-indicator.active{
     display: flex;
 }
 
-.korvion-loading-spinner{
+.Korvex-loading-spinner{
     background-color: white;
     padding: 40px;
     border-radius: 16px;
@@ -656,7 +656,7 @@ to{
     z-index: 10001;
 }
 
-.korvion-spinner-circle{
+.Korvex-spinner-circle{
     width: 60px;
     height: 60px;
     border-radius: 50%;
@@ -667,7 +667,7 @@ to{
     animation: spin 1.2s cubic-bezier(0.5, 0.1, 0.5, 0.9) infinite;
 }
 
-.korvion-loading-text{
+.Korvex-loading-text{
     margin-top: 25px;
     color: #333;
     font-weight: 600;
@@ -683,7 +683,7 @@ to{
 
 50%{ box-shadow: 0 15px 50px rgba(52, 152, 219, 0.4); }
 
-} /* Toast notification */ .korvion-toast{
+} /* Toast notification */ .Korvex-toast{
     position: fixed;
     bottom: 20px;
     right: 20px;
@@ -700,33 +700,33 @@ to{
     border-left: 4px solid #007bff;
 }
 
-.korvion-toast.visible{
+.Korvex-toast.visible{
     opacity: 1;
     transform: translateY(0);
 }
 
-.korvion-toast.success{
+.Korvex-toast.success{
     border-left-color: #28a745;
 }
 
-.korvion-toast.warning{
+.Korvex-toast.warning{
     border-left-color: #ffc107;
 }
 
-.korvion-toast.error{
+.Korvex-toast.error{
     border-left-color: #dc3545;
 }
 
-.korvion-toast.info{
+.Korvex-toast.info{
     border-left-color: #17a2b8;
 }
 
-/* Delivery dialog specific styles */ .delivery-dialog .modal-dialog, .delivery-dialog .korvion-workflow-dialog{
+/* Delivery dialog specific styles */ .delivery-dialog .modal-dialog, .delivery-dialog .Korvex-workflow-dialog{
     max-width: 900px;
     width: 90%;
 }
 
-/* Delivery Dialog - Driver Selection */ .korvion-drivers-grid{
+/* Delivery Dialog - Driver Selection */ .Korvex-drivers-grid{
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -734,7 +734,7 @@ to{
     padding: 15px 0;
 }
 
-.korvion-driver-card{
+.Korvex-driver-card{
     width: 140px;
     height: auto;
     padding: 15px;
@@ -748,18 +748,18 @@ to{
     align-items: center;
 }
 
-.korvion-driver-card:hover{
+.Korvex-driver-card:hover{
     transform: translateY(-5px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
-.korvion-driver-card.selected{
+.Korvex-driver-card.selected{
     border-color: #4CAF50;
     background-color: rgba(76, 175, 80, 0.05);
     box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.3);
 }
 
-.korvion-driver-image-container{
+.Korvex-driver-image-container{
     width: 100px;
     height: 100px;
     border-radius: 50%;
@@ -773,29 +773,29 @@ to{
     transition: all 0.3s ease;
 }
 
-.korvion-driver-card.selected .korvion-driver-image-container{
+.Korvex-driver-card.selected .Korvex-driver-image-container{
     border-color: #4CAF50;
     box-shadow: 0 0 15px rgba(76, 175, 80, 0.5);
 }
 
-.korvion-driver-image{
+.Korvex-driver-image{
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: all 0.3s ease;
 }
 
-.korvion-driver-image.grayscale{
+.Korvex-driver-image.grayscale{
     filter: grayscale(100%);
     opacity: 0.8;
 }
 
-.korvion-driver-card.selected .korvion-driver-image{
+.Korvex-driver-card.selected .Korvex-driver-image{
     filter: grayscale(0%);
     opacity: 1;
 }
 
-.korvion-driver-name{
+.Korvex-driver-name{
     font-weight: 600;
     color: #333;
     text-align: center;
@@ -803,12 +803,12 @@ to{
     font-size: 0.9rem;
 }
 
-/* Waiting dialog specific styles */ .waiting-dialog .korvion-workflow-dialog{
+/* Waiting dialog specific styles */ .waiting-dialog .Korvex-workflow-dialog{
     max-width: 800px;
     width: 90%;
 }
 
-.waiting-dialog .korvion-machines-grid{
+.waiting-dialog .Korvex-machines-grid{
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -816,7 +816,7 @@ to{
     padding: 20px 0;
 }
 
-.waiting-dialog .korvion-machine-card{
+.waiting-dialog .Korvex-machine-card{
     width: 220px;
     height: auto;
     padding: 15px;
@@ -826,18 +826,18 @@ to{
     transition: all 0.3s ease;
 }
 
-.waiting-dialog .korvion-machine-card:hover{
+.waiting-dialog .Korvex-machine-card:hover{
     transform: translateY(-5px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
-.waiting-dialog .korvion-machine-card.selected{
+.waiting-dialog .Korvex-machine-card.selected{
     border-color: #4CAF50;
     background-color: rgba(76, 175, 80, 0.05);
     box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.3);
 }
 
-.waiting-dialog .korvion-machine-image-container{
+.waiting-dialog .Korvex-machine-image-container{
     width: 100%;
     height: 180px;
     display: flex;
@@ -850,7 +850,7 @@ to{
     overflow: hidden;
 }
 
-.waiting-dialog .korvion-machine-image{
+.waiting-dialog .Korvex-machine-image{
     max-width: 90%;
     max-height: 90%;
     object-fit: contain;
@@ -858,11 +858,11 @@ to{
     filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.15));
 }
 
-.waiting-dialog .korvion-machine-card:hover .korvion-machine-image{
+.waiting-dialog .Korvex-machine-card:hover .Korvex-machine-image{
     transform: scale(1.05);
 }
 
-.waiting-dialog .korvion-machine-name{
+.waiting-dialog .Korvex-machine-name{
     font-weight: 600;
     font-size: 1.1rem;
     color: #333;
@@ -873,7 +873,7 @@ to{
     padding: 0 5px;
 }
 
-.delivery-dialog .modal-content, .delivery-dialog .korvion-workflow-body{
+.delivery-dialog .modal-content, .delivery-dialog .Korvex-workflow-body{
     padding: 0;
 }
 

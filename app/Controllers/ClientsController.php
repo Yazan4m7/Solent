@@ -258,7 +258,7 @@ class ClientsController extends Controller
         if(isset($doctor->doc_notification_token))
             $this->sendPaymentNotification($doctor->doc_notification_token,
                 "Payment Received",
-                $payment->amount . " JOD has been received"
+                $payment->amount . " " . $this->currentCurrencyCode() . " has been received"
                 );
 
         return back()->with('success', "Payment received successfully!");

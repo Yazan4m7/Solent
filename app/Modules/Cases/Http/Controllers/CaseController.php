@@ -34,6 +34,8 @@ use App\User;
 use App\lab;
 use App\editLog;
 use App\Http\Traits\helperTrait;
+use App\Support\Tenancy\TenantDataCache;
+use App\Support\Tenancy\TenantStorage;
 use Illuminate\Support\Facades\Auth;
 use Faker\Factory as Faker;
 use Log;
@@ -68,6 +70,9 @@ class CaseController extends Controller
         // Pressing
         'PRESSING_START'    => 5.1,
         'PRESSING_COMPLETE' => 5.2,
+        // Metal Work
+        'METALWORK_START'    => 9.1,
+        'METALWORK_COMPLETE' => 9.2,
         // Delivery
         'DELIVERY_ASSIGN'   => 8.1,
         'DELIVERY_ACCEPT'   => 8.2,
@@ -96,28 +101,38 @@ class CaseController extends Controller
             }
         }
 
-        // Build query based on selected doctors
-        $query = sCase::select(['id', 'patient_name', 'initial_delivery_date', 'actual_delivery_date', 'doctor_id', 'created_at'])
-            ->whereBetween($dateColumn, [$from . ' 00:00', $to . ' 23:59']);
+        $selectedClients = $request->doctor;
+        $tableData = app(TenantDataCache::class)->remember('case-list.table', (int) config('tenancy.cache_ttls.case_list', 30), function () use ($request, $from, $to, $dateColumn) {
+            $query = sCase::select(['id', 'patient_name', 'initial_delivery_date', 'actual_delivery_date', 'doctor_id', 'created_at'])
+                ->whereBetween($dateColumn, [$from . ' 00:00', $to . ' 23:59']);
 
-        // Filter by doctor if specified
-        if (isset($request->doctor) && !(isset($request->doctor[0]) && $request->doctor[0] === 'all')) {
-            $query->whereIn('doctor_id', $request->doctor);
-        }
+            if (isset($request->doctor) && !(isset($request->doctor[0]) && $request->doctor[0] === 'all')) {
+                $query->whereIn('doctor_id', $request->doctor);
+            }
 
-        // Order results and limit to prevent excessive memory usage
-        $cases = $query->orderByRaw('CASE WHEN actual_delivery_date IS NULL THEN 0 ELSE 1 END, COALESCE(actual_delivery_date, initial_delivery_date)')
-            ->limit(500)
-            ->get();
+            $cases = $query->orderByRaw('CASE WHEN actual_delivery_date IS NULL THEN 0 ELSE 1 END, COALESCE(actual_delivery_date, initial_delivery_date)')
+                ->limit(500)
+                ->get();
 
-        // Load relationships using eager loading with specific columns to reduce memory usage
-        $cases->load([
-            'notes:id,case_id,note,created_at,written_by',
-            'tags:id,case_id,tag_id'
+            $cases->load([
+                'notes:id,case_id,note,created_at,written_by',
+                'tags:id,case_id,tag_id'
+            ]);
+
+            return [
+                'cases' => $cases,
+                'clients' => client::select(['id', 'name'])->get(),
+            ];
+        }, [
+            'from' => $from,
+            'to' => $to,
+            'date_column' => $dateColumn,
+            'doctor' => $request->doctor ?? ['all'],
+            'user_id' => Auth::id(),
         ]);
 
-        $selectedClients = $request->doctor;
-        $clients = client::select(['id', 'name'])->get();
+        $cases = $tableData['cases'];
+        $clients = $tableData['clients'];
 
         // Pass all necessary data to the view
         return view('cases.index', compact('cases', 'from', 'to', 'selectedClients', 'clients', 'dateColumn'));
@@ -170,8 +185,15 @@ class CaseController extends Controller
         }
 
         $tempCaseId = now()->format('M-d') . '-' . $counterValue;
+        $domainContext = $this->currentDomainContext();
+        $currencyLabel = trim((string) (
+            $domainContext['currency_display']
+            ?? $domainContext['currency_code']
+            ?? config('domain_context.default.currency_display', 'JOD')
+        ));
+        $currencyLabel = $currencyLabel !== '' ? $currencyLabel : 'JOD';
 
-        return view("cases.create", compact('doctors', 'materials', 'implants', 'abutments', 'types', 'jobTypeMaterials', 'tags', 'impressionTypes', 'tempCaseId'));
+        return view("cases.create", compact('doctors', 'materials', 'implants', 'abutments', 'types', 'jobTypeMaterials', 'tags', 'impressionTypes', 'tempCaseId', 'currencyLabel'));
     }
 
     // takes inputs and creates a new case
@@ -273,11 +295,11 @@ class CaseController extends Controller
 
             foreach ($files as $file) {
                 $name = $file->getClientOriginalName();
-                $file->move('caseImages/' . $case->id . '/', $name);
+                $path = app(TenantStorage::class)->moveUploadedFile($file, 'caseImages/' . $case->id, $name);
 
 
                 $newFile = new file();
-                $newFile->path = 'caseImages/' . $case->id . '/' . $name;
+                $newFile->path = $path;
                 $newFile->case_id = $case->id;
                 $newFile->added_by = Auth()->user()->id;
                 $newFile->save();
@@ -496,11 +518,11 @@ class CaseController extends Controller
 
                 foreach ($files as $file) {
                     $name = $file->getClientOriginalName();
-                    $file->move('caseImages/' . $case->id . '/', $name);
+                    $path = app(TenantStorage::class)->moveUploadedFile($file, 'caseImages/' . $case->id, $name);
 
 
                     $newFile = new file();
-                    $newFile->path = 'caseImages/' . $case->id . '/' . $name;
+                    $newFile->path = $path;
                     $newFile->case_id = $case->id;
                     $newFile->added_by = Auth()->user()->id;
                     $newFile->save();
@@ -680,20 +702,8 @@ class CaseController extends Controller
         // Start a timer to measure execution time
         $startTime = microtime(true);
 
-        // Cache key for dashboard data (5-minute cache)
         $cacheVersion = Cache::get('dashboard_cache_version', 1);
-        $cacheKey = 'dashboard_data_v' . $cacheVersion . '_' . $currentUserId . '_' . ($isAdmin ? 'admin' : 'user');
-
-        // Try to get data from cache first
-        if (Cache::has($cacheKey)) {
-            $dashboardData = Cache::get($cacheKey);
-
-            // Extract variables from cached data
-            extract($dashboardData);
-
-            // Log cache hit
-            \Log::info("Dashboard loaded from cache in " . (microtime(true) - $startTime) . " seconds");
-        } else {
+        $dashboardData = app(TenantDataCache::class)->remember('operations.board', (int) config('tenancy.cache_ttls.operations', 30), function () use ($isAdmin, $permissions, $currentUserId) {
 
             // Optimized: Get all cases with all necessary relationships in one query
             $allCases = sCase::with([
@@ -711,7 +721,7 @@ class CaseController extends Controller
                 'notes.writtenBy:id,name_initials'
             ])
             ->whereHas('jobs', function ($q) {
-                $q->whereIn('stage', [1, 2, 3, 4, 5, 6, 7, 8]);
+                $q->whereIn('stage', [1, 2, 3, 4, 5, 6, 7, 8, 9]);
             })
             ->get();
 
@@ -731,6 +741,9 @@ class CaseController extends Controller
                 });
                 $aPressing = $allCases->filter(function ($case) {
                     return $case->jobs->where('stage', 5)->whereNotNull('assignee')->isNotEmpty();
+                });
+                $aMetalWork = $allCases->filter(function ($case) {
+                    return $case->jobs->where('stage', 9)->whereNotNull('assignee')->isNotEmpty();
                 });
                 $aFinishing = $allCases->filter(function ($case) {
                     return $case->jobs->where('stage', 6)->whereNotNull('assignee')->isNotEmpty();
@@ -757,6 +770,9 @@ class CaseController extends Controller
                 $wPressing = $allCases->filter(function ($case) {
                     return $case->jobs->where('stage', 5)->whereNull('assignee')->isNotEmpty();
                 });
+                $wMetalWork = $allCases->filter(function ($case) {
+                    return $case->jobs->where('stage', 9)->whereNull('assignee')->isNotEmpty();
+                });
                 $wFinishing = $allCases->filter(function ($case) {
                     return $case->jobs->where('stage', 6)->whereNull('assignee')->isNotEmpty();
                 });
@@ -780,6 +796,9 @@ class CaseController extends Controller
                 $aPressing = $allCases->filter(function ($case) use ($currentUserId) {
                     return $case->jobs->where('stage', 5)->where('assignee', $currentUserId)->isNotEmpty();
                 });
+                $aMetalWork = $allCases->filter(function ($case) use ($currentUserId) {
+                    return $case->jobs->where('stage', 9)->where('assignee', $currentUserId)->isNotEmpty();
+                });
                 $aFinishing = $allCases->filter(function ($case) use ($currentUserId) {
                     return $case->jobs->where('stage', 6)->where('assignee', $currentUserId)->isNotEmpty();
                 });
@@ -797,6 +816,7 @@ class CaseController extends Controller
                 $wPrinting = collect();
                 $wSintering = collect();
                 $wPressing = collect();
+                $wMetalWork = collect();
                 $wFinishing = collect();
                 $wQC = collect();
             }
@@ -892,17 +912,24 @@ class CaseController extends Controller
             $dashboardData = compact(
                 'labs', 'wDesign', 'aDesign',
                 'wMilling', 'aMilling', 'wPrinting', 'aPrinting',
-                'wSintering', 'aSintering', 'wPressing', 'aPressing',
+                'wSintering', 'aSintering', 'wPressing', 'aPressing', 'wMetalWork', 'aMetalWork',
                 'wFinishing', 'aFinishing', 'wQC', 'aQC', 'wDelivery',
                 'aDelivery', 'drivers',  'deviceUnitsCounts',
                 'designers', 'millers', 'printers', 'sinteringUsers',
                 'pressingUsers', 'finishingUsers', 'qcUsers'
             );
 
-            Cache::put($cacheKey, $dashboardData, now()->addMinutes(5));
-        }
+            return $dashboardData;
+        }, [
+            'version' => $cacheVersion,
+            'user_id' => $currentUserId,
+            'is_admin' => $isAdmin,
+        ]);
+        extract($dashboardData);
 
         $activeOuterTab = $_COOKIE['activeOuterTab'] ?? "";
+        $aMetalWork = $aMetalWork ?? collect();
+        $wMetalWork = $wMetalWork ?? collect();
 
         // Log execution time - can be removed in production
         $executionTime = microtime(true) - $startTime;
@@ -911,7 +938,7 @@ class CaseController extends Controller
         return view('cases.admin-dashboardv2', compact(
             'labs', 'wDesign', 'aDesign',
             'wMilling', 'aMilling', 'wPrinting', 'aPrinting',
-            'wSintering', 'aSintering', 'wPressing', 'aPressing',
+            'wSintering', 'aSintering', 'wPressing', 'aPressing', 'wMetalWork', 'aMetalWork',
             'wFinishing', 'aFinishing', 'wQC', 'aQC', 'wDelivery',
             'aDelivery', 'drivers', 'designers', 'millers', 'printers',
             'sinteringUsers', 'pressingUsers', 'finishingUsers', 'qcUsers',
@@ -982,6 +1009,7 @@ class CaseController extends Controller
         if ($stage == 3) { $logStage = $this->stageActions['PRINTING_SET']; }
         if ($stage == 4) { $logStage = $this->stageActions['SINTERING_SET']; }
         if ($stage == 5) { $logStage = $this->stageActions['PRESSING_START']; }
+        if ($stage == 9) { $logStage = $this->stageActions['METALWORK_START']; }
         if ($stage == 8) { $logStage = $this->stageActions['DELIVERY_ASSIGN']; }
         $log = new caseLog(['user_id' => Auth()->user()->id, 'case_id' => $caseId, 'stage' => $logStage, 'is_completion' => $isCompletion]);
         $log->save();
@@ -1169,6 +1197,9 @@ class CaseController extends Controller
         if ($stage == 5) {
             $logStage = $this->stageActions['PRESSING_COMPLETE'];
         }
+        if ($stage == 9) {
+            $logStage = $this->stageActions['METALWORK_COMPLETE'];
+        }
         if ($stage == 8) {
             $logStage = $this->stageActions['DELIVERY_COMPLETE'];
         }
@@ -1278,6 +1309,7 @@ class CaseController extends Controller
          * 3 => 3D Printing
          * 4 => Sintering Furnace
          * 5 => Press Furnace
+         * 9 => Metal Work
          * 6 => Finishing
          * 7 => Quality Control
          * 8 => Delivery
@@ -1289,9 +1321,13 @@ class CaseController extends Controller
         if ($material->print_3d && $currentStage < 3) return 3;
         if ($material->sinter_furnace && $currentStage < 4) return 4;
         if ($material->press_furnace && $currentStage < 5) return 5;
-        if ($material->finish && $currentStage < 6) return 6;
-        if ($material->qc && $currentStage < 7) return 7;
-        if ($material->delivery && $currentStage < 8) return 8;
+        if ($material->metal_work && $currentStage < 9) return 9;
+
+        // Furnace stages (4,5,9) are mutually exclusive and all come BEFORE finish/qc/delivery
+        $furnaceStages = [4, 5, 9];
+        if ($material->finish && ($currentStage < 6 || in_array($currentStage, $furnaceStages))) return 6;
+        if ($material->qc && ($currentStage < 7 || in_array($currentStage, $furnaceStages))) return 7;
+        if ($material->delivery && ($currentStage < 8 || in_array($currentStage, $furnaceStages))) return 8;
 
         return -1;
     }
@@ -1742,7 +1778,7 @@ class CaseController extends Controller
                 if ($client->doc_notification_token)
                     $this->sendPaymentNotification($client->doc_notification_token,
                         "Payment Received",
-                        "100 " . "JOD has been received",
+                        "100 " . $this->currentCurrencyCode() . " has been received",
                     );
                 break;
             default:
@@ -1824,7 +1860,7 @@ class CaseController extends Controller
 
     public function createDummyCase($stage = 1, $amount =1)
     {
-        if ($stage > 8 || $stage < 1) { dd("-_-");}
+        if (!in_array($stage, [1, 2, 3, 4, 5, 6, 7, 8, 9, -1])) { dd("-_-");}
         DB::beginTransaction();
         $faker = Faker::create();
 

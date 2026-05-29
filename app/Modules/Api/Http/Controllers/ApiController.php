@@ -54,7 +54,7 @@ class ApiController {
         }
     }
     public function authenticatedClient(String $encryptedPhoneNum){
-        $key = "korvion_Encryption_5ng853ld9f531g4";
+        $key = "Korvex_Encryption_5ng853ld9f531g4";
         $iv = "gm5kmd9ek3mz9dmg";
         $method = "aes-256-cbc";
         $phoneNum=  openssl_decrypt($encryptedPhoneNum,$method,$key,0,$iv);
@@ -64,7 +64,7 @@ class ApiController {
     }
     public function decryptedPhoneNum(String $encryptedPhoneNum)
     {
-        $key = "korvion_Encryption_5ng853ld9f531g4";
+        $key = "Korvex_Encryption_5ng853ld9f531g4";
         $iv = "gm5kmd9ek3mz9dmg";
         $method = "aes-256-cbc";
         $phoneNum = openssl_decrypt($encryptedPhoneNum, $method, $key, 0, $iv);
@@ -72,7 +72,7 @@ class ApiController {
         return $phoneNum;// to remove +962
     }
     public function clientInfo(Request $request){
-        $key = "korvion_Encryption_5ng853ld9f531g4";
+        $key = "Korvex_Encryption_5ng853ld9f531g4";
         $iv = "gm5kmd9ek3mz9dmg";
         $method = "aes-256-cbc";
         $encryptedPhoneNum = $request->phoneNum;
@@ -92,7 +92,7 @@ class ApiController {
     }
     public function setNotificationToken(Request $request)
     {
-        $key = "korvion_Encryption_5ng853ld9f531g4";
+        $key = "Korvex_Encryption_5ng853ld9f531g4";
         $iv = "gm5kmd9ek3mz9dmg";
         $method = "aes-256-cbc";
         $encryptedPhoneNum = $request->phoneNum;
@@ -291,7 +291,7 @@ class ApiController {
             $to = $last_day_this_month. ' 23:59:59' ;
         }else
             return response()->json(['msg' => "No Date Provided"], 400);
-        $key = "korvion_Encryption_5ng853ld9f531g4";
+        $key = "Korvex_Encryption_5ng853ld9f531g4";
         $iv = "gm5kmd9ek3mz9dmg";
         $method = "aes-256-cbc";
         $encryptedPhoneNum = $request->phoneNum;
@@ -325,7 +325,7 @@ class ApiController {
         return $transactions;
     }
     public function getCurrentBalance(Request $request){
-        $key = "korvion_Encryption_5ng853ld9f531g4";
+        $key = "Korvex_Encryption_5ng853ld9f531g4";
         $iv = "gm5kmd9ek3mz9dmg";
         $method = "aes-256-cbc";
         $encryptedPhoneNum = $request->phoneNum;
@@ -337,7 +337,7 @@ class ApiController {
         return $currentBalance;
     }
     public function openingBalance(Request $request){
-        $key = "korvion_Encryption_5ng853ld9f531g4";
+        $key = "Korvex_Encryption_5ng853ld9f531g4";
         $iv = "gm5kmd9ek3mz9dmg";
         $method = "aes-256-cbc";
         $encryptedPhoneNum = $request->phoneNum;
@@ -353,7 +353,7 @@ class ApiController {
         return $openingBalance;
     }
     public function getJobs(Request $request){
-        $key = "korvion_Encryption_5ng853ld9f531g4";
+        $key = "Korvex_Encryption_5ng853ld9f531g4";
         $iv = "gm5kmd9ek3mz9dmg";
         $method = "aes-256-cbc";
         $encryptedPhoneNum = $request->phoneNum;
@@ -401,7 +401,7 @@ class ApiController {
     }
 
     public function getInProgressCases(Request $request){
-        $key = "korvion_Encryption_5ng853ld9f531g4";
+        $key = "Korvex_Encryption_5ng853ld9f531g4";
         $iv = "gm5kmd9ek3mz9dmg";
         $method = "aes-256-cbc";
         $encryptedPhoneNum = $request->phoneNum;
@@ -416,7 +416,7 @@ class ApiController {
         return $cases->toJson();
     }
     public function getCompletedCases(Request $request){
-        $key = "korvion_Encryption_5ng853ld9f531g4";
+        $key = "Korvex_Encryption_5ng853ld9f531g4";
         $iv = "gm5kmd9ek3mz9dmg";
         $method = "aes-256-cbc";
         $encryptedPhoneNum = $request->phoneNum;
@@ -431,7 +431,7 @@ class ApiController {
         return $cases->toJson();
     }
     public function getEmployees(Request $request){
-        $key = "korvion_Encryption_5ng853ld9f531g4";
+        $key = "Korvex_Encryption_5ng853ld9f531g4";
         $iv = "gm5kmd9ek3mz9dmg";
         $method = "aes-256-cbc";
         $encryptedPhoneNum = $request->phoneNum;
@@ -444,7 +444,7 @@ class ApiController {
         return $emps->toJson();
     }
     public function getGalleryItems(Request $request){
-        $key = "korvion_Encryption_5ng853ld9f531g4";
+        $key = "Korvex_Encryption_5ng853ld9f531g4";
         $iv = "gm5kmd9ek3mz9dmg";
         $method = "aes-256-cbc";
         $encryptedPhoneNum = $request->phoneNum;
@@ -460,7 +460,7 @@ class ApiController {
 
     public function logSignin(Request $request)
     {
-        $key = "korvion_Encryption_5ng853ld9f531g4";
+        $key = "Korvex_Encryption_5ng853ld9f531g4";
         $iv = "gm5kmd9ek3mz9dmg";
         $method = "aes-256-cbc";
         $encryptedPhoneNum = $request->phoneNum;

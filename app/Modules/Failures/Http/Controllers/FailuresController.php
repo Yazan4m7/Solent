@@ -10,9 +10,11 @@ use App\Http\Controllers\Controller;
 use App\abutment;
 use App\caseTag;
 use App\client;
+use App\file;
 use App\failureCause;
 use App\failureLog;
 use App\Http\Traits\helperTrait;
+use App\Support\Tenancy\TenantStorage;
 use App\implant;
 use App\impressionType;
 use App\invoice;
@@ -221,11 +223,11 @@ class FailuresController extends Controller
         if($files=$request->file('images')){
             foreach($files as $file){
                 $name=$file->getClientOriginalName();
-                $file->move('caseImages/'.$case->id .'/',$name);
+                $path = app(TenantStorage::class)->moveUploadedFile($file, 'caseImages/' . $case->id, $name);
 
 
                 $newFile = new file();
-                $newFile->path = 'caseImages/'.$case->id .'/'.$name;
+                $newFile->path = $path;
                 $newFile->case_id = $case->id;
                 $newFile->added_by = Auth()->user()->id;
                 $newFile->save();
@@ -315,11 +317,11 @@ class FailuresController extends Controller
 
             foreach($files as $file){
                 $name=$file->getClientOriginalName();
-                $file->move('caseImages/'.$case->id .'/',$name);
+                $path = app(TenantStorage::class)->moveUploadedFile($file, 'caseImages/' . $case->id, $name);
 
 
                 $newFile = new file();
-                $newFile->path = 'caseImages/'.$case->id .'/'.$name;
+                $newFile->path = $path;
                 $newFile->case_id = $case->id;
                 $newFile->added_by = Auth()->user()->id;
                 $newFile->save();
@@ -413,11 +415,11 @@ class FailuresController extends Controller
 
             foreach($files as $file){
                 $name=$file->getClientOriginalName();
-                $file->move('caseImages/'.$case->id .'/',$name);
+                $path = app(TenantStorage::class)->moveUploadedFile($file, 'caseImages/' . $case->id, $name);
 
 
                 $newFile = new file();
-                $newFile->path = 'caseImages/'.$case->id .'/'.$name;
+                $newFile->path = $path;
                 $newFile->case_id = $case->id;
                 $newFile->added_by = Auth()->user()->id;
                 $newFile->save();

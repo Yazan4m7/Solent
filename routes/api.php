@@ -48,3 +48,10 @@ Route::post('/login',[ApiController::class,'login']);
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::fallback(function () {
+    return response()->json([
+        'message' => 'Endpoint not found.',
+        'status' => 404,
+    ], 404);
+});

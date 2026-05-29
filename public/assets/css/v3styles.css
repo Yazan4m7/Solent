@@ -279,7 +279,7 @@
     box-shadow: 0 0 8px rgba(76, 175, 80, 0.7);
 }
 
-/* === Korvion brand palette overrides for operations UI === */
+/* === Korvex brand palette overrides for operations UI === */
 :root {
     --ops-primary: var(--color-accent-gold, #B3872D);
     --ops-secondary: var(--color-surface-soft, #A6D8D4);

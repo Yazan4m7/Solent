@@ -1,12 +1,13 @@
 @extends('layouts.app' ,[ 'pageSlug' =>'My Collections'])
 
 @section('content')
+                    @php($currencyLabel = (string) ($currencyContext['display'] ?? $currencyContext['code'] ?? 'JOD'))
                      <div class="row" style="padding-left: 10px;padding-top: 10px">
                         <div class="col-lg-12 col-sm-12">
                             <div class="m-b-30">
                                 <div class="table-responsive">
                                     <h5 class="header-title">Payments Total</h5>
-                                    <h2 style=""><span style="font-weight: bold;color:#a13030">{{number_format($payments->sum('amount'))}}</span> <span style="font-weight: bold;font-size:18px;">JOD</span></h2>
+                                    <h2 style=""><span style="font-weight: bold;color:#a13030">{{number_format($payments->sum('amount'))}}</span> <span style="font-weight: bold;font-size:18px;">{{ $currencyLabel }}</span></h2>
                                     <p class="text-muted"></p>
                                     <div class="table-odd">
                                         <div id="datatable_wrapper" class=""><div class="row"><div class="col-sm-12">
@@ -26,7 +27,7 @@
                                                             <tr role="row">
                                                                 <td class="sorting_1">{{$payment->id}}</td>
                                                                 <td>{{$payment->client->name}}</td>
-                                                                <td>{{$payment->amount}} JOD</td>
+                                                                <td>{{$payment->amount}} {{ $currencyLabel }}</td>
                                                                 <td>{{substr($payment->created_at,0,16) }}</td>
                                                                 <td>{{$payment->from_bank ? $payment->notes : "Cash"}}</td>
 

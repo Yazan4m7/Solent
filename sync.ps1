@@ -1,5 +1,5 @@
  $source  = 'C:\Users\Yazan\Desktop\cCL\Mine\Generic\html'
-     $target  = 'C:\Users\Yazan\Desktop\cCL\Mine\Generic\Korvion'
+     $target  = 'C:\Users\Yazan\Desktop\cCL\Mine\Generic\Korvex'
      $folders = 'app','bootstrap','config','database','public','resources','routes','tests'
      foreach ($folder in $folders) {
          $srcPath = Join-Path $source $folder

@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="csrf-token" content="0gKkp4d3PIo18tukZz6xrGMkjhrRvWc6jF5B2XH6">
+    <link rel="icon" href="http://127.0.0.1:8000/images/brands/solent/solent_icon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Georgia&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400..700&display=swap" rel="stylesheet">
+    <style>
+:root {
+    --brand-primary: #c89b3c;
+    --brand-secondary: #e6c77a;
+    --brand-accent: #0f141c;
+    --brand-background: #0b1117;
+}
+</style>
+    <title>Create Tenant</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Alexandria:wght@100..900&family=Noto+Naskh+Arabic:wght@400..700&family=Tajawal:wght@200;300;400;500;700;800;900&display=swap"
+        rel="stylesheet">
+    <!-- Reset/Base CSS -->
+    <style>
+        :root {
+            --font-family-sans-serif: "Nunito", sans-serif;
+            --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+            /* Brand palette (configurable) */
+            --color-shell-bg: #11151E;
+            --color-accent-gold: #B3872D;
+            --color-surface: #D7DAE5;
+            --color-surface-alt: #B9CDDA;
+            --color-surface-soft: #A6D8D4;
+            --color-text: #11151E;
+            --color-muted: #4b5563;
+
+            --brand-primary: var(--color-accent-gold);
+            --brand-secondary: var(--color-surface-soft);
+            --brand-accent: var(--color-accent-gold);
+
+            /* Legacy aliases */
+            --main-blue: var(--color-accent-gold);
+            --main-orange: var(--color-accent-gold);
+            --main-green: var(--color-surface-soft);
+            --air-force-blue: var(--color-shell-bg);
+            --timber-wolf: var(--color-surface);
+            --rich-black: var(--color-shell-bg);
+            --indigo-dye: var(--color-shell-bg);
+            --cadet-gray: var(--color-surface-alt);
+            --dark-teal: var(--color-shell-bg);
+        }
+
+        @font-face {
+            font-family: SegoeUI;
+            src: local("Segoe UI Bold"),
+                url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/bold/latest.woff2) format("woff2"),
+                url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/bold/latest.woff) format("woff"),
+                url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/bold/latest.ttf) format("truetype");
+            font-weight: 600;
+        }
+
+        .noto-naskh-arabic {
+            font-family: "Noto Naskh Arabic", serif;
+            font-optical-sizing: auto;
+            font-weight: 700;
+            font-style: normal;
+        }
+
+        .noto-naskh-arabic {
+            font-family: "Noto Naskh Arabic", serif;
+            font-optical-sizing: auto;
+            font-weight: 600;
+            font-style: normal;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 5;
+        }
+
+        .overlay.active {
+            display: flex;
+        }
+
+        .no-scroll {
+            overflow: hidden;
+        }
+    </style>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,300" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway&family=Rubik:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/montserrat" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet" />
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+
+    <!-- Core Framework CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" media="all"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l')" crossorigin="anonymous">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+
+    <!-- Third-party/Plugin CSS -->
+    <link href="http://127.0.0.1:8000/assets/css/jquery.datetimepicker.min.css" rel="stylesheet">
+    <link href="//cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <link href="//cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css" rel="stylesheet"
+        type="text/css" />
+    <link href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css" rel="stylesheet"
+        type="text/css" />
+    <link href="http://127.0.0.1:8000/assets/css/sweetalert2.min.css" rel="stylesheet" />
+
+    <!-- Theme CSS -->
+    <link href="http://127.0.0.1:8000/assets/css/white-dashboard.css?v=1.0.0" rel="stylesheet" />
+    <link href="http://127.0.0.1:8000/assets/css/theme.css" rel="stylesheet" />
+    <link href="http://127.0.0.1:8000/assets/css/nucleo-icons.css" rel="stylesheet" />
+
+    <!-- Custom CSS -->
+    <link href="http://127.0.0.1:8000/assets/css/callouts.css" rel="stylesheet" />
+    <link href="http://127.0.0.1:8000/assets/css/ysh-custom-css/dialog.css" rel="stylesheet" />
+    <link href="http://127.0.0.1:8000/assets/css/custom-styling.css" rel="stylesheet" />
+    <link href="http://127.0.0.1:8000/assets/css/sidebar-fix.css" rel="stylesheet" />
+    <link href="http://127.0.0.1:8000/css/georgia-font.css" rel="stylesheet" />
+    <link href="http://127.0.0.1:8000/css/ysh-custom-css/machine-images.css" rel="stylesheet" />
+    <link href="http://127.0.0.1:8000/assets/css/brand-overrides.css" rel="stylesheet" />
+    <link href="http://127.0.0.1:8000/assets/css/korvion-brand.css" rel="stylesheet" />
+
+    <!-- Dynamic styling -->
+    <style>
+    body,
+    html, .wrapper {
+        height: 100%;
+    }
+
+    <!-- tooltop -->
+     .tooltipY {
+         position: relative;
+         display: inline-block;
+         border-bottom: 1px dotted black;
+     }
+
+    .tooltipY .tooltiptextY {
+        visibility: hidden;
+        width: auto;
+        background-color: #0e3539;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px;
+        position: absolute;
+        z-index: 1;
+        bottom: 100%;
+        left: 50%;
+        margin-left: -60px;
+
+        /* Fade in tooltip - takes 1 second to go from 0% to 100% opac: */
+        opacity: 0;
+        transition: opacity 1s;
+    }
+
+    .tooltipY:hover .tooltiptextY {
+        visibility: visible;
+        opacity: 1;
+    }
+    <!-- End tooltop -->
+
+
+    <!-- Sidebar -->
+    a {
+        color: var(--color-accent-gold, #2b7b7d);
+    }
+    a:hover, a:focus {
+        color: var(--color-surface-soft, #2b7b7d);
+    }
+    .sidebar, .off-canvas-sidebar {
+
+        background: var(--color-shell-bg, #2b7b7d);
+       }
+    .main-panel {
+        border-top: 2px solid var(--color-accent-gold, #2b7b7d);
+    }
+
+    <!-- Buttons -->
+    .deleteBtn{
+        padding:10px , 20px;
+        background-color:20;
+    }
+    .btn-primary {
+    
+    
+    
+    
+    
+
+}
+    .btn-secondary {
+        
+    }
+    /*.dropdown-toggle {*/
+        /*-webkit-text-size-adjust: 100%;*/
+        /*-webkit-tap-highlight-color: transparent;*/
+        /*--blue: #886ab5;*/
+        /*--indigo: #6610f2;*/
+        /*--purple: #6f42c1;*/
+        /*--pink: #e83e8c;*/
+        /*--red: #fd3995;*/
+        /*--orange: #ffc241;*/
+        /*--yellow: #ffc241;*/
+        /*--green: #1dc9b7;*/
+        /*--teal: #20c997;*/
+        /*--cyan: #17a2b8;*/
+        /*--white: #fff;*/
+        /*--gray: #868e96;*/
+        /*--gray-dark: #495057;*/
+        /*--primary: #886ab5;*/
+        /*--secondary: #868e96;*/
+        /*--success: #1dc9b7;*/
+        /*--info: #2196F3;*/
+        /*--warning: #ffc241;*/
+        /*--danger: #fd3995;*/
+        /*--light: #fff;*/
+        /*--dark: #505050;*/
+        /*--font-family-sans-serif: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";*/
+        /*--font-family-monospace: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;*/
+        /*--theme-primary: #886ab5;*/
+        /*--theme-secondary: #868e96;*/
+        /*--theme-success: #1dc9b7;*/
+        /*--theme-info: #2196F3;*/
+        /*--theme-warning: #ffc241;*/
+        /*--theme-danger: #fd3995;*/
+        /*--theme-light: #fff;*/
+        /*--theme-dark: #505050;*/
+        /*--theme-primary-50: #ccbfdf;*/
+        /*--theme-primary-100: #beaed7;*/
+        /*--theme-primary-200: #b19dce;*/
+        /*--theme-primary-300: #a38cc6;*/
+        /*--theme-primary-400: #967bbd;*/
+        /*--theme-primary-500: #886ab5;*/
+        /*--theme-primary-600: #7a59ad;*/
+        /*--theme-primary-700: #6e4e9e;*/
+        /*--theme-primary-800: #62468d;*/
+        /*--theme-primary-900: #563d7c;*/
+        /*--theme-success-50: #7aece0;*/
+        /*--theme-success-100: #63e9db;*/
+        /*--theme-success-200: #4de5d5;*/
+        /*--theme-success-300: #37e2d0;*/
+        /*--theme-success-400: #21dfcb;*/
+        /*--theme-success-500: #1dc9b7;*/
+        /*--theme-success-600: #1ab3a3;*/
+        /*--theme-success-700: #179c8e;*/
+        /*--theme-success-800: #13867a;*/
+        /*--theme-success-900: #107066;*/
+        /*--theme-info-50: #9acffa;*/
+        /*--theme-info-100: #82c4f8;*/
+        /*--theme-info-200: #6ab8f7;*/
+        /*--theme-info-300: #51adf6;*/
+        /*--theme-info-400: #39a1f4;*/
+        /*--theme-info-500: #2196F3;*/
+        /*--theme-info-600: #0d8aee;*/
+        /*--theme-info-700: #0c7cd5;*/
+        /*--theme-info-800: #0a6ebd;*/
+        /*--theme-info-900: #0960a5;*/
+        /*--theme-warning-50: #ffebc1;*/
+        /*--theme-warning-100: #ffe3a7;*/
+        /*--theme-warning-200: #ffdb8e;*/
+        /*--theme-warning-300: #ffd274;*/
+        /*--theme-warning-400: #ffca5b;*/
+        /*--theme-warning-500: #ffc241;*/
+        /*--theme-warning-600: #ffba28;*/
+        /*--theme-warning-700: #ffb20e;*/
+        /*--theme-warning-800: #f4a500;*/
+        /*--theme-warning-900: #da9400;*/
+        /*--theme-danger-50: #feb7d9;*/
+        /*--theme-danger-100: #fe9ecb;*/
+        /*--theme-danger-200: #fe85be;*/
+        /*--theme-danger-300: #fe6bb0;*/
+        /*--theme-danger-400: #fd52a3;*/
+        /*--theme-danger-500: #fd3995;*/
+        /*--theme-danger-600: #fd2087;*/
+        /*--theme-danger-700: #fc077a;*/
+        /*--theme-danger-800: #e7026e;*/
+        /*--theme-danger-900: #ce0262;*/
+        /*--theme-fusion-50: #909090;*/
+        /*--theme-fusion-100: #838383;*/
+        /*--theme-fusion-200: #767676;*/
+        /*--theme-fusion-300: dimgray;*/
+        /*--theme-fusion-400: #5d5d5d;*/
+        /*--theme-fusion-500: #505050;*/
+        /*--theme-fusion-600: #434343;*/
+        /*--theme-fusion-700: #363636;*/
+        /*--theme-fusion-800: #2a2a2a;*/
+        /*--theme-fusion-900: #1d1d1d;*/
+        /*--breakpoint-xs: 0;*/
+        /*--breakpoint-sm: 576px;*/
+        /*--breakpoint-md: 768px;*/
+        /*--breakpoint-lg: 992px;*/
+        /*--breakpoint-xl: 1399px;*/
+        /*direction: ltr;*/
+        /*-webkit-box-direction: normal;*/
+        /*box-sizing: border-box;*/
+        /*font-family: inherit;*/
+        /*overflow: visible;*/
+        /*text-transform: none;*/
+        /*touch-action: manipulation;*/
+        /*-webkit-appearance: button;*/
+        /*display: inline-block;*/
+        /*font-weight: 400;*/
+        /*text-align: center;*/
+        /*vertical-align: middle;*/
+        /*user-select: none;*/
+        /*border: 1px solid transparent;*/
+        /*padding: .5rem 1.125rem;*/
+        /*font-size: .8125rem;*/
+        /*line-height: 1.47;*/
+        /*border-radius: 4px;*/
+        /*transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;*/
+        /*color: #fff;*/
+        /*background-color: #868e96;*/
+        /*border-color: #868e96;*/
+        /*outline: 0;*/
+        /*box-shadow: 0 2px 6px 0 rgba(134,142,150,.5);*/
+        /*margin: 0 .375rem 1rem 0!important;*/
+        /*cursor: pointer;*/
+    /*}*/
+    .btn:hover, .btn:focus, .btn-primary:hover, .btn-primary:focus {
+        
+        
+    }
+
+</style>
+
+    <!-- Page-specific CSS -->
+    
+</head>
+
+
+<body  class="white-content">
+
+
+            <!-- Loading Overlay -->
+        <!-- Loading Spinner Overlay -->
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <div class="wrapper" >
+            <div class="sidebar">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,200,1,0" />
+    <style>
+        .sidebar {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 250px !important;
+            height: 100vh !important;
+            margin-left: 0 !important;
+            margin-top: 0 !important;
+            background: #ffffff !important;
+            box-shadow: none !important;
+            border-right: 1px solid #e2e8f0 !important;
+            border-radius: 0 !important;
+        }
+
+        .sidebar::before,
+        .sidebar::after {
+            display: none !important;
+        }
+
+        .sidebar .sidebar-wrapper {
+            background: #ffffff !important;
+            height: calc(100vh - 84px) !important;
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
+            padding-top: 0 !important;
+        }
+
+        .korvion-sidebar-brand {
+            min-height: 84px;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            background: #ffffff !important;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .korvion-sidebar-logo {
+            display: inline-flex;
+            align-items: center;
+            max-width: 100%;
+            margin: 0;
+            text-decoration: none !important;
+        }
+
+        .korvion-sidebar-logo-full {
+            display: block;
+            width: min(172px, 100%);
+            height: auto;
+            max-height: 34px;
+            object-fit: contain;
+        }
+
+        .sidebar .nav li a i,
+        .sidebar .nav li svg {
+            width: 28px !important;
+            text-align: center !important;
+            flex-shrink: 0 !important;
+            margin-right: 12px !important;
+            align-items: center !important;
+            justify-content: center !important;
+            font-size: 20px !important;
+        }
+
+        .sidebar .nav li > a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #1f2a3d !important;
+        }
+
+        .sidebar .nav li > a span,
+        .sidebar .nav li > a p {
+            margin: 0;
+            display: inline;
+            color: #1f2a3d !important;
+        }
+
+        .sidebar .nav li.active > a span,
+        .sidebar .nav li.active > a i {
+            color: #1f2a3d !important;
+        }
+
+        .sidebar .nav li > a,
+        .sidebar .nav li > a i,
+        .sidebar .nav li > a svg,
+        .sidebar .nav li > a .material-symbols-outlined {
+            color: #1f2a3d !important;
+        }
+
+        .sidebar .nav li.active > a,
+        .sidebar .nav li:hover > a {
+            background: #f5f7fb !important;
+            border-left: 3px solid #33899a !important;
+            color: #1f2a3d !important;
+        }
+
+        .sidebar hr {
+            border-color: #e2e8f0 !important;
+        }
+    </style>
+        <div class="korvion-sidebar-brand">
+        <a class="korvion-sidebar-logo" href="http://127.0.0.1:8000/main-dashboard" aria-label="Laravel home">
+            <img class="korvion-sidebar-logo-full" src="http://127.0.0.1:8000/images/brands/solent/solent_h.svg" alt="Laravel logo">
+        </a>
+    </div>
+    <div class="sidebar-wrapper">
+
+        <ul class="nav">
+
+                            <li class="">
+                    <a href="http://127.0.0.1:8000/main-dashboard">
+                        <i class="fa-solid fa-house"></i>
+                        <span>Home</span>
+                    </a>
+                </li>
+                <hr style="border-color:#b4b4b4;margin-top: 0.5rem;margin-bottom: 0.5rem;">
+                                        <div class="" style="padding:0">
+
+                    <li class="">
+                        <a href="http://127.0.0.1:8000/operations-dashboard" style=" margin-right: 0px;">
+                            <span class="material-symbols-outlined googleIconInSideBar">
+                                dashboard
+                            </span>
+                            <span>OPERATIONS DASHBOARD</span>
+                        </a>
+
+
+                        
+                        
+                        
+                </div>
+
+                <hr style="border-color:#b4b4b4;margin-top: 0.5rem;margin-bottom: 0.5rem;">
+                                        <li class="">
+                    <a href="http://127.0.0.1:8000/new-case"><i class="fa fa-plus-square"></i> <span>Create
+                            Case</span></a>
+                </li>
+            
+
+
+                            <li class="">
+                    <a href="http://127.0.0.1:8000/cases"><i class="fa fa-suitcase"></i> <span>Case List</span></a>
+                </li>
+            
+            
+            
+
+                            <li class=""><a
+                        href="http://127.0.0.1:8000/cases-monitor" style="opacity:100%"><i
+                            class="fa-solid fa-table-cells-large" style="opacity:100%"></i><span>Real-time
+                            Monitor</span></a></li>
+                        
+                            <li class=""><a
+                        href="http://127.0.0.1:8000/delivery-schedule"> <i class="fa-regular fa-clock"></i>
+                        <span>Deliveries</span></a>
+                        
+            
+            
+            
+                            <li class=""><a
+                        href="http://127.0.0.1:8000/doctors/index"><i class="fa fa-user-md"></i> <span>Clients</span></a>
+                        
+            
+
+
+
+
+
+
+
+
+                            
+                <li>
+                    <a data-toggle="collapse" href="#laravel-examples" aria-expanded="false">
+                        <i class="fa-solid fa-chart-pie"></i>
+                        <span class="nav-link-text">Insights & Reports</span>
+                        <b class="caret mt-1"></b>
+                    </a>
+
+                    <div class="collapse" id="laravel-examples">
+                        <ul class="nav pl-4">
+                            <li class="">
+                                <a href="http://127.0.0.1:8000/reports/num-of-units">
+                                    <i class="fa-solid fa-layer-group"></i>
+                                    <span>Units Summary</span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="http://127.0.0.1:8000/reports/job-types">
+                                    <i class="fa-solid fa-sitemap"></i>
+                                    <span>Job Mix</span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="http://127.0.0.1:8000/reports/QC">
+                                    <i class="fa-solid fa-clipboard-check"></i>
+                                    <span>QC Summary</span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="http://127.0.0.1:8000/reports/repeats">
+                                    <i class="fa-solid fa-rotate-right"></i>
+                                    <span>Remakes</span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="http://127.0.0.1:8000/reports/material">
+                                    <i class="fa-solid fa-flask"></i>
+                                    <span>Materials Usage</span>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </li>
+                                                        <li>
+                    <a data-toggle="collapse" href="#accountancyList" aria-expanded="">
+                        <i class="fa-solid fa-dollar-sign"></i> <span class="nav-link-text">Billing</span>
+                        <b class="caret mt-1"></b>
+                    </a>
+                    <div class="collapse " id="accountancyList">
+                        <ul class="nav pl-4">
+                            
+                            
+
+
+
+
+
+
+                                                            <li class="">
+                                    <a href="http://127.0.0.1:8000/invoices"><i
+                                            class="fa-solid fa-file-invoice-dollar"></i> <span>Invoice List</span></a>
+                                                                                        <li class=""><a
+                                        href="http://127.0.0.1:8000/payments/index"><i class="fa fa-credit-card"></i>
+                                        <span>Payments</span></a>
+                                                    </ul>
+                    </div>
+                </li>
+                                        
+                <li>
+                    <a data-toggle="collapse" href="#configList" aria-expanded="false">
+                        <i class="fa-solid fa-gear"></i>
+                        <span class="nav-link-text">Settings</span>
+                        <b class="caret mt-1"></b>
+                    </a>
+
+                    <div class="collapse " id="configList">
+                        <ul class="nav pl-4">
+
+                            <li class=""><a
+                                    href="http://127.0.0.1:8000/materials"><i class="fa fa-cubes"></i>
+                                    <span>Material list</span></a>
+                            <li class=""><a
+                                    href="http://127.0.0.1:8000/Job-type/index"><i class="fa fa-object-group"
+                                        aria-hidden="true"></i> <span>Job types list</span></a>
+                            <li class=""><a
+                                    href="http://127.0.0.1:8000/users/index"><i class="fa fa-users"></i>
+                                    <span>Team Members</span></a>
+                                
+                                
+                            <li class=""><a
+                                    href="http://127.0.0.1:8000/implants/index"><i class="fa-solid fa-tooth"></i>
+                                    <span>Implant list</span></a>
+                                
+                                
+                            <li class=""><a
+                                    href="http://127.0.0.1:8000/tags/index"><i class="fa fa-tag"></i><span>Tags</span></a>
+                            <li class=""><a
+                                    href="http://127.0.0.1:8000/f-cause/index"><i
+                                        class="fa-solid fa-repeat"></i><span>Failure Reasons</span></a>
+                                
+
+                        </ul>
+                    </div>
+                </li>
+            
+        </ul>
+    </div>
+</div>
+
+            <div class="main-panel">
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css"
+    integrity="sha512-siarrzI1u3pCqFG2LEzi87McrBmq6Tp7juVsdmGY1Dr8Saw+ZBAzDzrGwX3vgxX1NkioYNCFOVC0GpDPss10zQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<style>
+    @import  url(https://fonts.googleapis.com/css?family=Lato:100,300,400,700);
+
+    .navbar-wrapper {
+        display: none;
+    }
+
+    .main-panel {
+        margin-left: 250px !important;
+        width: calc(100% - 250px) !important;
+        min-height: 100vh;
+        background: #f5f6fa !important;
+        border-top: 0 !important;
+    }
+
+    body.white-content,
+    body.white-content .main-panel,
+    body.white-content .main-panel > .content {
+        background: #f5f6fa !important;
+    }
+
+    .navbar.stickMe,
+    .navbar.navbar-transparent.stickMe,
+    .stickMe {
+        position: sticky;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: #ffffff !important;
+        padding: 0 !important;
+        border-bottom: 1px solid #e2e8f0;
+        box-shadow: none;
+        z-index: 1000;
+    }
+
+    .stickMe > .container-fluid {
+        display: flex;
+        padding: 0 !important;
+    }
+
+    .headerRow {
+        display: flex;
+        width: 100%;
+        min-height: 84px;
+        margin: 0 !important;
+        padding: 0;
+        align-items: center !important;
+        justify-content: space-between !important;
+        flex-wrap: nowrap !important;
+        background-color: transparent;
+    }
+
+    .headerTitleCol {
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+
+    .left-toggler-container {
+        display: flex;
+        align-items: center !important;
+        flex-wrap: nowrap !important;
+        min-height: 84px;
+        margin: 0 !important;
+        padding: 0 0 0 24px;
+        background-color: transparent;
+    }
+
+    .logo-col {
+        display: none;
+    }
+
+    .logo-navbar {
+        display: none !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .logo-navbar .logo,
+    .logo-navbar .korvion-horizontal-logo {
+        width: 26px !important;
+        height: 26px !important;
+        max-height: 26px !important;
+        object-fit: contain !important;
+        filter: none !important;
+        position: static !important;
+    }
+
+    .pageTitleContainer {
+        display: flex !important;
+        align-items: center !important;
+        gap: 12px !important;
+        flex: 1 1 auto !important;
+        max-width: none !important;
+        min-width: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: transparent !important;
+        border: 0 !important;
+        border-image: none !important;
+        border-radius: 0 !important;
+    }
+
+    .pageTitleAccent {
+        display: inline-block;
+        width: 4px;
+        height: 30px;
+        flex: 0 0 4px;
+        border-radius: 6px;
+        background: linear-gradient(180deg, #2c6068 0%, #265057 100%);
+    }
+
+    .pageTitle {
+        display: inline-flex !important;
+        align-items: center !important;
+        min-width: 0;
+        margin: 0 !important;
+        padding: 0;
+        width: auto !important;
+        color: #1f2a3d !important;
+        font-weight: 800 !important;
+        letter-spacing: 0.04em !important;
+        text-transform: uppercase;
+        line-height: 1.1 !important;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .navbar.stickMe .pageTitle,
+    .navbar.stickMe .navbar-brand.pageTitle {
+        color: #1f2a3d !important;
+    }
+
+    .headerSearchCol {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        justify-content: flex-end;
+        padding-right: 24px !important;
+    }
+
+    .headerSearchCol form {
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+        margin: 0;
+    }
+
+    #wrapp {
+        margin: 0;
+        display: flex;
+        align-items: center;
+        width: min(336px, 100%);
+        height: 44px;
+        padding: 0;
+        position: relative;
+    }
+
+    #wrapp .SBF2 {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        height: 44px;
+        padding: 0 16px;
+        border: 1px solid rgba(17, 21, 30, 0.12);
+        border-radius: 999px;
+        background: #ffffff;
+        box-sizing: border-box;
+    }
+
+    #wrapp input[type="text"] {
+        flex: 1 1 auto;
+        min-width: 0;
+        height: 100%;
+        font-size: 14px;
+        line-height: 1;
+        display: block;
+        font-family: "Lato";
+        border: none;
+        outline: none;
+        color: #334155;
+        padding: 0;
+        width: auto;
+        position: static;
+        background: none;
+        cursor: text;
+    }
+
+    #wrapp input[type="text"]::placeholder {
+        color: #6b7280;
+    }
+
+    #wrapp #search_submit {
+        order: -1;
+        flex: 0 0 16px;
+        height: 16px;
+        width: 16px;
+        display: inline-flex;
+        background: url("data:image/svg+xml,%3Csvg width='18' height='18' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10.75 18.5C6.47 18.5 3 15.03 3 10.75S6.47 3 10.75 3s7.75 3.47 7.75 7.75a7.72 7.72 0 0 1-1.68 4.82l3.31 3.31-1.25 1.25-3.31-3.31a7.72 7.72 0 0 1-4.82 1.68Zm0-1.8a5.95 5.95 0 1 0 0-11.9 5.95 5.95 0 0 0 0 11.9Z' fill='%23111718'/%3E%3C/svg%3E") center center / 16px auto no-repeat;
+        text-indent: -10000px;
+        border: none;
+        position: static;
+        pointer-events: none;
+        opacity: 0.6;
+        transition: opacity .4s ease;
+    }
+
+    .dotsDiv {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        height: 84px;
+        padding-right: 24px !important;
+    }
+
+    .main-panel > .content {
+        min-height: calc(100vh - 84px);
+        padding-top: 28px !important;
+        background: #f5f6fa !important;
+    }
+
+    @media  screen and (max-width: 991.98px) {
+        .main-panel {
+            margin-left: 0 !important;
+            width: 100% !important;
+        }
+
+        .headerRow {
+            min-height: auto;
+            flex-wrap: wrap !important;
+            gap: 8px 10px;
+        }
+
+        .headerTitleCol,
+        .headerSearchCol {
+            max-width: 100% !important;
+            flex: 1 1 100% !important;
+            width: 100% !important;
+        }
+
+        .left-toggler-container {
+            min-height: 64px;
+            padding-left: 12px;
+            gap: 10px;
+        }
+
+        .logo-col {
+            display: flex;
+            flex: 0 0 42px;
+            max-width: 42px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-navbar {
+            display: inline-flex !important;
+            width: 32px !important;
+            height: 32px !important;
+        }
+
+        .pageTitleContainer {
+            max-width: calc(100% - 52px) !important;
+        }
+
+        .headerSearchCol {
+            justify-content: stretch;
+            padding: 0 12px 12px !important;
+        }
+
+        .headerSearchCol form,
+        #wrapp {
+            width: 100% !important;
+        }
+
+        .dotsDiv {
+            display: none !important;
+        }
+    }
+
+    @media  screen and (max-width: 450px) {
+        .pageTitleContainer {
+            display: none !important;
+        }
+    }
+</style>
+
+<nav class="navbar navbar-expand-lg  navbar-transparent stickMe">
+    <div class="container-fluid noPadOnMobile .stickMe" style="display:flex;">
+        <div class="row headerRow" style="display:flex;">
+
+            <!-- Logo and title -->
+            <div class="col-lg-7 col-md-7 noPadOnMobile headerTitleCol">
+                <div class="container-fluid noPadOnMobile" style="padding-left: 0;">
+                    <div class="row left-toggler-container">
+
+                        <!-- Logo and mobile bars -->
+                        <div class="logo-col noPadOnMobile">
+                            <div class="d-flex align-items-center">
+                                <div class="navbar-toggle d-inline">
+                                    <button type="button" class="navbar-toggler ">
+                                        <span class="navbar-toggler-bar bar1"></span>
+                                        <span class="navbar-toggler-bar bar2"></span>
+                                        <span class="navbar-toggler-bar bar3"></span>
+                                    </button>
+                                </div>
+                                <a class="navbar-brand logo-navbar" href="http://127.0.0.1:8000/main-dashboard">
+                                    <img class="logo korvion-horizontal-logo"
+                                        src="http://127.0.0.1:8000/images/brands/solent/solent_icon.svg"
+                                        alt="Laravel" />
+                                </a>
+                            </div>
+                        </div>
+
+                        <!--Page Title -->
+                        
+                                                    <div class="col-sm-9 col-lg-6 noPadOnMobile pageTitleContainer">
+                                <span class="pageTitleAccent"></span>
+                                <span class="navbar-brand pageTitle"
+                                    style="width: 100%;">Create Tenant</span>
+                            </div>
+                                            </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 noPadOnMobile headerSearchCol">
+                <form action="http://127.0.0.1:8000/search" method="GET">
+                    <div id="wrapp" class="searchBox2">
+                        <div class="SBF2">
+                            <input id="search" name="searchText" type="text" placeholder="Patient Name?">
+                            <span id="search_submit"></span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="col-1 col-sm-1  mb-1 noPadOnMobile dotsDiv">
+                <button stlyle= "flex-grow: 3" class="navbar-toggler navbar-toggler-right" type="button"
+                    data-toggle="collapse" data-target="#navigation" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-bar navbar-kebab"></span>
+                    <span class="navbar-toggler-bar navbar-kebab"></span>
+                    <span class="navbar-toggler-bar navbar-kebab"></span>
+                </button>
+                <div class="collapse navbar-collapse" style = "flex-grow: 3" id="navigation">
+                    <ul class="navbar-nav ml-auto">
+
+                        <li class="dropdown nav-item">
+                            <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown"
+                                style=" background-color:transparent;border:none;padding: 8px 12px">
+                                <div class="photo">
+                                    <img src="http://127.0.0.1:8000/white/img/anime3.png" alt="Profile Photo">
+                                </div>
+
+                                <p class="d-lg-none"></p>
+                            </a>
+                            <ul class="dropdown-menu dropdown-navbar">
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                <li class="nav-link">
+                                    <a href="http://127.0.0.1:8000/logout" class="nav-item dropdown-item"
+                                        onclick="event.preventDefault();  document.getElementById('logout-form').submit();">Log out</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</nav>
+<script>
+    document.onkeydown = function(evt) {
+        var keyCode = evt ? (evt.which ? evt.which : evt.keyCode) : event.keyCode;
+        if (keyCode == 13) {
+            //your function call here
+            document.searchFrom.submit();
+        }
+    }
+</script>
+
+
+
+                
+                <div class="content" >
+                                        
+                        <div class="container-fluid py-3">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+            <div>
+                <h1 class="h3 mb-1">Create Tenant</h1>
+                <div class="text-muted">Provision isolated database and first admin</div>
+            </div>
+            <a href="http://127.0.0.1:8000/system/tenants" class="btn btn-outline-secondary">Back</a>
+        </div>
+
+        <form method="POST" action="http://127.0.0.1:8000/system/tenants" class="card p-3">
+            <input type="hidden" name="_token" value="0gKkp4d3PIo18tukZz6xrGMkjhrRvWc6jF5B2XH6">            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="slug">Slug</label>
+                    <input id="slug" name="slug" value="" class="form-control" required>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="name">Name</label>
+                    <input id="name" name="name" value="" class="form-control" required>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="currency_code">Currency</label>
+                    <input id="currency_code" name="currency_code" value="JOD" class="form-control" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="domain">Primary domain</label>
+                    <input id="domain" name="domain" value="" class="form-control" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="database">Database name</label>
+                    <input id="database" name="database" value="" class="form-control" placeholder="Leave blank for xlab_kordent">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="admin_name">Admin name</label>
+                    <input id="admin_name" name="admin_name" value="Tenant Admin" class="form-control" required>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="admin_email">Admin email</label>
+                    <input id="admin_email" type="email" name="admin_email" value="" class="form-control" required>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="admin_password">Admin password</label>
+                    <input id="admin_password" type="password" name="admin_password" class="form-control" required minlength="8">
+                </div>
+            </div>
+
+            <div class="form-check mb-3">
+                <input id="resume" type="checkbox" name="resume" value="1" class="form-check-input" >
+                <label for="resume" class="form-check-label">Resume failed/provisioning tenant</label>
+            </div>
+
+            <div class="text-right">
+                <button class="btn btn-primary" type="submit">Provision tenant</button>
+            </div>
+        </form>
+    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <form id="logout-form" action="http://127.0.0.1:8000/logout" method="POST" >
+            <input type="hidden" name="_token" value="0gKkp4d3PIo18tukZz6xrGMkjhrRvWc6jF5B2XH6">        </form>
+    
+</body>
+
+
+
+<footer class="footer">
+    <script>
+        // Show the spinner as soon as the page starts loading
+        // window.addEventListener('beforeunload', function() {
+        //     document.getElementById('loadingOverlay').style.display = 'flex';  // Show overlay before the page unloads
+        // });
+
+        // Show the spinner once the page is loaded
+        // window.addEventListener('load', function() {
+        //     setTimeout(function() {
+        //         hideLoadingOverlay();  // Hide the overlay after 3 seconds
+        //     }, 3000);  // Delay for demonstration; adjust as needed
+        // });
+        //Show the loading overlay when the page loads (on refresh)
+        // window.addEventListener('load', function() {
+        //     document.getElementById('loadingOverlay').style.display = 'flex';
+        // });
+
+        // Hide the loading overlay after a short delay (you can adjust this as needed)
+        // window.addEventListener('load', function() {
+        //     setTimeout(function() {
+        //         document.getElementById('loadingOverlay').style.display = 'none';
+        //     }, 2000); // 2 seconds delay (adjust as needed)
+        // });
+    </script>
+
+
+    <!-- Core Libraries -->
+    <script src="http://127.0.0.1:8000/white/js/core/jquery.min.js"></script>
+    <script src="http://127.0.0.1:8000/white/js/core/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
+
+    <!-- Moment.js (needed by several plugins) -->
+    <script src="http://127.0.0.1:8000/assets/js/moment-with-locales.min.js"></script>
+
+    <!-- jQuery Plugins & Extensions -->
+    <script src="http://127.0.0.1:8000/assets/js/jquery.datetimepicker.full.js"></script>
+    <script src="http://127.0.0.1:8000/assets/js/jquery.imagesloader-1.0.1.js"></script>
+    <script src="http://127.0.0.1:8000/assets/js/jquery.repeater.js" defer></script>
+    <script src="http://127.0.0.1:8000/assets/js/lightgallery.js"></script>
+
+    <!-- Bootstrap Plugins -->
+    <script src="http://127.0.0.1:8000/white/js/plugins/bootstrap-notify.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+    <!-- DataTables Core & Extensions (keep together) -->
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/buttons.html5.min.js"></script>
+
+    <!-- Font Awesome (Kit disabled - 403 error, using CDN versions loaded in pages) -->
+    
+    <script src="http://127.0.0.1:8000/assets/js/fontawesome-iconpicker.js"></script>
+
+    <!-- Third-party Utilities -->
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js" integrity="sha512-a9NgEEK7tsCvABL7KqtUTQjl69z7091EVPpw5KxPlZ93T141ffe1woLtbXTX+r2/8TtTvRX/v4zTL2UlMUPgwg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/vfs_fonts.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="http://127.0.0.1:8000/assets/js/ysh-custom-js/v3scripts.js" defer></script>
+    <!-- UI Components & Features -->
+    <script src="http://127.0.0.1:8000/assets/js/sweetalert2.min.js"></script>
+    <script src="http://127.0.0.1:8000/assets/js/sidebar-scroll.js"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/js/all.min.js" integrity="sha512-6BTOlkauINO65nLhXhthZMtepgJSghyimIalb+crKRPhvhmsCdnIuGcVbR5/aQY2A+260iC1OPy1oCdB6pSSwQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- Theme & Custom Scripts (load last) -->
+    <script src="http://127.0.0.1:8000/white/js/white-dashboard.min.js?v=1.0.0"></script>
+    <script src="http://127.0.0.1:8000/white/js/theme.js"></script>
+    <script src="http://127.0.0.1:8000/assets/js/ysh-custom-js/ysh-fuzzy-tools.js"></script>
+    <script>
+        $(document).ready(function () {
+            $().ready(function () {
+                $sidebar = $('.sidebar');
+                $navbar = $('.navbar');
+                $main_panel = $('.main-panel');
+
+                $full_page = $('.full-page');
+
+                $sidebar_responsive = $('body > .navbar-collapse');
+                sidebar_mini_active = true;
+                white_color = false;
+
+                window_width = $(window).width();
+
+                fixed_plugin_open = $('.sidebar .sidebar-wrapper .nav li.active a p').html();
+
+                $('.fixed-plugin a').click(function (event) {
+                    if ($(this).hasClass('switch-trigger')) {
+                        if (event.stopPropagation) {
+                            event.stopPropagation();
+                        } else if (window.event) {
+                            window.event.cancelBubble = true;
+                        }
+                    }
+                });
+                console.log('Plugin');
+
+                $('.fixed-plugin .background-color span').click(function () {
+                    $(this).siblings().removeClass('active');
+                    $(this).addClass('active');
+
+                    var new_color = $(this).data('color');
+
+                    if ($sidebar.length != 0) {
+                        $sidebar.attr('data', new_color);
+                    }
+
+                    if ($main_panel.length != 0) {
+                        $main_panel.attr('data', new_color);
+                    }
+
+                    if ($full_page.length != 0) {
+                        $full_page.attr('filter-color', new_color);
+                    }
+
+                    if ($sidebar_responsive.length != 0) {
+                        $sidebar_responsive.attr('data', new_color);
+                    }
+                });
+
+                $('.switch-sidebar-mini input').on("switchChange.bootstrapSwitch", function () {
+                    var $btn = $(this);
+
+                    if (sidebar_mini_active == true) {
+                        $('body').removeClass('sidebar-mini');
+                        sidebar_mini_active = false;
+                        whiteDashboard.showSidebarMessage('Sidebar mini deactivated...');
+                    } else {
+                        $('body').addClass('sidebar-mini');
+                        sidebar_mini_active = true;
+                        whiteDashboard.showSidebarMessage('Sidebar mini activated...');
+                    }
+
+                    // we simulate the window Resize so the charts will get updated in realtime.
+                    var simulateWindowResize = setInterval(function () {
+                        window.dispatchEvent(new Event('resize'));
+                    }, 180);
+
+                    // we stop the simulation of Window Resize after the animations are completed
+                    setTimeout(function () {
+                        clearInterval(simulateWindowResize);
+                    }, 1000);
+                });
+
+                $('.switch-change-color input').on("switchChange.bootstrapSwitch", function () {
+                    var $btn = $(this);
+
+                    if (white_color == true) {
+                        $('body').addClass('change-background');
+                        setTimeout(function () {
+                            $('body').removeClass('change-background');
+                            $('body').removeClass('white-content');
+                        }, 900);
+                        white_color = false;
+                    } else {
+                        $('body').addClass('change-background');
+                        setTimeout(function () {
+                            $('body').removeClass('change-background');
+                            $('body').addClass('white-content');
+                        }, 900);
+
+                        white_color = true;
+                    }
+                });
+
+                $('.light-badge').click(function () {
+                    $('body').addClass('white-content');
+                });
+
+                $('.dark-badge').click(function () {
+                    $('body').removeClass('white-content');
+                });
+            });
+            document.querySelectorAll('td.clickable[data-toggle="modal"][data-target^="#waitingDialogdelivery"]').forEach(el => {
+
+                el.addEventListener('click', function () {
+                    const target = this.getAttribute('data-target'); // e.g. "#waitingDialogdelivery175"
+                    const match = target.match(/#waitingDialogdelivery(\d+)/);
+                    console.log("row clicked, match:", match);
+                    if (match) {
+                        console.log("setting lastCaseClickedCase:", match);
+                        window.lastCaseClickedCase = parseInt(match[1]);
+                        console.log("Clicked case ID:", window.lastCaseClickedCase);
+                    }
+                });
+            });
+
+        });
+    </script>
+    <script>
+
+        function setCookie(name, value, days) {
+            var expires = "";
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        }
+
+        let datePickersInPage = $('.SDTP');
+        $(document).ready(function () {
+            $('.body-content').click(function (e) {
+                var body = jQuery('body');
+                var bodyposition = body.css('position');
+
+                if (bodyposition != 'relative') {
+
+
+                } else {
+                    if (body.hasClass('sidebar-open'))
+                        body.removeClass('sidebar-open');
+
+                }
+            });
+            if (datePickersInPage.length < 0)
+                setDateTimePickersInPage();
+            if (datePickersInPage.length != 0) {
+                $.datetimepicker.setDateFormatter('moment');
+                $.datetimepicker.setDateFormatter({
+                    parseDate: function (date, format) {
+                        var d = moment(date, format);
+                        return d.isValid() ? d.toDate() : false;
+                    },
+
+                    formatDate: function (date, format) {
+                        return moment(date).format(format);
+                    },
+
+                    //Optional if using mask input
+                    formatMask: function (format) {
+                        return format
+                            .replace(/Y{4}/g, '9999')
+                            .replace(/Y{2}/g, '99')
+                            .replace(/M{2}/g, '19')
+                            .replace(/D{2}/g, '39')
+                            .replace(/H{2}/g, '29')
+                            .replace(/m{2}/g, '59')
+                            .replace(/s{2}/g, '59');
+                    }
+                });
+                datePickersInPage.each(function () {
+                    let loadedDate = new Date($(this).val());
+                    let formattedForPicker = moment(loadedDate).format('DD MMM, YYYY hh:mm a');
+                    $(this).val(formattedForPicker);
+                });
+                datePickersInPage.each(function () {
+                    $(this).datetimepicker({
+
+                        format: 'DD MMM, YYYY hh:mm a',
+                        formatTime: 'hh:mm a',
+                        formatDate: 'DD MMM, YYYY',
+                        step: 30,
+                        widgetPositioning: {
+                            horizontal: 'right',
+                            vertical: 'top'
+                        }
+
+                    });
+                });
+                $('form').submit(formatDateForSubmittion);
+            }
+
+
+            $(".clearOnAll").on("changed.bs.select", function (e, clickedIndex, isSelected, oldValue) {
+                    console.log('clear on all');
+                    if (clickedIndex == null && isSelected == null) {
+                        var selectedItems = ($(this).selectpicker('val') || []).length;
+                        var allItems = $(this).find('option:not([disabled])').length;
+                        if (selectedItems == allItems) {
+                            console.log('selected all');
+                        } else {
+                            console.log('deselected all');
+                        }
+                    } else {
+
+                        var selectedD = $(this).find('option').eq(clickedIndex).text().trim();
+                        console.log('selectedD');
+                        console.log(selectedD);
+                        //console.log('selectedD: ' + selectedD +  ' oldValue: ' + oldValue);
+                        if (selectedD == "All" || selectedD == "All") {
+                            $(this).val('all');
+                            $(this).selectpicker('refresh');
+                            console.log('inside if all')
+                        } else {
+                            $(this).children("option[value='all']").prop("selected", false);
+                            $(this).selectpicker('refresh');
+                        }
+                    }
+                }
+            );
+
+
+            $('.reOverlay').hover(
+                function () {
+                    // When hover the #slide_img img hide the div.shadow
+                    $('.reOverlay').hide();
+                }, function () {
+                    // When out of hover the #slide_img img show the div.shadow
+                    $('.reOverlay').show();
+                }
+            );
+        });
+
+        function setDateTimePickersInPage() {
+            datePickersInPage = $('.SDTP');
+        }
+
+        function formatDateForSubmittion() {
+            if (datePickersInPage.length < 0)
+                setDateTimePickersInPage();
+            datePickersInPage.each(function () {
+                var d = $(this).datetimepicker('getValue');
+                var dateFormattedForDB = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ":" + d.getMinutes();
+                console.log("Date value: " + d + ' formatted : ' + dateFormattedForDB);
+                $(this).val(dateFormattedForDB);
+            });
+        }
+
+
+        let tables = $('.globalTable');
+        if (tables) {
+            tables.DataTable({
+                "pageLength": 25,
+                "searching": false,
+                "lengthChange": false,
+
+                "columnDefs": [
+                    {targets: [0], visible: false}
+                ]
+
+
+            });
+            tables.addClass("hover compact  stripe");
+        }
+        var tables2 = $('.casesFlowTable');
+        if (tables2) {
+            tables2.DataTable({
+                "pageLength": 25,
+                "searching": false,
+                "lengthChange": false,
+                "fixedHeader": true,
+
+            });
+            tables2.addClass("nowrap compact  stripe");
+        }
+
+        //            var myVar;
+        //
+        //            function myFunction() {
+        //            myVar = setTimeout(showPage, 3000);
+        //        }
+        //
+        //            function showPage() {
+        //            document.getElementById("loader").style.display = "none";
+        //            document.getElementById("myDiv").style.display = "block";
+        //        }
+
+
+    </script>
+
+    <script>
+        // document.addEventListener('DOMContentLoaded', function () {
+        //     // Select all forms on the page
+        //     const forms = document.querySelectorAll('form');
+
+        //     // Loop through each form
+        //     forms.forEach(function (form) {
+        //         // Listen for the submit event on the form
+        //         form.addEventListener('submit', function (event) {
+        //             // Prevent the default form submission (if you want to handle it with AJAX, etc.)
+        //             // event.preventDefault();
+
+        //             // Select all submit buttons within the current form
+        //             const submitButtons = form.querySelectorAll('button[type="submit"], input[type="submit"]');
+
+        //             // Disable all submit buttons
+        //             submitButtons.forEach(function (button) {
+        //                 button.disabled = true; // Disable the button
+        //                 button.innerHTML = `<div class="spinner-grow text-success" role="status"><span class="sr-only">Submitting...</span></div>`; // Optionally change button text
+        //             });
+
+        //             // Simulate form submission (e.g., using AJAX)
+
+        //         });
+        //     });
+        // });
+    </script>
+    <script>
+        // Select the navbar-toggle div and overlay
+        const navbarToggle = document.querySelector('.navbar-toggle');
+        const overlay = document.getElementById('overlay');
+        try{
+        // Toggle "toggled" class and show/hide overlay on click
+        navbarToggle.addEventListener('click', function () {
+            console.log("nav clicked");
+            // Toggle the "toggled" class
+            // navbarToggle.classList.toggle('toggled');
+            // navbarToggle.classList.toggle('toggled');
+
+            setTimeout(() => {
+
+                // Show or hide overlay based on the "toggled" class
+                if (navbarToggle.classList.contains('toggled') || document.documentElement.classList.contains('nav-open')) {
+                    document.documentElement.classList.remove('nav-open');
+                    console.log("removing active class");
+                    overlay.classList.remove('active'); // Hide overlay
+
+                } else {
+
+                    document.documentElement.classList.add('nav-open');
+                    console.log("adding active class");
+                    overlay.classList.add('active');
+                }
+            }, 10);
+        });
+
+        } catch (e) {
+            console.log(e);
+        }
+
+
+        // // Close overlay and remove "toggled" class when overlay is clicked
+        // overlay.addEventListener('click', function () {
+        //     console.log("overlay clicked");
+        //     // $('.bodyClick').remove();
+        //     document.documentElement.classList.remove('nav-open');
+        //     navbarToggle.classList.remove('toggled'); // Remove "toggled" class
+        //     overlay.classList.remove('active'); // Hide overlay
+        // });
+    </script>
+
+    <ul class="nav">
+        <small id="live-time" style="font-size: 12px;"></small>
+
+    </ul>
+
+    <div class="copyright">
+        2026
+        <a target="_blank">©  <b style="color: var(--brand-primary, #c89b3c)"> Korvion </b></a>
+
+    </div>
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('en-GB', {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            document.getElementById('live-time').textContent = timeStr;
+        }
+
+        updateTime(); // initial
+        setInterval(updateTime, 1000); // update every second
+    </script>
+    <script>
+        if (typeof $.fn.dataTable === 'undefined' && typeof jQuery.fn.dataTable !== 'undefined') {
+            $.fn.dataTable = jQuery.fn.dataTable;
+            $.fn.DataTable = jQuery.fn.DataTable;
+        }
+    </script>
+    
+        
+
+</footer>
+
+</html>

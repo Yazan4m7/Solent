@@ -10,7 +10,7 @@
 <body class="sticky-header">
 
 <section>
-    @include('layout.partials.korvionSidebar')
+    @include('layout.partials.KorvexSidebar')
 
     <!-- body content start-->
     <div class="body-content">
@@ -53,7 +53,7 @@
             </div>
             <!--end Right Slidebar-->
             <!-- <footer class="footer">
-                 2021 &copy; ALRAZI LAB.
+                 2021 &copy; Albasma LAB.
              </footer>-->
             <!--footer section end-->
         </div><!--end container-->

@@ -38,7 +38,7 @@
             <div class="col-md-3  col-xs-6 col-l-3  col-xl-3">
                 <div class="col-md-12 col-xs-12"><label >Tag color:</label></div>
                 <div class="col-md-12 col-xs-12">
-                    <input class="form-control" value="{{$tag->icon}}" name="tag_icon" type="text" placeholder="Select icon" data-fa-browser autocomplete="off" readonly/>
+                    <input class="form-control" value="{{$tag->icon}}" id="tag-icon-input" name="tag_icon" type="text" placeholder="Select icon" data-fa-browser autocomplete="off"/>
                     <span class="help-block text-muted"><small></small></span>
                 </div>
 
@@ -74,6 +74,10 @@
 
         $(document).ready(function() {
             $.fabrowser();
+
+            $('#tag-icon-input').on('change input', function () {
+                $(this).val(($(this).val() || '').trim());
+            });
         });
 
     </script>

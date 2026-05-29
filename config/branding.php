@@ -11,14 +11,15 @@ return [
         ],
     ],
     'defaults' => [
-        'name' => env('APP_NAME', 'Korvion'),
-        'logo_path' => env('BRANDING_LOGO', 'assets/images/Logo/square_logo.png'),
-        'favicon_path' => env('BRANDING_FAVICON', 'assets/images/Logo/square_logo.png'),
-        // Korvion palette inspired by the provided logo
-        'primary_color' => env('BRANDING_PRIMARY', '#c89b3c'),       // gold
-        'secondary_color' => env('BRANDING_SECONDARY', '#e6c77a'),   // soft gold highlight
-        'accent_color' => env('BRANDING_ACCENT', '#0f141c'),         // deep charcoal/navy
-        'background_color' => env('BRANDING_BACKGROUND', '#0b1117'), // dark background
+        'name' => env('APP_NAME', 'Solent'),
+        'logo_path' => env('BRANDING_LOGO', 'images/brands/solent/solent_v.svg'),
+        'mark_path' => env('BRANDING_MARK', 'images/brands/solent/solent_h.svg'),
+        'favicon_path' => env('BRANDING_FAVICON', 'images/brands/solent/solent_icon.svg'),
+        // Palette stays aligned with the existing system colors
+        'primary_color' => env('BRANDING_PRIMARY', '#c89b3c'),
+        'secondary_color' => env('BRANDING_SECONDARY', '#e6c77a'),
+        'accent_color' => env('BRANDING_ACCENT', '#0f141c'),
+        'background_color' => env('BRANDING_BACKGROUND', '#0b1117'),
         'copy' => [
             'tagline' => 'Precision dental labs, refined.',
             'footer' => 'Powered by Korvion',

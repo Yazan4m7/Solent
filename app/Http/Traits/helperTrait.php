@@ -75,9 +75,14 @@ trait helperTrait
         if ($material->print_3d && $currentStage < 3) return 3;
         if ($material->sinter_furnace && $currentStage < 4) return 4;
         if ($material->press_furnace && $currentStage < 5) return 5;
-        if ($material->finish && $currentStage < 6) return 6;
-        if ($material->qc && $currentStage < 7) return 7;
-        if ($material->delivery && $currentStage < 8) return 8;
+        if ($material->metal_work && $currentStage < 9) return 9;
+
+        // Furnace stages (4,5,9) are mutually exclusive and all come BEFORE finish/qc/delivery
+        // Must check if currentStage is a furnace stage to allow progression to 6/7/8
+        $furnaceStages = [4, 5, 9];
+        if ($material->finish && ($currentStage < 6 || in_array($currentStage, $furnaceStages))) return 6;
+        if ($material->qc && ($currentStage < 7 || in_array($currentStage, $furnaceStages))) return 7;
+        if ($material->delivery && ($currentStage < 8 || in_array($currentStage, $furnaceStages))) return 8;
 
         // if all jobs in delivery: return this
         return 100;
@@ -101,6 +106,9 @@ trait helperTrait
                 break;
             case "5":
                 return "Pressing Furnace";
+                break;
+            case "9":
+                return "Metal Work";
                 break;
             case "6":
                 return "Finish & Build up";
@@ -393,14 +401,14 @@ trait helperTrait
         if ($response === false) {
             throw new Exception(curl_error($ch), curl_errno($ch));
         }
-$json = json_decode($response, true);
+        $json = json_decode($response, true);
         return $json["access_token"];
     }
     public function generateJWT()
     {
 
         $googleConfig = [
-            'iss' => 'korvionlab@korvion-f8312.iam.gserviceaccount.com',
+            'iss' => 'sigmalab@sigma-f8312.iam.gserviceaccount.com',
             'private_key' => "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDVMjAPM6z/N0Ni\njHx1cdAMQN2nNjCLnRx5CZIy2mhT709U75EAEmrWrQjtlIVTsOfwBudim+YqDjLw\nrnxTHDjwBNsAogxVmu8fj5Di1z3mjfMlWajeyYGXaT0SVcblM53Lc5MhJxtCJk28\nWcGHmgVT1o0hewNuFf9qgDZyf2vbXbSsmYQVz1Rc/v0PIHd8rHreH5W5AmyTcZhh\nZSk5+MYxl1uEUlAnKZ16csjrT5AV8IyassK3Ru1QSP7loAmxi501QVxwZ9OvBJS8\nadcAL9H3YwFicg9eyetSleOiyfbTw6jH91PZS21jaUkD0oKGEFNQnvJywB81uvcH\nO9FZ7SWJAgMBAAECggEAL5qMu6A8xSHoVHVtBuZaX5oORBtn/Iygwm/+Koe1GuTJ\nEHyLonn6TCQH5dCvcpACQgiwmsaXvpU8D5zOWtpm5kUXR41ndqfpM+FhJx2Lj1Lr\n00+xUsmou4++mLz5c80yMy8Dz7fFMOCPo/pgqbAc92rlSXAHxIl55iRpw+gqw6jA\n6YB0P9vGFe8dGTQmamnGNu5jtRDWaNeGOYmBGON0gXsp+I2dGjNmMOwDYOWDR+CF\nKSqyikS+LFrvXXvmqVfBPAqV0bWCCytkAEE4ddGtyhW03VMaNS7UlMaNWTVkSsxb\nEA57dcRZmFsEmz9updR23OfripMmmmas2p0TGgmbuQKBgQDt+yFpmcvYttQm1QD/\nG065hwbcvoBwV+eBHV0lSRnRLeQ4OIC9WfLW/CI4Foe68OygVhh5DSGmdBvZIraJ\n2ooYTmOSxULGJZ8D/wUnLWjOymljG9EKjiLOt8+Eiv3LVginjb6B9QSNCQ8vxwD5\nS01yPu/hfARuoh9JWRT5MBrbFQKBgQDlVqRga58IZy0jAMyUwTIUN
             wcuq8HbUHRs\nWyMTkKTIRAFPpg99uXaNUSrniJZAToGOYfFaMDuk3yYBjMxViyllRqrP+FKwyeGT\n//sSNaJXxccEd5h2sBzyicSuXOmcydPHZLkc1QQ+ZczDrZE9AM0i1ycBvDrBTNA3\nr6zLAX5tpQKBgQCGJxsevGP9NpNBkLGPHYWzcDqeFYWxztviHPt1GVBEaupMBw4L\nr7kFF/zyQUEiUM4TVHVXR9/ARZOtQ7RC4b8XFJltE2Yg7PRG/GubOi3q5I+kHvoo\nSRe2EEgbH38SMN2QFodeGxEFsCWveS9DWP+/d1sicRbOhvW8E0uPbV62QQKBgC2M\nP6lGtpccpsJE7ly84g1RwINsaVv9ZqH+l8DTAWck2n3PJVR6+Sin7jV90xmCfgih\nOyYGXlIoX4v/QrXapaYPmu0jDIlADyUtuder/0ofZZ9lgUpRP+6LnhxjJ6KUExOO\n1ZT8WZNq9HgIiMfs2NEKmhymHaU2dEQbB95ptYphAoGAIyt1PWeDS0itBpdiU/Ex\nlFBJJThpFpgPeniEeLPHYwxmSyxZA+YGlaDL3FUKFFzXd6dXzVSXEYWCzCxXdCaD\nlIWsg9FEDR10izL7tWFMRrh4xI+LerkRwDh9tvCdA9qCasuhYKhlrXqNZdfEth5p\nObe4WbY0++PGApnSltuiTNc=\n-----END PRIVATE KEY-----\n\\",
             'aud' => 'https://www.googleapis.com/oauth2/v4/token',
@@ -422,7 +430,7 @@ $json = json_decode($response, true);
     public function sendCaseNotification($token, $title, $body)
     {
 
-        $fcmsendUrl = 'https://fcm.googleapis.com/v1/projects/korvion-f8312/messages:send';
+        $fcmsendUrl = 'https://fcm.googleapis.com/v1/projects/sigma-f8312/messages:send';
         $notificationMessage = [
             "message" => [
                 "token" => $token,
@@ -474,7 +482,7 @@ $json = json_decode($response, true);
     {
 
 
-        $fcmsendUrl = 'https://fcm.googleapis.com/v1/projects/korvion-f8312/messages:send';
+        $fcmsendUrl = 'https://fcm.googleapis.com/v1/projects/sigma-f8312/messages:send';
         //dd($token);
         // Create the notification message
         $notificationMessage = [

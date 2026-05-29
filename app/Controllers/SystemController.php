@@ -15,7 +15,7 @@ class SystemController extends Controller
         Config::set("database.connections.mysql", [
             'driver' => 'mysql',
             "host" => "127.0.0.1",
-            "database" => "korvion_testing",
+            "database" => "Korvex_testing",
             "username" => "root",
             "password" => env('DB_PASSWORD', ''),
             "port" => '3306',

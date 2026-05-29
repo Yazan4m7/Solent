@@ -10,6 +10,13 @@ class RequestBrandingResolver implements BrandingResolverInterface
 {
     public function resolveTenant(Request $request): string
     {
+        if (app()->bound('app.tenant_context')) {
+            $context = app('app.tenant_context');
+            if (isset($context->brandingKey) && trim((string) $context->brandingKey) !== '') {
+                return $this->sanitize((string) $context->brandingKey);
+            }
+        }
+
         $header = config('branding.resolver.header', 'X-Tenant');
         $queryKey = config('branding.resolver.query', 'tenant');
         $defaultTenant = config('branding.default_tenant', 'default');

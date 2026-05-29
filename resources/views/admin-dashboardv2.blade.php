@@ -227,25 +227,25 @@
 </style>
 
 <style>
-    /* Korvion-inspired reskin for Operations dashboard */
+    /* Korvex-inspired reskin for Operations dashboard */
     :root {
-        --korvion-navy: #0b1220;
-        --korvion-panel: #111b2d;
-        --korvion-panel-2: #16243a;
-        --korvion-gold: #c49a3c;
-        --korvion-gold-soft: #e2c175;
-        --korvion-ink: #dce2f0;
-        --korvion-muted: #8d96ab;
-        --korvion-border: #223047;
-        --korvion-accent: #5f7db7;
-        --korvion-glow: 0 14px 40px rgba(196, 154, 60, 0.22);
+        --Korvex-navy: #0b1220;
+        --Korvex-panel: #111b2d;
+        --Korvex-panel-2: #16243a;
+        --Korvex-gold: #c49a3c;
+        --Korvex-gold-soft: #e2c175;
+        --Korvex-ink: #dce2f0;
+        --Korvex-muted: #8d96ab;
+        --Korvex-border: #223047;
+        --Korvex-accent: #5f7db7;
+        --Korvex-glow: 0 14px 40px rgba(196, 154, 60, 0.22);
     }
 
     body.white-content {
         background: radial-gradient(circle at 15% 20%, rgba(196,154,60,0.12), transparent 26%),
         radial-gradient(circle at 82% 12%, rgba(95,125,183,0.18), transparent 30%),
-        var(--korvion-navy);
-        color: var(--korvion-ink);
+        var(--Korvex-navy);
+        color: var(--Korvex-ink);
     }
 
     .site-wrapper {
@@ -256,22 +256,22 @@
     .navbar.navbar-transparent {
         background: rgba(13, 18, 32, 0.82) !important;
         backdrop-filter: blur(10px);
-        border-bottom: 1px solid var(--korvion-border);
+        border-bottom: 1px solid var(--Korvex-border);
     }
 
     .card,
     .card .card-body {
-        background: var(--korvion-panel-2);
-        border: 1px solid var(--korvion-border);
-        color: var(--korvion-ink);
+        background: var(--Korvex-panel-2);
+        border: 1px solid var(--Korvex-border);
+        color: var(--Korvex-ink);
         border-radius: 18px;
-        box-shadow: var(--korvion-glow);
+        box-shadow: var(--Korvex-glow);
     }
 
     .card .card-header {
         background: linear-gradient(135deg, rgba(196,154,60,0.2), rgba(17,27,45,0.9));
-        border-bottom: 1px solid var(--korvion-border);
-        color: var(--korvion-ink);
+        border-bottom: 1px solid var(--Korvex-border);
+        color: var(--Korvex-ink);
     }
 
     .macaw-tabs.macaw-aurora-tabs {
@@ -280,17 +280,17 @@
 
     .macaw-tabs .stageSidebar {
         background: rgba(17, 27, 45, 0.72);
-        border: 1px solid var(--korvion-border);
+        border: 1px solid var(--Korvex-border);
         border-radius: 16px;
-        box-shadow: var(--korvion-glow);
+        box-shadow: var(--Korvex-glow);
         padding: 12px;
     }
 
     .stageSidebar button {
         border-radius: 14px !important;
         background: linear-gradient(120deg, rgba(196,154,60,0.18), rgba(17,27,45,0.8));
-        border: 1px solid var(--korvion-border);
-        color: var(--korvion-ink);
+        border: 1px solid var(--Korvex-border);
+        color: var(--Korvex-ink);
         padding: 12px 10px !important;
         margin-bottom: 10px;
         box-shadow: 0 8px 18px rgba(0,0,0,0.25);
@@ -300,48 +300,48 @@
     .stageSidebar button:hover,
     .stageSidebar button[aria-selected="true"] {
         transform: translateY(-2px);
-        border-color: var(--korvion-gold);
-        box-shadow: var(--korvion-glow);
+        border-color: var(--Korvex-gold);
+        box-shadow: var(--Korvex-glow);
         background: linear-gradient(120deg, rgba(196,154,60,0.3), rgba(17,27,45,0.95));
     }
 
     .stageSidebar .badge {
         background: rgba(226,193,117,0.15);
-        color: var(--korvion-gold);
+        color: var(--Korvex-gold);
         border: 1px solid rgba(196,154,60,0.4);
     }
 
     .macaw-tabs .macaw-silk-tabs > [role="tablist"] {
         background: rgba(17,27,45,0.6);
-        border: 1px solid var(--korvion-border);
+        border: 1px solid var(--Korvex-border);
         border-radius: 14px;
         padding: 8px;
-        box-shadow: var(--korvion-glow);
+        box-shadow: var(--Korvex-glow);
     }
 
     .nav-tabs .nav-link {
         background: rgba(255,255,255,0.03);
         border-radius: 10px;
-        color: var(--korvion-ink);
-        border: 1px solid var(--korvion-border);
+        color: var(--Korvex-ink);
+        border: 1px solid var(--Korvex-border);
     }
 
     .nav-tabs .nav-link.active {
-        background: linear-gradient(135deg, var(--korvion-gold), var(--korvion-gold-soft));
+        background: linear-gradient(135deg, var(--Korvex-gold), var(--Korvex-gold-soft));
         color: #0b1220;
-        border-color: var(--korvion-gold);
+        border-color: var(--Korvex-gold);
     }
 
     table.dataTable thead th,
     .dataTables_wrapper .dataTables_scrollHead th {
         background: rgba(17, 27, 45, 0.9);
-        color: var(--korvion-ink);
-        border-color: var(--korvion-border);
+        color: var(--Korvex-ink);
+        border-color: var(--Korvex-border);
     }
 
     table.dataTable tbody tr {
         background: rgba(22, 36, 58, 0.8);
-        color: var(--korvion-ink);
+        color: var(--Korvex-ink);
     }
 
     table.dataTable tbody tr:nth-child(even) {
@@ -350,17 +350,17 @@
 
     .btn-primary,
     .badge-primary {
-        background: linear-gradient(135deg, var(--korvion-gold), var(--korvion-gold-soft));
-        border-color: var(--korvion-gold);
+        background: linear-gradient(135deg, var(--Korvex-gold), var(--Korvex-gold-soft));
+        border-color: var(--Korvex-gold);
         color: #0b1220;
-        box-shadow: var(--korvion-glow);
+        box-shadow: var(--Korvex-glow);
     }
 
     .btn-info,
     .badge-info {
         background: rgba(95, 125, 183, 0.25);
         border-color: #5f7db7;
-        color: var(--korvion-ink);
+        color: var(--Korvex-ink);
     }
 
     /* Hero and stat chips */
@@ -371,9 +371,9 @@
         margin: 0 0 18px 0;
         padding: 18px;
         background: linear-gradient(135deg, rgba(196,154,60,0.12), rgba(17,27,45,0.75));
-        border: 1px solid var(--korvion-border);
+        border: 1px solid var(--Korvex-border);
         border-radius: 18px;
-        box-shadow: var(--korvion-glow);
+        box-shadow: var(--Korvex-glow);
     }
 
     .ops-hero h2 {
@@ -384,7 +384,7 @@
 
     .ops-hero p {
         margin: 0;
-        color: var(--korvion-muted);
+        color: var(--Korvex-muted);
     }
 
     .ops-hero .stat-grid {
@@ -396,13 +396,13 @@
     .ops-chip {
         padding: 14px;
         background: rgba(17, 27, 45, 0.85);
-        border: 1px solid var(--korvion-border);
+        border: 1px solid var(--Korvex-border);
         border-radius: 14px;
-        box-shadow: var(--korvion-glow);
+        box-shadow: var(--Korvex-glow);
     }
 
     .ops-chip .label {
-        color: var(--korvion-muted);
+        color: var(--Korvex-muted);
         text-transform: uppercase;
         font-size: 0.75rem;
         letter-spacing: 0.08em;
@@ -412,7 +412,7 @@
     .ops-chip .value {
         font-size: 1.6rem;
         font-weight: 700;
-        color: var(--korvion-ink);
+        color: var(--Korvex-ink);
     }
 
     .ops-chip .pill {
@@ -420,7 +420,7 @@
         align-items: center;
         gap: 6px;
         font-size: 0.9rem;
-        color: var(--korvion-ink);
+        color: var(--Korvex-ink);
         background: rgba(196,154,60,0.14);
         padding: 4px 10px;
         border-radius: 999px;
@@ -609,7 +609,7 @@
         <div class="ops-hero">
             <div>
                 <h2>Operations Control</h2>
-                <p>Korvion-styled workflow cockpit: monitor load, move cases, and keep machines humming.</p>
+                <p>Korvex-styled workflow cockpit: monitor load, move cases, and keep machines humming.</p>
             </div>
             <div class="stat-grid">
                 <div class="ops-chip">

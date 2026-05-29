@@ -25,6 +25,13 @@ Route::middleware(['web', 'auth'])->group(function (): void {
 
     Route::get('/home', [App\Modules\Reports\Http\Controllers\ReportsController::class, 'homeScreen'])->name('homeScreen');
 
+    Route::middleware('platform.admin')->prefix('system')->name('system.')->group(function (): void {
+        Route::get('/tenants', [App\Modules\System\Http\Controllers\TenantController::class, 'index'])->name('tenants.index');
+        Route::get('/tenants/create', [App\Modules\System\Http\Controllers\TenantController::class, 'create'])->name('tenants.create');
+        Route::post('/tenants', [App\Modules\System\Http\Controllers\TenantController::class, 'store'])->name('tenants.store');
+        Route::get('/tenants/{tenant}', [App\Modules\System\Http\Controllers\TenantController::class, 'show'])->name('tenants.show');
+    });
+
     Route::get('/payments-with-collectors', [App\Modules\Accountant\Http\Controllers\AccountantController::class, 'paymentsWithCollectors'])->name('payments-with-collectors');
 
     Route::get('/reset-case/{id}/{stage}', [App\Modules\Cases\Http\Controllers\CaseController::class, 'resetCaseToWaiting'])->name('reset-to-waiting');
@@ -375,7 +382,11 @@ Route::middleware(['web', 'auth'])->group(function (): void {
         Route::get('/dashboard', [App\Modules\Portal\Http\Controllers\PortalController::class, 'dashboard'])->name('dashboard')->middleware('auth:clients');
     });
 
-    Route::get('/create-invoice', [App\Modules\Cases\Http\Controllers\CaseController::class, 'createInvoice'])->name('create-invoice');
+Route::get('/create-invoice', [App\Modules\Cases\Http\Controllers\CaseController::class, 'createInvoice'])->name('create-invoice');
+});
+
+Route::fallback(function () {
+    return response()->view('errors.generic', ['statusCode' => 404], 404);
 });
 
 

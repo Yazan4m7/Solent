@@ -227,7 +227,7 @@
 
     }
 
-    /* === Korvion brand palette overrides for active cases modal === */
+    /* === Korvex brand palette overrides for active cases modal === */
     :root {
         --ops-primary: var(--color-accent-gold, #B3872D);
         --ops-secondary: var(--color-surface-soft, #A6D8D4);

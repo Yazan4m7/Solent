@@ -1,37 +1,37 @@
 @props(['title', 'btnText', 'type', 'employees', 'stageId', 'stageName'])
 
-<div class="alrazi-workflow-modal waiting-dialog" id="EmployeeDialog{{ $type }}" tabindex="-1" role="dialog">
-    <div class="alrazi-workflow-dialog">
+<div class="Albasma-workflow-modal waiting-dialog" id="EmployeeDialog{{ $type }}" tabindex="-1" role="dialog">
+    <div class="Albasma-workflow-dialog">
         <!-- Header with close button -->
-        <div class="alrazi-workflow-header">
-            <h2 class="alrazi-workflow-title">{{ $title }}</h2>
-            <button class="alrazi-close-button" onclick="closeEmployeeModal('{{ $type }}')">
+        <div class="Albasma-workflow-header">
+            <h2 class="Albasma-workflow-title">{{ $title }}</h2>
+            <button class="Albasma-close-button" onclick="closeEmployeeModal('{{ $type }}')">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
 
         <!-- Employee selection grid -->
-        <div class="alrazi-workflow-body">
-            <div class="alrazi-drivers-grid">
+        <div class="Albasma-workflow-body">
+            <div class="Albasma-drivers-grid">
                 <!-- Show all employees with permission for this stage -->
                 @foreach($employees as $employee)
-                    <div class="alrazi-driver-card"
+                    <div class="Albasma-driver-card"
                          onclick="selectEmployee('{{ $type }}', this, {{ $employee->id }})">
-                        <div class="alrazi-driver-image-container">
+                        <div class="Albasma-driver-image-container">
                             <img src="{{ $employee->has_photo ? asset('/users/'.$employee->id.'/profile_picture.png') : asset('/users/no_profile_picture.png') }}"
                                  alt="{{ $employee->first_name }} {{ $employee->last_name }}"
-                                 class="alrazi-driver-image grayscale">
+                                 class="Albasma-driver-image grayscale">
                         </div>
-                        <div class="alrazi-driver-name">{{ $employee->name_initials ?? $employee->first_name }}</div>
+                        <div class="Albasma-driver-name">{{ $employee->name_initials ?? $employee->first_name }}</div>
                     </div>
                 @endforeach
             </div>
         </div>
 
         <!-- Action button -->
-        <div class="alrazi-workflow-footer">
+        <div class="Albasma-workflow-footer">
             <button type="button"
-                    class="alrazi-button"
+                    class="Albasma-button"
                     id="action-button-{{ $type }}-employee"
                     style="background-color: var(--main-orange)"
                     disabled
@@ -61,9 +61,9 @@ function selectEmployee(type, cardElement, employeeId) {
     const dialog = document.getElementById('EmployeeDialog' + type);
     if (!dialog) return;
 
-    dialog.querySelectorAll('.alrazi-driver-card').forEach(card => {
+    dialog.querySelectorAll('.Albasma-driver-card').forEach(card => {
         card.classList.remove('selected');
-        const img = card.querySelector('.alrazi-driver-image');
+        const img = card.querySelector('.Albasma-driver-image');
         if (img) {
             img.classList.add('grayscale');
         }
@@ -71,7 +71,7 @@ function selectEmployee(type, cardElement, employeeId) {
 
     // Select the clicked card
     cardElement.classList.add('selected');
-    const img = cardElement.querySelector('.alrazi-driver-image');
+    const img = cardElement.querySelector('.Albasma-driver-image');
     if (img) {
         img.classList.remove('grayscale');
     }
@@ -163,16 +163,16 @@ function closeEmployeeModal(type) {
     }
 
     // Clear any pending animations
-    const dialogContent = modal.querySelector('.alrazi-workflow-dialog');
+    const dialogContent = modal.querySelector('.Albasma-workflow-dialog');
     if (dialogContent) {
         dialogContent.classList.remove('fade-in');
         dialogContent.classList.add('fade-out');
     }
 
     // Reset employee selection
-    modal.querySelectorAll('.alrazi-driver-card').forEach(card => {
+    modal.querySelectorAll('.Albasma-driver-card').forEach(card => {
         card.classList.remove('selected');
-        const img = card.querySelector('.alrazi-driver-image');
+        const img = card.querySelector('.Albasma-driver-image');
         if (img) {
             img.classList.add('grayscale');
         }
@@ -231,7 +231,7 @@ function openEmployeeModal(type) {
     modal.classList.add('active');
 
     // Animate dialog content
-    const dialogContent = modal.querySelector('.alrazi-workflow-dialog');
+    const dialogContent = modal.querySelector('.Albasma-workflow-dialog');
     if (dialogContent) {
         dialogContent.classList.add('fade-in');
     }

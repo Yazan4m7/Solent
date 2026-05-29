@@ -2,7 +2,13 @@
 
 
 @section('content')
+    @php($currencyLabel = (string) ($currencyContext['display'] ?? $currencyContext['code'] ?? 'JOD'))
     <style>
+        :root {
+            --brand-primary: {{ config('branding.defaults.primary_color') }};
+            --brand-secondary: {{ config('branding.defaults.secondary_color') }};
+            --brand-accent: {{ config('branding.defaults.accent_color') }};
+        }
         body {
             -webkit-print-color-adjust: exact !important;
         }
@@ -43,8 +49,40 @@
             padding:0px;
         }
         thead{
-            background-color: #1b1b1b;
+            background-color: var(--brand-primary);
             border-radius: 20px;
+        }
+
+        .brand-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 12px;
+        }
+
+        .brand-header img {
+            height: 64px;
+            width: auto;
+        }
+
+        .brand-header .brand-name {
+            margin: 0;
+            font-weight: 800;
+            color: var(--brand-accent, #1b1b1b);
+        }
+
+        .brand-header .brand-tagline {
+            margin: 0;
+            color: #4b5563;
+            font-size: 0.95rem;
+        }
+
+        .summary-title {
+            background-color: var(--brand-primary);
+            color: #fff;
+            font-weight: 600;
+            padding: 6px 8px;
+            border-radius: 4px;
         }
 
         @media print{
@@ -53,7 +91,7 @@
                 margin:0; padding: 0; border-color:black;}
             th {  padding: 0; color:white !important;}
             thead{
-                background-color: #1b1b1b;
+                background-color: var(--brand-primary);
             }
             body {
                 -webkit-print-color-adjust: exact !important;
@@ -61,6 +99,13 @@
 
             }
 </style>
+    <div class="brand-header">
+        <img src="{{ asset('images/v_logo_eng.png') }}" alt="{{ $brandingName ?? 'Brand' }} logo">
+        <div>
+            <h4 class="brand-name mb-0">{{ $brandingName ?? 'Al Basma Digital Dental Lab' }}</h4>
+            <p class="brand-tagline mb-0">Precision dental restorations</p>
+        </div>
+    </div>
     <form  class="kt-form" method="GET" action="{{route('client-statement-admin',$client->id)}}">
         <div class="col-lg-12 col-sm-12 card">
             <input type="hidden" name="id" value="{{$client->id}}" >
@@ -136,7 +181,7 @@
                                 <div class="col-md-4">{{substr($to,0,10) }}</div>
                             </div>
                             <hr style="margin:0">
-                            <h6 style="background-color: #e1e0e4;font-weight: 600">Account Summery </h6>
+                            <h6 class="summary-title">Account Summery </h6>
                             <div class="row"><div class="col-md-6">Opening Balance :
 
 
@@ -144,14 +189,14 @@
 
 
 
-                                </div> <div class="col-md-6"><h5 style="text-align: right" ><b> {{$openingBalance ?? '0'}}  JOD</b></h5></div></div>
-                            <div class="row"><div class="col-md-6">Invoices Amount :</div> <div class="col-md-6"><h5 style="text-align: right" ><b> {{$invoicesAmount ?? '0'}} JOD</b></h5></div></div>
-                            <div class="row"><div class="col-md-6">Amount Paid :</div> <div class="col-md-6"><h5 style="text-align: right" ><b> {{$amountPaid ?? '0'}} JOD</b></h5></div></div>
+                                </div> <div class="col-md-6"><h5 style="text-align: right" ><b> {{$openingBalance ?? '0'}}  {{ $currencyLabel }}</b></h5></div></div>
+                            <div class="row"><div class="col-md-6">Invoices Amount :</div> <div class="col-md-6"><h5 style="text-align: right" ><b> {{$invoicesAmount ?? '0'}} {{ $currencyLabel }}</b></h5></div></div>
+                            <div class="row"><div class="col-md-6">Amount Paid :</div> <div class="col-md-6"><h5 style="text-align: right" ><b> {{$amountPaid ?? '0'}} {{ $currencyLabel }}</b></h5></div></div>
                             @if($discounts)
-                                <div class="row"><div class="col-md-6">Discounts :</div> <div class="col-md-6"><h5 style="text-align: right" ><b> {{$discounts ?? '0'}} JOD</b></h5></div></div>
+                                <div class="row"><div class="col-md-6">Discounts :</div> <div class="col-md-6"><h5 style="text-align: right" ><b> {{$discounts ?? '0'}} {{ $currencyLabel }}</b></h5></div></div>
                             @endif
                             <hr style="margin:0">
-                            <div class="row"><div class="col-md-6">Balance Due :</div> <div class="col-md-6"><h5 style="text-align: right" ><b> {{$balanceDue + $discounts ?? '0'}} JOD</b></h5></div></div>
+                            <div class="row"><div class="col-md-6">Balance Due :</div> <div class="col-md-6"><h5 style="text-align: right" ><b> {{$balanceDue + $discounts ?? '0'}} {{ $currencyLabel }}</b></h5></div></div>
                         </div>
                     </div>
 
@@ -159,7 +204,7 @@
                     <div class="">
                         <table class="table table-hover">
                             <thead>
-                            <tr style="background-color: #1b1b1b;">
+                            <tr style="background-color: var(--brand-primary);">
                                 <th scope="col" style="padding:5px;">Date</th>
                                 <th scope="col" style="padding:5px;">Transaction</th>
                                 <th scope="col" style="padding:5px;">Description</th>
@@ -208,7 +253,7 @@
                                 @endif
                             </div>
                                 <div class="col-md-2"><h5>Balance Due :</h5></div>
-                            <div class="col-md-2"><h5 style="text-align: right" ><b> {{$balance}} JOD</b></h5></div>
+                            <div class="col-md-2"><h5 style="text-align: right" ><b> {{$balance}} {{ $currencyLabel }}</b></h5></div>
                             </div>
                         </div>
                     </div>
@@ -232,7 +277,7 @@
 
 
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-<title>ALRAZI LAB</title>
+<title>{{ $brandingName ?? "Al Basma Digital Dental Lab" }}</title>
 
 
 
@@ -252,7 +297,7 @@
             margin:0; padding: 0; border-color:black;}
             th {  padding: 0; }
             thead{
-            background-color: black;
+            background-color: {{ config('branding.defaults.primary_color') }};
             }
             body {
             -webkit-print-color-adjust: exact !important;
@@ -267,9 +312,10 @@
 
                 <div class="card-body">
 
-                    <div class="row" style="float:left;width:48%;">
+                    <div class="row" style="float:left;width:48%; align-items:center;">
+                        <img src="{{ asset('images/v_logo_eng.png') }}" alt="{{ $brandingName ?? 'Brand' }} logo" style="height:60px; width:auto; margin-bottom:10px;">
                         <div class="col-md-8" >
-            <h1  style="font-weight:bolder;font-size:30px;"></h1>
+            <h1 style="font-weight:bolder;font-size:24px;">{{ $brandingName ?? "Al Basma Digital Dental Lab" }}</h1><p style="margin:0;font-weight:500;color:#4b5563;">Precision dental restorations</p>
             <br><br><br><br><br>
                                 <h4>Dr. : {{$client->name}}</h4></div>
 
@@ -291,18 +337,18 @@
 
             </div>
                             <hr style="margin:0">
-                            <h6 style="background-color: #e1e0e4;font-weight: 600;text-align:center !important;">Account Summery </h6>
+                            <h6 style="background-color: {{ config('branding.defaults.primary_color') }};color:white;font-weight: 600;text-align:center !important;">Account Summery </h6>
                             <div class="row">
             <div style="float:left;width: 50%;">Opening Balance :</div>
-            <div style="float:right;width: 50%;"><h6 style="text-align: right" ><b> {{$openingBalance ?? '0'}}  JOD</b></h6></div>
+            <div style="float:right;width: 50%;"><h6 style="text-align: right" ><b> {{$openingBalance ?? '0'}}  {{ $currencyLabel }}</b></h6></div>
             </div>
-                            <div class="row"><div style="float:left;width: 50%;">Invoices Amount :</div> <div style="float:right;width:50%;"><h6 style="text-align: right" ><b> {{$invoicesAmount ?? '0'}} JOD</b></h6></div></div>
-                            <div class="row"><div style="float:left;width: 50%;">Amount Paid :</div> <div style="float:right;width: 50%;"><h6 style="text-align: right" ><b> {{$amountPaid ?? '0'}} JOD</b></h6></div></div>
+                            <div class="row"><div style="float:left;width: 50%;">Invoices Amount :</div> <div style="float:right;width:50%;"><h6 style="text-align: right" ><b> {{$invoicesAmount ?? '0'}} {{ $currencyLabel }}</b></h6></div></div>
+                            <div class="row"><div style="float:left;width: 50%;">Amount Paid :</div> <div style="float:right;width: 50%;"><h6 style="text-align: right" ><b> {{$amountPaid ?? '0'}} {{ $currencyLabel }}</b></h6></div></div>
                               @if($discounts)
-                            <div class="row"><div style="float:left;width: 50%;">Discounts :</div> <div style="float:right;width: 50%;"><h6 style="text-align: right" ><b>  {{$discounts ?? '0'}} JOD</b></h6></div></div>
+                            <div class="row"><div style="float:left;width: 50%;">Discounts :</div> <div style="float:right;width: 50%;"><h6 style="text-align: right" ><b>  {{$discounts ?? '0'}} {{ $currencyLabel }}</b></h6></div></div>
                             @endif
                             <hr style="margin:0">
-                            <div class="row"><div style="float:left;width: 50%;">Balance Due :</div> <div style="float:right;width: 50%;"><h6 style="text-align: right" ><b>{{$balanceDue + $discounts ?? '0'}} JOD</b></h6></div></div>
+                            <div class="row"><div style="float:left;width: 50%;">Balance Due :</div> <div style="float:right;width: 50%;"><h6 style="text-align: right" ><b>{{$balanceDue + $discounts ?? '0'}} {{ $currencyLabel }}</b></h6></div></div>
                         </div>
                     </div>
 
@@ -311,8 +357,8 @@
         mywindow.document.write( `
                     <div class="">
                         <table class="table table-hover" style="width:100%">
-                            <thead style="background-color: black !important;color:white">
-                            <tr style="background-color: black !important;color:white">
+                            <thead style="background-color: {{ config('branding.defaults.primary_color') }} !important;color:white">
+                            <tr style="background-color: {{ config('branding.defaults.primary_color') }} !important;color:white">
                                 <th scope="col" style="padding:5px;">Date</th>
                                 <th scope="col" style="padding:5px;">Transaction</th>
                                 <th scope="col" style="padding:5px;">Description</th>
@@ -349,7 +395,7 @@
             <div class="col-md-8"></div>
 
             <div style="float:left;width: 50%;">Balance Due :</div>
-            <div style="float:right;width: 50%;"><h6 style="text-align: right" ><b> {{$balance}} JOD</b></h6></div>
+            <div style="float:right;width: 50%;"><h6 style="text-align: right" ><b> {{$balance}} {{ $currencyLabel }}</b></h6></div>
                             </div>
                         </div>
                     </div>

@@ -1336,14 +1336,7 @@ YSH-slide-grid {
    color: red;
 }
 
-.dropdown-menu {
-   left: -100px !important;
-   transform: translate3d(0px, 28px, 0px) !important;
-}
-
-.dropdown-menu:before {
-   left: 112px;
-}
+/* Do not override Bootstrap/Popper dropdown positioning globally */
 
 .badge {
    color: white;
@@ -2135,7 +2128,7 @@ blackbox-button-inner.enabled.orange{
 
 }
 
-/* === Korvion brand palette overrides for operations dashboard === */
+/* === Korvex brand palette overrides for operations dashboard === */
 :root {
    --ops-primary: var(--color-accent-gold, #B3872D);
    --ops-secondary: var(--color-surface-soft, #A6D8D4);

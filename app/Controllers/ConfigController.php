@@ -34,7 +34,7 @@ class ConfigController extends Controller
 
     public function switchToTestingDB(){
         $config = \Config::get('database.connections.mysql');
-        $config['database'] = "korvion_testing";
+        $config['database'] = "Korvex_testing";
         config()->set('database.connections.mysql', $config);
 
         $fp = fopen(base_path() .'/config/database.php' , 'w');
@@ -43,7 +43,7 @@ class ConfigController extends Controller
     }
     public function switchToProductionDB(){
         $config = \Config::get('database.connections.mysql');
-        $config['database'] = "korvion";
+        $config['database'] = "Korvex";
         config()->set('database.connections.mysql', $config);
 
         $fp = fopen(base_path() .'/config/database.php' , 'w');

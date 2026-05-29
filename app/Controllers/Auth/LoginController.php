@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
@@ -39,6 +42,20 @@ class LoginController extends Controller
     public function username()
     {
         return 'username';
+    }
+
+    protected function sendFailedLoginResponse(Request $request)
+    {
+        $username = (string) $request->input($this->username(), '');
+        $userExists = $username !== '' && User::where($this->username(), $username)->exists();
+
+        throw ValidationException::withMessages([
+            $userExists ? 'password' : $this->username() => [
+                $userExists
+                    ? 'The password entered for this account is incorrect.'
+                    : 'We could not find an account with that username.',
+            ],
+        ]);
     }
 
 }

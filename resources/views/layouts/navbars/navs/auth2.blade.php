@@ -9,9 +9,9 @@
                             <span class="navbar-toggler-bar bar3"></span>
                         </button>
                     </div>
-                    <div class="navbar-brand" href="#"><img src="{{ asset($brandingLogoPath) }}" style="max-height: 60px; width: auto;" alt="{{ $brandingName ?? 'Brand' }}"/> </div>
+                    <div class="navbar-brand" href="#"><img src="{{ asset('images/tooth_only_logo.png') }}" style="max-height: 60px; width: auto;" alt="{{ $brandingName ?? 'Brand' }}"/> </div>
                 </div></div>
-            <div class="col-md-4"> <div style = "flex-grow: 5"> {{$pageSlug ?? ($brandingName ?? 'Korvion')}} </div></div>
+            <div class="col-md-4"> <div style = "flex-grow: 5"> {{$pageSlug ?? ($brandingName ?? 'Korvex')}} </div></div>
             <div class="col-md-4"><button stlyle= "flex-grow: 3" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-bar navbar-kebab"></span>
                     <span class="navbar-toggler-bar navbar-kebab"></span>

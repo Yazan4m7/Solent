@@ -17,27 +17,27 @@
 
 
 
-<div class="alrazi-workflow-modal waiting-dialog" id="{{ $type }}-waiting" tabindex="-1" role="dialog">
-    <div class="alrazi-workflow-dialog">
+<div class="Albasma-workflow-modal waiting-dialog" id="{{ $type }}-waiting" tabindex="-1" role="dialog">
+    <div class="Albasma-workflow-dialog">
         <!-- Header with close button -->
-        <div class="alrazi-workflow-header">
-            <h2 class="alrazi-workflow-title">{{ $title }}</h2>
-            <button class="alrazi-close-button" onclick="closeModal({id: '{{ $type }}', isWaiting:true})">
+        <div class="Albasma-workflow-header">
+            <h2 class="Albasma-workflow-title">{{ $title }}</h2>
+            <button class="Albasma-close-button" onclick="closeModal({id: '{{ $type }}', isWaiting:true})">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
 
 
         <!-- Machine selection grid -->
-        <div class="alrazi-workflow-body">
-            <div class="alrazi-machines-grid">
+        <div class="Albasma-workflow-body">
+            <div class="Albasma-machines-grid">
                 @foreach($devices->where('type', $stageId) as $device)
-                    <div class="alrazi-machine-card {{ $type }}"
+                    <div class="Albasma-machine-card {{ $type }}"
                          onclick="selectMachine(this, '{{ $type }}', {{ $device['id'] }})">
-                        <div class="alrazi-machine-image-container">
-                            <img src="{{ asset($device['img']) }}" alt="{{ $device['name'] }}" class="alrazi-machine-image">
+                        <div class="Albasma-machine-image-container">
+                            <img src="{{ asset($device['img']) }}" alt="{{ $device['name'] }}" class="Albasma-machine-image">
                         </div>
-                        <div class="alrazi-machine-name">{{ $device['name'] }}</div>
+                        <div class="Albasma-machine-name">{{ $device['name'] }}</div>
                     </div>
                 @endforeach
             </div>
@@ -48,11 +48,11 @@
             <!-- Build name input) -->
 
 @if($type != "sintering")
-                <div class="alrazi-form-group">
+                <div class="Albasma-form-group">
 
                 <input type="text"
-                           id="alrazi-build-name-{{ $type }}"
-                           class="alrazi-form-control  {{$stageConfig[$type]['multiple-waiting']?'multiple-choice' :'single-choice' }} "
+                           id="Albasma-build-name-{{ $type }}"
+                           class="Albasma-form-control  {{$stageConfig[$type]['multiple-waiting']?'multiple-choice' :'single-choice' }} "
                            placeholder="Enter {{$buildFieldName[$type] ?? 'Build'}} name"
                            oninput="validateAndSetBuildName('{{ $type }}')">
 
@@ -60,8 +60,8 @@
 
             @else
                 <input type="hidden"
-                       id="alrazi-build-name-{{ $type }}"
-                       class="alrazi-form-control"
+                       id="Albasma-build-name-{{ $type }}"
+                       class="Albasma-form-control"
                        placeholder="Enter {{$buildFieldName[$type] ?? 'Build'}} name"
                        oninput="validateAndSetBuildName('{{ $type }}')">
     @endif
@@ -70,10 +70,10 @@
 
 
         <!-- Action button -->
-        <div class="alrazi-workflow-footer">
+        <div class="Albasma-workflow-footer">
             <button type="button"
-                    class="alrazi-button  {{ $escapedType }}"
-                    id="alrazi-action-button-{{ $escapedType }}" style = "background-color: var({{$type != "sintering" ? '--main-orange' :  '--main-blue'}})"
+                    class="Albasma-button  {{ $escapedType }}"
+                    id="Albasma-action-button-{{ $escapedType }}" style = "background-color: var({{$type != "sintering" ? '--main-orange' :  '--main-blue'}})"
                     disabled
                     onclick="submitWorkflow('{{ $escapedType }}')">
                 {{ $stageSpecs[$type]['btnText'] }}

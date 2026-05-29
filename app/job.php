@@ -70,6 +70,9 @@ class job extends Model
             case "5":
                 $stageName =   "Pressing Furnace";
                 break;
+            case "9":
+                $stageName =   "Metal Work";
+                break;
             case "6":
                 $stageName =   "Finishing";
                 break;

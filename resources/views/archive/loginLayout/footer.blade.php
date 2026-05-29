@@ -29,7 +29,7 @@
         document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
       </script>
 
-       <a href="#" target="_blank" style="color:#39b34a"> Korvion </a> All Rights Reserved
+       <a href="#" target="_blank" style="color:#39b34a"> Korvex </a> All Rights Reserved
     </div>
   </div>
 </footer>

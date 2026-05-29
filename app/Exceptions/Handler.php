@@ -3,7 +3,8 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -42,20 +43,27 @@ class Handler extends ExceptionHandler
 
     public function render($request, Throwable $e)
     {
-        // EXAMPLE #1: A specific check for QueryException
+        if ($e instanceof ValidationException) {
+            return parent::render($request, $e);
+        }
 
-        // EXAMPLE #2: Another custom check, e.g., for your own custom exceptions
-//        if ($e instanceof NotFoundHttpException) {
-//            // Pass a message or any data you need
-//            return response()->view('generic.oops', [
-//                'errorMessage' => "Not found bro!",
-//                'exception'   =>  $e,
-//            ], 400);
-//        }
+        $statusCode = 500;
+        if ($e instanceof HttpExceptionInterface) {
+            $statusCode = $e->getStatusCode();
+        }
+        if ($request->expectsJson() || $request->is('api/*')) {
+            return response()->json([
+                'message' => 'Something went wrong. Please try again.',
+                'status' => $statusCode,
+            ], $statusCode);
+        }
 
-        // EXAMPLE #3: A fallback for all "other" exceptions
-        // Let Laravel handle the rest it
-        return parent::render($request, $e);
-
+        try {
+            return response()->view('errors.generic', [
+                'statusCode' => $statusCode,
+            ], $statusCode);
+        } catch (Throwable $viewException) {
+            return response('Something went wrong. Please try again.', $statusCode);
+        }
     }
 }

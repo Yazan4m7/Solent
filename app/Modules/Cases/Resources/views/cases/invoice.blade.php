@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+    @php($currencyUnitAr = (string) ($currencyContext['unit_ar'] ?? 'دينار'))
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>فاتورة مختبر الرازي</title>
@@ -258,7 +259,7 @@
                     <tr>
                         <th>العدد</th>
                         <th>التفاصيل</th>
-                        <th>الإجمالي<br>دينار</th>
+                        <th>الإجمالي<br>{{ $currencyUnitAr }}</th>
                     </tr>
                 </thead>
                 <tbody>

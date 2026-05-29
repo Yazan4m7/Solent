@@ -2,6 +2,7 @@
 
 
 @section('content')
+    @php($currencyLabel = (string) ($currencyContext['display'] ?? $currencyContext['code'] ?? 'JOD'))
     <head>
 
     </head>
@@ -96,7 +97,7 @@
 <hr>
             <div class="card-body table-responsive">
                 <h5 class="header-title">Total Amount:</h5>
-                <h2 style=""><span style="font-weight: bold;color:#a13030">{{number_format($invoices->sum('amount'))}}</span> <span style="font-weight: bold;font-size:18px;">JOD</span></h2>
+                <h2 style=""><span style="font-weight: bold;color:#a13030">{{number_format($invoices->sum('amount'))}}</span> <span style="font-weight: bold;font-size:18px;">{{ $currencyLabel }}</span></h2>
                 <p class="text-muted"></p>
                 <div class="table-odd">
                     <div id="datatable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer"><div class="row"><div class="col-sm-12" style="padding:5px">
@@ -124,7 +125,7 @@
                                             <td class="sorting_1">{{$invoice->id}}</td>
                                             <td>{{$invoice->client->name}}</td>
                                             <td>{{isset($invoice->case) ? $invoice->case->patient_name :$invoice->discount_title }}</td>
-                                            <td>{{$invoice->amount}} JOD</td>
+                                            <td>{{$invoice->amount}} {{ $currencyLabel }}</td>
                                             @if (isset($invoice->case) && isset($invoice->case->actual_delivery_date) )
                                             <td> {{$invoice->case->actualDeliveryDate()}}&nbsp;&nbsp;&nbsp;&nbsp;{{$invoice->case->actualDeliveryTime()}}</td>
                                             @else

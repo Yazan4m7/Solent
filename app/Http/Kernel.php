@@ -16,6 +16,7 @@ class Kernel extends HttpKernel
     protected $middleware = [
         // \App\Http\Middleware\TrustHosts::class,
         \App\Http\Middleware\TrustProxies::class,
+        \App\Http\Middleware\ApplyDomainContext::class,
         \Fruitcake\Cors\HandleCors::class,
         \App\Http\Middleware\PreventRequestsDuringMaintenance::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
@@ -100,6 +101,7 @@ class Kernel extends HttpKernel
         'OrderAbutments'=>\App\Http\Middleware\OrderAbutmentMiddleware::class,
         'ViewVouchers'=>\App\Http\Middleware\ViewVouchersMiddleware::class,
         'LockUnlockCases'=>\App\Http\Middleware\LockUnlockCasesMiddleware::class,
+        'platform.admin'=>\App\Http\Middleware\PlatformAdminMiddleware::class,
 
 
     ];

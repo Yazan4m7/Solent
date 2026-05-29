@@ -1,0 +1,587 @@
+/* Solent demo polish: login shell, mobile header, operation tabs, and demo mark. */
+
+:root {
+    --solent-ink: #0b1117;
+    --solent-panel: #101820;
+    --solent-panel-soft: #151e26;
+    --solent-border: rgba(219, 195, 115, 0.18);
+    --solent-gold: #dbc373;
+    --solent-gold-soft: #ead27b;
+    --solent-muted: rgba(255, 255, 255, 0.68);
+    --solent-white: #ffffff;
+}
+
+html {
+    display: block !important;
+    height: 100% !important;
+}
+
+body.login-page {
+    box-sizing: border-box !important;
+    position: relative;
+    width: 100% !important;
+    margin: 0 !important;
+    min-height: 100vh !important;
+    min-height: 100dvh !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    padding: clamp(18px, 4vw, 56px) !important;
+    overflow: hidden;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background:
+        radial-gradient(circle at 22% 46%, rgba(219, 195, 115, 0.08), transparent 30%),
+        linear-gradient(120deg, #202220 0%, #111923 56%, #0b1117 100%) !important;
+    background-color: var(--solent-ink) !important;
+    background-blend-mode: normal !important;
+    color: var(--solent-white) !important;
+}
+
+body.login-page::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at 22% 46%, rgba(219, 195, 115, 0.08), transparent 30%),
+        linear-gradient(120deg, #202220 0%, #111923 56%, #0b1117 100%);
+}
+
+body.login-page .auth-split {
+    position: relative;
+    z-index: 1;
+    width: min(1040px, calc(100vw - 64px)) !important;
+    max-width: 1040px !important;
+    min-height: min(552px, calc(100vh - 64px));
+    margin: auto !important;
+    padding: 28px 34px 28px 18px;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-direction: row !important;
+    gap: clamp(70px, 9vw, 150px) !important;
+    background: linear-gradient(180deg, rgba(32, 34, 32, 0.86), rgba(15, 23, 33, 0.90));
+    box-shadow: 0 28px 80px rgba(0, 0, 0, 0.16);
+    transform: translateY(-2vh);
+}
+
+body.login-page .auth-left {
+    flex: 0 0 390px !important;
+    width: 390px !important;
+    min-height: auto;
+    padding: 0;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    background: transparent !important;
+}
+
+body.login-page .auth-brand {
+    display: grid !important;
+    grid-template-columns: 68px minmax(0, 1fr);
+    gap: 16px;
+    align-items: center;
+    max-width: 380px !important;
+    color: var(--solent-white) !important;
+}
+
+body.login-page .auth-brand::after {
+    content: "Sign in to manage your dental lab workflows, approve cases, and keep every smile on schedule.";
+    grid-column: 1 / -1;
+    max-width: 360px;
+    margin-top: 12px;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 17px;
+    line-height: 1.48;
+}
+
+body.login-page .auth-brand-logo {
+    width: 68px !important;
+    height: 68px !important;
+    max-height: none !important;
+    padding: 10px;
+    border-radius: 12px;
+    object-fit: contain;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(219, 195, 115, 0.12);
+    filter: none !important;
+}
+
+body.login-page .auth-brand-name {
+    color: var(--solent-white) !important;
+    font-size: 0 !important;
+    line-height: 1 !important;
+    text-shadow: none !important;
+}
+
+body.login-page .auth-brand-name::before {
+    content: "Solent";
+    display: block;
+    font-size: clamp(34px, 4vw, 42px);
+    font-weight: 800;
+    letter-spacing: 0;
+}
+
+body.login-page .auth-right {
+    flex: 0 0 400px !important;
+    width: 400px !important;
+    max-width: 400px !important;
+    padding: 0 !important;
+    border-radius: 12px !important;
+    background: transparent !important;
+}
+
+body.login-page .right-section {
+    flex: 0 0 auto !important;
+    width: 100% !important;
+    padding: 48px 42px !important;
+    border-radius: 12px !important;
+    color: var(--solent-white) !important;
+    background: rgba(7, 14, 20, 0.86) !important;
+    border: 1px solid var(--solent-border) !important;
+    box-shadow: 0 28px 70px rgba(0, 0, 0, 0.34) !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+body.login-page .right-section h1 {
+    margin-bottom: 18px !important;
+    color: var(--solent-white) !important;
+    font-size: 30px !important;
+    font-weight: 800 !important;
+}
+
+body.login-page .right-section h1::after {
+    content: "New user? Create an account";
+    display: block;
+    margin-top: 14px;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 13px;
+    font-weight: 400;
+}
+
+body.login-page .country-context,
+body.login-page .country-database {
+    display: none !important;
+}
+
+body.login-page label,
+body.login-page .remember-me,
+body.login-page .remember-me label {
+    color: var(--solent-white) !important;
+}
+
+body.login-page input[type="username"],
+body.login-page input[type="password"],
+body.login-page .password-field input {
+    height: 48px !important;
+    color: var(--solent-white) !important;
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+    border-radius: 8px !important;
+}
+
+body.login-page input[type="username"]::placeholder,
+body.login-page input[type="password"]::placeholder,
+body.login-page .password-field input::placeholder {
+    color: rgba(255, 255, 255, 0.42);
+}
+
+body.login-page input[type="username"]:focus,
+body.login-page input[type="password"]:focus,
+body.login-page .password-field input:focus {
+    border-color: var(--solent-gold) !important;
+    box-shadow: 0 0 0 3px rgba(219, 195, 115, 0.18), inset 0 0 0 1px var(--solent-gold) !important;
+}
+
+body.login-page .password-field {
+    position: relative;
+}
+
+body.login-page .password-field input {
+    width: 100%;
+    padding-right: 50px !important;
+}
+
+body.login-page .password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    transform: translateY(-50%);
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.62);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: color 0.16s ease, background-color 0.16s ease;
+}
+
+body.login-page .password-toggle:hover,
+body.login-page .password-toggle:focus-visible {
+    color: var(--solent-gold);
+    background: rgba(219, 195, 115, 0.10);
+    outline: none;
+}
+
+body.login-page .password-toggle-eye-off,
+body.login-page .password-toggle.is-visible .password-toggle-eye {
+    display: none;
+}
+
+body.login-page .password-toggle.is-visible .password-toggle-eye-off {
+    display: block;
+}
+
+body.login-page .remember-me input {
+    accent-color: var(--solent-gold) !important;
+}
+
+body.login-page button.signin-btn {
+    color: #06090c !important;
+    background: linear-gradient(135deg, #d6aa3d, var(--solent-gold-soft)) !important;
+    box-shadow: 0 18px 34px rgba(0, 0, 0, 0.30) !important;
+}
+
+body.login-page button.signin-btn:hover {
+    filter: brightness(1.04) !important;
+}
+
+body.login-page form::after {
+    content: "Forgot password?";
+    display: block;
+    margin-top: 28px;
+    color: var(--solent-gold);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+body.login-page .invalid-feedback {
+    color: #ffb29d !important;
+}
+
+body.login-page::after,
+body.white-content::after {
+    content: "Demo - alpha v0.1";
+    position: fixed;
+    top: auto;
+    bottom: 22px;
+    right: 22px;
+    transform: none;
+    z-index: 1040;
+    pointer-events: none;
+    color: #111718;
+    opacity: 0.2;
+    font-size: clamp(13px, 1.2vw, 18px);
+    font-weight: 800;
+    letter-spacing: 0.02em;
+}
+
+body.login-page::after {
+    color: #ffffff;
+}
+
+.logo-navbar {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 56px;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.logo-navbar .logo,
+.logo-navbar .korvion-horizontal-logo {
+    width: auto !important;
+    height: 24px !important;
+    max-height: 24px !important;
+    object-fit: contain !important;
+    filter: none !important;
+}
+
+#wrapp #search_submit {
+    position: static !important;
+    inset: auto !important;
+    order: -1;
+    flex: 0 0 16px;
+    width: 16px !important;
+    height: 16px !important;
+    background: url("data:image/svg+xml,%3Csvg width='18' height='18' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10.75 18.5C6.47 18.5 3 15.03 3 10.75S6.47 3 10.75 3s7.75 3.47 7.75 7.75a7.72 7.72 0 0 1-1.68 4.82l3.31 3.31-1.25 1.25-3.31-3.31a7.72 7.72 0 0 1-4.82 1.68Zm0-1.8a5.95 5.95 0 1 0 0-11.9 5.95 5.95 0 0 0 0 11.9Z' fill='%23111718'/%3E%3C/svg%3E") center center / 16px auto no-repeat !important;
+    text-indent: -10000px;
+}
+
+#wrapp #search {
+    position: static !important;
+    inset: auto !important;
+    min-width: 0;
+}
+
+@media screen and (min-width: 992px) {
+    .logo-col {
+        flex: 0 0 150px !important;
+        max-width: 150px !important;
+        padding-left: 18px !important;
+    }
+
+    .logo-navbar {
+        width: 126px !important;
+        height: 54px !important;
+    }
+
+    .left-toggler-container {
+        min-height: 72px;
+    }
+
+    .pageTitleContainer {
+        flex: 1 1 auto !important;
+        max-width: none !important;
+        gap: 14px !important;
+        padding-left: 10px !important;
+    }
+
+    .pageTitleContainer > span:first-child {
+        height: 32px !important;
+        align-self: center;
+    }
+
+    .pageTitle {
+        margin: 0 !important;
+        padding: 0 !important;
+        line-height: 1.2 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+    }
+}
+
+@media screen and (max-width: 991.98px) {
+    body.login-page {
+        overflow-y: auto;
+        padding: 24px 18px !important;
+    }
+
+    body.login-page .auth-split {
+        width: 100% !important;
+        max-width: 440px !important;
+        min-height: auto;
+        padding: 22px;
+        flex-direction: column !important;
+        gap: 24px !important;
+        transform: none;
+    }
+
+    body.login-page .auth-left,
+    body.login-page .auth-right {
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: 0 0 auto !important;
+    }
+
+    body.login-page .auth-left {
+        min-height: auto;
+        padding: 0;
+        border-radius: 0;
+    }
+
+    body.login-page .auth-brand {
+        max-width: 100% !important;
+    }
+
+    body.login-page .right-section {
+        padding: 34px 28px !important;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .stickMe {
+        min-height: 82px;
+        padding: 8px 0 10px !important;
+    }
+
+    .stickMe > .container-fluid {
+        width: 100%;
+        padding: 0 12px !important;
+    }
+
+    nav.stickMe .headerRow {
+        width: 100%;
+        margin: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        flex-wrap: wrap !important;
+        gap: 8px 10px;
+    }
+
+    nav.stickMe .headerRow > .col-lg-7,
+    nav.stickMe .headerRow > .col-md-7 {
+        flex: 1 1 calc(100% - 10px) !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        padding: 0 !important;
+    }
+
+    .left-toggler-container {
+        width: 100%;
+        margin: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 10px;
+    }
+
+    .logo-col {
+        flex: 0 0 58px !important;
+        max-width: 58px !important;
+        padding: 0 !important;
+        height: 42px !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+
+    .logo-col > div {
+        width: 100% !important;
+        height: 42px !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+
+    .logo-navbar {
+        display: none !important;
+    }
+
+    .logo-navbar .logo,
+    .logo-navbar .korvion-horizontal-logo {
+        width: auto !important;
+        height: 24px !important;
+        max-height: 24px !important;
+        object-fit: contain !important;
+    }
+
+    .pageTitleContainer {
+        display: flex !important;
+        flex: 1 1 auto !important;
+        min-width: 0 !important;
+        max-width: calc(100% - 68px) !important;
+        padding: 0 !important;
+        gap: 12px !important;
+        align-items: center !important;
+    }
+
+    .pageTitleContainer > span:first-child {
+        flex: 0 0 4px;
+        height: 30px !important;
+    }
+
+    .pageTitle {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 15px !important;
+        line-height: 1.15 !important;
+        margin: 0 !important;
+    }
+
+    nav.stickMe .headerActionsCol {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 10px !important;
+        width: 100% !important;
+        padding: 0 !important;
+    }
+
+    #wrapp {
+        width: 100% !important;
+        min-width: 0 !important;
+        height: 40px !important;
+    }
+
+    #wrapp .SBF2 {
+        height: 40px !important;
+        width: 100% !important;
+        padding: 0 14px !important;
+        gap: 8px !important;
+    }
+
+    .dotsDiv {
+        display: flex !important;
+        min-width: 52px !important;
+        padding-right: 0 !important;
+    }
+
+    .main-panel > .content {
+        padding-top: 22px !important;
+    }
+
+    .kt-form .container.full-width:first-of-type,
+    form.kt-form > .container.full-width:first-of-type {
+        margin-top: 16px !important;
+    }
+
+    .ops-dashboard .macaw-tabs.macaw-aurora-tabs {
+        display: block !important;
+        width: 100% !important;
+    }
+
+    .ops-dashboard .macaw-tabs.macaw-aurora-tabs > [role="tablist"].stageSidebar {
+        display: flex !important;
+        flex-direction: row !important;
+        width: 100% !important;
+        margin-top: 0 !important;
+        overflow-x: auto;
+        gap: 0;
+        padding: 4px 0 10px;
+        border-top: 0 !important;
+        scroll-snap-type: x mandatory;
+    }
+
+    .ops-dashboard .macaw-tabs.macaw-aurora-tabs > [role="tablist"].stageSidebar > [role="tab"] {
+        flex: 0 0 50% !important;
+        width: 50% !important;
+        max-width: 50% !important;
+        min-width: 0 !important;
+        min-height: 78px;
+        border: 1px solid rgba(53, 132, 145, 0.22) !important;
+        border-radius: 10px !important;
+        box-sizing: border-box;
+        scroll-snap-align: start;
+    }
+
+    .ops-dashboard .macaw-tabs.macaw-aurora-tabs > [role="tabpanel"] {
+        width: 100% !important;
+        padding: 14px 0 !important;
+    }
+
+    .ops-dashboard .macaw-tabs.macaw-silk-tabs > [role="tablist"] {
+        width: 100% !important;
+        margin-left: 0 !important;
+        display: flex !important;
+    }
+
+    .ops-dashboard .macaw-tabs.macaw-silk-tabs > [role="tablist"] > .innerBtn {
+        flex: 1 1 50% !important;
+        max-width: 50% !important;
+        justify-content: center !important;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    body.login-page .auth-brand {
+        grid-template-columns: 58px minmax(0, 1fr);
+    }
+
+    body.login-page .auth-brand-logo {
+        width: 58px !important;
+        height: 58px !important;
+    }
+
+    body.login-page .right-section {
+        padding: 30px 22px !important;
+    }
+
+}

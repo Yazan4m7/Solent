@@ -67,6 +67,9 @@ class CaseController extends Controller
         // Pressing
         'PRESSING_START'    => 5.1,
         'PRESSING_COMPLETE' => 5.2,
+        // Metal Work
+        'METALWORK_START'    => 9.1,
+        'METALWORK_COMPLETE' => 9.2,
         // Delivery
         'DELIVERY_ASSIGN'   => 8.1,
         'DELIVERY_ACCEPT'   => 8.2,
@@ -974,6 +977,7 @@ class CaseController extends Controller
         if ($stage == 3) { $logStage = $this->stageActions['PRINTING_SET']; }
         if ($stage == 4) { $logStage = $this->stageActions['SINTERING_SET']; }
         if ($stage == 5) { $logStage = $this->stageActions['PRESSING_START']; }
+        if ($stage == 9) { $logStage = $this->stageActions['METALWORK_START']; }
         if ($stage == 8) { $logStage = $this->stageActions['DELIVERY_ASSIGN']; }
         $logData = ['user_id' => Auth()->user()->id, 'case_id' => $caseId, 'stage' => $logStage, 'is_completion' => $isCompletion];
 
@@ -1124,6 +1128,9 @@ class CaseController extends Controller
         if ($stage == 5) {
             $logStage = $this->stageActions['PRESSING_COMPLETE'];
         }
+        if ($stage == 9) {
+            $logStage = $this->stageActions['METALWORK_COMPLETE'];
+        }
         if ($stage == 8) {
             $logStage = $this->stageActions['DELIVERY_COMPLETE'];
         }
@@ -1233,6 +1240,7 @@ class CaseController extends Controller
          * 3 => 3D Printing
          * 4 => Sintering Furnace
          * 5 => Press Furnace
+         * 9 => Metal Work
          * 6 => Finishing
          * 7 => Quality Control
          * 8 => Delivery
@@ -1244,9 +1252,13 @@ class CaseController extends Controller
         if ($material->print_3d && $currentStage < 3) return 3;
         if ($material->sinter_furnace && $currentStage < 4) return 4;
         if ($material->press_furnace && $currentStage < 5) return 5;
-        if ($material->finish && $currentStage < 6) return 6;
-        if ($material->qc && $currentStage < 7) return 7;
-        if ($material->delivery && $currentStage < 8) return 8;
+        if ($material->metal_work && $currentStage < 9) return 9;
+
+        // Furnace stages (4,5,9) are mutually exclusive and all come BEFORE finish/qc/delivery
+        $furnaceStages = [4, 5, 9];
+        if ($material->finish && ($currentStage < 6 || in_array($currentStage, $furnaceStages))) return 6;
+        if ($material->qc && ($currentStage < 7 || in_array($currentStage, $furnaceStages))) return 7;
+        if ($material->delivery && ($currentStage < 8 || in_array($currentStage, $furnaceStages))) return 8;
 
         return -1;
     }
@@ -1692,7 +1704,7 @@ class CaseController extends Controller
                 if ($client->doc_notification_token)
                     $this->sendPaymentNotification($client->doc_notification_token,
                         "Payment Received",
-                        "100 " . "JOD has been received",
+                        "100 " . $this->currentCurrencyCode() . " has been received",
                     );
                 break;
             default:
@@ -1774,7 +1786,7 @@ class CaseController extends Controller
 
     public function createDummyCase($stage = 1, $amount =1)
     {
-        if ($stage > 8 || $stage < 1) { dd("-_-");}
+        if (!in_array($stage, [1, 2, 3, 4, 5, 6, 7, 8, 9, -1])) { dd("-_-");}
         DB::beginTransaction();
         $faker = Faker::create();
 

@@ -1,12 +1,40 @@
 @extends('layouts.app' ,[ 'pageSlug' => "Edit Case"])
 
 @section('content')
+    @php($currencyLabel = (string) ($currencyContext['display'] ?? $currencyContext['code'] ?? 'JOD'))
     <link rel="stylesheet" href="{{asset('assets/css/lightgallery.css')}}" />
     <link rel="stylesheet" href="{{asset('assets/css/jquery.imagesloader.css')}}" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://cdn.jsdelivr.net/lightgallery/1.3.9/css/lightgallery.min.css" rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <style>
+        .case-summary-row {
+            align-items: flex-start;
+        }
+
+        .case-summary-row > [class*="col-"] {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .case-summary-row > [class*="col-"] > .col-md-12,
+        .case-summary-row > [class*="col-"] > .col-md-6 {
+            width: 100%;
+            max-width: 100%;
+            flex: 0 0 100%;
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        .case-summary-row input.form-control,
+        .case-summary-row select,
+        .case-summary-row .bootstrap-select,
+        .case-summary-row .btn.dropdown-toggle {
+            width: 100% !important;
+            margin: 0;
+        }
+
         @media screen and (max-width: 991px) {
             .modal-content .modal-footer button {
                 margin: 0;
@@ -71,7 +99,7 @@
         <input name="id" type="hidden" value="{{$case->id}}" />
     <!-- CASE INFO -->
 
-        <div class="row">
+        <div class="row case-summary-row">
             <div class="col-md-3 col-xs-6 col-l-3 col-xl-3">
                 <div class="col-md-12 col-xs-12"><label>Doctor:</label></div>
                 <div class="col-md-12 col-xs-12">
@@ -111,7 +139,7 @@
         </div>
 
             <br/>
-        <div class="row">
+        <div class="row case-summary-row">
 
             <div class="col-md-4  col-xs-6 col-l-2  col-xl-3">
                 <div class="col-md-12 col-xs-12"><label>Delivery Date:</label></div>
@@ -577,8 +605,8 @@
                 <div class="form-group form-group row discountPortion" style="{{$discountExists ? '' : 'display:none'}}" >
                     <div class="col-md-3 col-xs-6">
                         <input class="form-control" type="number" name="discount_amount"
-                               placeholder="Amount (JOD)" value="{{$discountExists ? $case->discount->discount : ""}}"/>
-                        <small>JOD</small>
+                               placeholder="Amount ({{ $currencyLabel }})" value="{{$discountExists ? $case->discount->discount : ""}}"/>
+                        <small>{{ $currencyLabel }}</small>
                     </div>
                     <div class="col-md-6 col-xs-6">
                         <input class="form-control" type="text" name="discount_reason"
@@ -612,7 +640,6 @@
                     </div>
                 @endforeach
 
-                <form></form>
                 <form  style="" class="noteform " method="POST" enctype="multipart/form-data"   action="{{route('new-note')}}">
                     @csrf
                     <div class="row" style="padding:0px">
@@ -1450,6 +1477,10 @@
                 stagesDropDown.append($("<option></option>")
                     .attr("value", 5)
                     .text("Pressing Furnace"));
+            if (materialSelected.metal_work ==1 )
+                stagesDropDown.append($("<option></option>")
+                    .attr("value", 9)
+                    .text("Metal Work"));
             if (materialSelected.finish ==1 )
                 stagesDropDown.append($("<option></option>")
                     .attr("value", 6)

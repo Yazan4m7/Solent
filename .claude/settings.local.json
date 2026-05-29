@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir:*)",
+      "Bash(findstr:*)",
+      "Bash(composer show:*)",
+      "Bash(cat:*)"
+    ]
+  }
+}

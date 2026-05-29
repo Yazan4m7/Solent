@@ -1,14 +1,27 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    @php($brandLogo = asset($brandingLogoPath ?? config('branding.defaults.logo_path')))
+    @php($brandLogo = asset('images/v_logo_eng.png'))
+    @php($brandTitle = $brandingName ?? config('branding.defaults.name'))
+    @php($currencyLabel = (string) ($currencyContext['display'] ?? $currencyContext['code'] ?? 'JOD'))
+    @php($currencyUnitAr = (string) ($currencyContext['unit_ar'] ?? 'دينار'))
+    @php($currencyNameAr = (string) ($currencyContext['name_ar'] ?? 'دينار أردني'))
+    @php($currencyPhraseAr = $currencyNameAr . ' لا غير')
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>فاتورة مختبر الرازي</title>
+    <title>{{ $brandTitle }} | Invoice</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --brand-primary: {{ config('branding.defaults.primary_color') }};
+            --brand-secondary: {{ config('branding.defaults.secondary_color') }};
+            --brand-accent: {{ config('branding.defaults.accent_color') }};
+            --brand-surface: #ffffff;
+            --brand-muted: #6b7280;
+        }
+
         body {
             font-family: 'Cairo', sans-serif;
             background-color: #f4f4f4;
@@ -22,7 +35,7 @@
             width: 100px;
             margin: 20px auto;
             padding: 10px;
-            background-color: #007bff;
+            background-color: var(--brand-primary);
             color: #fff;
             border: none;
             border-radius: 5px;
@@ -47,7 +60,7 @@
             left: 0;
             right: 0;
             height: 12px;
-            background-color: #9dc9a0;
+            background-color: var(--brand-primary);
         }
 
         header {
@@ -94,6 +107,7 @@
         header .title h1 {
             margin: 0;
             font-size: 2.2em;
+            color: var(--brand-accent);
         }
 
         header .title h2 {
@@ -101,6 +115,7 @@
             font-size: 1.4em;
             font-weight: bold;
             letter-spacing: 1px;
+            color: var(--brand-accent);
         }
 
         header .title .address {
@@ -186,11 +201,11 @@
         }
 
         thead th {
-            background: #d0d0d0 !important;
+            background: var(--brand-secondary) !important;
             text-align: center;
             font-weight: bold;
-            border-bottom: 2px solid #333;
-            opacity: 0.5;
+            border-bottom: 2px solid var(--brand-accent);
+            opacity: 0.9;
         }
 
         tbody tr {
@@ -199,8 +214,8 @@
 
         tbody td {
             vertical-align: top;
-            background: #e0e0e0 !important;
-            opacity: 0.15;
+            background: var(--brand-surface) !important;
+            opacity: 1;
             border-color: rgba(51, 51, 51, 0.15) !important;
         }
 
@@ -209,7 +224,7 @@
         th:nth-child(3) { width: 15%; }
 
         tfoot td {
-            border-top: 2px solid #333;
+            border-top: 2px solid var(--brand-accent);
             vertical-align: top;
         }
 
@@ -365,7 +380,7 @@
 </head>
 <body>
 
-    <button class="print-button" onclick="window.print()">طباعة</button>
+    <button class="print-button" onclick="window.print()">?????</button>
 
     <div class="invoice-box">
         <div class="top-bar"></div>
@@ -379,18 +394,15 @@
             </div>
 
             <div class="title">
-                <h1>مختبر الرازي للأسنان</h1>
-                <h2>AL - RAZI DENTAL LAB.</h2>
-                <div class="address">
-                    اربد - شارع الملك عبدلله الثاني📍 <br/>
-                    مقابل البوابة الشرقية لمدينة الحسن - جمعة سنتر 9
-                </div>
+                <h1>??????</h1>
+                <h2>{{ $brandTitle }}</h2>
+                <div class="address">Digital dental laboratory - High-precision restorations</div>
             </div>
 
             <div class="contact-info">
                 <div class="phones" style="text-align: left">
-                    <span> 1100  726 02 📞</span>
-                    <span> 1100 726 079 📞</span>
+                    <span>Al Basma Digital Dental Lab</span>
+                    <span>Precision - Reliability - Speed</span>
                 </div>
             </div>
         </header>
@@ -408,7 +420,7 @@
             <table>
                 <thead>
                     <tr>
-                        <th>الإجمالي<br>دينار</th>
+                        <th>الإجمالي<br>{{ $currencyUnitAr }}</th>
                         <th>التفاصيل</th>
                         <th>العدد</th>
                     </tr>
@@ -454,7 +466,7 @@
                         <td colspan="2" style="text-align: right; padding: 8px; border-left: 1px solid #333;">
                             <div style="display: flex; justify-content: space-between; align-items: center;">
                                 <span style="flex: 1; text-align: right;">
-                                    دفعة <span id="paymentInWords" style="display: inline-block;">............................................................ دينار أردني لا غير</span>
+                                    دفعة <span id="paymentInWords" style="display: inline-block;">............................................................ {{ $currencyPhraseAr }}</span>
                                 </span>
                                 <span style="margin-left:18px" >نقداً</span>
                             </div>
@@ -490,9 +502,9 @@
             </section>
 
             <footer>
-                <span>✉️ support@korvion.com</span>
-                <span>👍 Korvion Dental Lab</span>
-                <span>📷 Korvion</span>
+
+                <span>Precision dental restorations</span>
+                <span>Trusted digital workflows</span>
             </footer>
         </div>
 
@@ -546,11 +558,12 @@
             document.getElementById("paymentAmount").addEventListener("input", function () {
                 const value = parseInt(this.value) || 0;
                 const paymentInWordsSpan = document.getElementById("paymentInWords");
+                const currencyPhraseAr = @json($currencyPhraseAr);
 
                 if (value > 0) {
-                    paymentInWordsSpan.innerText = numberToWords(value) + " دينار أردني لا غير";
+                    paymentInWordsSpan.innerText = numberToWords(value) + " " + currencyPhraseAr;
                 } else {
-                    paymentInWordsSpan.innerText = "............................................................ دينار أردني لا غير";
+                    paymentInWordsSpan.innerText = "............................................................ " + currencyPhraseAr;
                 }
             });
 
@@ -618,3 +631,5 @@
         </script>
     </body>
 </html>
+
+

@@ -2,6 +2,7 @@
 
 
 @section('content')
+    @php($currencyLabel = (string) ($currencyContext['display'] ?? $currencyContext['code'] ?? 'JOD'))
     <head>
 
     </head>
@@ -93,7 +94,7 @@
     <hr>
     <div class="card-body table-responsive">
         <h5 class="header-title">Total Amount:</h5>
-        <h2 style=""><span style="font-weight: bold;color:#a13030">{{number_format($totalAmount)}}</span> <span style="font-weight: bold;font-size:18px;">JOD</span></h2>
+        <h2 style=""><span style="font-weight: bold;color:#a13030">{{number_format($totalAmount)}}</span> <span style="font-weight: bold;font-size:18px;">{{ $currencyLabel }}</span></h2>
         <p class="text-muted"></p>
         <div class="table-odd">
             <div id="datatable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer"><div class="row"><div class="col-sm-12" style="padding:5px">

@@ -206,7 +206,7 @@ Log::info("-----------Dialog has Active Jobs -------: ".$hasActiveJobs);
     }
 
     /* Active Cases Dialog Layout Styles */
-    .alrazi-build-header {
+    .Albasma-build-header {
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -214,11 +214,11 @@ Log::info("-----------Dialog has Active Jobs -------: ".$hasActiveJobs);
         gap: 12px;
     }
 
-    .alrazi-job-checkbox {
+    .Albasma-job-checkbox {
         flex-shrink: 0;
     }
 
-    .alrazi-build-title {
+    .Albasma-build-title {
         flex: 1;
         font-weight: 700;
         font-size: 18px;
@@ -230,13 +230,13 @@ Log::info("-----------Dialog has Active Jobs -------: ".$hasActiveJobs);
         line-height: 1.5;
     }
 
-    .alrazi-build-title.alrazi-date-title {
+    .Albasma-build-title.Albasma-date-title {
         direction: ltr;
         unicode-bidi: normal;
         text-align: left;
     }
 
-    .alrazi-build-units {
+    .Albasma-build-units {
         flex-shrink: 0;
         font-weight: 600;
         font-size: 16px;
@@ -248,26 +248,26 @@ Log::info("-----------Dialog has Active Jobs -------: ".$hasActiveJobs);
         text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
     }
 
-    .alrazi-build-toggle {
+    .Albasma-build-toggle {
         flex-shrink: 0;
         cursor: pointer;
         padding: 4px;
     }
 
     /* Case Items Table-like Layout */
-    .alrazi-build-details {
+    .Albasma-build-details {
         width: 100%;
     }
 
-    .alrazi-build-cases {
+    .Albasma-build-cases {
         width: 100%;
     }
 
-    .alrazi-case-item {
+    .Albasma-case-item {
         width: 100%;
     }
 
-    .alrazi-case-info-row {
+    .Albasma-case-info-row {
         display: grid;
         grid-template-columns: 2fr 2fr 1fr auto;
         gap: 16px;
@@ -279,8 +279,8 @@ Log::info("-----------Dialog has Active Jobs -------: ".$hasActiveJobs);
     }
 
 
-    .alrazi-case-patient,
-    .alrazi-case-units {
+    .Albasma-case-patient,
+    .Albasma-case-units {
         font-size: 16px;
         text-align: left;
         overflow: hidden;
@@ -289,16 +289,16 @@ Log::info("-----------Dialog has Active Jobs -------: ".$hasActiveJobs);
         line-height: 1.5;
     }
 
-    .alrazi-case-doctor {
+    .Albasma-case-doctor {
         font-weight: 700;
         color: #333;
     }
 
-    .alrazi-case-patient {
+    .Albasma-case-patient {
         color: #555;
     }
 
-    .alrazi-case-units {
+    .Albasma-case-units {
         color: white;
         text-align: center;
         background-color: rgba(0, 0, 0, 0.3);
@@ -308,11 +308,11 @@ Log::info("-----------Dialog has Active Jobs -------: ".$hasActiveJobs);
         text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
     }
 
-    .alrazi-case-view {
+    .Albasma-case-view {
         text-align: center;
     }
 
-    .alrazi-case-view-btn {
+    .Albasma-case-view-btn {
         background: none;
         border: none;
         color: #007bff;
@@ -327,34 +327,34 @@ Log::info("-----------Dialog has Active Jobs -------: ".$hasActiveJobs);
         justify-content: center;
     }
 
-    .alrazi-case-view-btn:hover {
+    .Albasma-case-view-btn:hover {
         background-color: #f8f9fa;
         color: #0056b3;
     }
 
     /* Responsive adjustments */
     @media (max-width: 768px) {
-        .alrazi-case-info-row {
+        .Albasma-case-info-row {
             grid-template-columns: 1fr 1fr auto;
             gap: 8px;
         }
 
-        .alrazi-case-units {
+        .Albasma-case-units {
             display: none; /* Hide units on small screens */
         }
 
-        .alrazi-build-title {
+        .Albasma-build-title {
             font-size: 16px;
         }
 
-        .alrazi-build-units {
+        .Albasma-build-units {
             font-size: 14px;
             padding: 3px 6px;
         }
     }
 
     /* Improved Submit Button Styling */
-    .alrazi-animated-submit-button {
+    .Albasma-animated-submit-button {
         position: relative;
         display: inline-flex;
         align-items: center;
@@ -375,40 +375,40 @@ Log::info("-----------Dialog has Active Jobs -------: ".$hasActiveJobs);
         box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
     }
 
-    .alrazi-animated-submit-button.start-mode {
+    .Albasma-animated-submit-button.start-mode {
         background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
         color: white;
     }
 
-    .alrazi-animated-submit-button.complete-mode {
+    .Albasma-animated-submit-button.complete-mode {
         background: linear-gradient(135deg, #4CAF50 0%, #388E3C 100%);
         color: white;
     }
 
-    .alrazi-animated-submit-button:hover:not(:disabled) {
+    .Albasma-animated-submit-button:hover:not(:disabled) {
         transform: translateY(-2px);
         box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
     }
 
-    .alrazi-animated-submit-button:active:not(:disabled) {
+    .Albasma-animated-submit-button:active:not(:disabled) {
         transform: translateY(0);
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     }
 
-    .alrazi-animated-submit-button:disabled {
+    .Albasma-animated-submit-button:disabled {
         opacity: 0.6;
         cursor: not-allowed;
         transform: none;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
-    .alrazi-animated-submit-button .button-text {
+    .Albasma-animated-submit-button .button-text {
         position: relative;
         z-index: 2;
         transition: opacity 0.3s;
     }
 
-    .alrazi-animated-submit-button .button-ripple {
+    .Albasma-animated-submit-button .button-ripple {
         position: absolute;
         top: 50%;
         left: 50%;
@@ -420,12 +420,12 @@ Log::info("-----------Dialog has Active Jobs -------: ".$hasActiveJobs);
         transition: width 0.6s, height 0.6s;
     }
 
-    .alrazi-animated-submit-button:active .button-ripple:not(:disabled) {
+    .Albasma-animated-submit-button:active .button-ripple:not(:disabled) {
         width: 300px;
         height: 300px;
     }
 
-    .alrazi-animated-submit-button .button-loader {
+    .Albasma-animated-submit-button .button-loader {
         position: absolute;
         top: 50%;
         left: 50%;
@@ -434,15 +434,15 @@ Log::info("-----------Dialog has Active Jobs -------: ".$hasActiveJobs);
         transition: opacity 0.3s;
     }
 
-    .alrazi-animated-submit-button.loading .button-text {
+    .Albasma-animated-submit-button.loading .button-text {
         opacity: 0;
     }
 
-    .alrazi-animated-submit-button.loading .button-loader {
+    .Albasma-animated-submit-button.loading .button-loader {
         opacity: 1;
     }
 
-    .alrazi-animated-submit-button .spinner {
+    .Albasma-animated-submit-button .spinner {
         width: 20px;
         height: 20px;
         border: 2px solid rgba(255, 255, 255, 0.3);
@@ -457,16 +457,16 @@ Log::info("-----------Dialog has Active Jobs -------: ".$hasActiveJobs);
     }
 
     /* Dialog Dismissal Enhancements */
-    .alrazi-workflow-modal {
+    .Albasma-workflow-modal {
         backdrop-filter: blur(4px);
         -webkit-backdrop-filter: blur(4px);
     }
 
-    .alrazi-workflow-modal.active {
+    .Albasma-workflow-modal.active {
         animation: fadeIn 0.3s ease-out;
     }
 
-    .alrazi-workflow-modal.closing {
+    .Albasma-workflow-modal.closing {
         animation: fadeOut 0.3s ease-in;
     }
 
@@ -499,38 +499,38 @@ Log::info("-----------Dialog has Active Jobs -------: ".$hasActiveJobs);
 </style>
 {{--{{collect($buildData)--}}
 {{--    ->flatMap(fn($data) => $data['cases'])}}--}}
-<div class="alrazi-workflow-modal" id="{{$deviceId}}casesListDialog" tabindex="-1" role="dialog"
+<div class="Albasma-workflow-modal" id="{{$deviceId}}casesListDialog" tabindex="-1" role="dialog"
      onclick="handleDialogBackdropClick(event, '{{ $deviceId }}')">
-    <div class="alrazi-workflow-dialog" onclick="event.stopPropagation()">
-        <div class="alrazi-workflow-header">
-            <h2 class="alrazi-workflow-title">{{ $title }}</h2>
-            <button class="alrazi-close-button" onclick="closeDeviceDialog('{{ $deviceId }}')">
+    <div class="Albasma-workflow-dialog" onclick="event.stopPropagation()">
+        <div class="Albasma-workflow-header">
+            <h2 class="Albasma-workflow-title">{{ $title }}</h2>
+            <button class="Albasma-close-button" onclick="closeDeviceDialog('{{ $deviceId }}')">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
 
-        <div class="alrazi-workflow-body">
-            <div class="alrazi-jobs-container">
+        <div class="Albasma-workflow-body">
+            <div class="Albasma-jobs-container">
 
 
-                <div class="alrazi-builds-list">
+                <div class="Albasma-builds-list">
 
                     @foreach($buildData as $data)
 
                         @php
                             $caseActive = ($data['build']->started_at !=null);
                         @endphp
-                        <div class="alrazi-build-row">
-                            <div class="alrazi-build-header"
+                        <div class="Albasma-build-row">
+                            <div class="Albasma-build-header"
                                  style="background-color: var({{ $caseActive ? '--main-blue' : '--main-orange' }}); "
                                  onclick=" toggleBuildDetails(this)">
-                                <div class="alrazi-job-checkbox" onclick="event.preventDefault();">
+                                <div class="Albasma-job-checkbox" onclick="event.preventDefault();">
                                     @if($caseActive)
                                         <input type="checkbox"
                                                name="jobId[]"
                                                value="{{$data['build']->id }}"
                                                data-group-id="{{$deviceId}}"
-                                               class='alrazi-checkbox {{ $deviceId }}
+                                               class='Albasma-checkbox {{ $deviceId }}
                                                 checkboxes-group-{{$deviceId}} {{$stageConfig[$type]['multiple-active']?'multiple-choice' :'single-choice'  }}
                                                 checkboxes-group-{{$deviceId}}
                                                  {{ $type }}   active-blue-row'
@@ -538,7 +538,7 @@ Log::info("-----------Dialog has Active Jobs -------: ".$hasActiveJobs);
                                                checked disabled
                                         />
                                         <input type="hidden" name="jobId[]" value="{{$data['build']->id }}"
-                                               class="value-holder checkboxes-group-{{$deviceId}} active-values-holder-{{$deviceId}} alrazi-checkbox {{$type}}"
+                                               class="value-holder checkboxes-group-{{$deviceId}} active-values-holder-{{$deviceId}} Albasma-checkbox {{$type}}"
                                                checked/>
                                     @else
                                         <input type="checkbox"
@@ -546,7 +546,7 @@ Log::info("-----------Dialog has Active Jobs -------: ".$hasActiveJobs);
                                                onclick="event.stopPropagation();"
                                                data-group-id="{{$deviceId}}"
                                                value="{{$data['build']->id }}"
-                                               class="alrazi-checkbox {{ $deviceId }} {{ $type }} checkboxes-group-{{$deviceId}}  {{$stageConfig[$type]['multiple-active']?'multiple-choice' :'single-choice' }} inactive-orange-row"
+                                               class="Albasma-checkbox {{ $deviceId }} {{ $type }} checkboxes-group-{{$deviceId}}  {{$stageConfig[$type]['multiple-active']?'multiple-choice' :'single-choice' }} inactive-orange-row"
 
                                         {{$hasActiveJobs ? 'disabled' : ''}}
                                         "
@@ -565,36 +565,36 @@ Log::info("-----------Dialog has Active Jobs -------: ".$hasActiveJobs);
 
                                 @if($type == 'sintering')
                                     {{-- For sintering, show formatted date instead of build name --}}
-                                    <div class="alrazi-build-title alrazi-date-title">{{ $data['build']->created_at ? $data['build']->created_at->format('M d, Y') : 'Recent Build' }}</div>
+                                    <div class="Albasma-build-title Albasma-date-title">{{ $data['build']->created_at ? $data['build']->created_at->format('M d, Y') : 'Recent Build' }}</div>
                                 @else
                                     {{-- For other stages, show build info --}}
-                                    <div class="alrazi-build-title">{{ $data['build']->name }}</div>
+                                    <div class="Albasma-build-title">{{ $data['build']->name }}</div>
                                 @endif
 
-                                <div class="alrazi-build-units">{{ $totalUnits }}</div>
-                                <div class="alrazi-build-toggle">
+                                <div class="Albasma-build-units">{{ $totalUnits }}</div>
+                                <div class="Albasma-build-toggle">
                                     <i class="fas fa-chevron-down"></i>
                                 </div>
                             </div>
 
-                            <div class="alrazi-build-details">
-                                <div class="alrazi-build-cases">
+                            <div class="Albasma-build-details">
+                                <div class="Albasma-build-cases">
 
                                     @if(count($data['cases']) == 0)
-                                        <div class="alrazi-empty-case-message">
+                                        <div class="Albasma-empty-case-message">
                                             No cases found in this build
                                         </div>
                                     @else
 
                                         @foreach($data['cases'] as $caseData)
 
-                                            <div class="alrazi-case-item">
-                                                <div class="alrazi-case-info-row">
-                                                    <div class="alrazi-case-doctor">{{ $caseData['case']->client ? $caseData['case']->client->name : 'No Client' }}</div>
-                                                    <div class="alrazi-case-patient">{{ $caseData['case']->patient_name }}</div>
-                                                    <div class="alrazi-case-units">{{ $caseData['unitCount'] }}</div>
-                                                    <div class="alrazi-case-view">
-                                                        <button class="alrazi-case-view-btn"
+                                            <div class="Albasma-case-item">
+                                                <div class="Albasma-case-info-row">
+                                                    <div class="Albasma-case-doctor">{{ $caseData['case']->client ? $caseData['case']->client->name : 'No Client' }}</div>
+                                                    <div class="Albasma-case-patient">{{ $caseData['case']->patient_name }}</div>
+                                                    <div class="Albasma-case-units">{{ $caseData['unitCount'] }}</div>
+                                                    <div class="Albasma-case-view">
+                                                        <button class="Albasma-case-view-btn"
                                                                 onclick="YSH_openSlidePanel({{ $caseData['case']->id }}, '{{ $type }}')">
                                                             <i class="fas fa-eye"></i>
                                                         </button>
@@ -612,7 +612,7 @@ Log::info("-----------Dialog has Active Jobs -------: ".$hasActiveJobs);
                 </div>
             </div>
         </div>
-        <div class="alrazi-workflow-footer">
+        <div class="Albasma-workflow-footer">
 
 
 {{--            <button type="button"  {{$hasActiveJobs ? '' : 'disabled'}} --}}
@@ -623,7 +623,7 @@ Log::info("-----------Dialog has Active Jobs -------: ".$hasActiveJobs);
 {{--            </button>--}}
 
             <button type="button"
-                    class="alrazi-animated-submit-button {{ $hasActiveJobs ? 'complete-mode' : 'start-mode' }}"
+                    class="Albasma-animated-submit-button {{ $hasActiveJobs ? 'complete-mode' : 'start-mode' }}"
                     id="actionXX-button-{{ $deviceId }}"
                     {{$hasActiveJobs ? '' : 'disabled'}}
                     onclick="submitDeviceDialog('{{ $deviceId }}', '{{ $type }}', '{{ $isBuilds ? 'build' : 'jobs' }}'
@@ -664,7 +664,7 @@ Log::info("-----------Dialog has Active Jobs -------: ".$hasActiveJobs);
 
 <style>
     /* Empty state styling */
-    .alrazi-empty-state {
+    .Albasma-empty-state {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -676,19 +676,19 @@ Log::info("-----------Dialog has Active Jobs -------: ".$hasActiveJobs);
         margin: 1rem;
     }
 
-    .alrazi-empty-icon {
+    .Albasma-empty-icon {
         font-size: 3rem;
         color: #adb5bd;
         margin-bottom: 1rem;
     }
 
-    .alrazi-empty-message {
+    .Albasma-empty-message {
         font-size: 1.1rem;
         color: #6c757d;
         font-weight: 500;
     }
 
-    .alrazi-empty-case-message {
+    .Albasma-empty-case-message {
         padding: 15px;
         text-align: center;
         color: #6c757d;
@@ -699,7 +699,7 @@ Log::info("-----------Dialog has Active Jobs -------: ".$hasActiveJobs);
         border: 1px dashed #ced4da;
     }
 
-    .alrazi-empty-case-message {
+    .Albasma-empty-case-message {
 
     /* Build list styling */
         padding: 15px;
@@ -713,21 +713,21 @@ Log::info("-----------Dialog has Active Jobs -------: ".$hasActiveJobs);
     }
 
     /* Build list styling */
-    .alrazi-builds-list {
+    .Albasma-builds-list {
         display: flex;
         flex-direction: column;
         gap: 12px;
         padding: 16px;
     }
 
-    .alrazi-build-row {
+    .Albasma-build-row {
         border: 1px solid #e0e0e0;
         border-radius: 10px;
         overflow: hidden;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
     }
 
-    /*.alrazi-build-header {*/
+    /*.Albasma-build-header {*/
     /*    display: flex;*/
     /*    align-items: center;*/
     /*    padding: 16px;*/
@@ -737,34 +737,34 @@ Log::info("-----------Dialog has Active Jobs -------: ".$hasActiveJobs);
     /*    position: relative;*/
     /*}*/
 
-    .alrazi-build-header:hover {
+    .Albasma-build-header:hover {
         opacity: 0.9;
     }
 
-    .alrazi-build-radio {
+    .Albasma-build-radio {
         flex-shrink: 0;
     }
 
 
-    .alrazi-build-title {
+    .Albasma-build-title {
         font-weight: 600;
         color: white;
         flex-grow: 1;
     }
 
-    .alrazi-build-info {
+    .Albasma-build-info {
         display: flex;
         flex-direction: row;
         align-items: flex-end;
         margin-right: 20px;
     }
 
-    .alrazi-build-date {
+    .Albasma-build-date {
         font-size: 0.85rem;
         color: rgba(255, 255, 255, 0.8);
     }
 
-    .alrazi-build-jobs-count {
+    .Albasma-build-jobs-count {
         font-weight: 500;
         color: white;
         background-color: rgba(0, 0, 0, 0.2);
@@ -774,37 +774,37 @@ Log::info("-----------Dialog has Active Jobs -------: ".$hasActiveJobs);
         margin-top: 4px;
     }
 
-    .alrazi-build-toggle {
+    .Albasma-build-toggle {
         margin-left: auto;
     }
 
-    .alrazi-build-toggle i {
+    .Albasma-build-toggle i {
         color: white;
         transition: transform 0.3s;
     }
 
-    .alrazi-build-details {
+    .Albasma-build-details {
         display: none;
         padding: 0 16px 16px;
         background-color: #f8f9fa;
     }
 
-    .alrazi-build-row.expanded .alrazi-build-details {
+    .Albasma-build-row.expanded .Albasma-build-details {
         display: block;
     }
 
-    .alrazi-build-row.expanded .alrazi-build-toggle i {
+    .Albasma-build-row.expanded .Albasma-build-toggle i {
         transform: rotate(180deg);
     }
 
-    .alrazi-build-cases {
+    .Albasma-build-cases {
         display: flex;
         flex-direction: column;
         gap: 10px;
         margin-top: 10px;
     }
 
-    .alrazi-case-item {
+    .Albasma-case-item {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -814,37 +814,37 @@ Log::info("-----------Dialog has Active Jobs -------: ".$hasActiveJobs);
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     }
 
-    .alrazi-case-info {
+    .Albasma-case-info {
         display: flex;
         flex-direction: column;
         gap: 4px;
     }
 
-    .alrazi-case-doctor {
+    .Albasma-case-doctor {
         font-weight: 500;
         color: #333;
     }
 
-    .alrazi-case-patient {
+    .Albasma-case-patient {
         font-size: 0.9em;
         color: #666;
     }
 
-    .alrazi-case-details {
+    .Albasma-case-details {
         display: flex;
         flex-direction: column;
         gap: 4px;
         margin-top: 4px;
     }
 
-    .alrazi-case-jobs-count {
+    .Albasma-case-jobs-count {
         font-size: 0.85rem;
         color: #0056b3;
         font-weight: 500;
         margin-left:40px;
     }
 
-    .alrazi-case-job-types {
+    .Albasma-case-job-types {
         font-size: 0.75rem;
         color: #6c757d;
         font-style: italic;
@@ -854,7 +854,7 @@ Log::info("-----------Dialog has Active Jobs -------: ".$hasActiveJobs);
         display: inline-block;
     }
 
-    .alrazi-case-view-btn {
+    .Albasma-case-view-btn {
         background: none;
         border: none;
         color: #6c757d;
@@ -864,77 +864,77 @@ Log::info("-----------Dialog has Active Jobs -------: ".$hasActiveJobs);
         transition: background-color 0.2s, color 0.2s;
     }
 
-    .alrazi-case-view-btn:hover {
+    .Albasma-case-view-btn:hover {
         background-color: #007bff;
         color: white;
     }
 
     /* Regular jobs list styling */
-    .alrazi-jobs-list {
+    .Albasma-jobs-list {
         display: flex;
         flex-direction: column;
         gap: 8px;
         padding: 16px;
     }
 
-    .alrazi-job-row {
+    .Albasma-job-row {
         border: 1px solid #e0e0e0;
         border-radius: 8px;
         padding: 12px;
     }
 
-    .alrazi-job-header {
+    .Albasma-job-header {
         display: flex;
         align-items: center;
         gap: 16px;
     }
 
-    .alrazi-job-checkbox {
+    .Albasma-job-checkbox {
         flex-shrink: 0;
     }
 
-    .alrazi-job-main-info {
+    .Albasma-job-main-info {
         flex-grow: 1;
         display: flex;
         justify-content: space-between;
         align-items: center;
     }
 
-    .alrazi-job-title {
+    .Albasma-job-title {
         display: flex;
         flex-direction: column;
         gap: 4px;
     }
 
-    .alrazi-job-doctor {
+    .Albasma-job-doctor {
         font-weight: 500;
         color: #333;
     }
 
-    .alrazi-job-patient {
+    .Albasma-job-patient {
         font-size: 0.9em;
         color: #666;
     }
 
-    .alrazi-job-details {
+    .Albasma-job-details {
         text-align: right;
     }
 
-    .alrazi-job-type {
+    .Albasma-job-type {
         font-size: 0.9em;
         color: #666;
     }
 
-    .alrazi-job-units {
+    .Albasma-job-units {
         font-weight: 500;
         color: #333;
     }
 
-    .alrazi-job-actions {
+    .Albasma-job-actions {
         flex-shrink: 0;
     }
 
-    .alrazi-job-view-btn {
+    .Albasma-job-view-btn {
         background: none;
         border: none;
         color: #007bff;
@@ -949,7 +949,7 @@ Log::info("-----------Dialog has Active Jobs -------: ".$hasActiveJobs);
         justify-content: center;
     }
 
-    .alrazi-job-view-btn:hover {
+    .Albasma-job-view-btn:hover {
         background-color: rgba(0, 123, 255, 0.1);
     }
 

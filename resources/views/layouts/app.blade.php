@@ -98,7 +98,7 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,300" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Raleway&family=Rubik:wght@500&display=swap" rel="stylesheet">
-    <link href="http://fonts.cdnfonts.com/css/montserrat" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/montserrat" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet'>
     <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet" />
     <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
@@ -137,6 +137,8 @@
     @include('layouts.dynamicStyling')
 
     <!-- Page-specific CSS -->
+    <link href="{{ asset('assets') }}/css/solent-demo.css?v=20260520" rel="stylesheet" />
+
     @stack('css')
 
 </head>
@@ -207,6 +209,9 @@
     @endauth
 
 </body>
+
+
+
 @include('layouts.footer')
 
 </html>

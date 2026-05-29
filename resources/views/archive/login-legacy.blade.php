@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Korvion | Sign in</title>
+    <title>Korvex | Sign in</title>
     <meta name="description" content="Login page">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap">
-    <link rel="shortcut icon" href="{{ asset('assets/images/korvion-logo.png') }}" />
-    
+    <link rel="shortcut icon" href="{{ asset('assets/images/Korvex-logo.png') }}" />
+
     <style>
         * {
             margin: 0;
@@ -47,7 +47,7 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: 
+            background:
                 radial-gradient(circle at 20% 50%, rgba(236, 72, 153, 0.1) 0%, transparent 40%),
                 radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 40%),
                 radial-gradient(circle at 40% 20%, rgba(139, 92, 246, 0.08) 0%, transparent 40%);
@@ -87,7 +87,7 @@
             text-align: center;
             margin-bottom: 32px;
         }
-        
+
         .login-logo {
             max-width: 80px;
             margin-bottom: 16px;
@@ -193,7 +193,7 @@
             margin: 0;
             padding-left: 18px;
         }
-        
+
         /* Spinner */
         .spinner {
             display: inline-block;
@@ -220,8 +220,8 @@
     <!-- Floating Login Card -->
     <div class="login-card">
         <div class="login-header">
-            <img src="{{ asset('assets/images/korvion-logo.png') }}" alt="Korvion" class="login-logo" onerror="this.style.display='none'">
-            <h1 class="login-title">Sign in to Korvion</h1>
+            <img src="{{ asset('assets/images/Korvex-logo.png') }}" alt="Korvex" class="login-logo" onerror="this.style.display='none'">
+            <h1 class="login-title">Sign in to Korvex</h1>
         </div>
 
         <!-- Error Messages -->
@@ -244,16 +244,16 @@
         <!-- Login Form -->
         <form method="POST" action="{{ route('login') }}" id="loginForm">
             @csrf
-            
+
             <div class="form-group">
                 <label class="form-label" for="username">Username</label>
-                <input 
-                    type="text" 
-                    id="username" 
-                    name="username" 
-                    class="form-input" 
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    class="form-input"
                     value="{{ old('username') }}"
-                    required 
+                    required
                     autocomplete="username"
                     autofocus
                 >
@@ -261,12 +261,12 @@
 
             <div class="form-group">
                 <label class="form-label" for="password">Password</label>
-                <input 
-                    type="password" 
-                    id="password" 
-                    name="password" 
-                    class="form-input" 
-                    required 
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    class="form-input"
+                    required
                     autocomplete="current-password"
                 >
             </div>

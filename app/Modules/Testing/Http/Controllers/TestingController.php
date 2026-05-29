@@ -24,6 +24,7 @@ use App\tag;
 use App\caseLog;
 use App\User;
 use App\lab;
+use App\Support\Tenancy\TenantStorage;
 
 use Illuminate\Support\Facades\Config;
 
@@ -116,11 +117,11 @@ class TestingController extends Controller
 
             foreach($files as $file){
                 $name=$file->getClientOriginalName();
-                $file->move('caseImages/'.$case->id .'/',$name);
+                $path = app(TenantStorage::class)->moveUploadedFile($file, 'caseImages/' . $case->id, $name);
 
 
                 $newFile = new file();
-                $newFile->path = 'caseImages/'.$case->id .'/'.$name;
+                $newFile->path = $path;
                 $newFile->case_id = $case->id;
                 $newFile->added_by = Auth()->user()->id;
                 $newFile->save();

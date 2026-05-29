@@ -1247,9 +1247,13 @@ class CaseController extends Controller
         if ($material->print_3d && $currentStage < 3) return 3;
         if ($material->sinter_furnace && $currentStage < 4) return 4;
         if ($material->press_furnace && $currentStage < 5) return 5;
-        if ($material->finish && $currentStage < 6) return 6;
-        if ($material->qc && $currentStage < 7) return 7;
-        if ($material->delivery && $currentStage < 8) return 8;
+        if ($material->metal_work && $currentStage < 9) return 9;
+
+        // Furnace stages (4,5,9) are mutually exclusive and all come BEFORE finish/qc/delivery
+        $furnaceStages = [4, 5, 9];
+        if ($material->finish && ($currentStage < 6 || in_array($currentStage, $furnaceStages))) return 6;
+        if ($material->qc && ($currentStage < 7 || in_array($currentStage, $furnaceStages))) return 7;
+        if ($material->delivery && ($currentStage < 8 || in_array($currentStage, $furnaceStages))) return 8;
 
         return -1;
     }
@@ -1776,7 +1780,7 @@ class CaseController extends Controller
 
     public function createDummyCase($stage = 1, $amount =1)
     {
-        if ($stage > 8 || $stage < 1) { dd("-_-");}
+        if (!in_array($stage, [1, 2, 3, 4, 5, 6, 7, 8, 9, -1])) { dd("-_-");}
         DB::beginTransaction();
         $faker = Faker::create();
 

@@ -25,7 +25,7 @@
 
             <!--end Right Slidebar-->
             <!-- <footer class="footer">
-                 2021 &copy; ALRAZI LAB.
+                 2021 &copy; Albasma LAB.
              </footer>-->
             <!--footer section end-->
         </div><!--end container-->

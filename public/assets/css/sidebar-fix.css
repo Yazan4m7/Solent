@@ -1,7 +1,15 @@
 /* Sidebar scroll fix - Ensures sidebar content scrolls properly when expanded */
 
+/* consolidated from: public/assets/css/brand-overrides.css and public/assets/css/custom-styling.css — kept: current app sidebar shell rules live with the sidebar scroll/layout rules. */
+.sidebar {
+    background: #f1f5f9 !important;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 11px;
+}
+
 /* Make sidebar wrapper scrollable with full height */
 .sidebar .sidebar-wrapper {
+    background: #f1f5f9 !important;
     height: 100vh;
     overflow-y: hidden;
     overflow-x: hidden;
@@ -9,6 +17,27 @@
     max-height: none !important;
     scrollbar-width: thin;
     padding-bottom: 100px; /* Extra padding at bottom to ensure visibility of expanded items */
+}
+
+/* consolidated from: public/assets/css/custom-styling.css and public/assets/css/brand-overrides.css — kept: nav item spacing and color belong to the current sidebar source of truth. */
+.sidebar .nav li > a {
+    padding: 5px 2px !important;
+    color: #334155 !important;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 11px;
+}
+
+.sidebar .nav li > a p,
+.sidebar .nav li > a i {
+    color: #334155 !important;
+}
+
+/* consolidated from: public/assets/css/brand-overrides.css — kept: final active/hover treatment for current sidebar items. */
+.sidebar .nav li.active > a,
+.sidebar .nav li:hover > a {
+    background: #e0f2f1 !important;
+    border-left: 3px solid var(--korvion-primary);
+    color: #0f766e !important;
 }
 
 /* Customize scrollbar appearance */

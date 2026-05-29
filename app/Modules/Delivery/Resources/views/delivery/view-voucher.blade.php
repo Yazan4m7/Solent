@@ -319,10 +319,10 @@
             <!-- Header -->
             <div class="header">
                 <img src="<?php echo e(asset('assets/images/hikaro-logo.png')); ?>" alt="Hikaro Tech Logo">
-                <h1>AlRazi Dental Laboratory</h1>
+                <h1>Albasma Dental Laboratory</h1>
 
                 <p style="font-size: 11px; margin-top: 5px;">
-                    📞 1100 726 02 | 1100 726 079 | 📧 alrazidentallab@gmail.com
+                    📞 1100 726 02 | 1100 726 079 | 📧 Albasmadentallab@gmail.com
                 </p>
             </div>
 
@@ -395,7 +395,7 @@
                 </div>
 
                 <div class="footer-note">
-                    Thank you for choosing AlRazi Dental Lab
+                    Thank you for choosing Albasma Dental Lab
                 </div>
             </div>
         </div>
@@ -404,4 +404,4 @@
 
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('layouts.app', ['pageSlug' => 'View' . ' '. $voucher], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\Yazan\Desktop\cCL\alrazi\alrazi_web_app\resources\views/delivery/view-voucher.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.app', ['pageSlug' => 'View' . ' '. $voucher], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\Yazan\Desktop\cCL\Albasma\Albasma_web_app\resources\views/delivery/view-voucher.blade.php ENDPATH**/ ?>

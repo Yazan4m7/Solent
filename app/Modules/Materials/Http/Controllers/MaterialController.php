@@ -38,6 +38,7 @@ class MaterialController extends Controller
         $material->print_3d = $request->manufacturing == 3 ? 1 : 0;
         $material->sinter_furnace = $request->furnace == 4 ? 1 : 0;
         $material->press_furnace = $request->furnace == 5 ? 1 : 0;
+        $material->metal_work = $request->furnace == 9 ? 1 : 0;
         $material->finish = isset($request->finishing) ? 1 : 0;
         $material->qc = isset($request->qc) ? 1 : 0;
         $material->delivery = isset($request->delivery) ? 1 : 0;
@@ -77,6 +78,7 @@ class MaterialController extends Controller
         $material->print_3d = $request->manufacturing == 3 ? 1 : 0;
         $material->sinter_furnace = $request->furnace == 4 ? 1 : 0;
         $material->press_furnace = $request->furnace == 5 ? 1 : 0;
+        $material->metal_work = $request->furnace == 9 ? 1 : 0;
         $material->finish = isset($request->finishing) ? 1 : 0;
         $material->qc = isset($request->qc) ? 1 : 0;
         $material->delivery = isset($request->delivery) ? 1 : 0;

@@ -1,0 +1,327 @@
+/*
+ * Temporary Korvion brand layer.
+ * Keep this file small and easy to remove when Solent's final branding is ready.
+ */
+:root {
+    --brand-primary: #dbc373;
+    --brand-secondary: #111718;
+    --brand-accent: #ff5a36;
+    --brand-black: #000000;
+    --brand-white: #ffffff;
+    --brand-ink: #111718;
+    --brand-panel: #f8f7f2;
+    --brand-panel-strong: #ffffff;
+    --brand-border: rgba(219, 195, 115, 0.28);
+    --brand-muted: #a9b0ad;
+
+    --korvion-primary: var(--brand-primary);
+    --korvion-secondary: var(--brand-secondary);
+    --korvion-accent: var(--brand-accent);
+    --korvion-surface: var(--brand-ink);
+    --korvion-surface-alt: #1b2223;
+    --korvion-panel: var(--brand-panel-strong);
+    --korvion-border: var(--brand-border);
+    --korvion-text: #f7f2df;
+    --korvion-muted: var(--brand-muted);
+
+    --Korvex-primary: var(--brand-primary);
+    --Korvex-secondary: var(--brand-secondary);
+    --Korvex-text: #f7f2df;
+}
+
+html,
+body,
+body.white-content {
+    background: var(--brand-ink) !important;
+}
+
+body.white-content {
+    color: var(--korvion-text);
+}
+
+.main-panel,
+.main-panel > .content,
+body.white-content .content {
+    background: var(--brand-ink) !important;
+}
+
+.navbar,
+.navbar.navbar-transparent,
+.navbar.stickMe,
+.app-header {
+    background: var(--brand-ink) !important;
+    color: var(--korvion-text) !important;
+    border-bottom: 1px solid var(--brand-border) !important;
+    /* box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22) !important; */
+}
+
+.navbar .pageTitle,
+.navbar .navbar-brand,
+.navbar a,
+.navbar i {
+    color: var(--korvion-text) !important;
+}
+
+.pageTitleContainer > span:first-child {
+    background: linear-gradient(180deg, var(--brand-primary), #a89042) !important;
+}
+
+.logo-navbar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    padding: 6px 10px;
+    border: 1px solid var(--brand-border);
+    border-radius: 8px;
+    background: var(--brand-white);
+}
+
+.logo-navbar .logo,
+.logo-navbar .korvion-horizontal-logo {
+    position: absolute !important;
+    top: -16px!important;
+    left: -29px!important;
+    width: auto !important;
+    height: 46px !important;
+    max-height: 39px !important;
+    object-fit: contain !important;
+    filter: none !important;
+}
+
+#wrapp .SBF2,
+.app-header-search {
+    background: var(--brand-white) !important;
+    border-color: var(--brand-border) !important;
+    color: var(--brand-ink) !important;
+}
+
+#wrapp input[type="text"],
+.app-header-search input {
+    color: var(--brand-ink) !important;
+}
+
+#wrapp input[type="text"]::placeholder,
+.app-header-search input::placeholder {
+    color: #68706d !important;
+}
+
+#wrapp #search_submit {
+    background-image: url("data:image/svg+xml,%3Csvg width='18' height='18' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10.75 18.5C6.47 18.5 3 15.03 3 10.75S6.47 3 10.75 3s7.75 3.47 7.75 7.75a7.72 7.72 0 0 1-1.68 4.82l3.31 3.31-1.25 1.25-3.31-3.31a7.72 7.72 0 0 1-4.82 1.68Zm0-1.8a5.95 5.95 0 1 0 0-11.9 5.95 5.95 0 0 0 0 11.9Z' fill='%23111718'/%3E%3C/svg%3E") !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-size: 18px 18px !important;
+}
+
+.btn-primary,
+.badge-primary,
+.app-add-task {
+    background: var(--brand-primary) !important;
+    border-color: var(--brand-primary) !important;
+    color: var(--brand-ink) !important;
+}
+
+.btn-info,
+.badge-info {
+    background: var(--brand-ink) !important;
+    border-color: var(--brand-border) !important;
+    color: var(--brand-primary) !important;
+}
+
+.btn-danger,
+.badge-danger,
+.alert-danger {
+    background: var(--brand-accent) !important;
+    border-color: var(--brand-accent) !important;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background: var(--brand-ink) !important;
+    border-right: 1px solid var(--brand-border);
+}
+
+.sidebar .sidebar-wrapper {
+    flex: 1 1 auto;
+    min-height: 0;
+    height: auto !important;
+    background: var(--brand-ink) !important;
+    overflow-y: auto;
+}
+
+.korvion-sidebar-brand {
+    flex: 0 0 auto;
+    padding: 16px 14px 12px;
+}
+
+.korvion-sidebar-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+    text-decoration: none !important;
+}
+
+.korvion-sidebar-logo-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    flex: 0 0 44px;
+    border-radius: 10px;
+    background: var(--brand-white);
+    border: 1px solid var(--brand-border);
+}
+
+.korvion-sidebar-logo-mark img {
+    width: 34px;
+    height: 34px;
+    object-fit: contain;
+}
+
+.korvion-sidebar-copy {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    line-height: 1.15;
+}
+
+.korvion-sidebar-copy strong,
+.korvion-sidebar-copy small {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.korvion-sidebar-copy strong {
+    color: var(--brand-white);
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0;
+}
+
+.korvion-sidebar-copy small {
+    margin-top: 3px;
+    color: var(--brand-primary);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.sidebar hr {
+    border-color: var(--brand-border) !important;
+}
+
+.sidebar .nav li > a,
+.sidebar .nav li > a span,
+.sidebar .nav li > a p,
+.sidebar .nav li > a i,
+.sidebar .nav li > a svg,
+.sidebar .nav li > a .material-symbols-outlined {
+    color: var(--korvion-text) !important;
+}
+
+.sidebar .nav li.active > a,
+.sidebar .nav li:hover > a {
+    background: rgba(219, 195, 115, 0.16) !important;
+    border-left-color: var(--brand-primary) !important;
+    color: var(--brand-white) !important;
+}
+
+.sidebar .nav li.active > a span,
+.sidebar .nav li.active > a i,
+.sidebar .nav li.active > a .material-symbols-outlined,
+.sidebar .nav li:hover > a span,
+.sidebar .nav li:hover > a i,
+.sidebar .nav li:hover > a .material-symbols-outlined {
+    color: var(--brand-white) !important;
+}
+
+.card,
+.card .card-body,
+.dataTables_wrapper,
+.modal-content,
+.dropdown-menu {
+    background: var(--brand-panel-strong) !important;
+    color: var(--brand-ink) !important;
+    border-color: var(--brand-border) !important;
+}
+
+.card .card-header,
+table.dataTable thead th,
+.dataTables_wrapper .dataTables_scrollHead th,
+table th {
+    background: var(--brand-panel) !important;
+    color: var(--brand-ink) !important;
+    border-color: var(--brand-border) !important;
+}
+
+table.dataTable tbody tr,
+table tbody tr,
+table.dataTable tbody td,
+table tbody td {
+    color: var(--brand-ink) !important;
+    border-color: rgba(17, 23, 24, 0.1) !important;
+}
+
+table.dataTable tbody tr:hover,
+table tbody tr:hover {
+    background: rgba(219, 195, 115, 0.14) !important;
+}
+
+body.login-page {
+    background-color: var(--brand-ink) !important;
+    background-image:
+        radial-gradient(circle at 15% 12%, rgba(219, 195, 115, 0.18), transparent 28%),
+        linear-gradient(145deg, #000000 0%, var(--brand-ink) 54%, #1d2425 100%) !important;
+    color: var(--brand-ink) !important;
+}
+
+body.login-page .auth-brand-logo {
+    width: min(28rem, 78vw) !important;
+    max-height: 300px !important;
+    padding: 24px;
+    border-radius: 18px;
+    background: var(--brand-white);
+    border: 1px solid var(--brand-border);
+    filter: none !important;
+    box-shadow: 0 28px 70px rgba(0, 0, 0, 0.35);
+}
+
+body.login-page .auth-right {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(219, 195, 115, 0.18);
+}
+
+body.login-page .right-section {
+    background: rgba(255, 255, 255, 0.92) !important;
+    border-color: var(--brand-border) !important;
+}
+
+body.login-page .country-context-dot,
+body.login-page .remember-me input {
+    accent-color: var(--brand-primary);
+}
+
+body.login-page .country-context-dot {
+    background: var(--brand-primary) !important;
+}
+
+body.login-page input[type="username"]:focus,
+body.login-page input[type="password"]:focus {
+    border-color: var(--brand-primary) !important;
+    box-shadow: 0 0 0 4px rgba(219, 195, 115, 0.22) !important;
+}
+
+body.login-page button.signin-btn {
+    background: linear-gradient(135deg, var(--brand-primary), #b99f4e) !important;
+    color: var(--brand-ink) !important;
+    box-shadow: 0 14px 32px rgba(219, 195, 115, 0.24) !important;
+}
+
+body.login-page .invalid-feedback {
+    color: var(--brand-accent) !important;
+}

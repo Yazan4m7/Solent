@@ -5,42 +5,52 @@
     <link rel="stylesheet" href="{{ asset('assets/css/elegant-dashboard.css') }}"/>
     <style>
         .create-shell {
-            background: radial-gradient(circle at 12% 20%, rgba(179, 135, 45, 0.08), transparent 36%), radial-gradient(circle at 85% -10%, rgba(166, 216, 212, 0.3), transparent 32%), linear-gradient(180deg, #f6f8fb 0%, #e4e8f1 100%);
-            padding: 18px 10px 28px;
+            background: linear-gradient(180deg, #f7f9fb 0%, #eef3f6 100%);
+            padding: 24px 12px 32px;
         }
 
         .create-shell .ed-header-bar {
             margin-bottom: 22px;
+            align-items: flex-start;
         }
 
         .cc-card {
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(215, 218, 229, 0.94));
-            border: 1px solid rgba(17, 21, 30, 0.08);
-            border-radius: 16px;
-            box-shadow: 0 14px 30px rgba(17, 21, 30, 0.12);
-            padding: 16px;
+            background: #ffffff;
+            border: 1px solid rgba(17, 21, 30, 0.06);
+            border-radius: 14px;
+            box-shadow: 0 8px 24px rgba(17, 21, 30, 0.06);
+            padding: 18px;
         }
 
         .cc-card .ed-card-header {
-            margin-bottom: 12px;
+            margin-bottom: 14px;
+            align-items: center;
         }
 
         .cc-top-grid,
         .cc-bottom-grid {
-            gap: 16px;
+            gap: 18px;
+        }
+
+        .cc-top-grid + .cc-jobs-card {
+            margin-top: 6px;
         }
 
         .cc-field-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 14px 18px;
+            gap: 16px 20px;
+        }
+
+        .cc-field {
+            min-width: 0;
         }
 
         .cc-label,
         .cc-field label {
             display: block;
             text-transform: uppercase;
-            letter-spacing: 0.06em;
+            letter-spacing: 0.05em;
             font-size: 11px;
             color: var(--ed-muted);
             margin-bottom: 6px;
@@ -48,36 +58,39 @@
         }
 
         .cc-input {
-            background: #f7f9fb;
+            background: #f8fafb;
             border-radius: 12px;
-            border: 1px solid rgba(17, 21, 30, 0.1);
+            border: 1px solid rgba(17, 21, 30, 0.08);
             padding: 11px 12px;
-            box-shadow: inset 0 1px 1px rgba(17, 21, 30, 0.04);
+            box-shadow: inset 0 1px 1px rgba(17, 21, 30, 0.03);
+            width: 100%;
+            margin: 0;
         }
 
         .cc-input:focus,
         .cc-input:active,
         .cc-input:focus-visible {
-            border-color: var(--ed-primary);
-            box-shadow: 0 0 0 3px rgba(179, 135, 45, 0.18);
+            border-color: var(--brand-primary);
+            box-shadow: 0 0 0 3px rgba(43, 123, 125, 0.16);
             outline: none;
         }
 
         .cc-case-id {
-            display: grid;
-            gap: 8px;
-            align-items: center;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            flex-wrap: wrap;
         }
 
         .cc-id-prefix {
             display: inline-flex;
             align-items: center;
             padding: 8px 12px;
-            background: rgba(179, 135, 45, 0.12);
+            background: rgba(43, 123, 125, 0.12);
             color: var(--ed-dark);
             border-radius: 10px;
             font-weight: 700;
-            border: 1px solid rgba(179, 135, 45, 0.25);
+            border: 1px solid rgba(43, 123, 125, 0.22);
             width: fit-content;
         }
 
@@ -85,6 +98,7 @@
             display: inline-flex;
             gap: 8px;
             flex-wrap: wrap;
+            align-items: center;
         }
 
         .cc-id-inputs input {
@@ -113,8 +127,8 @@
         }
 
         .cc-ghost-btn:hover {
-            border-color: var(--ed-primary) !important;
-            color: var(--ed-primary) !important;
+            border-color: var(--brand-primary) !important;
+            color: var(--brand-primary) !important;
         }
 
         .cc-jobs-card .cc-job-list {
@@ -125,26 +139,12 @@
 
         .cc-job-block {
             background: #ffffff;
-            border: 1px solid rgba(17, 21, 30, 0.08);
-            border-radius: 16px;
+            border: 1px solid rgba(17, 21, 30, 0.06);
+            border-radius: 14px;
             padding: 14px 14px 10px;
-            box-shadow: var(--ed-shadow);
+            box-shadow: 0 6px 16px rgba(17, 21, 30, 0.06);
             position: relative;
             overflow: hidden;
-        }
-
-        .cc-job-block:before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(120deg, rgba(179, 135, 45, 0.12), transparent 45%);
-            opacity: 0.6;
-            pointer-events: none;
-        }
-
-        .cc-job-block > div {
-            position: relative;
-            z-index: 1;
         }
 
         .cc-job-grid {
@@ -171,27 +171,29 @@
             justify-content: flex-end;
             align-items: center;
             gap: 6px;
+            margin-top: 4px;
         }
 
         .cc-add-btn {
             border-radius: 999px;
-            box-shadow: 0 10px 20px rgba(179, 135, 45, 0.25);
+            box-shadow: 0 8px 18px rgba(43, 123, 125, 0.25);
             border: none;
             padding: 8px 14px;
+            min-width: 120px;
         }
 
         .cc-abutment-card {
             margin-top: 8px;
-            border: 1px solid rgba(225, 78, 202, 0.3);
+            border: 1px solid rgba(43, 123, 125, 0.25);
             border-radius: 12px;
             padding: 12px 10px;
-            background: #f9f4ff;
+            background: #f4fbfc;
         }
 
         .cc-abutment-row {
             align-items: flex-end;
             margin: 10px 0;
-            border: 1px solid #e14eca;
+            border: 1px solid rgba(43, 123, 125, 0.25);
             border-radius: 0.5rem;
             padding: 10px 10px;
         }
@@ -227,8 +229,8 @@
         }
 
         .cc-testing-helper {
-            background: linear-gradient(120deg, rgba(214, 67, 67, 0.1), rgba(214, 67, 67, 0.05));
-            border: 1px solid rgba(214, 67, 67, 0.3);
+            background: rgba(43, 123, 125, 0.05);
+            border: 1px solid rgba(43, 123, 125, 0.2);
             border-radius: 12px;
             padding: 10px;
             margin-top: 10px;
@@ -236,6 +238,19 @@
 
         .checked {
             filter: invert(26%) sepia(73%) saturate(492%) hue-rotate(133deg) brightness(94%) contrast(86%);
+        }
+
+        .ed-card-kicker {
+            color: var(--Korvex-muted);
+            letter-spacing: 0.08em;
+        }
+
+        .ed-card-title {
+            margin-bottom: 0;
+        }
+
+        .mandatorySmallTag {
+            color: var(--Korvex-muted);
         }
 
         .hidden {
@@ -300,6 +315,7 @@
     @php
         $color= "#212529";
         $permissions = Cache::get('user'.Auth()->user()->id);
+        $currencyLabel = $currencyLabel ?? (string) ($currencyContext['display'] ?? $currencyContext['code'] ?? 'JOD');
     @endphp
     <div class="ed-shell container-fluid px-0 create-shell">
         <div class="ed-header-bar">
@@ -597,8 +613,8 @@
                     <div class="form-group form-group row discountPortion" style="display:none">
                         <div class="col-md-3 col-xs-6">
                             <input class="form-control" type="number" name="discount_amount"
-                                   placeholder="Amount (JOD)"/>
-                            <small>JOD</small>
+                                   placeholder="Amount ({{ $currencyLabel }})"/>
+                            <small>{{ $currencyLabel }}</small>
                         </div>
                         <div class="col-md-6 col-xs-6">
                             <input class="form-control" type="text" name="discount_reason"

@@ -11,7 +11,7 @@
 
 
 <body>
-@include('layout.partials.korvionSidebar')
+@include('layout.partials.KorvexSidebar')
 
 <!-- body content start-->
     <div class="body-content">
@@ -20,7 +20,7 @@
 
             <!--end Right Slidebar-->
             <!-- <footer class="footer">
-                 2021 &copy; korvion LAB.
+                 2021 &copy; Korvex LAB.
              </footer>-->
             <!--footer section end-->
         </div><!--end container-->

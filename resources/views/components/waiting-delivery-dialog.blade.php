@@ -1,31 +1,31 @@
 @props(['title', 'btnText', 'type', 'drivers', 'stageId'])
 
-<div class="alrazi-workflow-modal waiting-dialog" id="DeliveryDialog" tabindex="-1" role="dialog">
-    <div class="alrazi-workflow-dialog">
+<div class="Albasma-workflow-modal waiting-dialog" id="DeliveryDialog" tabindex="-1" role="dialog">
+    <div class="Albasma-workflow-dialog">
         <!-- Header with close button -->
-        <div class="alrazi-workflow-header">
-            <h2 class="alrazi-workflow-title">{{ $title }}</h2>
-            <button class="alrazi-close-button" onclick="closeModal({id: 'DeliveryDialog', isWaiting:false})">
+        <div class="Albasma-workflow-header">
+            <h2 class="Albasma-workflow-title">{{ $title }}</h2>
+            <button class="Albasma-close-button" onclick="closeModal({id: 'DeliveryDialog', isWaiting:false})">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
 
         <!-- Driver selection grid -->
-        <div class="alrazi-workflow-body">
-            <div class="alrazi-drivers-grid">
+        <div class="Albasma-workflow-body">
+            <div class="Albasma-drivers-grid">
                 <!-- Add "ME" option -->
 
 
                 <!-- Show all delivery drivers -->
                 @foreach($drivers as $driver)
-                    <div class="alrazi-driver-card"
+                    <div class="Albasma-driver-card"
                          onclick="selectDeliveryDriver(this, {{ $driver->id }})">
-                        <div class="alrazi-driver-image-container">
+                        <div class="Albasma-driver-image-container">
                             <img src="{{ $driver->has_photo ? asset('/users/'.$driver->id.'/profile_picture.png') : asset('/users/no_profile_picture.png') }}"
                                  alt="{{ $driver->first_name }} {{ $driver->last_name }}"
-                                 class="alrazi-driver-image grayscale">
+                                 class="Albasma-driver-image grayscale">
                         </div>
-                        <div class="alrazi-driver-name">{{ $driver->name_initials ?? $driver->first_name }}</div>
+                        <div class="Albasma-driver-name">{{ $driver->name_initials ?? $driver->first_name }}</div>
                     </div>
                 @endforeach
             </div>
@@ -34,9 +34,9 @@
         </div>
 
         <!-- Action button -->
-        <div class="alrazi-workflow-footer">
+        <div class="Albasma-workflow-footer">
             <button type="button"
-                    class="alrazi-button "
+                    class="Albasma-button "
                     id="action-button-delivery"
                     style="background-color: var(--main-orange)"
                     disabled
@@ -73,7 +73,7 @@ function closeModal(options) {
     }
 
     // Clear any pending animations
-    const dialogContent = modal.querySelector('.alrazi-workflow-dialog') || modal.querySelector('.modal-content');
+    const dialogContent = modal.querySelector('.Albasma-workflow-dialog') || modal.querySelector('.modal-content');
     if (dialogContent) {
         dialogContent.classList.remove('fade-in');
         dialogContent.classList.add('fade-out');
@@ -82,9 +82,9 @@ function closeModal(options) {
     // Reset delivery dialog state
     if (modalId === 'DeliveryDialog') {
         // Reset driver selection
-        document.querySelectorAll('.alrazi-driver-card').forEach(card => {
+        document.querySelectorAll('.Albasma-driver-card').forEach(card => {
             card.classList.remove('selected');
-            const img = card.querySelector('.alrazi-driver-image');
+            const img = card.querySelector('.Albasma-driver-image');
             if (img) {
                 img.classList.add('grayscale');
             }
