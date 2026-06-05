@@ -98,45 +98,45 @@
 
 @endphp
 
-<div class="Albasma-workflow-modal" id="{{$deviceId}}casesListDialog" tabindex="-1" role="dialog">
-    <div class="Albasma-workflow-dialog">
-        <div class="Albasma-workflow-header">
-            <h2 class="Albasma-workflow-title">{{ $title }}</h2>
-            <button class="Albasma-close-button" onclick="closeDeviceDialog('{{ $deviceId }}')">
+<div class="alsolent-workflow-modal" id="{{$deviceId}}casesListDialog" tabindex="-1" role="dialog">
+    <div class="alsolent-workflow-dialog">
+        <div class="alsolent-workflow-header">
+            <h2 class="alsolent-workflow-title">{{ $title }}</h2>
+            <button class="alsolent-close-button" onclick="closeDeviceDialog('{{ $deviceId }}')">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
 
-        <div class="Albasma-workflow-body">
-            <div class="Albasma-jobs-container doubleStepFakeForm">
-                    <div class="Albasma-jobs-list">
+        <div class="alsolent-workflow-body">
+            <div class="alsolent-jobs-container doubleStepFakeForm">
+                    <div class="alsolent-jobs-list">
                         @foreach($buildData as $data)
                             @foreach($data['cases'] as $caseData)
                                 @foreach($caseData['jobs'] as $job)
-                                    <div class="Albasma-job-row" style="background-color: var(--main-blue);">
-                                        <div class="Albasma-job-header">
-                                            <div class="Albasma-job-checkbox">
+                                    <div class="alsolent-job-row" style="background-color: var(--main-blue);">
+                                        <div class="alsolent-job-header">
+                                            <div class="alsolent-job-checkbox">
                                                     <input type="checkbox"
                                                            name="jobId[]"
                                                            value="{{ $job->id }}"
-                                                           class="Albasma-checkbox {{ $type }} active-blue-row"
+                                                           class="alsolent-checkbox {{ $type }} active-blue-row"
                                                            checked
                                                            onclick="event.preventDefault();"
                                                            onchange="updateActionButtonState('{{ $deviceId }}', '{{ $type }}')">
                                                 </div>
-                                            <div class="Albasma-job-main-info">
-                                                <div class="Albasma-job-title">
-                                                    <div class="Albasma-job-doctor">{{ $caseData['case']->client->name }}</div>
-                                                    <div class="Albasma-job-patient">{{ $caseData['case']->patient_name }}</div>
+                                            <div class="alsolent-job-main-info">
+                                                <div class="alsolent-job-title">
+                                                    <div class="alsolent-job-doctor">{{ $caseData['case']->client->name }}</div>
+                                                    <div class="alsolent-job-patient">{{ $caseData['case']->patient_name }}</div>
                                                 </div>
-                                                <div class="Albasma-job-details">
-                                                    <div class="Albasma-job-type">{{$job->jobType ? $job->jobType->name : "No Type" }}</div>
-                                                    <div class="Albasma-job-units">{{ $job->unit_num }}</div>
+                                                <div class="alsolent-job-details">
+                                                    <div class="alsolent-job-type">{{$job->jobType ? $job->jobType->name : "No Type" }}</div>
+                                                    <div class="alsolent-job-units">{{ $job->unit_num }}</div>
                                                 </div>
                                             </div>
 
-                                            <div class="Albasma-job-actions">
-                                                <button class="Albasma-job-view-btn"
+                                            <div class="alsolent-job-actions">
+                                                <button class="alsolent-job-view-btn"
                                                         onclick="YSH_openSlidePanel({{ $caseData['case']->id }}, '{{ $type }}')">
                                                     <i class="fas fa-eye"></i>
                                                 </button>
@@ -150,9 +150,9 @@
             </div>
         </div>
 
-        <div class="Albasma-workflow-footer">
+        <div class="alsolent-workflow-footer">
             <button type="button"
-                    class="Albasma-button"
+                    class="alsolent-button"
                     id="actionX-button-{{ $deviceId }}"
                     disabled
                     style="background-color: var(--main-green) "
@@ -184,12 +184,12 @@
         selectedBuildId = null;
 
         // For 3D printing, we need to add a click handler for the entire row
-        // const buildRows = document.querySelectorAll('.Albasma-build-row');
+        // const buildRows = document.querySelectorAll('.alsolent-build-row');
         // buildRows.forEach(row => {
         //     row.addEventListener('click', function(e) {
         //         // Skip if clicking on the toggle or details section
-        //         if (e.target.closest('.Albasma-build-details') ||
-        //             e.target.closest('.Albasma-build-toggle')) {
+        //         if (e.target.closest('.alsolent-build-details') ||
+        //             e.target.closest('.alsolent-build-toggle')) {
         //             return;
         //         }
         //
@@ -208,7 +208,7 @@
 
 <style>
     /* Empty state styling */
-    .Albasma-empty-state {
+    .alsolent-empty-state {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -220,19 +220,19 @@
         margin: 1rem;
     }
 
-    .Albasma-empty-icon {
+    .alsolent-empty-icon {
         font-size: 3rem;
         color: #adb5bd;
         margin-bottom: 1rem;
     }
 
-    .Albasma-empty-message {
+    .alsolent-empty-message {
         font-size: 1.1rem;
         color: #6c757d;
         font-weight: 500;
     }
 
-    .Albasma-empty-case-message {
+    .alsolent-empty-case-message {
         padding: 15px;
         text-align: center;
         color: #6c757d;
@@ -244,21 +244,21 @@
     }
 
     /* Build list styling */
-    .Albasma-builds-list {
+    .alsolent-builds-list {
         display: flex;
         flex-direction: column;
         gap: 12px;
         padding: 16px;
     }
 
-    .Albasma-build-row {
+    .alsolent-build-row {
         border: 1px solid #e0e0e0;
         border-radius: 10px;
         overflow: hidden;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
     }
 
-    /*.Albasma-build-header {*/
+    /*.alsolent-build-header {*/
     /*    display: flex;*/
     /*    align-items: center;*/
     /*    padding: 16px;*/
@@ -268,33 +268,33 @@
     /*    position: relative;*/
     /*}*/
 
-    .Albasma-build-header:hover {
+    .alsolent-build-header:hover {
         opacity: 0.9;
     }
 
-    .Albasma-build-radio {
+    .alsolent-build-radio {
         flex-shrink: 0;
     }
 
-    .Albasma-build-title {
+    .alsolent-build-title {
         font-weight: 600;
         color: white;
         flex-grow: 1;
     }
 
-    .Albasma-build-info {
+    .alsolent-build-info {
         display: flex;
         flex-direction: row;
         align-items: flex-end;
         margin-right: 20px;
     }
 
-    .Albasma-build-date {
+    .alsolent-build-date {
         font-size: 0.85rem;
         color: rgba(255, 255, 255, 0.8);
     }
 
-    .Albasma-build-jobs-count {
+    .alsolent-build-jobs-count {
         font-weight: 500;
         color: white;
         background-color: rgba(0, 0, 0, 0.2);
@@ -304,37 +304,37 @@
         margin-top: 4px;
     }
 
-    .Albasma-build-toggle {
+    .alsolent-build-toggle {
         margin-left: auto;
     }
 
-    .Albasma-build-toggle i {
+    .alsolent-build-toggle i {
         color: white;
         transition: transform 0.3s;
     }
 
-    .Albasma-build-details {
+    .alsolent-build-details {
         display: none;
         padding: 0 16px 16px;
         background-color: #f8f9fa;
     }
 
-    .Albasma-build-row.expanded .Albasma-build-details {
+    .alsolent-build-row.expanded .alsolent-build-details {
         display: block;
     }
 
-    .Albasma-build-row.expanded .Albasma-build-toggle i {
+    .alsolent-build-row.expanded .alsolent-build-toggle i {
         transform: rotate(180deg);
     }
 
-    .Albasma-build-cases {
+    .alsolent-build-cases {
         display: flex;
         flex-direction: column;
         gap: 10px;
         margin-top: 10px;
     }
 
-    .Albasma-case-item {
+    .alsolent-case-item {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -344,36 +344,36 @@
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     }
 
-    .Albasma-case-info {
+    .alsolent-case-info {
         display: flex;
         flex-direction: column;
         gap: 4px;
     }
 
-    .Albasma-case-doctor {
+    .alsolent-case-doctor {
         font-weight: 500;
         color: #333;
     }
 
-    .Albasma-case-patient {
+    .alsolent-case-patient {
         font-size: 0.9em;
         color: #666;
     }
 
-    .Albasma-case-details {
+    .alsolent-case-details {
         display: flex;
         flex-direction: column;
         gap: 4px;
         margin-top: 4px;
     }
 
-    .Albasma-case-jobs-count {
+    .alsolent-case-jobs-count {
         font-size: 0.85rem;
         color: #0056b3;
         font-weight: 500;
     }
 
-    .Albasma-case-job-types {
+    .alsolent-case-job-types {
         font-size: 0.75rem;
         color: #6c757d;
         font-style: italic;
@@ -383,7 +383,7 @@
         display: inline-block;
     }
 
-    .Albasma-case-view-btn {
+    .alsolent-case-view-btn {
         background: none;
         border: none;
         color: #6c757d;
@@ -393,77 +393,77 @@
         transition: background-color 0.2s, color 0.2s;
     }
 
-    .Albasma-case-view-btn:hover {
+    .alsolent-case-view-btn:hover {
         background-color: #007bff;
         color: white;
     }
 
     /* Regular jobs list styling */
-    .Albasma-jobs-list {
+    .alsolent-jobs-list {
         display: flex;
         flex-direction: column;
         gap: 8px;
         padding: 16px;
     }
 
-    .Albasma-job-row {
+    .alsolent-job-row {
         border: 1px solid #e0e0e0;
         border-radius: 8px;
         padding: 12px;
     }
 
-    .Albasma-job-header {
+    .alsolent-job-header {
         display: flex;
         align-items: center;
         gap: 16px;
     }
 
-    .Albasma-job-checkbox {
+    .alsolent-job-checkbox {
         flex-shrink: 0;
     }
 
-    .Albasma-job-main-info {
+    .alsolent-job-main-info {
         flex-grow: 1;
         display: flex;
         justify-content: space-between;
         align-items: center;
     }
 
-    .Albasma-job-title {
+    .alsolent-job-title {
         display: flex;
         flex-direction: column;
         gap: 4px;
     }
 
-    .Albasma-job-doctor {
+    .alsolent-job-doctor {
         font-weight: 500;
         color: #333;
     }
 
-    .Albasma-job-patient {
+    .alsolent-job-patient {
         font-size: 0.9em;
         color: #666;
     }
 
-    .Albasma-job-details {
+    .alsolent-job-details {
         text-align: right;
     }
 
-    .Albasma-job-type {
+    .alsolent-job-type {
         font-size: 0.9em;
         color: #666;
     }
 
-    .Albasma-job-units {
+    .alsolent-job-units {
         font-weight: 500;
         color: #333;
     }
 
-    .Albasma-job-actions {
+    .alsolent-job-actions {
         flex-shrink: 0;
     }
 
-    .Albasma-job-view-btn {
+    .alsolent-job-view-btn {
         background: none;
         border: none;
         color: #007bff;
@@ -478,7 +478,7 @@
         justify-content: center;
     }
 
-    .Albasma-job-view-btn:hover {
+    .alsolent-job-view-btn:hover {
         background-color: rgba(0, 123, 255, 0.1);
     }
 </style>

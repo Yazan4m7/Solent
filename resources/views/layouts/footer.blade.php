@@ -393,36 +393,18 @@
         // });
     </script>
     <script>
-        // Select the navbar-toggle div and overlay
         const navbarToggle = document.querySelector('.navbar-toggle');
         const overlay = document.getElementById('overlay');
-        try{
-        // Toggle "toggled" class and show/hide overlay on click
-        navbarToggle.addEventListener('click', function () {
-            console.log("nav clicked");
-            // Toggle the "toggled" class
-            // navbarToggle.classList.toggle('toggled');
-            // navbarToggle.classList.toggle('toggled');
+        if (navbarToggle) {
+            navbarToggle.addEventListener('click', function () {
+                const isOpen = navbarToggle.classList.toggle('toggled');
 
-            setTimeout(() => {
+                document.documentElement.classList.toggle('nav-open', isOpen);
 
-                // Show or hide overlay based on the "toggled" class
-                if (navbarToggle.classList.contains('toggled') || document.documentElement.classList.contains('nav-open')) {
-                    document.documentElement.classList.remove('nav-open');
-                    console.log("removing active class");
-                    overlay.classList.remove('active'); // Hide overlay
-
-                } else {
-
-                    document.documentElement.classList.add('nav-open');
-                    console.log("adding active class");
-                    overlay.classList.add('active');
+                if (overlay) {
+                    overlay.classList.toggle('active', isOpen);
                 }
-            }, 10);
-        });
-
-        } catch (e) {
-            console.log(e);
+            });
         }
 
 

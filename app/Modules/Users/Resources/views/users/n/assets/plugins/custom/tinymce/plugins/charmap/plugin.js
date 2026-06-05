@@ -1092,7 +1092,7 @@
             ],
             [
               931,
-              'Sigma'
+              'Solent'
             ],
             [
               932,
@@ -1188,11 +1188,11 @@
             ],
             [
               962,
-              'final sigma'
+              'final Solent'
             ],
             [
               963,
-              'sigma'
+              'Solent'
             ],
             [
               964,

@@ -6,7 +6,22 @@
     {{--<meta http-equiv="refresh" content="120">--}}
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        body.white-content {
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body.white-content button,
+        body.white-content input,
+        body.white-content select,
+        body.white-content textarea,
+        body.white-content table,
+        body.white-content .card,
+        body.white-content .modal {
+            font-family: inherit;
+        }
+
         .case-checkbox-waiting, .case-checkbox-active {
             transform: scale(1.5);
         }
@@ -53,7 +68,7 @@
             width: 100%;
             max-width: none;
         }
-        .Albasma-workflow-modal {
+        .alsolent-workflow-modal {
             position: fixed;
             inset: 0;
             display: none;
@@ -63,10 +78,10 @@
             z-index: 1050;
             padding: 24px;
         }
-        .Albasma-workflow-modal.active {
+        .alsolent-workflow-modal.active {
             display: flex;
         }
-        .Albasma-workflow-dialog {
+        .alsolent-workflow-dialog {
             background: #ffffff;
             border-radius: 14px;
             width: min(720px, 100%);
@@ -74,12 +89,12 @@
             overflow: auto;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
         }
-        .Albasma-workflow-title {
+        .alsolent-workflow-title {
             font-size: 18px;
             margin: 0;
             color: #1f2a37;
         }
-        .Albasma-close-button {
+        .alsolent-close-button {
             border: none;
             background: transparent;
             font-size: 22px;
@@ -87,34 +102,34 @@
             cursor: pointer;
             color: #6b7280;
         }
-        .Albasma-close-button:hover {
+        .alsolent-close-button:hover {
             color: #111827;
         }
-        .Albasma-workflow-header,
-        .Albasma-workflow-body,
-        .Albasma-workflow-footer {
+        .alsolent-workflow-header,
+        .alsolent-workflow-body,
+        .alsolent-workflow-footer {
             padding: 16px 20px;
         }
-        .Albasma-workflow-header {
+        .alsolent-workflow-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
             border-bottom: 1px solid rgba(17, 21, 30, 0.08);
         }
-        .Albasma-workflow-footer {
+        .alsolent-workflow-footer {
             border-top: 1px solid rgba(17, 21, 30, 0.08);
             display: flex;
             justify-content: center;
         }
-        .Albasma-workflow-body {
+        .alsolent-workflow-body {
             overflow: auto;
         }
-        .Albasma-drivers-grid {
+        .alsolent-drivers-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
             gap: 12px;
         }
-        .Albasma-driver-card {
+        .alsolent-driver-card {
             border: 1px solid rgba(17, 21, 30, 0.12);
             border-radius: 12px;
             padding: 10px;
@@ -123,16 +138,16 @@
             background: #f9fafb;
             transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
         }
-        .Albasma-driver-card:hover {
+        .alsolent-driver-card:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 18px rgba(17, 21, 30, 0.12);
             border-color: rgba(17, 21, 30, 0.28);
         }
-        .Albasma-driver-card.selected {
+        .alsolent-driver-card.selected {
             border-color: var(--main-orange, #d48b2c);
             box-shadow: 0 10px 20px rgba(212, 139, 44, 0.25);
         }
-        .Albasma-driver-image-container {
+        .alsolent-driver-image-container {
             width: 100%;
             height: 120px;
             display: flex;
@@ -143,19 +158,19 @@
             border-radius: 10px;
             overflow: hidden;
         }
-        .Albasma-driver-image {
+        .alsolent-driver-image {
             max-width: 110px;
             max-height: 110px;
             width: auto;
             height: auto;
             object-fit: contain;
         }
-        .Albasma-driver-name {
+        .alsolent-driver-name {
             font-size: 13px;
             font-weight: 600;
             color: #374151;
         }
-        .Albasma-button {
+        .alsolent-button {
             border: none;
             border-radius: 8px;
             padding: 10px 18px;
@@ -165,7 +180,7 @@
             cursor: pointer;
             background: var(--main-orange, #d48b2c);
         }
-        .Albasma-button:disabled {
+        .alsolent-button:disabled {
             opacity: 0.55;
             cursor: not-allowed;
         }
@@ -807,6 +822,292 @@
     fill: #495057 !important; /* For SVG icons */
 }
 
+        .ops-dashboard .macaw-tabs.macaw-aurora-tabs {
+            display: block !important;
+        }
+
+        .ops-dashboard .macaw-tabs.macaw-aurora-tabs > [role="tablist"].stageSidebar {
+            width: 100% !important;
+            flex-direction: row !important;
+            align-items: stretch !important;
+            border-top: 0;
+        }
+
+        .ops-dashboard .macaw-tabs.macaw-aurora-tabs > [role="tabpanel"] {
+            width: 100% !important;
+            padding: 1rem 0 !important;
+        }
+
+        .ops-dashboard .macaw-tabs.macaw-aurora-tabs > [role="tablist"].stageSidebar {
+            display: flex;
+            gap: 12px;
+            align-items: stretch;
+            overflow-x: auto;
+            padding: 12px;
+            margin-top: 18px;
+            margin-bottom: 18px;
+            background: rgba(255, 255, 255, 0.58);
+            border: 1px solid rgba(134, 177, 196, 0.42);
+            border-radius: 22px;
+            box-shadow: 0 18px 40px rgba(45, 76, 108, 0.12);
+            backdrop-filter: blur(14px);
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .ops-dashboard .macaw-tabs.macaw-aurora-tabs > [role="tablist"].stageSidebar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .ops-dashboard .macaw-tabs.macaw-aurora-tabs > [role="tablist"].stageSidebar > [role="tab"] {
+            display: flex;
+            flex: 0 0 74px !important;
+            width: 74px !important;
+            max-width: 74px !important;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            gap: 7px;
+            min-height: 96px;
+            padding: 10px 6px !important;
+            margin: 0;
+            border-radius: 16px !important;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(237, 246, 250, 0.96));
+            border: 1px solid #cae0ea;
+            color: #32425a;
+            box-shadow: 0 10px 22px rgba(75, 110, 145, 0.12);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+        }
+
+        .ops-dashboard .macaw-tabs.macaw-aurora-tabs > [role="tablist"].stageSidebar > [role="tab"]:hover,
+        .ops-dashboard .macaw-tabs.macaw-aurora-tabs > [role="tablist"].stageSidebar > [role="tab"][aria-selected="true"] {
+            transform: translateY(-2px);
+            border-color: #9ac9de !important;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 1), rgba(226, 242, 248, 1)) !important;
+            color: #32425a !important;
+            box-shadow: 0 16px 28px rgba(75, 110, 145, 0.18) !important;
+            border-left: 1px solid #9ac9de !important;
+            padding-left: 6px !important;
+        }
+
+        .stageSidebar__icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 24px;
+            color: #3a4658;
+        }
+
+        .stageSidebar__icon i,
+        .stageSidebar__icon svg {
+            font-size: 18px;
+        }
+
+        .stageSidebar__name {
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 1.1;
+            text-align: center;
+            color: #34445b;
+        }
+
+        .stageSidebar__counts {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .stageSidebar .badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 22px;
+            height: 22px;
+            padding: 0 5px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 700;
+            border: 1px solid transparent;
+            box-shadow: none;
+        }
+
+        .stageSidebar .activeBadge {
+            background: #eaf5ff !important;
+            color: #2f7fd9;
+            border-color: #bddcff;
+        }
+
+        .stageSidebar .waitingBadge {
+            background: #fff0f0 !important;
+            color: #eb5757;
+            border-color: #ffc7c7;
+        }
+
+        .ops-dashboard .macaw-tabs.macaw-aurora-tabs > [role="tablist"].stageSidebar > [role="tab"][aria-selected="true"] .activeBadge {
+            background: #eaf5ff !important;
+            color: #2f7fd9 !important;
+            border-color: #bddcff !important;
+        }
+
+        .ops-dashboard .macaw-tabs.macaw-aurora-tabs > [role="tablist"].stageSidebar > [role="tab"][aria-selected="true"] .waitingBadge {
+            background: #fff0f0 !important;
+            color: #eb5757 !important;
+            border-color: #ffc7c7 !important;
+        }
+
+        .YSH-slide-overlay {
+            display: none !important;
+            position: fixed;
+            inset: 0;
+            z-index: 99991;
+            background: rgba(8, 13, 20, 0.35);
+            padding: 16px;
+            overflow-y: auto;
+        }
+
+        .YSH-slide-overlay.YSH-active,
+        .YSH-slide-overlay.YSH-closing {
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .YSH-slide-panel {
+            position: relative;
+            top: auto;
+            right: auto;
+            width: min(680px, calc(100vw - 32px));
+            max-width: min(680px, calc(100vw - 32px));
+            min-width: 0;
+            height: auto;
+            max-height: calc(100vh - 32px);
+            margin: auto;
+            overflow: hidden;
+            background: #ffffff;
+            color: #11151E;
+            border-radius: 24px;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.22);
+            padding: 0;
+            animation: none !important;
+        }
+
+        .YSH-slide-grid {
+            display: block;
+        }
+
+        .YSH-slide-header {
+            padding: 22px 24px 18px;
+            border-bottom: 1px solid #dfe7ef;
+            background: #ffffff;
+        }
+
+        .YSH-slide-body {
+            padding: 18px 24px 22px;
+            height: auto;
+            max-height: calc(100vh - 240px);
+            overflow-y: auto;
+            background: #ffffff;
+            color: #11151E;
+        }
+
+        .YSH-close-slide {
+            color: #6b7280;
+        }
+
+        .YSH-close-slide:hover {
+            color: #111827;
+        }
+
+        .modal {
+            padding: 16px !important;
+        }
+
+        .modal-dialog {
+            width: 100%;
+            max-width: min(680px, calc(100vw - 32px));
+            margin: auto;
+        }
+
+        .modal-content {
+            border-radius: 24px;
+            overflow: hidden;
+        }
+
+        .modal-header,
+        .modal-body,
+        .modal-footer {
+            padding-left: 24px;
+            padding-right: 24px;
+        }
+
+        .modal-header {
+            padding-top: 22px;
+            padding-bottom: 18px;
+        }
+
+        .modal-body {
+            padding-top: 18px;
+            padding-bottom: 22px;
+        }
+
+        .modal-footer {
+            padding-top: 12px;
+            padding-bottom: 18px;
+        }
+
+        @media (max-width: 575.98px) {
+            .ops-dashboard .macaw-tabs.macaw-aurora-tabs > [role="tablist"].stageSidebar > [role="tab"] {
+                flex-basis: 68px !important;
+                width: 68px !important;
+                max-width: 68px !important;
+                min-height: 90px;
+                padding: 9px 5px !important;
+            }
+
+            .stageSidebar__name {
+                font-size: 11px;
+            }
+
+            .stageSidebar .badge {
+                min-width: 20px;
+                height: 20px;
+                font-size: 10px;
+            }
+
+            .YSH-slide-overlay {
+                padding: 12px;
+            }
+
+            .YSH-slide-panel {
+                width: calc(100vw - 24px);
+                max-width: calc(100vw - 24px);
+                max-height: calc(100vh - 24px);
+            }
+
+            .YSH-slide-header,
+            .YSH-slide-body,
+            .YSH-slide-panel .modal-footer {
+                padding-left: 18px;
+                padding-right: 18px;
+            }
+
+            .modal {
+                padding: 12px !important;
+            }
+
+            .modal-dialog {
+                max-width: calc(100vw - 24px);
+            }
+
+            .modal-header,
+            .modal-body,
+            .modal-footer {
+                padding-left: 18px;
+                padding-right: 18px;
+            }
+        }
+
     </style>
 
     @php $color = "#01292b"; @endphp
@@ -932,12 +1233,16 @@
             <div class="macaw-tabs macaw-aurora-tabs notransition">
                 <div role="tablist" class="stageSidebar" aria-orientation="vertical">
                     @foreach($stages as $key => $stage)
-                        <button  role="tab" aria-selected="false" aria-controls="{{$key.'label'}}" id="{{$key}}" style=""  onclick="setOuterTab(this)">
-                        <span class="iconSpan" style="display: flex;align-items: center;">{!!$stage['icon'] !!}
-                        <span style=" padding-left:6px" class="stageName"> {{$key}}</span></span>
-                            <div> <span class="badge bg-info m-1 activeBadge" style="padding: 0.25em 0.4em;">{{count($stage['activeCases'])}}</span>
-                                <span class="badge bg-info m-1 waitingBadge" style="padding: 0.25em 0.4em;">{{count($stage['waitingCases'])}} </span>
-                            </div>
+                        @php
+                            $displayKey = strtolower($key) === '3dprinting' ? 'Printing' : (strtolower($key) === 'qc' ? 'QC' : $key);
+                        @endphp
+                        <button role="tab" aria-selected="false" aria-controls="{{$key.'label'}}" id="{{$key}}" onclick="setOuterTab(this)">
+                            <span class="stageSidebar__icon">{!! $stage['icon'] !!}</span>
+                            <span class="stageSidebar__name">{{ $displayKey }}</span>
+                            <span class="stageSidebar__counts">
+                                <span class="badge activeBadge">{{ count($stage['activeCases']) }}</span>
+                                <span class="badge waitingBadge">{{ count($stage['waitingCases']) }}</span>
+                            </span>
                         </button>
                     @endforeach
                 </div>
@@ -979,24 +1284,18 @@
 
                                         <tr style="color:{{$color}}">
                                             <td><input type="checkbox" value="{{ $case->id }}" class="case-checkbox-waiting" data-stage-type="3dprinting" data-case-checkbox data-case-id="{{ $case->id }}"></td>
-                                                <td class="clickable" data-toggle="modal"
-                                                data-target="#waitingDialog{{$key. $case->id}}"><p class="">{{$case->client->name}}</p></td>
-                                                <td class="clickable" data-toggle="modal"
-                                                data-target="#waitingDialog{{$key. $case->id}}"><p class="">{{$case->patient_name}}</p></td>
-                                                <td class="clickable" data-toggle="modal"
-                                                data-target="#waitingDialog{{$key. $case->id}}">
+                                                <td class="clickable" onclick="YSH_openSlidePanel({{ $case->id }}, '3dprinting', 'dashboard')"><p class="">{{$case->client->name}}</p></td>
+                                                <td class="clickable" onclick="YSH_openSlidePanel({{ $case->id }}, '3dprinting', 'dashboard')"><p class="">{{$case->patient_name}}</p></td>
+                                                <td class="clickable" onclick="YSH_openSlidePanel({{ $case->id }}, '3dprinting', 'dashboard')">
                                                     <p class="">{{date_format(date_create($case->initDeliveryDate()),"d-M")}}</p>
                                                 </td>
-                                                <td class="clickable" data-toggle="modal"
-                                                data-target="#waitingDialog{{$key. $case->id}}"><p class="">{{$case->unitsAmount($stage['numericStage'])}}</p></td>
+                                                <td class="clickable" onclick="YSH_openSlidePanel({{ $case->id }}, '3dprinting', 'dashboard')"><p class="">{{$case->unitsAmount($stage['numericStage'])}}</p></td>
                                                 @if ($key == "Delivery")
-                                                    <td class="clickable" data-toggle="modal"
-                                                    data-target="#waitingDialog{{$key. $case->id}}"><p class="">{{$case->jobs->where('stage',$stage['numericStage'])->first()->assignedTo ?
+                                                    <td class="clickable" onclick="YSH_openSlidePanel({{ $case->id }}, '3dprinting', 'dashboard')"><p class="">{{$case->jobs->where('stage',$stage['numericStage'])->first()->assignedTo ?
                                                          $case->jobs->where('stage',$stage['numericStage'])->first()->assignedTo->name_initials : "None"}}</p>
                                                     </td>
                                                 @endif
-                                                <td class="clickable" data-toggle="modal"
-                                                data-target="#waitingDialog{{$key. $case->id}}">
+                                                <td class="clickable" onclick="YSH_openSlidePanel({{ $case->id }}, '3dprinting', 'dashboard')">
 
                                                     @foreach($case->tags as $tag)
                                                         <i title="{{$tag->originalTagRecord?->text}}"
@@ -1009,6 +1308,9 @@
 
                                         </tbody>
                                     </table>
+                                    @foreach ($stage['waitingCases'] as $case)
+                                        <x-partiels.caseSlidePanel :case="$case" stageType="3dprinting" panelScope="dashboard"/>
+                                    @endforeach
 
                                     <!-- Employee Assignment Dialog for 3D Printing -->
                                     <x-waiting-employee-dialog
@@ -1385,23 +1687,17 @@
                                         @foreach ($stage['activeCases'] as $case)
                                             <tr style="color:{{$color}}">
                                                 <td><input type="checkbox" value="{{ $case->id }}" class="case-checkbox-active"></td>
-                                                <td class="clickable" data-toggle="modal"
-                                                data-target="#confirmCompletion{{$key.$case->id}}"><p class="">{{$case->client->name}}</p></td>
-                                                <td class="clickable" data-toggle="modal"
-                                                data-target="#confirmCompletion{{$key.$case->id}}"><p class="">{{$case->patient_name}}</p></td>
-                                                <td class="clickable" data-toggle="modal"
-                                                data-target="#confirmCompletion{{$key.$case->id}}">
+                                                <td class="clickable" onclick="YSH_openSlidePanel({{ $case->id }}, '3dprinting', 'dashboard')"><p class="">{{$case->client->name}}</p></td>
+                                                <td class="clickable" onclick="YSH_openSlidePanel({{ $case->id }}, '3dprinting', 'dashboard')"><p class="">{{$case->patient_name}}</p></td>
+                                                <td class="clickable" onclick="YSH_openSlidePanel({{ $case->id }}, '3dprinting', 'dashboard')">
                                                     <p class="">{{date_format(date_create($case->initDeliveryDate()),"d-M")}}</p>
                                                 </td>
-                                                <td class="clickable" data-toggle="modal"
-                                                data-target="#confirmCompletion{{$key.$case->id}}">
+                                                <td class="clickable" onclick="YSH_openSlidePanel({{ $case->id }}, '3dprinting', 'dashboard')">
                                                     <p class="">{{$case->jobs->where('stage',$stage["numericStage"])->first() ? ($case->jobs->where('stage',$stage["numericStage"])->first()->assignedTo? $case->jobs->where('stage',$stage["numericStage"])->first()->assignedTo->name_initials : "None") : "None"}}</p>
                                                 </td>
-                                                <td class="clickable" data-toggle="modal"
-                                                data-target="#confirmCompletion{{$key.$case->id}}"><p class="">{{$case->unitsAmount($stage["numericStage"])}}</p>
+                                                <td class="clickable" onclick="YSH_openSlidePanel({{ $case->id }}, '3dprinting', 'dashboard')"><p class="">{{$case->unitsAmount($stage["numericStage"])}}</p>
                                                 </td>
-                                                <td class="clickable" data-toggle="modal"
-                                                data-target="#confirmCompletion{{$key.$case->id}}">
+                                                <td class="clickable" onclick="YSH_openSlidePanel({{ $case->id }}, '3dprinting', 'dashboard')">
 
                                                     @foreach($case->tags as $tag)
                                                         <i title="{{$tag->originalTagRecord?->text}}"
@@ -1415,6 +1711,9 @@
                                         </tbody>
                                     </table>
                                 </form>
+                                @foreach ($stage['activeCases'] as $case)
+                                    <x-partiels.caseSlidePanel :case="$case" stageType="3dprinting" panelScope="dashboard"/>
+                                @endforeach
                                 @else
                                 <table class=" activeTable sunriseTable" style="width:100%;">
                                     <thead>
@@ -1727,12 +2026,17 @@
         $(document).ready(function () {
             var tables2 = $('.sunriseTable');
             if (tables2){
-                tables2.DataTable({
-                    "pageLength": 10,
-                    "searching": false,
-                    "lengthChange": false,
-                    "fixedHeader": true
+                tables2.each(function () {
+                    if ($.fn.DataTable.isDataTable(this)) {
+                        return;
+                    }
 
+                    $(this).DataTable({
+                        "pageLength": 10,
+                        "searching": false,
+                        "lengthChange": false,
+                        "fixedHeader": true
+                    });
                 });
                 tables2.addClass("nowrap hover compact  stripe");
             }
@@ -1798,6 +2102,65 @@
         function setOuterTab(btnElement) {
             Cookies.set('activeOuterTab', btnElement.id);
         }
+
+        function YSH_findSlideOverlay(caseId, stageType = '', panelScope = '') {
+            const candidateIds = [
+                panelScope && stageType ? `YSH-slide-overlay-${panelScope}-${stageType}-${caseId}` : null,
+                stageType ? `YSH-slide-overlay-${stageType}-${caseId}` : null,
+                `YSH-slide-overlay-${caseId}`
+            ].filter(Boolean);
+
+            for (const id of candidateIds) {
+                const overlay = document.getElementById(id);
+                if (overlay) {
+                    return overlay;
+                }
+            }
+
+            return null;
+        }
+
+        function YSH_closeAllSlidePanels() {
+            document.querySelectorAll('.YSH-slide-overlay.YSH-active, .YSH-slide-overlay.YSH-closing').forEach(function (overlay) {
+                overlay.classList.remove('YSH-active', 'YSH-closing');
+                overlay.style.display = 'none';
+            });
+            document.body.classList.remove('YSH-no-scroll');
+        }
+
+        function YSH_openSlidePanel(caseId, stageType = '', panelScope = '') {
+            const overlay = YSH_findSlideOverlay(caseId, stageType, panelScope);
+            if (!overlay) {
+                return;
+            }
+
+            YSH_closeAllSlidePanels();
+            overlay.classList.remove('YSH-closing');
+            overlay.style.display = 'flex';
+            overlay.classList.add('YSH-active');
+            document.body.classList.add('YSH-no-scroll');
+        }
+
+        function YSH_closeSlidePanel(caseId, stageType = '', panelScope = '') {
+            const overlay = YSH_findSlideOverlay(caseId, stageType, panelScope);
+            if (!overlay) {
+                YSH_closeAllSlidePanels();
+                return;
+            }
+
+            overlay.classList.remove('YSH-active', 'YSH-closing');
+            overlay.style.display = 'none';
+
+            if (!document.querySelector('.YSH-slide-overlay.YSH-active')) {
+                document.body.classList.remove('YSH-no-scroll');
+            }
+        }
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') {
+                YSH_closeAllSlidePanels();
+            }
+        });
 
         function assign3dPrintingToMe() {
             const checkboxes = document.querySelectorAll('input[data-stage-type="3dprinting"][data-case-checkbox]:checked');

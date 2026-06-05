@@ -46,9 +46,26 @@ function setOuterTab(btnElement) {
     Cookies.set('activeOuterTab', key);
     console.log("set outer cookie for : " + 'activeOuterTab' + ' =>' + key);
 }
-function YSH_openSlidePanel(caseId) {
-    console.log('Opening slide panel for case ID:', caseId);
-    const overlay = document.getElementById('YSH-slide-overlay-' + caseId);
+function YSH_findSlideOverlay(caseId, stageType = '', panelScope = '') {
+    const candidateIds = [
+        panelScope && stageType ? `YSH-slide-overlay-${panelScope}-${stageType}-${caseId}` : null,
+        stageType ? `YSH-slide-overlay-${stageType}-${caseId}` : null,
+        `YSH-slide-overlay-${caseId}`
+    ].filter(Boolean);
+
+    for (const id of candidateIds) {
+        const overlay = document.getElementById(id);
+        if (overlay) {
+            return overlay;
+        }
+    }
+
+    return null;
+}
+
+function YSH_openSlidePanel(caseId, stageType = '', panelScope = '') {
+    console.log('Opening slide panel for case ID:', caseId, 'stage:', stageType, 'scope:', panelScope);
+    const overlay = YSH_findSlideOverlay(caseId, stageType, panelScope);
 
     if (overlay) {
         console.log('Found overlay element:', overlay);
@@ -86,9 +103,9 @@ function YSH_openSlidePanel(caseId) {
     }
 }
 
-function YSH_closeSlidePanel(caseId) {
-    console.log('Closing slide panel for case ID:', caseId);
-    const overlay = document.getElementById('YSH-slide-overlay-' + caseId);
+function YSH_closeSlidePanel(caseId, stageType = '', panelScope = '') {
+    console.log('Closing slide panel for case ID:', caseId, 'stage:', stageType, 'scope:', panelScope);
+    const overlay = YSH_findSlideOverlay(caseId, stageType, panelScope);
     if (overlay) {
         console.log('Found overlay element to close:', overlay);
         // Add closing animation
@@ -432,8 +449,7 @@ $(document).ready(function () {
     });
 
     // Global modal handling - close on outside click or ESC key
-    $(document).on('click', '.Tect
--workflow-modal', function(e) {
+    $(document).on('click', '.alsolent-workflow-modal', function(e) {
         // Only close if clicking directly on the modal background (not its children)
         if (e.target === this) {
             const modalId = $(this).attr('id');
@@ -451,8 +467,7 @@ $(document).ready(function () {
     $(document).on('keydown', function(e) {
         if (e.key === 'Escape') {
             // Find visible modals
-            const visibleModal = $('.Tect
--workflow-modal[style*="display: flex"]');
+            const visibleModal = $('.alsolent-workflow-modal[style*="display: flex"]');
             if (visibleModal.length) {
                 const modalId = visibleModal.attr('id');
                 const deviceId = modalId.replace(/sinteringCasesModal|casesListDialog|-waiting/g, '');
@@ -862,15 +877,13 @@ function enableButton(key, deviceId = "") {
     //     .classList.add('enabled');
     //
     try {
-        $(".Tect
--button." + CSS.escape(key)).removeClass('disabled');
+        $(".alsolent-button." + CSS.escape(key)).removeClass('disabled');
         document.querySelector(`.${CSS.escape(key)}.blackbox-button-outer`)
             .classList.add('enabled');
         document.querySelector(`.${CSS.escape(key)}.blackbox-button-inner`)
             .classList.add('enabled');
     } catch (e) {
-        $(".Tect
--button").removeClass('disabled');
+        $(".alsolent-button").removeClass('disabled');
         document.querySelector(`.blackbox-button-outer.waiting-popup`)
             .classList.add('enabled');
         document.querySelector(`.blackbox-button-outer.waiting-popup`)
@@ -927,8 +940,7 @@ function resetDialogStatus({
     }
 
     // reset all
-    $(".Tect
--machine-card.selected").removeClass("selected");
+    $(".alsolent-machine-card.selected").removeClass("selected");
 
 
     disableButton(stageType1, "", isWaiting);
@@ -939,8 +951,7 @@ function resetDialogStatus({
 }
 
 function clearTextInput() {
-    $('.Tect
--form-control').val('');
+    $('.alsolent-form-control').val('');
 }
 
 function toggleButtonStatus(key, forceState = null) {
@@ -1155,8 +1166,7 @@ function processWorkflowAction222(deviceId, type, actionType, action) {
 
     } else { // actionType is 'jobs'
         // Get all checked job checkboxes
-        const checkedCheckboxes = $(`input[type="checkbox"]:checked[class~="Tect
--checkbox"][class~="${type}"]`);
+        const checkedCheckboxes = $(`input[type="checkbox"]:checked[class~="alsolent-checkbox"][class~="${type}"]`);
         console.log( "checkedCheckboxes magic selector of 3d builds : " + checkedCheckboxes);
 
 
@@ -1201,13 +1211,10 @@ function processWorkflowAction222(deviceId, type, actionType, action) {
 // });
 
 $(document).ready(function () {
-    // Loop through each div with the class `Tect
--workflow-modal waiting`
-    $(".Tect
--workflow-modal.active").each(function () {
+    // Loop through each visible workflow dialog
+    $(".alsolent-workflow-modal.active").each(function () {
         const modal = $(this); // The current modal
-        const button = modal.find(".Tect
--button"); // Find the button within this modal
+        const button = modal.find(".alsolent-button"); // Find the button within this modal
 
         // Function to check and set button state
         function updateButtonState() {
@@ -1230,8 +1237,7 @@ $(document).ready(function () {
 //
 //     // Use MutationObserver to detect changes in dialog visibility
 //     const observer = new MutationObserver(function () {
-//         $(".Tect
--workflow-modal[role='dialog']").each(function () {
+//         $(".alsolent-workflow-modal[role='dialog']").each(function () {
 //             const modal = $(this);
 //
 //             // Check if the modal is visible (display is 'flex')
@@ -1257,8 +1263,7 @@ $(document).ready(function () {
 //    console.log("updateActionButtonState = " + actionButton);
 //    form.querySelectorAll("checkbox:checked")
 //
-//     const checkedCheckboxes = document.querySelectorAll(`input.Tect
--checkbox.${CSS.escape(type)}[type="checkbox"]:checked`);
+//     const checkedCheckboxes = document.querySelectorAll(`input.alsolent-checkbox.${CSS.escape(type)}[type="checkbox"]:checked`);
 //     console.log( "checkbox change = " + checkedCheckboxes);
 //     if (actionButton) {
 //          // Enable the button if any checkbox is checked
@@ -1268,16 +1273,14 @@ $(document).ready(function () {
 //
 //         // A more reliable way to check for active jobs in the *current* dialog:
 //         const currentDialog = document.getElementById(`${deviceId}casesListDialog`);
-//          const activeJobRowsInDialog = currentDialog.querySelectorAll('.Tect
--job-row[style*="--main-blue"]'); // Find rows with the active color
+//          const activeJobRowsInDialog = currentDialog.querySelectorAll('.alsolent-job-row[style*="--main-blue"]'); // Find rows with the active color
 //         const hasActiveJobs = activeJobRowsInDialog.length > 0; // This check might need to be specific to the current dialog
 //
 //
 //         const hasActiveJobsInDialog = activeJobRowsInDialog.length > 0;
 //
 //         // Special handling for inactive jobs (orange rows) - they are disabled if active jobs exist
-//         const inactiveCheckboxes = currentDialog.querySelectorAll('.Tect
--job-row[style*="--main-orange"] input[name="jobId[]"]');
+//         const inactiveCheckboxes = currentDialog.querySelectorAll('.alsolent-job-row[style*="--main-orange"] input[name="jobId[]"]');
 //         if (hasActiveJobsInDialog) {
 //             inactiveCheckboxes.forEach(checkbox => checkbox.disabled = true);
 //             console.log("found inactiveCheckboxes = " + inactiveCheckboxes.length);

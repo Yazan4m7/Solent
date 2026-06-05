@@ -266,9 +266,9 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 50px;
-        height: 50px;
-        flex: 0 0 50px;
+        width: 14px;
+        height: 41px;
+        flex: 0 0 42px;
         border-radius: 999px;
         background: linear-gradient(135deg, #6868e8 0%, #18aab2 100%);
         color: #ffffff;
@@ -327,6 +327,11 @@
         display: flex;
         align-items: center;
         margin: 0 !important;
+        position: static;
+        top: auto;
+        right: auto;
+        background: transparent;
+        box-shadow: none;
     }
 
     .main-panel > .content {
@@ -407,31 +412,142 @@
         }
     }
 
-    @media screen and (max-width: 450px) {
+    @media screen and (max-width: 575.98px) {
+        .navbar.stickMe,
+        .navbar.navbar-transparent.stickMe,
+        .stickMe,
+        .stickMe > .container-fluid,
+        .headerRow,
+        .left-toggler-container,
+        .headerActionsCol,
+        .dotsDiv {
+            min-height: 56px !important;
+            height: 56px !important;
+        }
+
+        .stickMe > .container-fluid,
+        nav.stickMe .headerRow {
+            align-items: center !important;
+            flex-wrap: nowrap !important;
+            gap: 0 !important;
+            padding: 0 10px !important;
+        }
+
+        nav.stickMe .headerRow > .headerTitleCol {
+            flex: 0 0 20% !important;
+            width: 20% !important;
+            max-width: 20% !important;
+            padding: 0 !important;
+        }
+
+        .left-toggler-container {
+            width: 100% !important;
+            padding: 0 !important;
+            gap: 0 !important;
+        }
+
+        .logo-col {
+            flex: 0 0 100% !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            height: 56px !important;
+            padding: 0 !important;
+        }
+
+        .logo-col > .d-flex {
+            width: 100% !important;
+            height: 56px !important;
+            gap: 0 !important;
+        }
+
+        .logo-col .navbar-toggle,
+        .logo-col .navbar-toggler {
+            display: inline-flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 32px !important;
+            min-width: 32px !important;
+            height: 32px !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        .logo-col .navbar-toggler-bar {
+            flex-shrink: 0;
+        }
+
+        .logo-navbar {
+            display: none !important;
+        }
+
         .pageTitleContainer {
             display: none !important;
         }
 
-        .headerRow {
-            align-items: flex-start !important;
-        }
-
-        .headerActionsCol {
-            flex: 1 1 100%;
-            width: 100%;
+        nav.stickMe .headerActionsCol {
+            flex: 0 0 80% !important;
+            width: 80% !important;
+            min-width: 0 !important;
+            gap: 0 !important;
             justify-content: space-between;
-            padding: 0 12px 12px;
+            padding: 0 !important;
         }
 
         .headerSearchCol {
-            flex: 1 1 auto;
-            width: auto;
-            max-width: none !important;
+            flex: 0 0 75% !important;
+            width: 75% !important;
+            max-width: 75% !important;
+            min-width: 0 !important;
+        }
+
+        #wrapp {
+            height: 38px !important;
+            min-width: 0 !important;
+        }
+
+        #wrapp .SBF2 {
+            height: 38px !important;
+            gap: 8px !important;
+            padding: 0 12px !important;
+        }
+
+        #wrapp input[type="text"] {
+            font-size: 14px !important;
+        }
+
+        .dotsDiv {
+            flex: 0 0 25% !important;
+            width: 25% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            min-width: 0 !important;
+            justify-content: flex-end;
+        }
+
+        .solent-layout-profile-shell,
+        .solent-layout-profile-shell .navbar-nav,
+        .solent-layout-profile-shell .dropdown.nav-item {
+            height: 56px !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            display: flex !important;
+            align-items: center !important;
         }
 
         .solent-layout-profile {
-            min-width: 52px;
-            padding-right: 4px !important;
+            width: 40px !important;
+            min-width: 40px !important;
+            height: 40px !important;
+            padding: 0 !important;
+            justify-content: center !important;
+        }
+
+        .solent-layout-profile-avatar {
+            width: 38px !important;
+            height: 38px !important;
+            flex: 0 0 38px !important;
+            font-size: 14px !important;
         }
 
         .solent-layout-profile-meta,
@@ -547,8 +663,10 @@
     document.onkeydown = function(evt) {
         var keyCode = evt ? (evt.which ? evt.which : evt.keyCode) : event.keyCode;
         if (keyCode == 13) {
-            //your function call here
-            document.searchFrom.submit();
+            var searchForm = document.searchFrom || document.forms['searchFrom'];
+            if (searchForm && typeof searchForm.submit === 'function') {
+                searchForm.submit();
+            }
         }
     }
 </script>

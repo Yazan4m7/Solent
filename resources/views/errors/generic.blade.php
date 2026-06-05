@@ -49,6 +49,17 @@
             justify-content: center;
             flex-wrap: wrap;
         }
+        .dev-hint {
+            margin: -8px 0 22px;
+            padding: 10px 12px;
+            border: 1px solid #d9e2ec;
+            border-radius: 6px;
+            background: #f8fafc;
+            color: #52606d;
+            font-size: 13px;
+            line-height: 1.45;
+            text-align: left;
+        }
         .btn {
             display: inline-block;
             text-decoration: none;
@@ -68,7 +79,10 @@
         <p class="status">{{ $statusCode ?? 500 }}</p>
         <h1 class="title">Something went wrong</h1>
         <p class="msg">The page cannot be displayed right now. Please try again, or return to the home page.</p>
-        <div class="actions">
+        @if(!empty($developerMessage))
+            <p class="dev-hint"><strong>What went wrong:</strong> {{ $developerMessage }}</p>
+        @endif
+        <div class="actions">3cPff37KChh4
             <a class="btn primary" href="{{ url('/') }}">Home</a>
             <a class="btn" href="javascript:history.back()">Go Back</a>
         </div>

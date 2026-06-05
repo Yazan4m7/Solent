@@ -102,7 +102,7 @@
     <div class="brand-header">
         <img src="{{ asset('images/v_logo_eng.png') }}" alt="{{ $brandingName ?? 'Brand' }} logo">
         <div>
-            <h4 class="brand-name mb-0">{{ $brandingName ?? 'Al Basma Digital Dental Lab' }}</h4>
+            <h4 class="brand-name mb-0">{{ $brandingName ?? 'Solent Digital Dental Lab' }}</h4>
             <p class="brand-tagline mb-0">Precision dental restorations</p>
         </div>
     </div>
@@ -277,7 +277,7 @@
 
 
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-<title>{{ $brandingName ?? "Al Basma Digital Dental Lab" }}</title>
+<title>{{ $brandingName ?? "Solent" }}</title>
 
 
 
@@ -315,7 +315,7 @@
                     <div class="row" style="float:left;width:48%; align-items:center;">
                         <img src="{{ asset('images/v_logo_eng.png') }}" alt="{{ $brandingName ?? 'Brand' }} logo" style="height:60px; width:auto; margin-bottom:10px;">
                         <div class="col-md-8" >
-            <h1 style="font-weight:bolder;font-size:24px;">{{ $brandingName ?? "Al Basma Digital Dental Lab" }}</h1><p style="margin:0;font-weight:500;color:#4b5563;">Precision dental restorations</p>
+            <h1 style="font-weight:bolder;font-size:24px;">{{ $brandingName ?? "Solent Digital Dental Lab" }}</h1><p style="margin:0;font-weight:500;color:#4b5563;">Precision dental restorations</p>
             <br><br><br><br><br>
                                 <h4>Dr. : {{$client->name}}</h4></div>
 

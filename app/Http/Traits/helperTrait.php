@@ -372,168 +372,123 @@ trait helperTrait
     {
         $arr = array();
     }
-    public function generateAccessToken()
-    {
-        $accessTokenLink = 'https://oauth2.googleapis.com/token';
 
 
-        $message = [
-            "grant_type" => "urn:ietf:params:oauth:grant-type:jwt-bearer",
-            "assertion" => $this->generateJWT()
-        ];
 
 
-        $headers = [
-            'Content-Type: application/x-www-form-urlencoded',
-        ];
-
-        $ch = curl_init($accessTokenLink);
-
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($message));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-        // Execute cURL session
-        $response = curl_exec($ch);
-        if ($response === false) {
-            throw new Exception(curl_error($ch), curl_errno($ch));
-        }
-        $json = json_decode($response, true);
-        return $json["access_token"];
-    }
-    public function generateJWT()
-    {
-
-        $googleConfig = [
-            'iss' => 'sigmalab@sigma-f8312.iam.gserviceaccount.com',
-            'private_key' => "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDVMjAPM6z/N0Ni\njHx1cdAMQN2nNjCLnRx5CZIy2mhT709U75EAEmrWrQjtlIVTsOfwBudim+YqDjLw\nrnxTHDjwBNsAogxVmu8fj5Di1z3mjfMlWajeyYGXaT0SVcblM53Lc5MhJxtCJk28\nWcGHmgVT1o0hewNuFf9qgDZyf2vbXbSsmYQVz1Rc/v0PIHd8rHreH5W5AmyTcZhh\nZSk5+MYxl1uEUlAnKZ16csjrT5AV8IyassK3Ru1QSP7loAmxi501QVxwZ9OvBJS8\nadcAL9H3YwFicg9eyetSleOiyfbTw6jH91PZS21jaUkD0oKGEFNQnvJywB81uvcH\nO9FZ7SWJAgMBAAECggEAL5qMu6A8xSHoVHVtBuZaX5oORBtn/Iygwm/+Koe1GuTJ\nEHyLonn6TCQH5dCvcpACQgiwmsaXvpU8D5zOWtpm5kUXR41ndqfpM+FhJx2Lj1Lr\n00+xUsmou4++mLz5c80yMy8Dz7fFMOCPo/pgqbAc92rlSXAHxIl55iRpw+gqw6jA\n6YB0P9vGFe8dGTQmamnGNu5jtRDWaNeGOYmBGON0gXsp+I2dGjNmMOwDYOWDR+CF\nKSqyikS+LFrvXXvmqVfBPAqV0bWCCytkAEE4ddGtyhW03VMaNS7UlMaNWTVkSsxb\nEA57dcRZmFsEmz9updR23OfripMmmmas2p0TGgmbuQKBgQDt+yFpmcvYttQm1QD/\nG065hwbcvoBwV+eBHV0lSRnRLeQ4OIC9WfLW/CI4Foe68OygVhh5DSGmdBvZIraJ\n2ooYTmOSxULGJZ8D/wUnLWjOymljG9EKjiLOt8+Eiv3LVginjb6B9QSNCQ8vxwD5\nS01yPu/hfARuoh9JWRT5MBrbFQKBgQDlVqRga58IZy0jAMyUwTIUN
-            wcuq8HbUHRs\nWyMTkKTIRAFPpg99uXaNUSrniJZAToGOYfFaMDuk3yYBjMxViyllRqrP+FKwyeGT\n//sSNaJXxccEd5h2sBzyicSuXOmcydPHZLkc1QQ+ZczDrZE9AM0i1ycBvDrBTNA3\nr6zLAX5tpQKBgQCGJxsevGP9NpNBkLGPHYWzcDqeFYWxztviHPt1GVBEaupMBw4L\nr7kFF/zyQUEiUM4TVHVXR9/ARZOtQ7RC4b8XFJltE2Yg7PRG/GubOi3q5I+kHvoo\nSRe2EEgbH38SMN2QFodeGxEFsCWveS9DWP+/d1sicRbOhvW8E0uPbV62QQKBgC2M\nP6lGtpccpsJE7ly84g1RwINsaVv9ZqH+l8DTAWck2n3PJVR6+Sin7jV90xmCfgih\nOyYGXlIoX4v/QrXapaYPmu0jDIlADyUtuder/0ofZZ9lgUpRP+6LnhxjJ6KUExOO\n1ZT8WZNq9HgIiMfs2NEKmhymHaU2dEQbB95ptYphAoGAIyt1PWeDS0itBpdiU/Ex\nlFBJJThpFpgPeniEeLPHYwxmSyxZA+YGlaDL3FUKFFzXd6dXzVSXEYWCzCxXdCaD\nlIWsg9FEDR10izL7tWFMRrh4xI+LerkRwDh9tvCdA9qCasuhYKhlrXqNZdfEth5p\nObe4WbY0++PGApnSltuiTNc=\n-----END PRIVATE KEY-----\n\\",
-            'aud' => 'https://www.googleapis.com/oauth2/v4/token',
-            'exp' => time() + 3600,
-            "scope" => "https://www.googleapis.com/auth/firebase.messaging", // Expiration time (1 hour from now)
-            "iat" =>  time()
-        ];
-
-        // Create the JWT
-        $jwt = JWT::encode($googleConfig, $googleConfig['private_key'], 'RS256');
-
-        return $jwt;
-    }
-
-    function contains($needle, $haystack)
-    {
-        return strpos($haystack, $needle) !== false;
-    }
-    public function sendCaseNotification($token, $title, $body)
-    {
-
-        $fcmsendUrl = 'https://fcm.googleapis.com/v1/projects/sigma-f8312/messages:send';
-        $notificationMessage = [
-            "message" => [
-                "token" => $token,
-                "notification" => [
-                    "title" => $title ?? "N/A",
-                    "body" => $body ?? "N/A",
-
-                ],
-                "data" => [
-                    "title" => $title ?? "N/A",
-                    "body" => $body ?? "N/A",
-                    "click_action" => "openCompletedCases",
-
-                ],
-                "apns" => [
-                    "payload" => [
-                        "aps" => [
-                            "sound" => "case.wav"
-                        ]
-                    ]
-                ]
-            ]
-        ];
 
 
-        $jsonMessage = json_encode($notificationMessage);
-        $headers = [
-            'Authorization: Bearer ' . $this->generateAccessToken(),
-            'Content-Type: application/json; charset=utf-8',
-        ];
-        $ch = curl_init($fcmsendUrl);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonMessage);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-        $response = curl_exec($ch);
-        if ($response === false) {
-            throw new Exception(curl_error($ch), curl_errno($ch));
-        }
-
-        curl_close($ch);
-
-    }
-
-    public function sendPaymentNotification($token, $title, $body)
-    {
-
-
-        $fcmsendUrl = 'https://fcm.googleapis.com/v1/projects/sigma-f8312/messages:send';
-        //dd($token);
-        // Create the notification message
-        $notificationMessage = [
-            "message" => [
-                "token" => $token,
-                "notification" => [
-                    "title" => $title ?? "N/A",
-                    "body" => $body ?? "N/A",
-                    //"sound" => "default",
-                    // "android_channel_id"=> "123"
-                ],
-                "data" => [
-                    "title" => $title ?? "N/A",
-                    "body" => $body ?? "N/A",
-                    "click_action" => "OpenAccountStatement" // 0 => open app, 1 => open case, 2 => open payment
-                ],
-                "apns" => [
-                    "payload" => [
-                        "aps" => [
-                            "content-available" => 1,
-                            "sound" => "payment.wav"
-                        ]
-                    ]
-                ]
-            ]
-        ];
-
-        $jsonMessage = json_encode($notificationMessage);
-        $headers = [
-            'Authorization: Bearer ' . $this->generateAccessToken(),
-            'Content-Type: application/json; charset=utf-8',
-        ];
-
-
-        $ch = curl_init($fcmsendUrl);
-
-
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonMessage);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-        $response = curl_exec($ch);
-
-        if ($response === false) {
-            throw new Exception(curl_error($ch), curl_errno($ch));
-        }
-        curl_close($ch);
-    }
+//
+//    public function generateAccessToken()
+//    {
+//        $accessTokenLink = 'https://oauth2.googleapis.com/token';
+//
+//
+//        $message = [
+//            "grant_type" => "urn:ietf:params:oauth:grant-type:jwt-bearer",
+//            "assertion" => $this->generateJWT()
+//        ];
+//
+//
+//        $headers = [
+//            'Content-Type: application/x-www-form-urlencoded',
+//        ];
+//
+//        $ch = curl_init($accessTokenLink);
+//
+//        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+//        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($message));
+//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+//        curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+//        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+//        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+//        // Execute cURL session
+//        $response = curl_exec($ch);
+//        if ($response === false) {
+//            throw new Exception(curl_error($ch), curl_errno($ch));
+//        }
+//        $json = json_decode($response, true);
+//        return $json["access_token"];
+//    }
+//    public function generateJWT()
+//    {
+//
+//        $googleConfig = [
+//            'iss' => 'Solentlab@Solent-f8312.iam.gserviceaccount.com',
+//            'private_key' => "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDVMjAPM6z/N0Ni\njHx1cdAMQN2nNjCLnRx5CZIy2mhT709U75EAEmrWrQjtlIVTsOfwBudim+YqDjLw\nrnxTHDjwBNsAogxVmu8fj5Di1z3mjfMlWajeyYGXaT0SVcblM53Lc5MhJxtCJk28\nWcGHmgVT1o0hewNuFf9qgDZyf2vbXbSsmYQVz1Rc/v0PIHd8rHreH5W5AmyTcZhh\nZSk5+MYxl1uEUlAnKZ16csjrT5AV8IyassK3Ru1QSP7loAmxi501QVxwZ9OvBJS8\nadcAL9H3YwFicg9eyetSleOiyfbTw6jH91PZS21jaUkD0oKGEFNQnvJywB81uvcH\nO9FZ7SWJAgMBAAECggEAL5qMu6A8xSHoVHVtBuZaX5oORBtn/Iygwm/+Koe1GuTJ\nEHyLonn6TCQH5dCvcpACQgiwmsaXvpU8D5zOWtpm5kUXR41ndqfpM+FhJx2Lj1Lr\n00+xUsmou4++mLz5c80yMy8Dz7fFMOCPo/pgqbAc92rlSXAHxIl55iRpw+gqw6jA\n6YB0P9vGFe8dGTQmamnGNu5jtRDWaNeGOYmBGON0gXsp+I2dGjNmMOwDYOWDR+CF\nKSqyikS+LFrvXXvmqVfBPAqV0bWCCytkAEE4ddGtyhW03VMaNS7UlMaNWTVkSsxb\nEA57dcRZmFsEmz9updR23OfripMmmmas2p0TGgmbuQKBgQDt+yFpmcvYttQm1QD/\nG065hwbcvoBwV+eBHV0lSRnRLeQ4OIC9WfLW/CI4Foe68OygVhh5DSGmdBvZIraJ\n2ooYTmOSxULGJZ8D/wUnLWjOymljG9EKjiLOt8+Eiv3LVginjb6B9QSNCQ8vxwD5\nS01yPu/hfARuoh9JWRT5MBrbFQKBgQDlVqRga58IZy0jAMyUwTIUN
+//            wcuq8HbUHRs\nWyMTkKTIRAFPpg99uXaNUSrniJZAToGOYfFaMDuk3yYBjMxViyllRqrP+FKwyeGT\n//sSNaJXxccEd5h2sBzyicSuXOmcydPHZLkc1QQ+ZczDrZE9AM0i1ycBvDrBTNA3\nr6zLAX5tpQKBgQCGJxsevGP9NpNBkLGPHYWzcDqeFYWxztviHPt1GVBEaupMBw4L\nr7kFF/zyQUEiUM4TVHVXR9/ARZOtQ7RC4b8XFJltE2Yg7PRG/GubOi3q5I+kHvoo\nSRe2EEgbH38SMN2QFodeGxEFsCWveS9DWP+/d1sicRbOhvW8E0uPbV62QQKBgC2M\nP6lGtpccpsJE7ly84g1RwINsaVv9ZqH+l8DTAWck2n3PJVR6+Sin7jV90xmCfgih\nOyYGXlIoX4v/QrXapaYPmu0jDIlADyUtuder/0ofZZ9lgUpRP+6LnhxjJ6KUExOO\n1ZT8WZNq9HgIiMfs2NEKmhymHaU2dEQbB95ptYphAoGAIyt1PWeDS0itBpdiU/Ex\nlFBJJThpFpgPeniEeLPHYwxmSyxZA+YGlaDL3FUKFFzXd6dXzVSXEYWCzCxXdCaD\nlIWsg9FEDR10izL7tWFMRrh4xI+LerkRwDh9tvCdA9qCasuhYKhlrXqNZdfEth5p\nObe4WbY0++PGApnSltuiTNc=\n-----END PRIVATE KEY-----\n\\",
+//            'aud' => 'https://www.googleapis.com/oauth2/v4/token',
+//            'exp' => time() + 3600,
+//            "scope" => "https://www.googleapis.com/auth/firebase.messaging", // Expiration time (1 hour from now)
+//            "iat" =>  time()
+//        ];
+//
+//        // Create the JWT
+//        $jwt = JWT::encode($googleConfig, $googleConfig['private_key'], 'RS256');
+//
+//        return $jwt;
+//    }
+//
+//    function contains($needle, $haystack)
+//    {
+//        return strpos($haystack, $needle) !== false;
+//    }
+//    public function sendCaseNotification($token, $title, $body)
+//    {
+//
+//        $fcmsendUrl = 'https://fcm.googleapis.com/v1/projects/Solent-f8312/messages:send';
+//        $notificationMessage = [
+//            "message" => [
+//                "token" => $token,
+//                "notification" => [
+//                    "title" => $title ?? "N/A",
+//                    "body" => $body ?? "N/A",
+//
+//                ],
+//                "data" => [
+//                    "title" => $title ?? "N/A",
+//                    "body" => $body ?? "N/A",
+//                    "click_action" => "openCompletedCases",
+//
+//                ],
+//                "apns" => [
+//                    "payload" => [
+//                        "aps" => [
+//                            "sound" => "case.wav"
+//                        ]
+//                    ]
+//                ]
+//            ]
+//        ];
+//
+//
+//        $jsonMessage = json_encode($notificationMessage);
+//        $headers = [
+//            'Authorization: Bearer ' . $this->generateAccessToken(),
+//            'Content-Type: application/json; charset=utf-8',
+//        ];
+//        $ch = curl_init($fcmsendUrl);
+//        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+//        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonMessage);
+//        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+//        curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+//        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+//        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+//        $response = curl_exec($ch);
+//        if ($response === false) {
+//            throw new Exception(curl_error($ch), curl_errno($ch));
+//        }
+//
+//        curl_close($ch);
+//
+//    }
+//
+//    public function sendPaymentNotification($token, $title, $body)
+//    {
+//
+//    }
 
 
 }

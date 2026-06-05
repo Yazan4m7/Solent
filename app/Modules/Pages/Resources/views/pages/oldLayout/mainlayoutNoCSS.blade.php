@@ -20,7 +20,7 @@
 
             <!--end Right Slidebar-->
             <!-- <footer class="footer">
-                 2021 &copy; Albasma LAB.
+                 2021 &copy; alsolent LAB.
              </footer>-->
             <!--footer section end-->
         </div><!--end container-->

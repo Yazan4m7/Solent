@@ -60,7 +60,6 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Name</th>
-                                <th>Phone</th>
 
                                 </tr>
                             </thead>
@@ -69,7 +68,6 @@
                                 <tr id="{{$user->id}}"  class="odd clickable"  data-toggle="modal" data-target="#actionsDialog{{$user->id}}">
                                     <td><span class="tabledit-span tabledit-identifier">{{$user->id}}</span><input class="tabledit-input tabledit-identifier" type="hidden" name="id" value="1" disabled=""></td>
                                     <td class="tabledit-view-mode"><span class="tabledit-span">{{$user->first_name . ' ' . $user->last_name}}</span><input class="tabledit-input form-control input-sm" type="text" name="col1" value="John" style="display: none;" disabled=""></td>
-                                    <td class="tabledit-view-mode"><span class="tabledit-span">{{$user->phone}}</span><input class="tabledit-input form-control input-sm" type="text" name="col1" value="Doe" style="display: none;" disabled=""></td>
 
                                </tr>
                                 <div class="modal fade" tabindex="-1" role="dialog" id="actionsDialog{{$user->id}}">
@@ -152,7 +150,6 @@
         </div>
     </div>
 @endsection
-
 
 
 

@@ -14,7 +14,7 @@ return [
         'name' => env('APP_NAME', 'Solent'),
         'logo_path' => env('BRANDING_LOGO', 'images/brands/solent/solent_v.svg'),
         'mark_path' => env('BRANDING_MARK', 'images/brands/solent/solent_h.svg'),
-        'favicon_path' => env('BRANDING_FAVICON', 'images/brands/solent/solent_icon.svg'),
+        'favicon_path' => env('BRANDING_FAVICON', 'images/brands/solent/solent_icon_white.svg'),
         // Palette stays aligned with the existing system colors
         'primary_color' => env('BRANDING_PRIMARY', '#c89b3c'),
         'secondary_color' => env('BRANDING_SECONDARY', '#e6c77a'),

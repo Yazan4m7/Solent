@@ -1,8 +1,10 @@
 @extends('layouts.app' ,[ 'pageSlug' =>'Payments List'])
 
 @section('content')
-        @php($currencyLabel = (string) ($currencyContext['display'] ?? $currencyContext['code'] ?? 'JOD'))
-        @php($paymentsTotal = (float) ($paymentsTotal ?? collect($payments ?? [])->sum('amount')))
+        @php
+            $currencyLabel = (string) ($currencyContext['display'] ?? $currencyContext['code'] ?? 'JOD');
+            $paymentsTotal = (float) ($paymentsTotal ?? collect($payments ?? [])->sum('amount'));
+        @endphp
 
 
 

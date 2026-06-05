@@ -5,28 +5,28 @@
     'stageId'
 ])
 
-<div class="Albasma-workflow-modal waiting-dialog" id="3dprinting-waiting" tabindex="-1" role="dialog">
-    <div class="Albasma-workflow-dialog">
+<div class="alsolent-workflow-modal waiting-dialog" id="3dprinting-waiting" tabindex="-1" role="dialog">
+    <div class="alsolent-workflow-dialog">
         <!-- Header with close button -->
-        <div class="Albasma-workflow-header">
-            <h2 class="Albasma-workflow-title waiting">{{ $title }}</h2>
-            <button class="Albasma-close-button" onclick="closeModal({id: '3dprinting', isWaiting:true})">
+        <div class="alsolent-workflow-header">
+            <h2 class="alsolent-workflow-title waiting">{{ $title }}</h2>
+            <button class="alsolent-close-button" onclick="closeModal({id: '3dprinting', isWaiting:true})">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
 
         <!-- Machine selection grid -->
-        <div class="Albasma-workflow-body">
-            <div class="Albasma-machines-grid">
+        <div class="alsolent-workflow-body">
+            <div class="alsolent-machines-grid">
                 @if(isset($devices) && $devices->count() > 0)
                     @foreach($devices->where('type', $stageId) as $device)
-                        <div class="Albasma-machine-card 3dprinting"
+                        <div class="alsolent-machine-card 3dprinting"
                              onclick="selectMachine(this, '3dprinting', {{ $device['id'] }})">
-                            <div class="Albasma-machine-image-container">
+                            <div class="alsolent-machine-image-container">
                                 <img src="{{ asset(isset($device['img']) ? $device['img'] : 'images/default-device.png') }}"
-                                     alt="{{ isset($device['name']) ? $device['name'] : 'Device' }}" class="Albasma-machine-image">
+                                     alt="{{ isset($device['name']) ? $device['name'] : 'Device' }}" class="alsolent-machine-image">
                             </div>
-                            <div class="Albasma-machine-name">{{ isset($device['name']) ? $device['name'] : 'Unknown Device' }}</div>
+                            <div class="alsolent-machine-name">{{ isset($device['name']) ? $device['name'] : 'Unknown Device' }}</div>
                         </div>
                     @endforeach
                 @else
@@ -35,11 +35,11 @@
             </div>
 
             <!-- Build name input (only for 3D printing) -->
-            <div class="Albasma-form-group">
-                <label for="Albasma-build-name-3dprinting">Build Name</label>
+            <div class="alsolent-form-group">
+                <label for="alsolent-build-name-3dprinting">Build Name</label>
                 <input type="text"
-                       id="Albasma-build-name-3dprinting"
-                       class="Albasma-form-control   {{$stageConfig['3dprinting']['multiple-waiting']?'multiple-choice' :'single-choice' }}"
+                       id="alsolent-build-name-3dprinting"
+                       class="alsolent-form-control   {{$stageConfig['3dprinting']['multiple-waiting']?'multiple-choice' :'single-choice' }}"
                        placeholder="Enter Build name"
 
                        oninput="validateAndSetBuildName('3dprinting')">
@@ -49,10 +49,10 @@
         </div>
 
         <!-- Action button -->
-        <div class="Albasma-workflow-footer">
+        <div class="alsolent-workflow-footer">
             <button type="button"
-                    class="Albasma-button 3dprinting"
-                    id="Albasma-action-button-3dprinting" style = "background-color: var(--main-orange)"
+                    class="alsolent-button 3dprinting"
+                    id="alsolent-action-button-3dprinting" style = "background-color: var(--main-orange)"
                     disabled
                     onclick="submitWorkflow('3dprinting')">
                 SET

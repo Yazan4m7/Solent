@@ -1,4 +1,4 @@
-@extends('oldLayout.mainlayout_blank')
+@extends('layout.mainlayout_blank')
 
 @section('title')
 

@@ -157,10 +157,10 @@ php artisan tenants:create
 
 Supported options:
 
-- `--slug=al-basma`
-- `--name="Al Basma Dental Lab"`
-- `--domain=albasma.example.test`
-- `--database=tenant_al_basma`
+- `--slug=al-solent`
+- `--name="Solent Dental Lab"`
+- `--domain=alsolent.example.test`
+- `--database=tenant_al_Solent`
 - `--country-code=JO`
 - `--country-name=Jordan`
 - `--currency-code=JOD`
@@ -213,13 +213,13 @@ Localhost keeps the current local bypass so existing development remains usable.
 For tenant testing, support an explicit local override such as:
 
 ```http
-X-Tenant-Domain: albasma.example.test
+X-Tenant-Domain: alsolent.example.test
 ```
 
 or a query parameter enabled only in local/testing:
 
 ```http
-?tenant_domain=albasma.example.test
+?tenant_domain=alsolent.example.test
 ```
 
 The override resolves through the landlord database and switches to the matching tenant database.

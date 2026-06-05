@@ -15,7 +15,7 @@
 <link href="{{asset('assets/css/fontawesome-iconpicker.css')}}" rel="stylesheet">
 
 <!-- Theme icon -->
-<link rel="shortcut icon" href="{{ asset($brandingFaviconPath ?? config('branding.defaults.favicon_path')) }}">
+<link rel="shortcut icon" href="{{ asset($brandingFaviconPath ?? config('branding.defaults.favicon_path')) }}?v=20260603-favwhite1">
 <link href="{{asset('assets/css/jquery.datetimepicker.min.css')}}" rel="stylesheet">
 <link rel="stylesheet" href="{{asset('assets/css/sweetalert2.min.css')}}">
 <!-- Theme Css -->

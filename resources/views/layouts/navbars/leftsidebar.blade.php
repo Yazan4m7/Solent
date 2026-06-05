@@ -1,6 +1,4 @@
 <div class="sidebar">
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,200,1,0" />
     <style>
         .sidebar {
             position: fixed !important;
@@ -34,6 +32,7 @@
             padding: 0 24px;
             display: flex;
             align-items: center;
+            justify-content: center;
             background: #ffffff !important;
             border-bottom: 1px solid #e2e8f0;
         }
@@ -41,8 +40,9 @@
         .korvion-sidebar-logo {
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             max-width: 100%;
-            margin: 0;
+            margin: 0 auto;
             text-decoration: none !important;
         }
 
@@ -50,7 +50,7 @@
             display: block;
             width: min(172px, 100%);
             height: auto;
-            max-height: 34px;
+            max-height: 50px;
             object-fit: contain;
         }
 
@@ -63,6 +63,15 @@
             align-items: center !important;
             justify-content: center !important;
             font-size: 20px !important;
+        }
+
+        .sidebar .nav li svg.solent-sidebar-icon {
+            fill: none;
+            height: 22px !important;
+            stroke: currentColor;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-width: 1.8;
         }
 
         .sidebar .nav li > a {
@@ -86,8 +95,7 @@
 
         .sidebar .nav li > a,
         .sidebar .nav li > a i,
-        .sidebar .nav li > a svg,
-        .sidebar .nav li > a .material-symbols-outlined {
+        .sidebar .nav li > a svg {
             color: #1f2a3d !important;
         }
 
@@ -100,6 +108,25 @@
 
         .sidebar hr {
             border-color: #e2e8f0 !important;
+        }
+
+        @media screen and (max-width: 991px) {
+            .sidebar {
+                z-index: 1031 !important;
+                transform: translate3d(-260px, 0, 0) !important;
+                transition: transform 0.35s ease !important;
+            }
+
+            .nav-open .sidebar {
+                transform: translate3d(0, 0, 0) !important;
+                box-shadow: 0 10px 35px rgba(15, 23, 42, 0.18) !important;
+            }
+
+            .sidebar .sidebar-wrapper {
+                height: calc(100vh - 84px) !important;
+                overflow-y: auto !important;
+                -webkit-overflow-scrolling: touch;
+            }
         }
     </style>
     @php
@@ -119,7 +146,7 @@
             @if (($permissions && $permissions->contains('permission_id', 123)) || Auth()->user()->is_admin)
                 <li class="{{ Route::currentRouteName() == 'home' ? 'active' : '' }}">
                     <a href="{{ route('home') }}">
-                        <i class="fa-solid fa-house"></i>
+                        @include('layouts.navbars.partials.sidebar-icon', ['name' => 'home'])
                         <span>Home</span>
                     </a>
                 </li>
@@ -130,9 +157,7 @@
 
                     <li class="{{ Route::currentRouteName() == 'admin-dashboard-v2' ? 'active' : '' }}">
                         <a href="{{ route('admin-dashboard-v2') }}" style=" margin-right: 0px;">
-                            <span class="material-symbols-outlined googleIconInSideBar">
-                                dashboard
-                            </span>
+                            @include('layouts.navbars.partials.sidebar-icon', ['name' => 'dashboard'])
                             <span>OPERATIONS DASHBOARD</span>
                         </a>
 
@@ -146,7 +171,7 @@
             @endif
             @if (($permissions && $permissions->contains('permission_id', 100)) || Auth()->user()->is_admin)
                 <li class="{{ Route::currentRouteName() == 'new-case-view' ? 'active' : '' }}">
-                    <a href="{{ route('new-case-view') }}"><i class="fa fa-plus-square"></i> <span>Create
+                    <a href="{{ route('new-case-view') }}">@include('layouts.navbars.partials.sidebar-icon', ['name' => 'plus-square']) <span>Create
                             Case</span></a>
                 </li>
             @endif
@@ -155,7 +180,7 @@
 
             @if (($permissions && $permissions->contains('permission_id', 103)) || Auth()->user()->is_admin)
                 <li class="{{ Route::currentRouteName() == 'cases-index' ? 'active' : '' }}">
-                    <a href="{{ route('cases-index') }}"><i class="fa fa-suitcase"></i> <span>Case List</span></a>
+                    <a href="{{ route('cases-index') }}">@include('layouts.navbars.partials.sidebar-icon', ['name' => 'case']) <span>Case List</span></a>
                 </li>
             @endif
 
@@ -167,14 +192,13 @@
 
             @if (($permissions && $permissions->contains('permission_id', 113)) || Auth()->user()->is_admin)
                 <li class="{{ Route::currentRouteName() == 'view-cases-monitor' ? 'active' : '' }}"><a
-                        href="{{ route('view-cases-monitor') }}" style="opacity:100%"><i
-                            class="fa-solid fa-table-cells-large" style="opacity:100%"></i><span>Real-time
+                        href="{{ route('view-cases-monitor') }}" style="opacity:100%">@include('layouts.navbars.partials.sidebar-icon', ['name' => 'monitor'])<span>Real-time
                             Monitor</span></a></li>
             @endif
             {{-- --}}
             @if (($permissions && $permissions->contains('permission_id', 109)) || Auth()->user()->is_admin)
                 <li class="{{ Route::currentRouteName() == 'delivery-schedule' ? 'active' : '' }}"><a
-                        href="{{ route('delivery-schedule') }}"> <i class="fa-regular fa-clock"></i>
+                        href="{{ route('delivery-schedule') }}"> @include('layouts.navbars.partials.sidebar-icon', ['name' => 'clock'])
                         <span>Deliveries</span></a>
             @endif
             {{-- COMMENTED OUT: Delivery Monitor Menu Item --}}
@@ -187,7 +211,7 @@
                 @endif --}}
             @if (($permissions && $permissions->contains('permission_id', 107)) || Auth()->user()->is_admin)
                 <li class="{{ Route::currentRouteName() == 'clients-index' ? 'active' : '' }}"><a
-                        href="{{ route('clients-index') }}"><i class="fa fa-user-md"></i> <span>Clients</span></a>
+                        href="{{ route('clients-index') }}">@include('layouts.navbars.partials.sidebar-icon', ['name' => 'users']) <span>Clients</span></a>
             @endif
             {{-- COMMENTED OUT: My Collections Menu Item --}}
             {{-- @if (($permissions && $permissions->contains('permission_id', 111)) || Auth()->user()->is_admin)
@@ -216,7 +240,7 @@
 
                 <li>
                     <a data-toggle="collapse" href="#laravel-examples" aria-expanded="{{ $reportsExpanded }}">
-                        <i class="fa-solid fa-chart-pie"></i>
+                        @include('layouts.navbars.partials.sidebar-icon', ['name' => 'chart'])
                         <span class="nav-link-text">Insights & Reports</span>
                         <b class="caret mt-1"></b>
                     </a>
@@ -225,31 +249,31 @@
                         <ul class="nav pl-4">
                             <li class="{{ Route::currentRouteName() == 'num-of-units-report' ? 'active' : '' }}">
                                 <a href="{{ route('num-of-units-report') }}">
-                                    <i class="fa-solid fa-layer-group"></i>
+                                    @include('layouts.navbars.partials.sidebar-icon', ['name' => 'layers'])
                                     <span>Units Summary</span>
                                 </a>
                             </li>
                             <li class="{{ Route::currentRouteName() == 'job-types-report' ? 'active' : '' }}">
                                 <a href="{{ route('job-types-report') }}">
-                                    <i class="fa-solid fa-sitemap"></i>
+                                    @include('layouts.navbars.partials.sidebar-icon', ['name' => 'flow'])
                                     <span>Job Mix</span>
                                 </a>
                             </li>
                             <li class="{{ Route::currentRouteName() == 'QC-report' ? 'active' : '' }}">
                                 <a href="{{ route('QC-report') }}">
-                                    <i class="fa-solid fa-clipboard-check"></i>
+                                    @include('layouts.navbars.partials.sidebar-icon', ['name' => 'check'])
                                     <span>QC Summary</span>
                                 </a>
                             </li>
                             <li class="{{ Route::currentRouteName() == 'repeats-report' ? 'active' : '' }}">
                                 <a href="{{ route('repeats-report') }}">
-                                    <i class="fa-solid fa-rotate-right"></i>
+                                    @include('layouts.navbars.partials.sidebar-icon', ['name' => 'refresh'])
                                     <span>Remakes</span>
                                 </a>
                             </li>
                             <li class="{{ Route::currentRouteName() == 'materials-report' ? 'active' : '' }}">
                                 <a href="{{ route('materials-report') }}">
-                                    <i class="fa-solid fa-flask"></i>
+                                    @include('layouts.navbars.partials.sidebar-icon', ['name' => 'flask'])
                                     <span>Materials Usage</span>
                                 </a>
                             </li>
@@ -274,7 +298,7 @@
                 @endphp
                 <li>
                     <a data-toggle="collapse" href="#accountancyList" aria-expanded="{{ $accountancyExpanded }}">
-                        <i class="fa-solid fa-dollar-sign"></i> <span class="nav-link-text">Billing</span>
+                        @include('layouts.navbars.partials.sidebar-icon', ['name' => 'billing']) <span class="nav-link-text">Billing</span>
                         <b class="caret mt-1"></b>
                     </a>
                     <div class="collapse {{ $accountancyExpanded == 'true' ? 'show' : '' }}" id="accountancyList">
@@ -293,12 +317,11 @@
 {{--                            @endif--}}
                             @if (($permissions && $permissions->contains('permission_id', 104)) || Auth()->user()->is_admin)
                                 <li class="{{ Route::currentRouteName() == 'invoices-index' ? 'active' : '' }}">
-                                    <a href="{{ route('invoices-index') }}"><i
-                                            class="fa-solid fa-file-invoice-dollar"></i> <span>Invoice List</span></a>
+                                    <a href="{{ route('invoices-index') }}">@include('layouts.navbars.partials.sidebar-icon', ['name' => 'invoice']) <span>Invoice List</span></a>
                             @endif
                             @if (($permissions && $permissions->contains('permission_id', 121)) || Auth()->user()->is_admin)
                                 <li class="{{ Route::currentRouteName() == 'payments-index' ? 'active' : '' }}"><a
-                                        href="{{ route('payments-index') }}"><i class="fa fa-credit-card"></i>
+                                        href="{{ route('payments-index') }}">@include('layouts.navbars.partials.sidebar-icon', ['name' => 'billing'])
                                         <span>Payments</span></a>
                             @endif
                         </ul>
@@ -326,7 +349,7 @@
 
                 <li>
                     <a data-toggle="collapse" href="#configList" aria-expanded="{{ $configExpanded }}">
-                        <i class="fa-solid fa-gear"></i>
+                        @include('layouts.navbars.partials.sidebar-icon', ['name' => 'settings'])
                         <span class="nav-link-text">Settings</span>
                         <b class="caret mt-1"></b>
                     </a>
@@ -335,26 +358,24 @@
                         <ul class="nav pl-4">
 
                             <li class="{{ Route::currentRouteName() == 'material-index' ? 'active' : '' }}"><a
-                                    href="{{ route('material-index') }}"><i class="fa fa-cubes"></i>
+                                    href="{{ route('material-index') }}">@include('layouts.navbars.partials.sidebar-icon', ['name' => 'boxes'])
                                     <span>Material list</span></a>
                             <li class="{{ Route::currentRouteName() == 'job-type-index' ? 'active' : '' }}"><a
-                                    href="{{ route('job-type-index') }}"><i class="fa fa-object-group"
-                                        aria-hidden="true"></i> <span>Job types list</span></a>
+                                    href="{{ route('job-type-index') }}">@include('layouts.navbars.partials.sidebar-icon', ['name' => 'flow']) <span>Job types list</span></a>
                             <li class="{{ Route::currentRouteName() == 'users-index' ? 'active' : '' }}"><a
-                                    href="{{ route('users-index') }}"><i class="fa fa-users"></i>
+                                    href="{{ route('users-index') }}">@include('layouts.navbars.partials.sidebar-icon', ['name' => 'users'])
                                     <span>Team Members</span></a>
                                 {{-- COMMENTED OUT: External Labs Menu Item --}}
                                 {{-- <li class="{{Route::currentRouteName() == 'labs-index' ? 'active' : ''}}"><a href="{{route('labs-index')}}"><i class="fa fa-building"></i> <span>External Labs</span></a> --}}
                             <li class="{{ Route::currentRouteName() == 'implants-index' ? 'active' : '' }}"><a
-                                    href="{{ route('implants-index') }}"><i class="fa-solid fa-tooth"></i>
+                                    href="{{ route('implants-index') }}">@include('layouts.navbars.partials.sidebar-icon', ['name' => 'tooth'])
                                     <span>Implant list</span></a>
                                 {{-- COMMENTED OUT: Abutments Menu Item --}}
                                 {{-- <li class="{{Route::currentRouteName() == 'abutments-index' ? 'active' : ''}}"><a href="{{route('abutments-index')}}"><i class="fa-brands fa-connectdevelop"></i><span>Abutments</span></a> --}}
                             <li class="{{ Route::currentRouteName() == 'tags-index' ? 'active' : '' }}"><a
-                                    href="{{ route('tags-index') }}"><i class="fa fa-tag"></i><span>Tags</span></a>
+                                    href="{{ route('tags-index') }}">@include('layouts.navbars.partials.sidebar-icon', ['name' => 'tag'])<span>Tags</span></a>
                             <li class="{{ Route::currentRouteName() == 'f-causes-index' ? 'active' : '' }}"><a
-                                    href="{{ route('f-causes-index') }}"><i
-                                        class="fa-solid fa-repeat"></i><span>Failure Reasons</span></a>
+                                    href="{{ route('f-causes-index') }}">@include('layouts.navbars.partials.sidebar-icon', ['name' => 'refresh'])<span>Failure Reasons</span></a>
                                 {{-- <li class="{{Route::currentRouteName() == 'sys-config' ? 'active' : ''}}"><a href="{{route('sys-config')}}"><i class="fa-solid fa-screwdriver-wrench"></i><span>System Settings</span></a> --}}
 
                         </ul>

@@ -1,0 +1,107 @@
+[
+  {
+    "fact": "smoke is fine",
+    "weight": 0.8574,
+    "ts": 1779371793
+  },
+  {
+    "fact": "The chat partner is interested in the conversational partner's personality.",
+    "weight": 0.8,
+    "ts": 1779375213
+  },
+  {
+    "fact": "Dandy is in a good mood",
+    "weight": 0.7738,
+    "ts": 1779371484
+  },
+  {
+    "fact": "lover is likely a regular user",
+    "weight": 0.76,
+    "ts": 1779374979
+  },
+  {
+    "fact": "Dandy is in a good mood",
+    "weight": 0.6516,
+    "ts": 1779371789
+  },
+  {
+    "fact": "This place appears not to be reborn.",
+    "weight": 0.6302,
+    "ts": 1779370488
+  },
+  {
+    "fact": "the given link likely contains illicit information",
+    "weight": 0.5134,
+    "ts": 1779320688
+  },
+  {
+    "fact": "Hidden sites accessed through onion links are available for certain browsers.",
+    "weight": 0.5118,
+    "ts": 1779321349
+  },
+  {
+    "fact": "A user, kiyt, expressed signs of boredom.",
+    "weight": 0.4889,
+    "ts": 1779370616
+  },
+  {
+    "fact": "This chat place does not seem to be active.",
+    "weight": 0.4645,
+    "ts": 1779370490
+  },
+  {
+    "fact": "the previous user left the chat",
+    "weight": 0.4633,
+    "ts": 1779315631
+  },
+  {
+    "fact": "Dandy doing ok",
+    "weight": 0.4512,
+    "ts": 1779371859
+  },
+  {
+    "fact": "Tor hidden services listed",
+    "weight": 0.4322,
+    "ts": 1779321342
+  },
+  {
+    "fact": "Link is a hidden Tor website",
+    "weight": 0.3901,
+    "ts": 1779320688
+  },
+  {
+    "fact": "sneaky links is an onion site for child.por.n links",
+    "weight": 0.3773,
+    "ts": 1779312246
+  },
+  {
+    "fact": "Jorhha may be unfamiliar with a certain topic",
+    "weight": 0.3592,
+    "ts": 1779361651
+  },
+  {
+    "fact": "Links are allowed here",
+    "weight": 0.3584,
+    "ts": 1779310951
+  },
+  {
+    "fact": "Onion sites host .cp links",
+    "weight": 0.3065,
+    "ts": 1779310887
+  },
+  {
+    "fact": "You are looking for something.",
+    "weight": 0.2927,
+    "ts": 1779312304
+  },
+  {
+    "fact": "links are allowed here",
+    "weight": 0.2773,
+    "ts": 1779310542
+  },
+  {
+    "fact": "Sneaky links are sometimes onion sites for CP links.",
+    "weight": 0.2265,
+    "ts": 1779310811
+  }
+]

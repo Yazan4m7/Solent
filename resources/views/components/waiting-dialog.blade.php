@@ -17,27 +17,27 @@
 
 
 
-<div class="Albasma-workflow-modal waiting-dialog" id="{{ $type }}-waiting" tabindex="-1" role="dialog">
-    <div class="Albasma-workflow-dialog">
+<div class="alsolent-workflow-modal waiting-dialog" id="{{ $type }}-waiting" tabindex="-1" role="dialog">
+    <div class="alsolent-workflow-dialog">
         <!-- Header with close button -->
-        <div class="Albasma-workflow-header">
-            <h2 class="Albasma-workflow-title">{{ $title }}</h2>
-            <button class="Albasma-close-button" onclick="closeModal({id: '{{ $type }}', isWaiting:true})">
+        <div class="alsolent-workflow-header">
+            <h2 class="alsolent-workflow-title">{{ $title }}</h2>
+            <button class="alsolent-close-button" onclick="closeModal({id: '{{ $type }}', isWaiting:true})">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
 
 
         <!-- Machine selection grid -->
-        <div class="Albasma-workflow-body">
-            <div class="Albasma-machines-grid">
+        <div class="alsolent-workflow-body">
+            <div class="alsolent-machines-grid">
                 @foreach($devices->where('type', $stageId) as $device)
-                    <div class="Albasma-machine-card {{ $type }}"
+                    <div class="alsolent-machine-card {{ $type }}"
                          onclick="selectMachine(this, '{{ $type }}', {{ $device['id'] }})">
-                        <div class="Albasma-machine-image-container">
-                            <img src="{{ asset($device['img']) }}" alt="{{ $device['name'] }}" class="Albasma-machine-image">
+                        <div class="alsolent-machine-image-container">
+                            <img src="{{ asset($device['img']) }}" alt="{{ $device['name'] }}" class="alsolent-machine-image">
                         </div>
-                        <div class="Albasma-machine-name">{{ $device['name'] }}</div>
+                        <div class="alsolent-machine-name">{{ $device['name'] }}</div>
                     </div>
                 @endforeach
             </div>
@@ -48,11 +48,11 @@
             <!-- Build name input) -->
 
 @if($type != "sintering")
-                <div class="Albasma-form-group">
+                <div class="alsolent-form-group">
 
                 <input type="text"
-                           id="Albasma-build-name-{{ $type }}"
-                           class="Albasma-form-control  {{$stageConfig[$type]['multiple-waiting']?'multiple-choice' :'single-choice' }} "
+                           id="alsolent-build-name-{{ $type }}"
+                           class="alsolent-form-control  {{$stageConfig[$type]['multiple-waiting']?'multiple-choice' :'single-choice' }} "
                            placeholder="Enter {{$buildFieldName[$type] ?? 'Build'}} name"
                            oninput="validateAndSetBuildName('{{ $type }}')">
 
@@ -60,8 +60,8 @@
 
             @else
                 <input type="hidden"
-                       id="Albasma-build-name-{{ $type }}"
-                       class="Albasma-form-control"
+                       id="alsolent-build-name-{{ $type }}"
+                       class="alsolent-form-control"
                        placeholder="Enter {{$buildFieldName[$type] ?? 'Build'}} name"
                        oninput="validateAndSetBuildName('{{ $type }}')">
     @endif
@@ -70,10 +70,10 @@
 
 
         <!-- Action button -->
-        <div class="Albasma-workflow-footer">
+        <div class="alsolent-workflow-footer">
             <button type="button"
-                    class="Albasma-button  {{ $escapedType }}"
-                    id="Albasma-action-button-{{ $escapedType }}" style = "background-color: var({{$type != "sintering" ? '--main-orange' :  '--main-blue'}})"
+                    class="alsolent-button  {{ $escapedType }}"
+                    id="alsolent-action-button-{{ $escapedType }}" style = "background-color: var({{$type != "sintering" ? '--main-orange' :  '--main-blue'}})"
                     disabled
                     onclick="submitWorkflow('{{ $escapedType }}')">
                 {{ $stageSpecs[$type]['btnText'] }}

@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Throwable;
@@ -61,6 +62,9 @@ class Handler extends ExceptionHandler
         try {
             return response()->view('errors.generic', [
                 'statusCode' => $statusCode,
+                'developerMessage' => config('app.debug')
+                    ? Str::limit(trim($e->getMessage()) ?: class_basename($e), 180)
+                    : null,
             ], $statusCode);
         } catch (Throwable $viewException) {
             return response('Something went wrong. Please try again.', $statusCode);

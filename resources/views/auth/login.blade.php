@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     @php($brandLogo = asset('images/brands/solent/solent_h_white.svg'))
-    @php($brandName = $brandingName ?? config('branding.defaults.name'))
+    @php($brandName = $brandingName ?? "Solent")
     @php($loginBgUrl = asset(file_exists(public_path('images/bg1.png')) ? 'images/bg1.png' : 'images/bg1.jpg'))
     @php($context = is_array($domainContext ?? null) ? $domainContext : [])
     @php($countryCode = strtoupper((string) ($context['country_code'] ?? 'NA')))
@@ -12,7 +12,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $brandName }} | Sign in</title>
-    <link rel="icon" href="{{ asset($brandingFaviconPath ?? config('branding.defaults.favicon_path')) }}">
+    <link rel="icon" href="{{ asset($brandingFaviconPath ?? config('branding.defaults.favicon_path')) }}?v=20260603-favwhite1">
     @brandStyles
     <style>
         :root {
@@ -367,17 +367,20 @@
             }
         }
     </style>
-    <link href="{{ asset('assets') }}/css/solent-demo.css?v=20260520" rel="stylesheet">
+    <link href="{{ asset('assets') }}/css/solent-demo.css?v=20260605-glass3" rel="stylesheet">
     <style>
         /* Keep the true Solent mark on login; do not render as a compact icon badge. */
         body.login-page .auth-brand {
             display: flex !important;
-            align-items: center !important;
-            gap: 0 !important;
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            justify-content: center !important;
+            gap: 24px !important;
+            max-width: 360px !important;
         }
 
         body.login-page .auth-brand-logo {
-            width: clamp(220px, 30vw, 320px) !important;
+            width: clamp(260px, 21vw, 340px) !important;
             height: auto !important;
             max-height: none !important;
             padding: 0 !important;
@@ -386,6 +389,13 @@
             background: transparent !important;
             filter: none !important;
             object-fit: contain !important;
+        }
+
+        body.login-page .auth-brand::after {
+            margin-top: 0 !important;
+            max-width: 330px !important;
+            font-size: 16px !important;
+            line-height: 1.55 !important;
         }
 
         body.login-page .auth-brand-name,

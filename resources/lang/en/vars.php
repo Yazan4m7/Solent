@@ -4,6 +4,6 @@
 
 return [
     'welcome' => 'Welcome to our application',
-    'corporate_title' => 'Albasma DENTAL LAB',
+    'corporate_title' => 'alsolent DENTAL LAB',
     'cases_dashboard' => "Operations Dashboard"
 ];

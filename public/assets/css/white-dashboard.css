@@ -13,12 +13,12 @@
 
  */
 
-/*     Albasma Dental Lab - Brand Colors              */
+/*     alsolent Dental Lab - Brand Colors              */
 
-/* Albasma Color Palette */
+/* alsolent Color Palette */
 
 :root {
-    /* Albasma Primary Colors */
+    /* alsolent Primary Colors */
     --air-force-blue: #6A94AF;
     --timber-wolf: #E1D9D5;
     --rich-black: #000C19;
@@ -26,7 +26,7 @@
     --cadet-gray: #9FA5AD;
     --dark-teal: #043c4d;
 
-    /* Legacy color mappings to Albasma palette */
+    /* Legacy color mappings to alsolent palette */
     --blue: #6A94AF;
     --indigo: #1E4157;
     --purple: #6A94AF;

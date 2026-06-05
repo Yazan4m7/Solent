@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="icon" href="{{ asset($brandingFaviconPath ?? config('branding.defaults.favicon_path')) }}">
+    <link rel="icon" href="{{ asset($brandingFaviconPath ?? config('branding.defaults.favicon_path')) }}?v=20260603-favwhite1">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Georgia&display=swap" rel="stylesheet">
@@ -126,8 +126,8 @@
     <!-- Custom CSS -->
     <link href="{{ asset('assets') }}/css/callouts.css" rel="stylesheet" />
     <link href="{{ asset('assets') }}/css/ysh-custom-css/dialog.css" rel="stylesheet" />
-    <link href="{{ asset('assets') }}/css/custom-styling.css" rel="stylesheet" />
-    <link href="{{ asset('assets') }}/css/sidebar-fix.css" rel="stylesheet" />
+    <link href="{{ asset('assets') }}/css/custom-styling.css?v=20260603-mobile1" rel="stylesheet" />
+    <link href="{{ asset('assets') }}/css/sidebar-fix.css?v=20260603-mobile1" rel="stylesheet" />
     <link href="{{ asset('css') }}/georgia-font.css" rel="stylesheet" />
     <link href="{{ asset('css/ysh-custom-css/machine-images.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets') }}/css/brand-overrides.css" rel="stylesheet" />
@@ -137,7 +137,7 @@
     @include('layouts.dynamicStyling')
 
     <!-- Page-specific CSS -->
-    <link href="{{ asset('assets') }}/css/solent-demo.css?v=20260520" rel="stylesheet" />
+    <link href="{{ asset('assets') }}/css/solent-demo.css?v=20260601-light2" rel="stylesheet" />
 
     @stack('css')
 

@@ -7,7 +7,7 @@ Route::get('/testme', function () {
     return view('enc');
 
 });
-Auth::routes();
+Auth::routes(['register' => false]);
 
 Route::get('/new-case', [App\Modules\Cases\Http\Controllers\CaseController::class, 'create'])->name('new-case-view');
 Route::get('/login-attempt', '\App\Http\Controllers\Auth\LoginController@authenticate')->name('login-attempt');

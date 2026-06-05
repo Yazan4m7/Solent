@@ -199,8 +199,9 @@ h5, .h5 {
     color:steelblue;
 }
 .btn-light:not(:disabled):not(.disabled):active:focus{
-    background-color: var(--color-accent-gold, #B3872D) !important;
+    background-color: #33899a !important;
     border-color: var(--color-surface, #D7DAE5) !important;
+    color: white !important;
 }
 /** SIDE BAR HREFS **/
 .off-canvas-sidebar .nav li > a {
@@ -415,8 +416,7 @@ body{/* font-family: 'Rubik', sans-serif; *//* font-family: 'Nunito Sans', sans-
     cursor: alias !important;
 }
 .bootstrap-select>.dropdown-toggle.bs-placeholder{
-    color: #fff !important;
-
+    color: #333333 !important;
 }
 .col-md-12
 {
@@ -459,8 +459,8 @@ blueTBBorder{
     border-color: #2e8f3f;
 }
 .greyBG>.dropdown-toggle.bs-placeholder{
-    background-color: #6c757d;
-    border-color: #5c636a;
+    background-color: #dcdedf;
+    border-color: #858585;
 }
 .row{
     border-radius: 5px;
@@ -538,12 +538,24 @@ blueTBBorder{
 @media screen and (max-width: 991px) {
 
     .main-panel > .content {
-        margin-top: 60px;
-        height: fit-content;
+        margin: 0 8px 24px !important;
+        min-height: auto !important;
+        height: auto !important;
     }
 
     .main-panel .content {
-        margin-left: 8px;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    .main-panel {
+        min-height: auto !important;
+        overflow: visible !important;
+    }
+
+    .wrapper,
+    .content {
+        overflow-x: hidden;
     }
 }
 /****************************************************/

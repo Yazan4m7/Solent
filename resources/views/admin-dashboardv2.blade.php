@@ -19,7 +19,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 
     <link href="{{ asset('assets') }}/css/ysh-custom-css/dialog.css" rel="stylesheet"/>
@@ -43,6 +43,17 @@
         body.white-content {
             background: var(--ops-surface);
             color: var(--ops-text);
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body.white-content button,
+        body.white-content input,
+        body.white-content select,
+        body.white-content textarea,
+        body.white-content table,
+        body.white-content .card,
+        body.white-content .modal {
+            font-family: inherit;
         }
 
         .sidebar,
@@ -279,36 +290,167 @@
     }
 
     .macaw-tabs .stageSidebar {
-        background: rgba(17, 27, 45, 0.72);
-        border: 1px solid var(--Korvex-border);
-        border-radius: 16px;
-        box-shadow: var(--Korvex-glow);
+        display: flex;
+        gap: 12px;
+        align-items: stretch;
+        overflow-x: auto;
         padding: 12px;
+        margin-bottom: 18px;
+        background: rgba(255, 255, 255, 0.58);
+        border: 1px solid rgba(134, 177, 196, 0.42);
+        border-radius: 22px;
+        box-shadow: 0 18px 40px rgba(45, 76, 108, 0.12);
+        backdrop-filter: blur(14px);
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    .macaw-tabs .stageSidebar::-webkit-scrollbar {
+        display: none;
     }
 
     .stageSidebar button {
-        border-radius: 14px !important;
-        background: linear-gradient(120deg, rgba(196,154,60,0.18), rgba(17,27,45,0.8));
-        border: 1px solid var(--Korvex-border);
-        color: var(--Korvex-ink);
-        padding: 12px 10px !important;
-        margin-bottom: 10px;
-        box-shadow: 0 8px 18px rgba(0,0,0,0.25);
-        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        display: flex;
+        flex: 0 0 96px;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        min-height: 128px;
+        padding: 16px 10px !important;
+        margin: 0;
+        border-radius: 18px !important;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(237, 246, 250, 0.96));
+        border: 1px solid #cae0ea;
+        color: #32425a;
+        box-shadow: 0 10px 22px rgba(75, 110, 145, 0.12);
+        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
     }
 
     .stageSidebar button:hover,
     .stageSidebar button[aria-selected="true"] {
         transform: translateY(-2px);
-        border-color: var(--Korvex-gold);
-        box-shadow: var(--Korvex-glow);
-        background: linear-gradient(120deg, rgba(196,154,60,0.3), rgba(17,27,45,0.95));
+        border-color: #9ac9de;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 1), rgba(226, 242, 248, 1));
+        box-shadow: 0 16px 28px rgba(75, 110, 145, 0.18);
+    }
+
+    .stageSidebar__icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 28px;
+        color: #3a4658;
+    }
+
+    .stageSidebar__icon i,
+    .stageSidebar__icon svg {
+        font-size: 22px;
+    }
+
+    .stageSidebar__name {
+        font-size: 17px;
+        font-weight: 700;
+        line-height: 1.15;
+        text-align: center;
+        color: #34445b;
+    }
+
+    .stageSidebar__counts {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
     }
 
     .stageSidebar .badge {
-        background: rgba(226,193,117,0.15);
-        color: var(--Korvex-gold);
-        border: 1px solid rgba(196,154,60,0.4);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 28px;
+        height: 28px;
+        padding: 0 8px;
+        border-radius: 999px;
+        font-size: 14px;
+        font-weight: 700;
+        border: 1px solid transparent;
+        box-shadow: none;
+    }
+
+    .stageSidebar .activeBadge {
+        background: #eaf5ff;
+        color: #2f7fd9;
+        border-color: #bddcff;
+    }
+
+    .stageSidebar .waitingBadge {
+        background: #fff0f0;
+        color: #eb5757;
+        border-color: #ffc7c7;
+    }
+
+    .modal {
+        padding: 16px !important;
+    }
+
+    .modal-dialog {
+        width: 100%;
+        max-width: min(680px, calc(100vw - 32px));
+        margin: auto;
+    }
+
+    .modal-content {
+        border-radius: 24px;
+        overflow: hidden;
+    }
+
+    .modal-header,
+    .modal-body,
+    .modal-footer {
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+
+    .modal-header {
+        padding-top: 22px;
+        padding-bottom: 18px;
+    }
+
+    .modal-body {
+        padding-top: 18px;
+        padding-bottom: 22px;
+    }
+
+    .modal-footer {
+        padding-top: 12px;
+        padding-bottom: 18px;
+    }
+
+    @media (max-width: 575.98px) {
+        .stageSidebar button {
+            flex-basis: 88px;
+            min-height: 120px;
+            padding: 14px 8px !important;
+        }
+
+        .stageSidebar__name {
+            font-size: 15px;
+        }
+
+        .modal {
+            padding: 12px !important;
+        }
+
+        .modal-dialog {
+            max-width: calc(100vw - 24px);
+        }
+
+        .modal-header,
+        .modal-body,
+        .modal-footer {
+            padding-left: 18px;
+            padding-right: 18px;
+        }
     }
 
     .macaw-tabs .macaw-silk-tabs > [role="tablist"] {
@@ -650,15 +792,13 @@
                         $displayKey=  ( $key == "Qc")? "QC" : $displayKey;
                         @endphp
                         <button role="tab" aria-selected="false" aria-controls="{{ $keyId . 'label' }}"
-                                id="{{ $keyId }}" style="" onclick="setOuterTab(this)">
-                            <span class="iconSpan" style="display: flex;align-items: center;">{!! $stage['icon'] !!}
-                                <span style=" padding-left:6px" class="stageName"> {{ $displayKey }}</span></span>
-                            <div>
-                                <span class="badge bg-info m-1 activeBadge"
-                                      style="padding: 0.25em 0.4em;">{{ count($stage['activeCases']) }}</span>
-                                <span class="badge bg-info m-1 waitingBadge"
-                                      style="padding: 0.25em 0.4em;">{{ count($stage['waitingCases']) }} </span>
-                            </div>
+                                id="{{ $keyId }}" onclick="setOuterTab(this)">
+                            <span class="stageSidebar__icon">{!! $stage['icon'] !!}</span>
+                            <span class="stageSidebar__name">{{ $displayKey }}</span>
+                            <span class="stageSidebar__counts">
+                                <span class="badge activeBadge">{{ count($stage['activeCases']) }}</span>
+                                <span class="badge waitingBadge">{{ count($stage['waitingCases']) }}</span>
+                            </span>
                         </button>
                     @endforeach
                 </div>

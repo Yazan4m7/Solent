@@ -4,7 +4,7 @@
     @php($currencyUnitAr = (string) ($currencyContext['unit_ar'] ?? 'دينار'))
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>فاتورة مختبر الرازي</title>
+    <title>فاتورة</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
@@ -87,18 +87,18 @@
             font-size: 1.3em;
             font-weight: bold;
         }
-        
+
         .meta-info .doctor-field {
             flex-grow: 1;
             margin-right: 30px;
         }
-        
+
         .dotted-line {
             border-bottom: 1px dotted #333;
             display: inline-block;
             min-width: 300px;
         }
-        
+
         .date-field span {
             margin: 0 8px;
         }
@@ -151,7 +151,7 @@
         tbody tr {
             height: 60px; /* Fixed height for empty rows */
         }
-        
+
         tbody td {
             vertical-align: top;
         }
@@ -170,7 +170,7 @@
             font-weight: bold;
             line-height: 2.5;
         }
-        
+
         .payment-details .checkbox {
             display: inline-block;
             width: 20px;
@@ -184,23 +184,23 @@
             padding: 0;
             background: #f9f9f9;
         }
-        
+
         .totals-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
         }
-        
+
         .totals-grid span {
             padding: 15px 10px;
             display: block;
             border-bottom: 1px solid #ddd;
             font-weight: bold;
         }
-        
+
         .totals-grid span:nth-child(odd) { /* Labels */
             border-left: 1px solid #ccc;
         }
-        
+
         .totals-grid span:nth-child(7),
         .totals-grid span:nth-child(8) {
              border-bottom: none; /* Remove border from last row */
@@ -224,7 +224,7 @@
 
     <div class="invoice-box">
         <div class="top-bar"></div>
-        
+
         <header>
             <div class="logo-container">
                 <svg class="logo" viewBox="0 0 60 70" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -241,7 +241,7 @@
                 </div>
             </div>
         </header>
-        
+
         <section class="meta-info">
             <div class="date-field">
                 التاريخ: <span class="dotted-line" style="min-width: 50px;">{{ $case->actual_delivery_date ? date('d', strtotime($case->actual_delivery_date)) : '' }}</span> /
@@ -252,7 +252,7 @@
                 الدكتور <span class="dotted-line">{{ $case->client->name }}</span> المحترم
             </div>
         </section>
-        
+
         <section class="table-container">
             <table>
                 <thead>
@@ -299,7 +299,7 @@
                 </tfoot>
             </table>
         </section>
-        
+
         <footer>
             <span style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;"><img src="https://i.ibb.co/GTP1v2n/facebook.png" alt="facebook" border="0" width="20px"> fb_id</span>
             <span style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;"><img src="https://i.ibb.co/bJpLpns/gmail.png" alt="gmail" border="0" width="20px"> email</span>

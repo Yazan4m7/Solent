@@ -10,21 +10,21 @@
     <link href="https://cdn.jsdelivr.net/lightgallery/1.3.9/css/lightgallery.min.css" rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <!-- Albasma Case Form Styling -->
+    <!-- alsolent Case Form Styling -->
     <style>
         /* ========================================
-           Albasma DENTAL LAB - CASE FORM STYLING
+           alsolent DENTAL LAB - CASE FORM STYLING
            ======================================== */
 
         :root {
-            --Albasma-primary: #6A94AF;
-            --Albasma-secondary: #1E4157;
-            --Albasma-accent: #043c4d;
-            --Albasma-light: #E1D9D5;
-            --Albasma-dark: #000C19;
-            --Albasma-gray: #9FA5AD;
-            --Albasma-success: #2dce89;
-            --Albasma-warning: #ff8d72;
+            --alsolent-primary: #6A94AF;
+            --alsolent-secondary: #1E4157;
+            --alsolent-accent: #043c4d;
+            --alsolent-light: #E1D9D5;
+            --alsolent-dark: #000C19;
+            --alsolent-gray: #9FA5AD;
+            --alsolent-success: #2dce89;
+            --alsolent-warning: #ff8d72;
         }
 
         /* Main Form Card */
@@ -38,7 +38,7 @@
 
         /* Form Header Sections */
         .kt-portlet__head {
-            background: linear-gradient(135deg, var(--Albasma-primary) 0%, var(--Albasma-secondary) 100%);
+            background: linear-gradient(135deg, var(--alsolent-primary) 0%, var(--alsolent-secondary) 100%);
             padding: 20px 30px;
             border-radius: 12px;
             margin-bottom: 25px;
@@ -60,7 +60,7 @@
 
         /* Form Labels */
         label, .kt-label {
-            color: var(--Albasma-secondary);
+            color: var(--alsolent-secondary);
             font-weight: 600;
             font-size: 0.9rem;
             margin-bottom: 8px;
@@ -83,7 +83,7 @@
         .form-control:focus,
         .selectpicker:focus,
         select.form-control:focus {
-            border-color: var(--Albasma-primary);
+            border-color: var(--alsolent-primary);
             box-shadow: 0 0 0 3px rgba(106, 148, 175, 0.15);
             outline: none;
         }
@@ -91,7 +91,7 @@
         /* Job Repeater Items */
         .row-item {
             background: linear-gradient(135deg, rgba(225, 217, 213, 0.3) 0%, rgba(255, 255, 255, 0.9) 100%);
-            border: 2px solid var(--Albasma-light) !important;
+            border: 2px solid var(--alsolent-light) !important;
             border-radius: 16px !important;
             padding: 20px !important;
             margin-bottom: 20px;
@@ -102,7 +102,7 @@
         .row-item:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(106, 148, 175, 0.15);
-            border-color: var(--Albasma-primary) !important;
+            border-color: var(--alsolent-primary) !important;
         }
 
         /* Unit Selection Button */
@@ -111,7 +111,7 @@
             width: 100%;
             height: 100%;
             display: block;
-            background: linear-gradient(135deg, var(--Albasma-primary) 0%, var(--Albasma-secondary) 100%);
+            background: linear-gradient(135deg, var(--alsolent-primary) 0%, var(--alsolent-secondary) 100%);
             color: white;
             border: none;
             border-radius: 10px;
@@ -124,7 +124,7 @@
         .slctUnitsBtn:hover:not(:disabled) {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(106, 148, 175, 0.4);
-            background: linear-gradient(135deg, var(--Albasma-secondary) 0%, var(--Albasma-accent) 100%);
+            background: linear-gradient(135deg, var(--alsolent-secondary) 0%, var(--alsolent-accent) 100%);
         }
 
         .slctUnitsBtn:disabled {
@@ -136,7 +136,7 @@
 
         /* Add Job Button */
         #addJobBtn {
-            background: linear-gradient(135deg, var(--Albasma-success) 0%, #20a86b 100%) !important;
+            background: linear-gradient(135deg, var(--alsolent-success) 0%, #20a86b 100%) !important;
             border: none !important;
             padding: 14px 28px !important;
             border-radius: 10px !important;
@@ -163,14 +163,14 @@
         }
 
         .bootstrap-select .dropdown-toggle:focus {
-            border-color: var(--Albasma-primary) !important;
+            border-color: var(--alsolent-primary) !important;
             box-shadow: 0 0 0 3px rgba(106, 148, 175, 0.15);
         }
 
         /* Green/Grey Background Classes */
         .greenBG {
             background-color: rgba(45, 206, 137, 0.1) !important;
-            border-color: var(--Albasma-success) !important;
+            border-color: var(--alsolent-success) !important;
         }
 
         .greyBG {
@@ -179,7 +179,7 @@
 
         /* Horizontal Rules */
         hr {
-            border-top: 2px solid var(--Albasma-light);
+            border-top: 2px solid var(--alsolent-light);
             margin: 25px 0;
         }
 
@@ -264,7 +264,7 @@
 
         /* Submit/Action Buttons */
         .btn-primary {
-            background: linear-gradient(135deg, var(--Albasma-primary) 0%, var(--Albasma-secondary) 100%);
+            background: linear-gradient(135deg, var(--alsolent-primary) 0%, var(--alsolent-secondary) 100%);
             border: none;
             border-radius: 10px;
             padding: 12px 24px;
@@ -276,7 +276,7 @@
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(106, 148, 175, 0.4);
-            background: linear-gradient(135deg, var(--Albasma-secondary) 0%, var(--Albasma-accent) 100%);
+            background: linear-gradient(135deg, var(--alsolent-secondary) 0%, var(--alsolent-accent) 100%);
         }
 
         /* Form Section Spacing */
@@ -296,7 +296,7 @@
 
         /* Secondary Buttons (Close, Cancel) */
         .btn-secondary {
-            background: linear-gradient(135deg, var(--Albasma-gray) 0%, #8a9199 100%);
+            background: linear-gradient(135deg, var(--alsolent-gray) 0%, #8a9199 100%);
             border: none;
             border-radius: 10px;
             padding: 12px 24px;
@@ -383,12 +383,12 @@
             justify-content: flex-end;
             margin-top: 30px;
             padding-top: 25px;
-            border-top: 2px solid var(--Albasma-light);
+            border-top: 2px solid var(--alsolent-light);
         }
 
         /* Image Upload Area Enhancement */
         .image-upload-area {
-            border: 2px dashed var(--Albasma-primary);
+            border: 2px dashed var(--alsolent-primary);
             border-radius: 12px;
             padding: 25px;
             background: rgba(106, 148, 175, 0.05);
@@ -397,13 +397,13 @@
 
         .image-upload-area:hover {
             background: rgba(106, 148, 175, 0.1);
-            border-color: var(--Albasma-secondary);
+            border-color: var(--alsolent-secondary);
         }
 
         /* Notes Section */
         .notes-section {
             background: rgba(225, 217, 213, 0.2);
-            border-left: 4px solid var(--Albasma-primary);
+            border-left: 4px solid var(--alsolent-primary);
             padding: 20px;
             border-radius: 8px;
             margin: 20px 0;
@@ -427,7 +427,7 @@
         }
 
         input[name^="caseId"]:focus {
-            border-color: var(--Albasma-primary);
+            border-color: var(--alsolent-primary);
             box-shadow: 0 0 0 3px rgba(106, 148, 175, 0.15);
         }
 

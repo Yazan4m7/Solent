@@ -296,13 +296,13 @@ class TenantProvisioningService
 
         $candidate = [
             'name' => $payload['admin_name'],
-            'email' => $payload['admin_email'],
+            'email' => null,
             'username' => $payload['admin_email'],
             'password' => Hash::make($payload['admin_password']),
             'first_name' => $firstName,
             'last_name' => $lastName,
             'name_initials' => strtoupper(substr($firstName, 0, 1) . substr($lastName, 0, 1)),
-            'phone' => '',
+            'phone' => null,
             'active' => 1,
             'is_admin' => 1,
             'created_at' => now(),
@@ -310,7 +310,12 @@ class TenantProvisioningService
         ];
         $payload = array_intersect_key($candidate, array_flip($columns));
 
-        $existing = DB::connection($connection)->table('users')->where('email', $payload['email'])->first();
+        if (!array_key_exists('username', $payload) && array_key_exists('email', $payload)) {
+            $payload['email'] = $candidate['username'];
+        }
+
+        $identityColumn = array_key_exists('username', $payload) ? 'username' : 'email';
+        $existing = DB::connection($connection)->table('users')->where($identityColumn, $payload[$identityColumn])->first();
         if ($existing) {
             DB::connection($connection)->table('users')->where('id', $existing->id)->update($payload);
 

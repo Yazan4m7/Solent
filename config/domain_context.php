@@ -14,7 +14,7 @@ return [
     ],
 
     'hosts' => [
-        'jo.lab.albasmaco.com' => [
+        'jo.lab.alsolentco.com' => [
             'country_code' => 'JO',
             'country_name' => 'Jordan',
             'database' => 'albaswbf_lab_jo',
@@ -25,7 +25,7 @@ return [
             'currency_name_ar' => env('JO_APP_CURRENCY_NAME_AR', 'دينار أردني'),
             'currency_name_en' => env('JO_APP_CURRENCY_NAME_EN', 'Jordanian Dinar'),
         ],
-        'ps.lab.albasmaco.com' => [
+        'ps.lab.alsolentco.com' => [
             'country_code' => 'PS',
             'country_name' => 'Palestine',
             'database' => 'albaswbf_lab_ps',
@@ -64,23 +64,23 @@ return [
         [
             'country_code' => 'JO',
             'country_name' => 'Jordan',
-            'host' => 'jo.lab.albasmaco.com',
-            'url' => 'https://jo.lab.albasmaco.com',
+            'host' => 'jo.lab.alsolentco.com',
+            'url' => 'https://jo.lab.alsolentco.com',
         ],
         [
             'country_code' => 'PS',
             'country_name' => 'Palestine',
-            'host' => 'ps.lab.albasmaco.com',
-            'url' => 'https://ps.lab.albasmaco.com',
+            'host' => 'ps.lab.alsolentco.com',
+            'url' => 'https://ps.lab.alsolentco.com',
         ],
     ],
 
-    'selection_host' => env('DOMAIN_SELECTION_HOST', 'lab.albasmaco.com'),
+    'selection_host' => env('DOMAIN_SELECTION_HOST', 'lab.alsolentco.com'),
 
     'selection_cookie' => [
         'name' => env('DOMAIN_SELECTION_COOKIE', 'lab_country_domain'),
         'minutes' => env('DOMAIN_SELECTION_COOKIE_MINUTES', 525600),
-        'domain' => env('DOMAIN_SELECTION_COOKIE_DOMAIN', '.lab.albasmaco.com'),
+        'domain' => env('DOMAIN_SELECTION_COOKIE_DOMAIN', '.lab.alsolentco.com'),
     ],
 
     'demo' => [

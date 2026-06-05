@@ -401,7 +401,7 @@
 
             <div class="contact-info">
                 <div class="phones" style="text-align: left">
-                    <span>Al Basma Digital Dental Lab</span>
+                    <span>Solent Digital Dental Lab</span>
                     <span>Precision - Reliability - Speed</span>
                 </div>
             </div>

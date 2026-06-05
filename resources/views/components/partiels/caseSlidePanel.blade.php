@@ -1,12 +1,25 @@
-@props(['case', 'stageType' => '3dprinting'])
+@props(['case', 'stageType' => '3dprinting', 'panelScope' => null])
 
-<div id="YSH-slide-overlay-{{$case->id}}" class="YSH-slide-overlay"
-     onclick="YSH_closeSlidePanel({{$case->id}})">
-    <div id="YSH-slide-panel-{{$case->id}}" class="YSH-slide-panel">
+@php
+    $stageNumber = match($stageType) {
+        'milling' => 2,
+        '3dprinting' => 3,
+        'sintering' => 4,
+        'pressing' => 5,
+        'delivery' => 8,
+        default => 3
+    };
+
+    $panelSuffix = collect([$panelScope, $stageType, $case->id])->filter(fn ($value) => filled($value))->implode('-');
+@endphp
+
+<div id="YSH-slide-overlay-{{$panelSuffix}}" class="YSH-slide-overlay"
+     onclick="YSH_closeSlidePanel({{ $case->id }}, '{{ $stageType }}', '{{ $panelScope }}')">
+    <div id="YSH-slide-panel-{{$panelSuffix}}" class="YSH-slide-panel" onclick="event.stopPropagation()">
         <div class="YSH-slide-header">
             <h5>Case Completion</h5>
             <button type="button" class="YSH-close-slide"
-                    onclick="YSH_closeSlidePanel({{$case->id}})">&times;
+                    onclick="YSH_closeSlidePanel({{ $case->id }}, '{{ $stageType }}', '{{ $panelScope }}')">&times;
             </button>
         </div>
         <div class="YSH-slide-grid">
@@ -25,17 +38,6 @@
                 <div class="form-group row">
                     <div class="col-12">
                         <label><b>Jobs:</b></label><br>
-                        @php
-                            // Convert stage type to stage number
-                            $stageNumber = match($stageType) {
-                                'milling' => 2,
-                                '3dprinting' => 3,
-                                'sintering' => 4,
-                                'pressing' => 5,
-                                'delivery' => 8,
-                                default => 3
-                            };
-                        @endphp
                         @foreach($case->jobs->where('stage', $stageNumber) as $job)
                             @php
                                 $unit = explode(', ',$job->unit_num);
@@ -70,7 +72,7 @@
                 <div class="row btnsRow"
                      style=" margin-right: 0px; margin-left: 0px;width:100%">
                     <div class="col-md-6 col-sm-12 padding5px">
-                        <a href="{{route('view-case', ['id' => $case->id, 'stage' => 3  ])}}">
+                        <a href="{{route('view-case', ['id' => $case->id, 'stage' => $stageNumber])}}">
                             <button type="button" class="btn btn-info "><i
                                     class="fas fa-eye"></i> View
                             </button>
@@ -93,7 +95,8 @@
 
                     <div class="col-12 padding5px">
                         <button type="button" class="btn btn-secondary "
-                                data-dismiss="modal" style="width:100%">
+                                onclick="YSH_closeSlidePanel({{ $case->id }}, '{{ $stageType }}', '{{ $panelScope }}')"
+                                style="width:100%">
                             Cancel
                         </button>
                     </div>
@@ -106,4 +109,3 @@
 
     </div>
 </div>
-

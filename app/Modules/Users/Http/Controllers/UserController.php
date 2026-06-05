@@ -52,17 +52,15 @@ return view('users.index')->with('users', $users)->with('status',$status)->with(
             'username' => 'required|unique:users,username',
             'first_name'     => 'required',
             'last_name'    => 'required',
-            'email' => 'required|email|unique:users,email',
             'password' => 'required|confirmed|min:1',
             'password_confirmation' => 'required',
-            'phone'    => 'required|unique:users,phone',
             'permission' => 'required_if:is_admin,null',
             'permission.*' => 'exists:permissions,id',
             'photo' => 'nullable|image|mimes:png|max:5120',
             'driver_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        $transaction = DB::transaction(function ()  use ($request) {
+        DB::transaction(function ()  use ($request) {
             $admin = $request->is_admin ? 1 : 0;
             $hasPhoto = $request->hasFile('photo') ? 1 : 0;
 
@@ -70,9 +68,9 @@ return view('users.index')->with('users', $users)->with('status',$status)->with(
             $userData = [
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
-                'email' => $request->email,
+                'email' => null,
                 'password' => Hash::make($request->password),
-                'phone' => $request->phone,
+                'phone' => null,
                 'username' => $request->username,
                 'is_admin' => $admin,
                 'name_initials' => $request->name_initials,
@@ -106,11 +104,7 @@ return view('users.index')->with('users', $users)->with('status',$status)->with(
             }
             return $users;
         });
-        if ($transaction == true) {
-            return back()->with('success', 'The user has been successfully created');
-        } else {
-            return back()->with('error', 'Something went wrong!');
-        }
+        return redirect()->route('users-index')->with('success', 'The user has been successfully created');
     }
 
     public function edit($id)
@@ -150,8 +144,6 @@ return view('users.index')->with('users', $users)->with('status',$status)->with(
             'id'    => 'required',
             'first_name'     => 'required',
             'last_name'     => 'required',
-            'phone' => 'required|unique:users,phone,' . $request->id,
-            'email' => 'required|email|unique:users,email,' . $request->id,
             'permission' => 'required_if:is_admin,null',
             'permission.*' => 'exists:permissions,id',
             'status' => 'nullable',
@@ -161,8 +153,8 @@ return view('users.index')->with('users', $users)->with('status',$status)->with(
         $transaction = DB::transaction(function ()  use ($request, $user) {
             $user->first_name = $request->first_name;
             $user->last_name = $request->last_name;
-            $user->phone = $request->phone;
-            $user->email = $request->email;
+            $user->phone = null;
+            $user->email = null;
             $user->name_initials = $request->name_initials;
 
             ////////////// Profile Image Part

@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/elegant-dashboard.css') }}" />
     <style>
         .create-shell {
-            background: #f5f6f7;
+
             padding: 24px 0 32px;
         }
 
@@ -39,17 +39,25 @@
         }
 
         #unitsDialog .modal-dialog {
-            max-width: 460px;
+            max-width: 400px;
             width: calc(100% - 24px);
-            margin: 1.75rem auto;
+            min-height: calc(100% - 1rem);
+            display: flex;
+            align-items: center;
+            margin: 0.5rem auto;
         }
 
         #unitsDialog .modal-content {
+
             overflow: hidden;
+            background: linear-gradient(145deg, #33899a80 0%, #fbfcff 100%);
+            border: 1px solid rgba(255, 255, 255, 0.94);
+            border-radius: 14px;
+            box-shadow: 0 18px 44px rgba(17, 21, 30, 0.18);
         }
 
         #unitsDialog .modal-body {
-            padding: 16px 16px 80px 0 !important;
+            padding: 0px 0px 80px 0 !important;
             display: flex;
             justify-content: center;
             align-items: flex-start;
@@ -578,7 +586,7 @@
                                     </div>
                                     <div class="col-md-2 cc-job-actions">
                                         <button data-repeater-delete class="btn deleteBtn btn-sm" type="button"
-                                            value="Delete"><i class="fa fa-trash"></i>
+                                            value="Delete"><i class="fa fa-trash" style="color:white"></i>
                                         </button>
                                     </div>
                                     <div class="col-md-12 abutment abutmentsArea cc-abutment-card" style="display:none;">
@@ -971,9 +979,12 @@
                 }],
 
 
-                defaultValues: {},
+                defaultValues: {
+                    style: 'Single'
+                },
 
                 show: function() {
+                    setJobDefaults(this);
                     $(this).slideDown();
                 },
                 initEmpty: false,
@@ -985,6 +996,7 @@
             // removing first job because it causes UI errors with the repeater
             $(".jobsRepeater").find(".jobRow").first().html("");
             $("#addJobBtn").click();
+            setJobDefaults($(".jobsRepeater").find(".row-item").last());
             //        $(".abutmentsRepeater").find(".abutmentsRow").first().html("");
             //        $("#addJobBtn2").click();
 
@@ -1005,6 +1017,19 @@
         var teethSelected = [];
         var lstSelectedJobUNName = "";
         var repeaterName = ""; // should be something like 'repeat[xx]'
+
+        function setJobDefaults(row) {
+            var jobRow = $(row);
+            var jobTypeBox = jobRow.find("select[name$='[jobType]']");
+            var materialBox = jobRow.find("select[name$='[material_id]']");
+            var colorBox = jobRow.find("select[name$='[color]']");
+
+            jobTypeBox.val(jobTypeBox.find('option:first').val());
+            materialBox.val(materialBox.find('option:first').val());
+            colorBox.val(colorBox.find('option:first').val());
+            jobRow.find("input[name$='[style]'][value='Single']").prop("checked", true).trigger('click');
+        }
+
         function jobTypeChanged(jobTypeDD) {
             var thisRowRepeaterName = $(jobTypeDD).attr("name").replace('[jobType]', '');
             console.log($(jobTypeDD).val());
@@ -1049,6 +1074,7 @@
                 .join('');
 
             materialBox.append(options);
+            materialBox.val(materialBox.find('option:first').val());
             var abutmentsArea = $(jobTypeDD).parent().parent().parent().parent().parent().find(".abutmentsArea");
             var abutmentUnitsBox = $(abutmentsArea).find(".abutmentsUnitsPicker");
             var currentlySelectedUnits = $(jobTypeDD).parent().parent().parent().parent().parent().find(".hiddenUnitsInput")
@@ -1403,9 +1429,9 @@
             const dialog = document.getElementById('EmployeeDialog' + type);
             if (!dialog) return;
 
-            dialog.querySelectorAll('.Albasma-driver-card').forEach(card => {
+            dialog.querySelectorAll('.alsolent-driver-card').forEach(card => {
                 card.classList.remove('selected');
-                const img = card.querySelector('.Albasma-driver-image');
+                const img = card.querySelector('.alsolent-driver-image');
                 if (img) {
                     img.classList.add('grayscale');
                 }
@@ -1413,7 +1439,7 @@
 
             // Select the clicked card
             cardElement.classList.add('selected');
-            const img = cardElement.querySelector('.Albasma-driver-image');
+            const img = cardElement.querySelector('.alsolent-driver-image');
             if (img) {
                 img.classList.remove('grayscale');
             }
@@ -1505,16 +1531,16 @@
             }
 
             // Clear any pending animations
-            const dialogContent = modal.querySelector('.Albasma-workflow-dialog');
+            const dialogContent = modal.querySelector('.alsolent-workflow-dialog');
             if (dialogContent) {
                 dialogContent.classList.remove('fade-in');
                 dialogContent.classList.add('fade-out');
             }
 
             // Reset employee selection
-            modal.querySelectorAll('.Albasma-driver-card').forEach(card => {
+            modal.querySelectorAll('.alsolent-driver-card').forEach(card => {
                 card.classList.remove('selected');
-                const img = card.querySelector('.Albasma-driver-image');
+                const img = card.querySelector('.alsolent-driver-image');
                 if (img) {
                     img.classList.add('grayscale');
                 }
@@ -1573,7 +1599,7 @@
             modal.classList.add('active');
 
             // Animate dialog content
-            const dialogContent = modal.querySelector('.Albasma-workflow-dialog');
+            const dialogContent = modal.querySelector('.alsolent-workflow-dialog');
             if (dialogContent) {
                 dialogContent.classList.add('fade-in');
             }

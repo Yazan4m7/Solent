@@ -1299,7 +1299,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `name_initials` varchar(255) DEFAULT NULL,
   `username` varchar(191) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `email` varchar(191) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `phone` varchar(191) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `phone` varchar(191) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(191) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `is_admin` tinyint(1) NOT NULL DEFAULT 0,

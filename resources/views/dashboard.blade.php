@@ -1,5 +1,154 @@
 @extends('layouts.app', ['pageSlug' => 'Dashboard'])
 
+@push('css')
+    <style>
+        .solent-dash {
+            position: relative;
+        }
+
+        .solent-dash-metrics-guide-toggle {
+            align-items: center;
+            appearance: none;
+            background: #111827;
+            border: 0;
+            border-radius: 999px;
+            box-shadow: 0 10px 24px rgba(17, 24, 39, 0.18);
+            color: #ffffff;
+            cursor: pointer;
+            display: inline-flex;
+            font-size: 14px;
+            font-weight: 800;
+            height: 28px;
+            justify-content: center;
+            line-height: 1;
+            padding: 0;
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            width: 28px;
+            z-index: 30;
+        }
+
+        .solent-dash-metrics-guide-panel {
+            background: #ffffff;
+            border: 1px solid #dbe1ea;
+            border-radius: 14px;
+            box-shadow: 0 22px 55px rgba(17, 24, 39, 0.18);
+            max-height: min(78vh, 820px);
+            overflow: auto;
+            padding: 14px;
+            position: absolute;
+            right: 10px;
+            top: 46px;
+            width: min(760px, calc(100% - 20px));
+            z-index: 29;
+        }
+
+        .solent-dash-metrics-guide-head {
+            align-items: center;
+            display: flex;
+            gap: 12px;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .solent-dash-metrics-guide-title {
+            color: #111827;
+            font-size: 14px;
+            font-weight: 800;
+            margin: 0;
+        }
+
+        .solent-dash-metrics-guide-meta {
+            color: #6b7280;
+            font-size: 11px;
+            font-weight: 700;
+            margin: 4px 0 0;
+        }
+
+        .solent-dash-metrics-guide-close {
+            background: transparent;
+            border: 0;
+            color: #6b7280;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 800;
+            line-height: 1;
+            padding: 0;
+        }
+
+        .solent-dash-metrics-guide-badge {
+            background: #eef2ff;
+            border-radius: 999px;
+            color: #4f46e5;
+            display: inline-flex;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 4px 8px;
+        }
+
+        .solent-dash-metrics-guide-table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .solent-dash-metrics-guide-table th,
+        .solent-dash-metrics-guide-table td {
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 11px;
+            line-height: 1.45;
+            padding: 8px 9px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .solent-dash-metrics-guide-table th {
+            background: #f8fafc;
+            color: #374151;
+            font-weight: 800;
+            position: sticky;
+            top: -14px;
+            z-index: 1;
+        }
+
+        .solent-dash-metrics-guide-table td:first-child,
+        .solent-dash-metrics-guide-table th:first-child {
+            white-space: nowrap;
+            width: 46px;
+        }
+
+        .solent-dash-metrics-guide-table td:nth-child(2),
+        .solent-dash-metrics-guide-table th:nth-child(2) {
+            min-width: 180px;
+        }
+
+        .solent-dash-metrics-guide-table td:nth-child(3),
+        .solent-dash-metrics-guide-table th:nth-child(3) {
+            min-width: 140px;
+        }
+
+        .solent-dash-metrics-guide-table td:last-child,
+        .solent-dash-metrics-guide-table th:last-child {
+            min-width: 120px;
+        }
+
+        @media (max-width: 768px) {
+            .solent-dash-metrics-guide-panel {
+                max-height: 72vh;
+                padding: 12px;
+                right: 8px;
+                top: 42px;
+                width: calc(100% - 16px);
+            }
+
+            .solent-dash-metrics-guide-toggle {
+                right: 8px;
+                top: 8px;
+            }
+        }
+    </style>
+@endpush
+
 @section('content')
     @php
         $currencyLabel = (string) ($currencyContext['display'] ?? $currencyContext['code'] ?? 'JOD');
@@ -117,11 +266,11 @@
         }
         if ($dashboardSampleDataMode && $activityItems->isEmpty()) {
             $activityItems = collect([
-                ['title' => 'New order #ORD-1256', 'meta' => '1,250.00 ' . $currencyLabel, 'time' => '2m ago', 'icon' => 'fa-clipboard-list', 'color' => '#20b997', 'modal' => null],
-                ['title' => 'Payment received from John D.', 'meta' => '850.00 ' . $currencyLabel, 'time' => '15m ago', 'icon' => 'fa-money-bill-wave', 'color' => '#20b997', 'modal' => null],
-                ['title' => 'New customer registered', 'meta' => 'Sarah Williams', 'time' => '1h ago', 'icon' => 'fa-user-plus', 'color' => '#6d5dfc', 'modal' => null],
-                ['title' => 'Order #ORD-1255 shipped', 'meta' => '2,150.00 ' . $currencyLabel, 'time' => '2h ago', 'icon' => 'fa-truck-fast', 'color' => '#2f8fed', 'modal' => null],
-                ['title' => 'Low stock alert', 'meta' => 'Zirconia blocks', 'time' => '3h ago', 'icon' => 'fa-triangle-exclamation', 'color' => '#ef476f', 'modal' => null],
+                ['title' => 'New dental case #CASE-1256', 'meta' => 'Implant crown | Dr. Lina Haddad', 'time' => '2m ago', 'icon' => 'fa-clipboard-list', 'color' => '#20b997', 'modal' => null],
+                ['title' => 'Clinic payment received', 'meta' => '850.00 ' . $currencyLabel . ' | Abdoun Dental Center', 'time' => '15m ago', 'icon' => 'fa-money-bill-wave', 'color' => '#20b997', 'modal' => null],
+                ['title' => 'Case ready for delivery', 'meta' => 'Zirconia bridge | Sweifieh Clinic', 'time' => '1h ago', 'icon' => 'fa-truck-fast', 'color' => '#6d5dfc', 'modal' => null],
+                ['title' => 'Design stage completed', 'meta' => '6-unit anterior case', 'time' => '2h ago', 'icon' => 'fa-pen-ruler', 'color' => '#2f8fed', 'modal' => null],
+                ['title' => 'QC approved', 'meta' => 'E.max veneer case', 'time' => '3h ago', 'icon' => 'fa-clipboard-check', 'color' => '#ec5fa5', 'modal' => null],
             ]);
         }
 
@@ -132,11 +281,105 @@
             ['label' => 'Conversion Rate', 'value' => number_format($displayConversionRate, 2) . '%', 'canvas' => 'solentDashSparkConversion', 'note' => 'completed vs workload'],
             ['label' => 'Workload Mix', 'value' => number_format($displayWorkloadTotal), 'canvas' => 'solentDashSparkMix', 'note' => 'jobs each column represents amount of jobs in that day'],
         ];
+
+        $dashboardMetricGuideRows = [
+            ['metric' => 'Total Revenue card', 'value' => $currencyLabel . ' ' . number_format($displayRevenueTotal, 0), 'formula' => 'Sum of payment.amount over the last 30 days. In sample mode it shows the larger of the real total or 428,540.', 'source' => $dashboardSampleDataMode ? 'Real + sample floor' : 'Real'],
+            ['metric' => 'Orders card', 'value' => number_format($displayOrdersTotal), 'formula' => 'Sum of completed case counts across the last 30 days. In sample mode it shows the larger of the real total or 3,721.', 'source' => $dashboardSampleDataMode ? 'Real + sample floor' : 'Real'],
+            ['metric' => 'Customers card', 'value' => number_format($displayNewCustomers), 'formula' => 'Unique client_id count from today\'s undelivered deliveries. In sample mode it shows the larger of the real total or 2,145.', 'source' => $dashboardSampleDataMode ? 'Real + sample floor' : 'Real'],
+            ['metric' => 'Conversion Rate card', 'value' => number_format($displayConversionRate, 2) . '%', 'formula' => 'CompletedJobsToday / (CompletedJobsToday + ActiveJobsToday + waitingJobsToday) * 100, rounded to 2 decimals. In sample mode it shows the larger of the real rate or 2.48%.', 'source' => $dashboardSampleDataMode ? 'Real + sample floor' : 'Real'],
+            ['metric' => 'Workload Mix card', 'value' => number_format($displayWorkloadTotal), 'formula' => 'completedUnits7dTotal + activeUnits + waitingUnits. In sample mode it shows the larger of the real total or 128.', 'source' => $dashboardSampleDataMode ? 'Real + sample floor' : 'Real'],
+            ['metric' => 'Completed Jobs Today', 'value' => number_format($completedUnits), 'formula' => 'Units inside cases whose actual_delivery_date is today. A unit counts only when job.material.count_as_unit = 1, then it counts the comma-separated unit_num entries.', 'source' => 'Real'],
+            ['metric' => 'Waiting Jobs Today', 'value' => number_format($waitingUnits), 'formula' => 'All unassigned jobs where stage != -1, counted as units. Despite the label, it is not limited to today.', 'source' => 'Real'],
+            ['metric' => 'Active Jobs Today', 'value' => number_format($activeUnits), 'formula' => 'All assigned jobs where stage != -1, counted as units. Despite the label, it is not limited to today.', 'source' => 'Real'],
+            ['metric' => 'Deliveries Today count', 'value' => number_format($deliveriesTodayCount), 'formula' => 'Cases where initial_delivery_date is today and delivered_to_client = 0.', 'source' => 'Real'],
+            ['metric' => 'Payments Today count', 'value' => number_format($paymentsCount), 'formula' => 'Count of payment rows whose created_at is today.', 'source' => 'Real'],
+            ['metric' => 'Customer Overview total', 'value' => number_format($displayNewCustomers), 'formula' => 'Same number as the Customers card.', 'source' => $dashboardSampleDataMode ? 'Real + sample floor' : 'Real'],
+            ['metric' => 'Revenue Overview total', 'value' => $currencyLabel . ' ' . number_format($displayRevenueTotal, 0), 'formula' => 'Same displayed total as the Total Revenue card.', 'source' => $dashboardSampleDataMode ? 'Real + sample floor' : 'Real'],
+            ['metric' => 'Revenue Overview chart', 'value' => collect($revenueTrendValues)->implode(', '), 'formula' => 'Last 7 daily payment sums from the 30-day collection series. If sample mode is on and the real sum is 0, it falls back to 360, 320, 410, 620, 440, 660, 345.', 'source' => $dashboardSampleDataMode ? 'Real or sample fallback' : 'Real'],
+            ['metric' => 'Orders Over Time total', 'value' => number_format($displayOrdersTotal), 'formula' => 'Same displayed total as the Orders card.', 'source' => $dashboardSampleDataMode ? 'Real + sample floor' : 'Real'],
+            ['metric' => 'Orders Over Time chart', 'value' => collect($ordersTrendValues)->implode(', '), 'formula' => '7 daily completed-case counts. If sample mode is on and the real sum is 0, it falls back to 820, 710, 960, 880, 835, 930, 948.', 'source' => $dashboardSampleDataMode ? 'Real or sample fallback' : 'Real'],
+            ['metric' => 'Sales by Channel total', 'value' => $currencyLabel . ' ' . number_format($displayRevenueTotal, 0), 'formula' => 'Same displayed total as the Total Revenue card, even though the donut below is actually workload data.', 'source' => $dashboardSampleDataMode ? 'Real + sample floor' : 'Real'],
+            ['metric' => 'Revenue sparkline', 'value' => collect($dashboardMetrics['kpiSparks']['revenue'])->implode(', '), 'formula' => '12-point mini series for the Total Revenue card. Uses last 12 payment totals, or sample values in sample mode.', 'source' => $dashboardSampleDataMode ? 'Real or sample series' : 'Real'],
+            ['metric' => 'Orders sparkline', 'value' => collect($dashboardMetrics['kpiSparks']['orders'])->implode(', '), 'formula' => '12-point mini series for the Orders card. Uses last 12 completed-case totals, or sample values in sample mode.', 'source' => $dashboardSampleDataMode ? 'Real or sample series' : 'Real'],
+            ['metric' => 'Customers sparkline', 'value' => collect($dashboardMetrics['kpiSparks']['clients'])->implode(', '), 'formula' => '12 points. In live mode it repeats the same newCustomers value 12 times. In sample mode it uses a sample series.', 'source' => $dashboardSampleDataMode ? 'Sample series' : 'Derived real'],
+            ['metric' => 'Conversion sparkline', 'value' => collect($dashboardMetrics['kpiSparks']['conversion'])->implode(', '), 'formula' => '12 points. In live mode it repeats the same conversionRate value 12 times. In sample mode it uses a sample series.', 'source' => $dashboardSampleDataMode ? 'Sample series' : 'Derived real'],
+            ['metric' => 'Workload mini bars', 'value' => collect($dashboardMetrics['kpiBars']['workload'])->implode(', '), 'formula' => 'In live mode: completedUnits7dTotal, activeUnits, waitingUnits, deliveriesTodayCount, paymentsCount. In sample mode it uses a sample 12-point bar series.', 'source' => $dashboardSampleDataMode ? 'Sample series' : 'Derived real'],
+        ];
+
+        foreach ($dashboardMetrics['workloadMix'] as $mix) {
+            $mixTotal = collect($dashboardMetrics['workloadMix'])->sum('value');
+            $dashboardMetricGuideRows[] = [
+                'metric' => 'Workload donut - ' . $mix['label'],
+                'value' => number_format($mix['value']) . ' (' . number_format(($mix['value'] / max(1, $mixTotal)) * 100, 1) . '%)',
+                'formula' => 'Donut value from the workloadMix array. Percent = item value / sum of all donut values * 100.',
+                'source' => $dashboardSampleDataMode ? 'Real or sample minimum' : 'Real',
+            ];
+        }
+
+        foreach ($productionLoadRows as $stageLoad) {
+            $dashboardMetricGuideRows[] = [
+                'metric' => 'Production Load - ' . $stageLoad['label'],
+                'value' => number_format($stageLoad['jobs']) . ' jobs | ' . number_format($stageLoad['active']) . ' active | ' . number_format($stageLoad['waiting']) . ' waiting | ' . number_format($stageLoad['utilization']) . '%',
+                'formula' => 'Reads productionLoadRows. No real controller calculation is passed to this view, so this comes from the view fallback rows.',
+                'source' => $dashboardSampleDataMode ? 'Sample fallback' : 'View fallback',
+            ];
+        }
+
+        foreach ($dashboardMetrics['clientCountries'] as $country) {
+            $dashboardMetricGuideRows[] = [
+                'metric' => 'Customer Overview - ' . $country['name'],
+                'value' => number_format($country['value']) . ' (' . $country['width'] . '% bar width)',
+                'formula' => 'Comes from the clientCountries array. In sample mode these are hardcoded floors driven by ordersTotal, deliveriesTodayCount, or paymentsCount.',
+                'source' => $dashboardSampleDataMode ? 'Sample fallback' : 'Real if provided',
+            ];
+        }
     @endphp
 
     <link href="{{ asset('assets/css/elegant-dashboard.css') }}" rel="stylesheet">
 
     <div class="solent-dash" data-dashboard-sample-mode="{{ $dashboardSampleDataMode ? 'on' : 'off' }}">
+        <button
+            type="button"
+            class="solent-dash-metrics-guide-toggle"
+            id="solentDashMetricsGuideToggle"
+            aria-label="Open dashboard metrics guide"
+            aria-controls="solentDashMetricsGuidePanel"
+            aria-expanded="false"
+        >!</button>
+        <section class="solent-dash-metrics-guide-panel" id="solentDashMetricsGuidePanel" hidden>
+            <div class="solent-dash-metrics-guide-head">
+                <div>
+                    <h3 class="solent-dash-metrics-guide-title">Dashboard Numbers Guide</h3>
+                    <p class="solent-dash-metrics-guide-meta">Each row shows the current number, how it is calculated, and whether it is real or sample-driven.</p>
+                </div>
+                <div>
+                    <span class="solent-dash-metrics-guide-badge">{{ $dashboardSampleDataMode ? 'Sample mode ON' : 'Sample mode OFF' }}</span>
+                    <button type="button" class="solent-dash-metrics-guide-close" id="solentDashMetricsGuideClose" aria-label="Close dashboard metrics guide">&times;</button>
+                </div>
+            </div>
+            <table class="solent-dash-metrics-guide-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Metric</th>
+                        <th>Current Value</th>
+                        <th>How It Is Calculated</th>
+                        <th>Source</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($dashboardMetricGuideRows as $index => $row)
+                        <tr>
+                            <td>{{ $index + 1 }}</td>
+                            <td>{{ $row['metric'] }}</td>
+                            <td>{{ $row['value'] }}</td>
+                            <td>{{ $row['formula'] }}</td>
+                            <td>{{ $row['source'] }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </section>
         <main class="solent-dash-shell">
             <section class="solent-dash-kpis" aria-label="Dashboard key metrics">
                 @foreach ($kpiCards as $card)
@@ -232,7 +475,9 @@
                         </div>
                     </div>
                     <div class="solent-dash-client-panel">
-                        <div class="solent-dash-map" aria-hidden="true"></div>
+                        <button class="solent-dash-map-button" type="button" data-toggle="modal" data-target="#solentJordanMapModal" aria-label="Expand Jordan city activity map">
+                            @include('partials.jordan-dashboard-map')
+                        </button>
                         <div class="solent-dash-country-list">
                             @forelse ($dashboardMetrics['clientCountries'] as $country)
                                 <div class="solent-dash-country">
@@ -288,6 +533,20 @@
                 </article>
             </section>
         </main>
+    </div>
+
+    <div class="modal fade solent-dash-map-modal" id="solentJordanMapModal" tabindex="-1" role="dialog" aria-labelledby="solentJordanMapModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="solentJordanMapModalTitle">Jordan Clinic Activity</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    @include('partials.jordan-dashboard-map', ['expanded' => true])
+                </div>
+            </div>
+        </div>
     </div>
 
     @foreach ($paymentsReceivedToday as $payment)
@@ -396,12 +655,55 @@
         };
 
         document.addEventListener('DOMContentLoaded', function () {
+            solentDashInitMetricsGuide();
             solentDashInitSparklines();
             solentDashInitRevenue();
             solentDashInitMix();
             solentDashInitOrders();
             solentDashInitProductionLoad();
         });
+
+        function solentDashInitMetricsGuide() {
+            const toggle = document.getElementById('solentDashMetricsGuideToggle');
+            const panel = document.getElementById('solentDashMetricsGuidePanel');
+            const close = document.getElementById('solentDashMetricsGuideClose');
+
+            if (!toggle || !panel || !close) return;
+
+            const setOpen = function (open) {
+                panel.hidden = !open;
+                toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+            };
+
+            setOpen(false);
+
+            toggle.addEventListener('click', function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+                setOpen(panel.hidden);
+            });
+
+            close.addEventListener('click', function (event) {
+                event.preventDefault();
+                setOpen(false);
+            });
+
+            panel.addEventListener('click', function (event) {
+                event.stopPropagation();
+            });
+
+            document.addEventListener('click', function () {
+                if (!panel.hidden) {
+                    setOpen(false);
+                }
+            });
+
+            document.addEventListener('keydown', function (event) {
+                if (event.key === 'Escape') {
+                    setOpen(false);
+                }
+            });
+        }
 
         function solentDashGradient(ctx, color, height) {
             const gradient = ctx.createLinearGradient(0, 0, 0, height);

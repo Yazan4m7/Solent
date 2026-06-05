@@ -14,6 +14,37 @@
             gap: 6px 12px;
         }
 
+        .permissions-box.is-disabled {
+            opacity: 0.62;
+        }
+
+        .user-form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px 16px;
+        }
+
+        .user-form-grid .form-group {
+            margin-bottom: 0;
+        }
+
+        .user-form-span {
+            grid-column: 1 / -1;
+        }
+
+        .user-admin-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: 4px 0 0;
+            cursor: pointer;
+        }
+
+        .user-admin-toggle input {
+            width: 18px;
+            height: 18px;
+        }
+
         .permission-item {
             display: flex;
             align-items: center;
@@ -29,6 +60,10 @@
 
         .permission-item.is-disabled {
             cursor: not-allowed;
+            background: #f8f9fb;
+        }
+
+        .permissions-box.is-disabled .permission-item:hover {
             background: #f8f9fb;
         }
 
@@ -93,6 +128,7 @@
         }
 
         @media (max-width: 576px) {
+            .user-form-grid,
             .permissions-box {
                 grid-template-columns: 1fr;
             }
@@ -117,6 +153,8 @@
                 <form class="kt-form" method="POST" action="{{route('new-user')}}" enctype="multipart/form-data">
                     @csrf
                     <div class="kt-portlet__body">
+                        @include('alerts.errors')
+                        <div class="user-form-grid">
                         <div class="form-group">
                             <label>User first name</label>
                             <input type="text" class="form-control" name="first_name" placeholder="Enter the first name" value="{{old('first_name')}}">
@@ -143,26 +181,6 @@
                                 <span class="help-block" style="color: red">{{ $errors->first('username') }}</span>
                             @endif
                         </div>
-                        <div class="form-group row">
-                            <label for="example-tel-input" class="col-2 col-form-label">User Phone Number</label>
-                            <div class="col-10">
-                                <input class="form-control" type="tel" name="phone" id="example-tel-input" value="{{old('phone')}}">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>User Email address</label>
-                            <input type="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="Enter email" value="{{old('email')}}">
-                            @if ($errors->has('email'))
-                                <span class="help-block" style="color: red">{{ $errors->first('email') }}</span>
-                            @endif
-                        </div>
-                        <div class="form-group">
-                            <label for="is_admin">Admin</label>
-                            <input type="checkbox" class="form-control" id="is_admin" name="is_admin">
-                            @if ($errors->has('is_admin'))
-                                <span class="help-block" style="color: red">{{ $errors->first('is_admin') }}</span>
-                            @endif
-                        </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Password</label>
                             <input type="password" class="form-control" name="password" placeholder="Password">
@@ -177,22 +195,25 @@
                                 <span class="help-block" style="color: red">{{ $errors->first('password_confirmation') }}</span>
                             @endif
                         </div>
-                        <div class="form-group" id="disable">
+                        <div class="form-group user-form-span">
+                            <label class="user-admin-toggle" for="is_admin">
+                                <input type="checkbox" id="is_admin" name="is_admin">
+                                <span>Administrator access</span>
+                            </label>
+                        </div>
+                        </div>
+                        <div class="form-group mt-3" id="disable">
                             <label for="Permission">Permission</label>
                             <div class="permissions-box" id="Permission">
                                 @foreach($permissions as $perm)
-                                    <label class="permission-item {{$perm->enabled ? '' : 'is-disabled'}}">
-                                        <input type="checkbox" class="permission-checkbox" name="permission[]" value="{{$perm->id}}" {{$perm->enabled ? '' : 'disabled'}}>
+                                    <label class="permission-item">
+                                        <input type="checkbox" class="permission-checkbox" name="permission[]" value="{{$perm->id}}">
                                         <span class="permission-icon permission-icon-off"><i class="fa fa-times"></i></span>
                                         <span class="permission-icon permission-icon-on"><i class="fa fa-check"></i></span>
                                         <span class="permission-name">{{$perm->name}}</span>
                                     </label>
                                 @endforeach
                             </div>
-                        </div>
-
-                        <div class="form-group">
-
                         </div>
 
                         <div class="form-group delivery-driver-section" style="display: none;">
@@ -247,6 +268,13 @@
             }
         }
 
+        function syncPermissionState() {
+            const isAdmin = $('#is_admin').is(':checked');
+            $('.permission-checkbox').prop('disabled', isAdmin);
+            $('#Permission').toggleClass('is-disabled', isAdmin);
+            $('#Permission .permission-item').toggleClass('is-disabled', isAdmin);
+        }
+
         // Initialize on page load
         $(document).ready(function() {
             // Set up driver image preview
@@ -266,6 +294,7 @@
             });
 
             // Check delivery driver permission on page load
+            syncPermissionState();
             checkDeliveryDriverPermission();
 
             // Check delivery driver permission when permissions change
@@ -275,17 +304,8 @@
         });
 
         $('#is_admin').on('change', function() {
-            if(this.checked){
-                $('.permission-checkbox').prop('disabled', true);
-                $('#disable').css('visibility', 'hidden');
-                // Hide delivery driver section if admin
-                $('.delivery-driver-section').hide();
-            } else {
-                $('.permission-checkbox').prop('disabled', false);
-                $('#disable').css('visibility', 'visible');
-                // Recheck permissions
-                checkDeliveryDriverPermission();
-            }
+            syncPermissionState();
+            checkDeliveryDriverPermission();
         });
 
         $('select[name="position"]').on('change', function() {

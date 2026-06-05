@@ -15,14 +15,16 @@
                 @csrf
                 <input type="hidden" name="id" value="{{$user->id}}">
                 <div class="kt-portlet__body">
-                    <div class="form-group">
+                    @include('alerts.errors')
+                    <div class="row">
+                    <div class="form-group col-md-6">
                         <label>User first name</label>
                         <input type="text" class="form-control" name="first_name" placeholder="Enter the first name" value="{{$user->first_name}}">
                         @if ($errors->has('first_name'))
                         <span class="help-block" style="color: red">{{ $errors->first('first_name') }}</span>
                         @endif
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-md-6">
                             <label>User last name</label>
                             <input type="text" class="form-control" name="last_name" placeholder="Enter the first name" value="{{$user->last_name}}">
                             @if ($errors->has('last_name'))
@@ -30,58 +32,46 @@
                             @endif
                         </div>
 
-                    <div class="form-group">
+                    <div class="form-group col-md-6">
                         <label>Name initials</label>
                         <input type="text" class="form-control" name="name_initials" placeholder="E.g. : Y. Moh."  value="{{$user->name_initials}}">
 
                     </div>
-                        <div class="form-group">
+                        <div class="form-group col-md-6">
                                 <label>Username</label>
                                 <input type="text" class="form-control" name="username" placeholder="Enter the username" value="{{$user->username}}" disabled>
                                 @if ($errors->has('username'))
                                 <span class="help-block" style="color: red">{{ $errors->first('username') }}</span>
                                 @endif
                         </div>
-                        <div class="form-group row">
-                                <label for="example-tel-input" class="col-2 col-form-label">Phone</label>
-                                <div class="col-10">
-                                    <input class="form-control" type="tel" name="phone" id="example-tel-input" value="{{$user->phone}}">
-                                </div>
-                            </div>
-                    <div class="form-group">
-                        <label>Email address</label>
-                        <input type="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="Enter email" value="{{$user->email}}">
-                        @if ($errors->has('email'))
-                        <span class="help-block" style="color: red">{{ $errors->first('email') }}</span>
-                        @endif
-                    </div>
-                    <div class="form-group">
+                    <div class="form-group col-md-6">
                             <label for="is_admin" style="color:red">Admin</label>
-                            <input type="checkbox" class="form-control" id="is_admin" name="is_admin"  style="width:20px" {{$user->is_admin ? 'checked' : ''}}>
+                            <input type="checkbox" id="is_admin" name="is_admin" {{$user->is_admin ? 'checked' : ''}}>
                             @if ($errors->has('is_admin'))
                             <span class="help-block" style="color: red">{{ $errors->first('is_admin') }}</span>
                             @endif
                         </div>
-                    <div class="form-group">
+                    <div class="form-group col-md-6">
                         <label for="exampleInputPassword1">New Password</label>
                         <input type="password" class="form-control" name="password" placeholder="Password">
                         @if ($errors->has('password'))
                         <span class="help-block" style="color: red">{{ $errors->first('password') }}</span>
                         @endif
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-md-6">
                         <label for="exampleInputPassword1">Confirm Password</label>
                         <input type="password" class="form-control" name="password_confirmation" placeholder="Password">
                         @if ($errors->has('password_confirmation'))
                         <span class="help-block" style="color: red">{{ $errors->first('password_confirmation') }}</span>
                         @endif
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-md-6">
                             <label for="status">Status</label>
-                            <input type="checkbox" class="form-control" id="status" name="status"  style="width:20px" {{$user->status ? 'checked' : ''}}>
+                            <input type="checkbox" id="status" name="status" {{$user->status ? 'checked' : ''}}>
                             @if ($errors->has('status'))
                             <span class="help-block" style="color: red">{{ $errors->first('status') }}</span>
                             @endif
+                    </div>
                     </div>
                     <div class="form-group" id="disable">
                             <label for="Permission">Permission</label>

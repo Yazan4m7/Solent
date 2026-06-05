@@ -909,9 +909,12 @@
                                     }],
 
 
-                                    defaultValues: {},
+                                    defaultValues: {
+                                        style: 'Single'
+                                    },
 
                                     show: function () {
+                                        setJobDefaults(this);
                                         $(this).slideDown();
                                     },
                                     initEmpty: false,
@@ -923,6 +926,7 @@
                                 // removing first job because it causes UI errors with the repeater
                                 $(".jobsRepeater").find(".jobRow").first().html("");
                                 $("#addJobBtn").click();
+                                setJobDefaults($(".jobsRepeater").find(".row-item").last());
 //        $(".abutmentsRepeater").find(".abutmentsRow").first().html("");
 //        $("#addJobBtn2").click();
 
@@ -945,6 +949,19 @@
                             var teethSelected = [];
                             var lstSelectedJobUNName = "";
                             var repeaterName = ""; // should be something like 'repeat[xx]'
+
+                            function setJobDefaults(row) {
+                                var jobRow = $(row);
+                                var jobTypeBox = jobRow.find("select[name$='[jobType]']");
+                                var materialBox = jobRow.find("select[name$='[material_id]']");
+                                var colorBox = jobRow.find("select[name$='[color]']");
+
+                                jobTypeBox.val(jobTypeBox.find('option:first').val());
+                                materialBox.val(materialBox.find('option:first').val());
+                                colorBox.val(colorBox.find('option:first').val());
+                                jobRow.find("input[name$='[style]'][value='Single']").prop("checked", true).trigger('click');
+                            }
+
                             function jobTypeChanged(jobTypeDD) {
                                 var thisRowRepeaterName = $(jobTypeDD).attr("name").replace('[jobType]','');
                                 console.log($(jobTypeDD).val());
@@ -997,6 +1014,7 @@
                                         $('<option>', { value: material.id, text: material.name })
                                     );
                                 });
+                                materialBox.val(materialBox.find('option:first').val());
                                 var abutmentsArea =  $(jobTypeDD).parent().parent().parent().parent().parent().find(".abutmentsArea");
                                 var abutmentUnitsBox =  $(abutmentsArea).find(".abutmentsUnitsPicker");
                                 var currentlySelectedUnits = $(jobTypeDD).parent().parent().parent().parent().parent().find(".hiddenUnitsInput").val().split(',');

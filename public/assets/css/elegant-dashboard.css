@@ -261,14 +261,80 @@
   margin-top: 16px;
 }
 
-.solent-dash .solent-dash-map {
+.solent-dash .solent-dash-map-button {
   aspect-ratio: 1;
-  background:
-    radial-gradient(circle at 48% 42%, rgba(109, 93, 252, 0.24), transparent 22%),
-    radial-gradient(circle at 64% 65%, rgba(32, 185, 151, 0.22), transparent 20%),
-    linear-gradient(135deg, #f2f5ff, #eef9f7);
+  background: linear-gradient(135deg, #f8faff, #f2fbf8);
   border: 1px solid var(--solent-border);
   border-radius: 14px;
+  cursor: zoom-in;
+  overflow: hidden;
+  padding: 6px;
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.solent-dash .solent-dash-map-button:hover,
+.solent-dash .solent-dash-map-button:focus {
+  border-color: rgba(109, 93, 252, 0.5);
+  box-shadow: 0 10px 20px rgba(31, 42, 61, 0.1);
+  outline: 0;
+  transform: translateY(-2px);
+}
+
+.solent-dash-jordan-map,
+.solent-dash-jordan-map svg {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.solent-dash-jordan-map svg {
+  overflow: visible;
+}
+
+.solent-dash-jordan-outline {
+  fill: none;
+  stroke: #d9e1ef;
+  stroke-linejoin: round;
+  stroke-width: 3;
+}
+
+.solent-dash-jordan-heat-zone {
+  stroke: rgba(255, 255, 255, 0.76);
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
+.solent-dash-jordan-city text {
+  fill: #344054;
+  font-family: Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.solent-dash-jordan-city .solent-dash-jordan-city-value {
+  fill: #98a2b3;
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.solent-dash-map-modal .modal-content {
+  border: 0;
+  border-radius: 18px;
+}
+
+.solent-dash-map-modal .modal-body {
+  background: linear-gradient(135deg, #f8faff, #f2fbf8);
+  border-radius: 0 0 18px 18px;
+  height: min(74vh, 720px);
+  padding: 18px;
+}
+
+.solent-dash-jordan-map-expanded {
+  height: 100%;
+}
+
+.solent-dash-jordan-map-expanded .solent-dash-jordan-city text {
+  font-size: 10px;
 }
 
 .solent-dash .solent-dash-country-list {

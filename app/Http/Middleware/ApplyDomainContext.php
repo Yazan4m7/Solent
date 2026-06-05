@@ -231,7 +231,7 @@ class ApplyDomainContext
 
     private function resolveSavedSelectionRedirect(Request $request): ?string
     {
-        $selectionHost = $this->normalizeHost((string) config('domain_context.selection_host', 'lab.albasmaco.com'));
+        $selectionHost = $this->normalizeHost((string) config('domain_context.selection_host', 'lab.alsolentco.com'));
         $currentHost = $this->normalizeHost($request->getHost());
         if ($selectionHost === '' || $currentHost !== $selectionHost) {
             return null;
@@ -252,7 +252,7 @@ class ApplyDomainContext
     {
         $cookieName = (string) config('domain_context.selection_cookie.name', 'lab_country_domain');
         $cookieMinutes = (int) config('domain_context.selection_cookie.minutes', 525600);
-        $cookieDomain = (string) config('domain_context.selection_cookie.domain', '.lab.albasmaco.com');
+        $cookieDomain = (string) config('domain_context.selection_cookie.domain', '.lab.alsolentco.com');
         $cookieValue = (string) ($option['host'] ?? '');
         $targetUrl = (string) ($option['url'] ?? '');
 
