@@ -24,3 +24,10 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+/.agents
+/.claude
+/.codex
+/.codex_tmp
+/.codex-work
+/.playwright-cli
+
