@@ -49,13 +49,13 @@ class SeedDemoDoctorsAndClinicalCases extends Migration
     ];
 
     private array $jobTypes = [
-        ['name' => 'Crown', 'teeth_or_jaw' => 1, 'a_secondary_item' => 0],
-        ['name' => 'Bridge', 'teeth_or_jaw' => 1, 'a_secondary_item' => 0],
-        ['name' => 'Veneer', 'teeth_or_jaw' => 1, 'a_secondary_item' => 0],
-        ['name' => 'Implant Crown', 'teeth_or_jaw' => 1, 'a_secondary_item' => 0],
-        ['name' => 'Surgical Guide', 'teeth_or_jaw' => 2, 'a_secondary_item' => 0],
-        ['name' => 'Night Guard', 'teeth_or_jaw' => 2, 'a_secondary_item' => 0],
-        ['name' => 'Temporary Crown', 'teeth_or_jaw' => 1, 'a_secondary_item' => 1],
+        ['name' => 'Crown', 'teeth_or_jaw' => 0, 'a_secondary_item' => 0],
+        ['name' => 'Bridge', 'teeth_or_jaw' => 0, 'a_secondary_item' => 0],
+        ['name' => 'Veneer', 'teeth_or_jaw' => 0, 'a_secondary_item' => 0],
+        ['name' => 'Implant Crown', 'teeth_or_jaw' => 0, 'a_secondary_item' => 0],
+        ['name' => 'Surgical Guide', 'teeth_or_jaw' => 1, 'a_secondary_item' => 0],
+        ['name' => 'Night Guard', 'teeth_or_jaw' => 1, 'a_secondary_item' => 0],
+        ['name' => 'Temporary Crown', 'teeth_or_jaw' => 0, 'a_secondary_item' => 1],
     ];
 
     private array $materials = [
@@ -224,13 +224,110 @@ class SeedDemoDoctorsAndClinicalCases extends Migration
             'invoice_amount' => null,
             'payment_amount' => null,
         ],
+        [
+            'case_id' => 'SOLENT-DEMO-2026-009',
+            'doctor' => 'demo.lina.haddad',
+            'patient_name' => 'Hadi N.',
+            'created_at' => '2026-07-11 09:20:00',
+            'initial_delivery_date' => '2026-07-21 14:30:00',
+            'actual_delivery_date' => null,
+            'impression' => 'Intraoral Scan',
+            'delivered_to_client' => 0,
+            'delivered_in_box' => 0,
+            'jobs' => [
+                ['units' => '16,17', 'type' => 'Crown', 'material' => 'Zirconia Multi Layer', 'color' => 'A2', 'style' => 'Monolithic', 'stage' => 2, 'assignee' => true, 'is_set' => 1, 'is_active' => 0],
+            ],
+            'notes' => [
+                ['note' => 'Design approved; units are nested and waiting for the milling cycle.', 'type' => 1, 'created_at' => '2026-07-12 09:20:00'],
+            ],
+            'invoice_amount' => null,
+            'payment_amount' => null,
+        ],
+        [
+            'case_id' => 'SOLENT-DEMO-2026-010',
+            'doctor' => 'demo.omar.nasser',
+            'patient_name' => 'Dana F.',
+            'created_at' => '2026-07-12 11:10:00',
+            'initial_delivery_date' => '2026-07-22 15:00:00',
+            'actual_delivery_date' => null,
+            'impression' => 'Silicone Impression',
+            'delivered_to_client' => 0,
+            'delivered_in_box' => 0,
+            'jobs' => [
+                ['units' => '12,13', 'type' => 'Veneer', 'material' => 'E.max Press', 'color' => 'B1', 'style' => 'Layered', 'stage' => 6, 'assignee' => true, 'is_set' => 1, 'is_active' => 1],
+            ],
+            'notes' => [
+                ['note' => 'Pressing completed; contour and proximal contacts are being finished.', 'type' => 1, 'created_at' => '2026-07-13 11:10:00'],
+            ],
+            'invoice_amount' => null,
+            'payment_amount' => null,
+        ],
+        [
+            'case_id' => 'SOLENT-DEMO-2026-011',
+            'doctor' => 'demo.sarah.mansour',
+            'patient_name' => 'Zaid M.',
+            'created_at' => '2026-07-13 08:35:00',
+            'initial_delivery_date' => '2026-07-20 11:30:00',
+            'actual_delivery_date' => null,
+            'impression' => 'Model / Cast',
+            'delivered_to_client' => 0,
+            'delivered_in_box' => 0,
+            'jobs' => [
+                ['units' => '34,35,36', 'type' => 'Bridge', 'material' => 'Zirconia Multi Layer', 'color' => 'A3', 'style' => 'Anatomical', 'stage' => 7],
+            ],
+            'notes' => [
+                ['note' => 'Final stain and glaze completed; case is waiting for quality control.', 'type' => 1, 'created_at' => '2026-07-14 08:35:00'],
+            ],
+            'invoice_amount' => null,
+            'payment_amount' => null,
+        ],
+        [
+            'case_id' => 'SOLENT-DEMO-2026-012',
+            'doctor' => 'demo.kareem.alami',
+            'patient_name' => 'Reem S.',
+            'created_at' => '2026-07-15 13:40:00',
+            'initial_delivery_date' => '2026-07-19 17:00:00',
+            'actual_delivery_date' => null,
+            'impression' => 'Intraoral Scan',
+            'delivered_to_client' => 0,
+            'delivered_in_box' => 0,
+            'jobs' => [
+                ['units' => '26', 'type' => 'Crown', 'material' => 'Zirconia Multi Layer', 'color' => 'A1', 'style' => 'Monolithic', 'stage' => 8, 'assignee' => true, 'is_set' => 1, 'is_active' => 1],
+            ],
+            'notes' => [
+                ['note' => 'Quality control passed; driver accepted the case for afternoon delivery.', 'type' => 1, 'created_at' => '2026-07-16 13:40:00'],
+            ],
+            'invoice_amount' => null,
+            'payment_amount' => null,
+        ],
+        [
+            'case_id' => 'SOLENT-DEMO-2026-013',
+            'doctor' => 'demo.lina.haddad',
+            'patient_name' => 'Samer J.',
+            'created_at' => '2026-07-09 10:05:00',
+            'initial_delivery_date' => '2026-07-24 13:00:00',
+            'actual_delivery_date' => null,
+            'impression' => 'Intraoral Scan',
+            'delivered_to_client' => 0,
+            'delivered_in_box' => 0,
+            'jobs' => [
+                ['units' => '36', 'type' => 'Implant Crown', 'material' => 'Titanium Abutment', 'color' => 'A2', 'style' => 'Custom abutment', 'stage' => 9, 'assignee' => true, 'is_set' => 1, 'is_active' => 1],
+            ],
+            'notes' => [
+                ['note' => 'Milling completed; custom abutment is in metal finishing and fit verification.', 'type' => 1, 'created_at' => '2026-07-10 10:05:00'],
+            ],
+            'invoice_amount' => null,
+            'payment_amount' => null,
+        ],
     ];
 
     public function up(): void
     {
-        if (! $this->hasRequiredTables()) {
+        if (! $this->isDemoDatabase() || ! $this->hasRequiredTables()) {
             return;
         }
+
+        $this->refreshActiveCaseDates();
 
         DB::transaction(function (): void {
             $now = now();
@@ -277,7 +374,7 @@ class SeedDemoDoctorsAndClinicalCases extends Migration
 
     public function down(): void
     {
-        if (! $this->hasRequiredTables()) {
+        if (! $this->isDemoDatabase() || ! $this->hasRequiredTables()) {
             return;
         }
 
@@ -323,6 +420,72 @@ class SeedDemoDoctorsAndClinicalCases extends Migration
             && Schema::hasTable('job_types');
     }
 
+    private function isDemoDatabase(): bool
+    {
+        $demoDatabase = trim((string) config('domain_context.demo.database', ''));
+
+        return $demoDatabase !== '' && DB::connection()->getDatabaseName() === $demoDatabase;
+    }
+
+    private function refreshActiveCaseDates(): void
+    {
+        $today = now()->startOfDay();
+        $schedule = [
+            'SOLENT-DEMO-2026-005' => [
+                'created_at' => $today->copy()->subDays(14)->setTime(10, 40),
+                'initial_delivery_date' => $today->copy()->subDays(2)->setTime(14, 0),
+            ],
+            'SOLENT-DEMO-2026-006' => [
+                'created_at' => $today->copy()->subDays(9)->setTime(12, 30),
+                'initial_delivery_date' => $today->copy()->setTime(16, 30),
+            ],
+            'SOLENT-DEMO-2026-007' => [
+                'created_at' => $today->copy()->subDays(5)->setTime(9, 50),
+                'initial_delivery_date' => $today->copy()->addDay()->setTime(12, 0),
+            ],
+            'SOLENT-DEMO-2026-008' => [
+                'created_at' => $today->copy()->subDays(2)->setTime(15, 15),
+                'initial_delivery_date' => $today->copy()->addDays(7)->setTime(10, 30),
+            ],
+            'SOLENT-DEMO-2026-009' => [
+                'created_at' => $today->copy()->subDays(8)->setTime(9, 20),
+                'initial_delivery_date' => $today->copy()->addDays(2)->setTime(14, 30),
+            ],
+            'SOLENT-DEMO-2026-010' => [
+                'created_at' => $today->copy()->subDays(7)->setTime(11, 10),
+                'initial_delivery_date' => $today->copy()->addDays(3)->setTime(15, 0),
+            ],
+            'SOLENT-DEMO-2026-011' => [
+                'created_at' => $today->copy()->subDays(6)->setTime(8, 35),
+                'initial_delivery_date' => $today->copy()->addDay()->setTime(11, 30),
+            ],
+            'SOLENT-DEMO-2026-012' => [
+                'created_at' => $today->copy()->subDays(4)->setTime(13, 40),
+                'initial_delivery_date' => $today->copy()->setTime(17, 0),
+            ],
+            'SOLENT-DEMO-2026-013' => [
+                'created_at' => $today->copy()->subDays(10)->setTime(10, 5),
+                'initial_delivery_date' => $today->copy()->addDays(5)->setTime(13, 0),
+            ],
+        ];
+
+        foreach ($this->cases as &$case) {
+            if (! isset($schedule[$case['case_id']])) {
+                continue;
+            }
+
+            $createdAt = $schedule[$case['case_id']]['created_at'];
+            $case['created_at'] = $createdAt->format('Y-m-d H:i:s');
+            $case['initial_delivery_date'] = $schedule[$case['case_id']]['initial_delivery_date']->format('Y-m-d H:i:s');
+
+            foreach ($case['notes'] as $index => &$note) {
+                $note['created_at'] = $createdAt->copy()->addDay()->addHours($index)->format('Y-m-d H:i:s');
+            }
+            unset($note);
+        }
+        unset($case);
+    }
+
     private function seedFoundationData($now): void
     {
         foreach ($this->jobTypes as $jobType) {
@@ -356,7 +519,8 @@ class SeedDemoDoctorsAndClinicalCases extends Migration
 
     private function systemUserId($now): int
     {
-        $userId = DB::table('users')->where('is_admin', 1)->value('id') ?? DB::table('users')->value('id');
+        $userId = DB::table('users')->whereNull('deleted_at')->where('is_admin', 1)->value('id')
+            ?? DB::table('users')->whereNull('deleted_at')->value('id');
 
         if ($userId) {
             return (int) $userId;
@@ -489,20 +653,16 @@ class SeedDemoDoctorsAndClinicalCases extends Migration
 
     private function seedDemoCaseLogs(array $case, int $caseId, int $userId): void
     {
-        $stages = $case['actual_delivery_date'] === null
-            ? $this->activeLogStages($case)
-            : [1, 2, 4, 6, 7, 8];
-
-        foreach ($stages as $index => $stage) {
+        foreach ($this->caseLogEntries($case) as $index => $entry) {
             $createdAt = date('Y-m-d H:i:s', strtotime($case['created_at'] . ' +' . (($index + 1) * 8) . ' hours'));
 
             DB::table('case_logs')->updateOrInsert(
-                ['case_id' => $caseId, 'stage' => $stage, 'is_completion' => 1],
+                ['case_id' => $caseId, 'stage' => $entry['stage'], 'is_completion' => $entry['is_completion']],
                 $this->filterColumns('case_logs', [
                     'user_id' => $userId,
                     'case_id' => $caseId,
-                    'stage' => $stage,
-                    'is_completion' => 1,
+                    'stage' => $entry['stage'],
+                    'is_completion' => $entry['is_completion'],
                     'created_at' => $createdAt,
                     'updated_at' => $createdAt,
                 ])
@@ -510,11 +670,71 @@ class SeedDemoDoctorsAndClinicalCases extends Migration
         }
     }
 
-    private function activeLogStages(array $case): array
+    private function caseLogEntries(array $case): array
     {
-        $highestStage = max(array_column($case['jobs'], 'stage'));
+        $entries = [];
 
-        return array_values(array_filter([1, 2, 3, 4, 5, 6, 7, 8], fn ($stage) => $stage <= $highestStage));
+        foreach ($case['jobs'] as $job) {
+            $path = $this->materialStagePath($job['material']);
+            $currentIndex = array_search($job['stage'], $path, true);
+
+            foreach ($path as $index => $stage) {
+                if ($job['stage'] !== -1 && ($currentIndex === false || $index > $currentIndex)) {
+                    continue;
+                }
+
+                $isCompletion = $job['stage'] === -1 || $index < $currentIndex ? 1 : 0;
+                $key = $stage . ':' . $isCompletion;
+                $entries[$key] = [
+                    'stage' => $stage,
+                    'is_completion' => $isCompletion,
+                    'order' => $index,
+                ];
+            }
+        }
+
+        usort($entries, function (array $left, array $right): int {
+            return [$left['order'], $left['stage'], $left['is_completion']]
+                <=> [$right['order'], $right['stage'], $right['is_completion']];
+        });
+
+        return array_map(function (array $entry): array {
+            unset($entry['order']);
+
+            return $entry;
+        }, array_values($entries));
+    }
+
+    private function materialStagePath(string $materialName): array
+    {
+        $material = null;
+        foreach ($this->materials as $candidate) {
+            if ($candidate['name'] === $materialName) {
+                $material = $candidate;
+                break;
+            }
+        }
+
+        if ($material === null) {
+            return [];
+        }
+
+        $stageColumns = [
+            1 => 'design',
+            2 => 'mill',
+            3 => 'print_3d',
+            4 => 'sinter_furnace',
+            5 => 'press_furnace',
+            9 => 'metal_work',
+            6 => 'finish',
+            7 => 'qc',
+            8 => 'delivery',
+        ];
+
+        return array_values(array_filter(
+            array_keys($stageColumns),
+            fn (int $stage): bool => ! empty($material[$stageColumns[$stage]])
+        ));
     }
 
     private function seedInvoice(array $case, int $caseId, int $doctorId, $now): void

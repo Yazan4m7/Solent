@@ -1,523 +1,1541 @@
 .solent-dash,
 .solent-dash * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 .solent-dash {
-  --solent-bg: #f7f8fc;
-  --solent-surface: #ffffff;
-  --solent-border: #e7eaf2;
-  --solent-text: #111827;
-  --solent-muted: #79829a;
-  --solent-purple: #6d5dfc;
-  --solent-blue: #2f8fed;
-  --solent-teal: #20b997;
-  --solent-orange: #fb8c1f;
-  --solent-shadow: 0 16px 40px rgba(17, 24, 39, 0.05);
-  --solent-radius: 14px;
-  background: var(--solent-bg);
-  color: var(--solent-text);
-  font-family: Inter, "Alexandria", "Open Sans", Arial, sans-serif;
-  min-height: calc(100vh - 84px);
-  padding: 0;
-  width: 100%;
+    --solent-bg: var(--surface-raised);
+    --solent-surface: var(--surface);
+    --solent-border: var(--border);
+    --solent-border-06: var(--border-06);
+    --solent-border-07: var(--border-07);
+    --solent-text: var(--text-1);
+    --solent-muted: var(--text-2);
+    --solent-soft: var(--text-3);
+    --solent-accent: var(--accent);
+    --solent-accent-lt: var(--accent-lt);
+    --solent-accent-bg: var(--accent-bg);
+    --solent-success: var(--success);
+    --solent-warning: var(--warning);
+    --solent-danger: var(--danger);
+    --solent-grid: var(--chart-grid);
+    background: var(--solent-bg);
+    color: var(--solent-text);
+    font-family: var(--font-family-sans-serif, "Cairo", sans-serif);
+    min-height: 0;
+    padding: 0;
+    width: 100%;
 }
 
 .solent-dash a {
-  color: inherit;
-  text-decoration: none;
+    color: inherit;
+    text-decoration: none;
 }
 
 .solent-dash canvas {
-  display: block;
-  max-width: 100%;
+    display: block;
+    max-width: 100%;
 }
 
 .solent-dash .solent-dash-shell {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  min-width: 0;
+    display: grid;
+    gap: 10px;
+    grid-template-rows: 72px minmax(0, 1fr);
+    height: calc(100vh - 92px);
+    height: calc(100dvh - 92px);
+    margin: 0 auto;
+    max-width: 1740px;
+    min-width: 0;
+}
+
+.main-panel > .content.solent-dashboard-content {
+    margin-bottom: 0;
+    min-height: 100vh;
+    padding: 14px 18px 16px !important;
+}
+
+.solent-dashboard-page .footer {
+    display: none;
+}
+
+html[dir="ltr"] .main-panel > .content.solent-dashboard-content {
+    padding-top: 72px !important;
+}
+
+.solent-dash .card-1,
+.solent-dash .card-2,
+.solent-dash .card-3 {
+    min-width: 0;
+}
+
+.solent-dash .card-1 {
+    background: #ffffff !important;
+    background-image: none !important;
+    border: 1px solid rgba(15, 23, 42, 0.08) !important;
+    border-radius: 8px !important;
+    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.04);
+    padding: 14px 18px;
+    position: relative;
+}
+
+.solent-dash .solent-dash-kpi-card.card-1 {
+    background: #ffffff !important;
+    background-image: none !important;
+    border: 1px solid rgba(15, 23, 42, 0.08) !important;
+    border-radius: 8px !important;
+}
+
+.solent-dash .card-1::before {
+    background: #6366f1;
+    border-radius: 8px 0 0 8px;
+    bottom: 0;
+    content: "";
+    display: block;
+    inset-inline-start: 0;
+    position: absolute;
+    top: 0;
+    width: 3px;
+}
+
+html[dir="rtl"] .solent-dash .card-1::before {
+    border-radius: 0 8px 8px 0;
+}
+
+.solent-dash .card-2 {
+    background: var(--surface);
+    border: 1px solid var(--border-07);
+    border-radius: 8px;
+    box-shadow: 0 10px 28px rgba(15, 23, 42, 0.045);
+    padding: 20px;
+}
+
+.solent-dash .card-3 {
+    background: var(--surface-raised);
+    border: 1px solid var(--border-06);
+    border-radius: 8px;
+    padding: 16px;
 }
 
 .solent-dash .solent-dash-chip {
-  align-items: center;
-  appearance: none;
-  background: var(--solent-surface);
-  border: 1px solid var(--solent-border);
-  border-radius: 11px;
-  color: #344054;
-  display: inline-flex;
-  font: inherit;
-  font-size: 12px;
-  font-weight: 800;
-  gap: 8px;
-  height: 42px;
-  justify-content: center;
-  line-height: 1;
-  padding: 0 13px;
-  white-space: nowrap;
+    align-items: center;
+    appearance: none;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-1);
+    display: inline-flex;
+    font: inherit;
+    font-size: 11px;
+    font-weight: 800;
+    gap: 8px;
+    height: 36px;
+    justify-content: center;
+    line-height: 1;
+    padding: 0 12px;
+    white-space: nowrap;
 }
 
 .solent-dash .solent-dash-kpis {
-  display: grid;
-  gap: 14px;
-  grid-template-columns: repeat(5, minmax(150px, 1fr));
-}
-
-.solent-dash .solent-dash-kpi-card,
-.solent-dash .solent-dash-panel {
-  background: var(--solent-surface);
-  border: 1px solid var(--solent-border);
-  border-radius: var(--solent-radius);
-  box-shadow: var(--solent-shadow);
-  min-width: 0;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(4, minmax(150px, 1fr));
 }
 
 .solent-dash .solent-dash-kpi-card {
-  display: grid;
-  gap: 10px;
-  min-height: 154px;
-  padding: 16px;
+    align-content: center;
+    display: grid;
+    gap: 6px;
+    min-height: 72px;
+    overflow: hidden;
+}
+
+.solent-dash .solent-dash-kpi-card.card-1 {
+    padding: 13px 18px 13px 20px;
+}
+
+.solent-dash .solent-dash-kpi-card.card-1 .solent-dash-value,
+.solent-dash .solent-dash-kpi-card.card-1 .solent-dash-value-prefix,
+.solent-dash .solent-dash-kpi-card.card-1 .solent-dash-value-number {
+    color: #0f172a;
+}
+
+.solent-dash .solent-dash-sample-card {
+    padding-block: 10px !important;
+}
+
+.solent-dash .solent-dash-sample-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-width: 0;
+}
+
+.solent-dash .solent-dash-sample-status {
+    display: block;
+    margin-top: 3px;
+    color: var(--text-1);
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.solent-dash .solent-dash-switch {
+    position: relative;
+    display: inline-flex;
+    flex: 0 0 auto;
+    width: 48px;
+    height: 28px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+}
+
+.solent-dash .solent-dash-switch__track {
+    position: absolute;
+    inset: 0;
+    background: #cbd5e1;
+    border-radius: 999px;
+    box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.08);
+    transition: background-color 160ms ease;
+}
+
+.solent-dash .solent-dash-switch__track::after {
+    content: "";
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 20px;
+    height: 20px;
+    background: #ffffff;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(15, 23, 42, 0.24);
+    transition: transform 160ms ease;
+}
+
+.solent-dash .solent-dash-switch.is-active .solent-dash-switch__track {
+    background: var(--accent);
+}
+
+.solent-dash .solent-dash-switch.is-active .solent-dash-switch__track::after {
+    transform: translateX(20px);
+}
+
+.solent-dash .solent-dash-switch:focus-visible .solent-dash-switch__track {
+    outline: 3px solid var(--accent-bg);
+    outline-offset: 2px;
+}
+
+.solent-dash .solent-dash-kpi-card.card-1 .solent-dash-label {
+    color: #64748b;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0;
+    text-transform: uppercase;
+}
+
+.solent-dash .solent-dash-kpi-card.card-1 .solent-dash-value {
+    letter-spacing: 0;
+}
+
+.solent-dash .solent-dash-kpi-card.card-1 .solent-dash-value-number {
+    color: #0f172a;
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: 0;
 }
 
 .solent-dash .solent-dash-kpi-head,
 .solent-dash .solent-dash-panel-head {
-  align-items: flex-start;
-  display: flex;
-  gap: 12px;
-  justify-content: space-between;
-  min-width: 0;
+    align-items: flex-start;
+    display: flex;
+    gap: 12px;
+    justify-content: space-between;
+    min-width: 0;
 }
 
 .solent-dash .solent-dash-label {
-  color: #4b5567;
-  display: block;
-  font-size: 12px;
-  font-weight: 800;
-  line-height: 1.2;
-  margin: 0;
+    color: var(--text-3);
+    display: block;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 1.2;
+    margin: 0;
+    text-transform: uppercase;
 }
 
 .solent-dash .solent-dash-value {
-  color: #101828;
-  display: block;
-  font-size: 22px;
-  font-weight: 600;
-  letter-spacing: 0;
-  line-height: 1.05;
-  margin-top: 8px;
+    align-items: baseline;
+    color: var(--text-1);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    letter-spacing: 0;
+    line-height: 1;
+    margin-top: 5px;
 }
 
-.solent-dash .solent-dash-mini-chart {
-  height: 36px;
-  min-width: 0;
-  position: relative;
+.solent-dash .solent-dash-value-prefix {
+    color: var(--accent);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0;
 }
 
-.solent-dash .solent-dash-note {
-  align-items: center;
-  color: var(--solent-muted);
-  display: flex;
-  font-size: 11px;
-  font-weight: 700;
-  gap: 6px;
-  line-height: 1.2;
+.solent-dash .solent-dash-value-number {
+    color: var(--text-1);
+    font-size: 36px;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.solent-dash .solent-dash-layout,
+.solent-dash .solent-dash-mid-layout {
+    align-items: stretch;
+    display: grid;
+    gap: 10px;
+    min-height: 0;
 }
 
 .solent-dash .solent-dash-layout {
-  display: grid;
-  gap: 16px;
-  grid-template-columns: minmax(340px, 1.08fr) minmax(0, 1.15fr) minmax(280px, 0.82fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-areas:
+    "map revenue revenue revenue"
+    "delivery service orders orders";
+    grid-template-rows: minmax(0, 1.12fr) minmax(0, 0.88fr);
 }
 
-.solent-dash .solent-dash-panel {
-  padding: 18px;
+.solent-dash .solent-dash-mid-layout {
+    grid-template-columns: minmax(280px, 0.94fr) minmax(320px, 1.08fr) minmax(270px, 0.98fr);
+}
+
+.solent-dash .solent-dash-hidden-section,
+.solent-dash .solent-dash-hidden-card {
+    display: none !important;
+}
+
+.solent-dash .solent-dash-layout > .solent-dash-panel,
+.solent-dash .solent-dash-mid-layout > .solent-dash-panel {
+    min-height: 0;
+    overflow: hidden;
+}
+
+.solent-dash .solent-dash-layout > .solent-dash-panel,
+.solent-dash .solent-dash-mid-layout > .solent-dash-panel {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .solent-dash .solent-dash-panel-title {
-  color: #111827;
-  font-size: 15px;
-  font-weight: 850;
-  line-height: 1.25;
-  margin: 0;
+    color: var(--text-1);
+    font-size: 14px;
+    font-weight: 850;
+    line-height: 1.25;
+    margin: 0;
 }
 
 .solent-dash .solent-dash-panel-value {
-  color: #111827;
-  font-size: 24px;
-  font-weight: 850;
-  line-height: 1;
-  margin: 8px 0 0;
+    color: var(--text-1);
+    font-size: 23px;
+    font-weight: 850;
+    line-height: 1;
+    margin: 7px 0 0;
 }
 
 .solent-dash .solent-dash-panel-large {
-  min-height: 292px;
+    grid-area: revenue;
+    min-height: 0;
+}
+
+.solent-dash .solent-dash-delivery-panel {
+    grid-area: delivery;
+    padding: 14px;
+}
+
+.solent-dash .solent-dash-service-panel {
+    grid-area: service;
+}
+
+.solent-dash .solent-dash-orders-panel {
+    grid-area: orders;
 }
 
 .solent-dash .solent-dash-chart-tall {
-  height: 225px;
-  margin-top: 14px;
-  min-width: 0;
-  position: relative;
+    flex: 1 1 auto;
+    height: auto;
+    margin-top: 12px;
+    min-width: 0;
+    position: relative;
 }
 
 .solent-dash .solent-dash-chart-medium {
-  height: 190px;
-  min-width: 0;
-  position: relative;
+    flex: 1 1 auto;
+    height: auto;
+    margin-top: 8px;
+    min-width: 0;
+    position: relative;
 }
 
-.solent-dash .solent-dash-mix {
-  align-items: center;
-  display: grid;
-  gap: 18px;
-  grid-template-columns: 180px minmax(0, 1fr);
-  margin-top: 12px;
-  min-width: 0;
+.solent-dash .solent-dash-service-total {
+    align-items: baseline;
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+    margin-top: 14px;
 }
 
-.solent-dash .solent-dash-donut {
-  height: 180px;
-  min-width: 0;
-  position: relative;
+.solent-dash .solent-dash-service-total span {
+    color: var(--text-2);
+    font-size: 12px;
+    font-weight: 800;
 }
 
-.solent-dash .solent-dash-donut-total {
-  align-items: baseline;
-  display: flex;
-  gap: 10px;
-  justify-content: space-between;
-  margin-top: 12px;
+.solent-dash .solent-dash-service-total strong {
+    color: var(--text-1);
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1;
 }
 
-.solent-dash .solent-dash-donut-total span {
-  color: var(--solent-muted);
-  font-size: 12px;
-  font-weight: 800;
+.solent-dash .solent-dash-service-bars {
+    display: grid;
+    gap: clamp(7px, 1.15vh, 13px);
+    margin-top: clamp(10px, 1.8vh, 20px);
 }
 
-.solent-dash .solent-dash-donut-total strong {
-  color: #101828;
-  font-size: 24px;
-  font-weight: 800;
-  line-height: 1;
+.solent-dash .solent-dash-service-row {
+    display: grid;
+    gap: clamp(4px, 0.7vh, 7px);
 }
 
-.solent-dash .solent-dash-donut-center {
-  inset: 0;
-  pointer-events: none;
-  position: absolute;
+.solent-dash .solent-dash-service-line {
+    align-items: center;
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+}
+
+.solent-dash .solent-dash-service-line span,
+.solent-dash .solent-dash-service-line strong {
+    color: var(--text-1);
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.solent-dash .solent-dash-service-line strong {
+    color: var(--text-2);
+    white-space: nowrap;
+}
+
+.solent-dash .solent-dash-service-track {
+    background: var(--accent-bg);
+    border-radius: 999px;
+    height: clamp(6px, 0.9vh, 9px);
+    overflow: hidden;
+}
+
+.solent-dash .solent-dash-service-track span {
+    background: var(--accent);
+    border-radius: inherit;
+    display: block;
+    height: 100%;
+}
+
+.solent-dash .solent-dash-service-empty {
+    color: var(--text-2);
+    font-size: 12px;
+    font-weight: 700;
 }
 
 .solent-dash .solent-dash-legend {
-  display: grid;
-  gap: 10px;
-  min-width: 0;
+    display: grid;
+    gap: 10px;
+    min-width: 0;
 }
 
 .solent-dash .solent-dash-legend-item {
-  align-items: center;
-  display: grid;
-  gap: 8px;
-  grid-template-columns: 10px minmax(0, 1fr) auto auto;
-  min-width: 0;
+    align-items: center;
+    display: grid;
+    gap: 8px;
+    grid-template-columns: 10px minmax(0, 1fr) auto auto;
+    min-width: 0;
 }
 
 .solent-dash .solent-dash-dot {
-  border-radius: 999px;
-  display: block;
-  height: 10px;
-  width: 10px;
+    border-radius: 999px;
+    display: block;
+    height: 10px;
+    width: 10px;
+}
+
+.solent-dash .tone-accent {
+    background: var(--accent);
+}
+
+.solent-dash .tone-accent-lt {
+    background: var(--accent-lt);
+}
+
+.solent-dash .tone-success {
+    background: var(--success);
+}
+
+.solent-dash .tone-warning {
+    background: var(--warning);
+}
+
+.solent-dash .tone-danger {
+    background: var(--danger);
 }
 
 .solent-dash .solent-dash-legend-item strong,
-.solent-dash .solent-dash-country-line span,
 .solent-dash .solent-dash-load-item strong {
-  color: #344054;
-  font-size: 12px;
-  font-weight: 800;
-  min-width: 0;
+    color: var(--text-1);
+    font-size: 12px;
+    font-weight: 800;
+    min-width: 0;
 }
 
 .solent-dash .solent-dash-amount,
 .solent-dash .solent-dash-percent {
-  color: var(--solent-muted);
-  font-size: 11px;
-  font-weight: 800;
-  white-space: nowrap;
+    color: var(--text-2);
+    font-size: 11px;
+    font-weight: 800;
+    white-space: nowrap;
 }
 
-.solent-dash .solent-dash-mid-layout {
-  display: grid;
-  gap: 16px;
-  grid-template-columns: minmax(280px, 0.95fr) minmax(360px, 1.15fr) minmax(300px, 0.9fr);
+.solent-dash .solent-dash-customer-panel {
+    border-color: rgba(99, 102, 241, 0.28);
+    box-shadow: 0 14px 34px rgba(99, 102, 241, 0.1);
+    display: flex;
+    flex-direction: column;
+    grid-area: map;
+    min-height: 0;
+    overflow: hidden;
+    padding: 0;
+    position: relative;
+}
+
+.solent-dash .solent-dash-customer-panel > .solent-dash-panel-head {
+    align-items: center;
+    /* backdrop-filter: blur(12px); */
+    background: color-mix(in srgb, var(--surface) 88%, #00000014);
+    border: 1px solid color-mix(in srgb, var(--border) 82%, transparent);
+    border-radius: 8px;
+    /* box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08); */
+    inset-inline: 10px;
+    padding: 10px;
+    position: absolute;
+    top: 7px;
+    z-index: 2;
+}
+
+.solent-dash .solent-dash-map-card-copy {
+    min-width: 0;
+}
+
+.solent-dash .solent-dash-map-card-kicker {
+    color: var(--accent);
+    display: block;
+    font-size: 10px;
+    font-weight: 850;
+    letter-spacing: 0.08em;
+    line-height: 1.2;
+    margin: 0 0 6px;
+    text-transform: uppercase;
+}
+
+.solent-dash .solent-dash-map-card-summary {
+    color: var(--text-2);
+    font-size: 11px;
+    font-weight: 650;
+    line-height: 1.45;
+    margin: 7px 0 0;
+    max-width: 250px;
+}
+
+.solent-dash .solent-dash-customer-panel .solent-dash-map-card-summary {
+    display: none;
+}
+
+.solent-dash .solent-dash-map-card-action {
+    align-items: center;
+    appearance: none;
+    background: var(--accent-bg);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    border-radius: 999px;
+    color: var(--accent);
+    display: inline-flex;
+    flex: 0 0 auto;
+    font-size: 15px;
+    font-weight: 850;
+    gap: 6px;
+    min-height: 30px;
+    padding: 0 10px;
+    transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease;
+    white-space: nowrap;
+    justify-content: center;
+}
+
+.solent-dash .solent-dash-map-card-action:hover,
+.solent-dash .solent-dash-map-card-action:focus-visible {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #ffffff;
+    outline: 0;
+    transform: translateY(-1px);
+}
+
+.solent-dash .solent-dash-customer-panel .solent-dash-map-card-action {
+    height: 44px;
+    min-height: 44px;
+    padding: 0;
+    width: 44px;
+}
+
+.solent-dash .solent-dash-customer-panel .solent-dash-map-card-action span {
+    border: 0;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
 }
 
 .solent-dash .solent-dash-client-panel {
-  display: grid;
-  gap: 16px;
-  grid-template-columns: 120px minmax(0, 1fr);
-  margin-top: 16px;
+    align-items: stretch;
+    display: grid;
+    flex: 1 1 auto;
+    grid-template-columns: 1fr;
+    height: 100%;
+    margin-top: 0;
+    min-height: 0;
+    width: 100%;
 }
 
-.solent-dash .solent-dash-map-button {
-  aspect-ratio: 1;
-  background: linear-gradient(135deg, #f8faff, #f2fbf8);
-  border: 1px solid var(--solent-border);
-  border-radius: 14px;
-  cursor: zoom-in;
-  overflow: hidden;
-  padding: 6px;
-  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+.solent-dash .solent-dash-customer-panel .solent-dash-map-stage {
+    background: var(--surface-raised);
+    border: 0;
+    border-radius: inherit;
+    box-shadow: none;
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+    padding: 0;
+    pointer-events: none;
+    width: 100%;
 }
 
-.solent-dash .solent-dash-map-button:hover,
-.solent-dash .solent-dash-map-button:focus {
-  border-color: rgba(109, 93, 252, 0.5);
-  box-shadow: 0 10px 20px rgba(31, 42, 61, 0.1);
-  outline: 0;
-  transform: translateY(-2px);
+.solent-dash .solent-dash-customer-panel .solent-dash-map-stage .solent-dash-jordan-map {
+    height: 100%;
+    min-height: 0;
+}
+
+.solent-dash .solent-dash-customer-panel .solent-dash-jordan-canvas {
+    padding: 70px 8px 0;
+}
+
+.solent-dash .solent-dash-delivery-days {
+    display: grid;
+    flex: 1 1 auto;
+    gap: 6px;
+    grid-template-rows: repeat(3, minmax(0, 1fr));
+    margin-top: 10px;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.solent-dash .solent-dash-delivery-day {
+    background: var(--surface-raised);
+    border: 1px solid var(--border-06);
+    border-inline-start: 3px solid var(--accent);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    padding: 7px;
+}
+
+.solent-dash .solent-dash-delivery-day--tomorrow {
+    border-inline-start-color: var(--warning);
+}
+
+.solent-dash .solent-dash-delivery-day--following {
+    border-inline-start-color: var(--success);
+}
+
+.solent-dash .solent-dash-delivery-link {
+    align-items: center;
+    background: var(--accent-bg);
+    border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+    border-radius: 7px;
+    color: var(--accent);
+    display: inline-flex;
+    flex: 0 0 auto;
+    font-size: 11px;
+    font-weight: 800;
+    gap: 5px;
+    justify-content: center;
+    min-height: 32px;
+    padding: 0 8px;
+    transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease;
+}
+
+.solent-dash .solent-dash-delivery-link:hover,
+.solent-dash .solent-dash-delivery-link:focus-visible {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #ffffff;
+    outline: 0;
+}
+
+.solent-dash .solent-dash-delivery-table-wrap {
+    border: 1px solid var(--border-06);
+    border-radius: 9px;
+    flex: 1 1 auto;
+    margin-top: 10px;
+    min-height: 0;
+    overflow: auto;
+    overscroll-behavior: contain;
+}
+
+.solent-dash .solent-dash-delivery-table {
+    border-collapse: collapse;
+    min-width: 560px;
+    table-layout: fixed;
+    width: 100%;
+}
+
+.solent-dash .solent-dash-delivery-table th,
+.solent-dash .solent-dash-delivery-table td {
+    border-bottom: 1px solid var(--border-06);
+    color: var(--text-1);
+    font-size: 11px;
+    line-height: 1.25;
+    overflow: hidden;
+    padding: 8px 9px;
+    text-align: start;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.solent-dash .solent-dash-delivery-table th {
+    background: var(--surface-raised);
+    color: var(--text-2);
+    font-size: 10px;
+    font-weight: 850;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.solent-dash .solent-dash-delivery-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.solent-dash .solent-dash-delivery-table tbody tr:hover td {
+    background: var(--accent-bg);
+}
+
+.solent-dash .solent-dash-delivery-table th:nth-child(1),
+.solent-dash .solent-dash-delivery-table td:nth-child(1) { width: 17%; }
+.solent-dash .solent-dash-delivery-table th:nth-child(2),
+.solent-dash .solent-dash-delivery-table td:nth-child(2) { width: 12%; }
+.solent-dash .solent-dash-delivery-table th:nth-child(3),
+.solent-dash .solent-dash-delivery-table td:nth-child(3) { width: 16%; }
+.solent-dash .solent-dash-delivery-table th:nth-child(4),
+.solent-dash .solent-dash-delivery-table td:nth-child(4) { width: 27%; }
+.solent-dash .solent-dash-delivery-table th:nth-child(5),
+.solent-dash .solent-dash-delivery-table td:nth-child(5) { width: 28%; }
+
+.solent-dash .solent-dash-delivery-table a {
+    color: var(--accent);
+    font-weight: 850;
+    text-decoration: none;
+}
+
+.solent-dash .solent-dash-delivery-table a:hover,
+.solent-dash .solent-dash-delivery-table a:focus-visible {
+    color: var(--accent-strong);
+    text-decoration: underline;
+}
+
+.solent-dash .solent-dash-delivery-table-empty {
+    color: var(--text-2) !important;
+    font-size: 12px !important;
+    font-weight: 750;
+    padding: 22px !important;
+    text-align: center !important;
+}
+
+.solent-dash .solent-dash-delivery-table-empty i {
+    color: var(--success);
+    margin-inline-end: 6px;
+}
+
+.solent-dash .solent-dash-delivery-day-head {
+    align-items: center;
+    display: grid;
+    flex: 0 0 auto;
+    gap: 7px;
+    grid-template-columns: 7px minmax(0, 1fr) auto;
+    min-width: 0;
+}
+
+.solent-dash .solent-dash-delivery-day-marker {
+    background: var(--accent);
+    border-radius: 999px;
+    height: 7px;
+    width: 7px;
+}
+
+.solent-dash .solent-dash-delivery-day--tomorrow .solent-dash-delivery-day-marker {
+    background: var(--warning);
+}
+
+.solent-dash .solent-dash-delivery-day--following .solent-dash-delivery-day-marker {
+    background: var(--success);
+}
+
+.solent-dash .solent-dash-delivery-day-heading {
+    align-items: baseline;
+    display: flex;
+    gap: 6px;
+    justify-content: space-between;
+    min-width: 0;
+}
+
+.solent-dash .solent-dash-delivery-day-heading strong {
+    color: var(--text-1);
+    font-size: 11px;
+    font-weight: 850;
+    line-height: 1.2;
+    min-width: 0;
+}
+
+.solent-dash .solent-dash-delivery-day-heading time {
+    color: var(--text-2);
+    flex: 0 0 auto;
+    font-size: 14px;
+    font-weight: 750;
+    white-space: nowrap;
+}
+
+.solent-dash .solent-dash-delivery-day-count {
+    align-items: center;
+    background: var(--accent-bg);
+    border-radius: 999px;
+    color: var(--accent);
+    display: inline-flex;
+    font-size: 10px;
+    font-weight: 850;
+    height: 22px;
+    justify-content: center;
+    line-height: 1;
+    min-width: 22px;
+    padding: 0 6px;
+}
+
+.solent-dash .solent-dash-delivery-case-list {
+    display: grid;
+    flex: 1 1 auto;
+    gap: 4px;
+    margin-top: 10px;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding-inline-end: 2px;
+    scrollbar-color: color-mix(in srgb, var(--accent) 30%, transparent) transparent;
+    scrollbar-width: thin;
+}
+
+.solent-dash .solent-dash-delivery-case {
+    align-items: center;
+    background: var(--surface);
+    border: 1px solid var(--border-06);
+    border-radius: 7px;
+    display: grid;
+    gap: 6px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    min-width: 0;
+    padding: 5px 6px;
+    transition: border-color 140ms ease, box-shadow 140ms ease;
+}
+
+.solent-dash .solent-dash-delivery-case:hover,
+.solent-dash .solent-dash-delivery-case:focus-visible {
+    border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--accent) 10%, transparent);
+    outline: 0;
+}
+
+.solent-dash .solent-dash-delivery-case-copy {
+    display: grid;
+    gap: 8px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    min-width: 0;
+}
+
+.solent-dash .solent-dash-delivery-case-field {
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+}
+
+.solent-dash .solent-dash-delivery-case-field small,
+.solent-dash .solent-dash-delivery-case > time small {
+    color: var(--text-2);
+    font-size: 8px;
+    font-weight: 750;
+    line-height: 1.2;
+}
+
+.solent-dash .solent-dash-delivery-case-field strong {
+    color: var(--text-1);
+    font-size: 10px;
+    font-weight: 800;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.solent-dash .solent-dash-delivery-case > time {
+    display: grid;
+    gap: 2px;
+    min-width: 76px;
+    text-align: end;
+    white-space: nowrap;
+}
+
+.solent-dash .solent-dash-delivery-case > time strong {
+    color: var(--accent);
+    font-size: 10px;
+    font-weight: 850;
+}
+
+.solent-dash .solent-dash-delivery-empty {
+    align-items: center;
+    color: var(--text-2);
+    display: flex;
+    font-size: 14px;
+    font-weight: 700;
+    gap: 6px;
+    justify-content: center;
+    margin: auto 0;
+    min-height: 26px;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+.solent-dash .solent-dash-delivery-empty i {
+    color: var(--success);
 }
 
 .solent-dash-jordan-map,
 .solent-dash-jordan-map svg {
-  display: block;
-  height: 100%;
-  width: 100%;
+    display: block;
+    height: 100%;
+    width: 100%;
 }
 
 .solent-dash-jordan-map svg {
-  overflow: visible;
+    overflow: visible;
 }
 
 .solent-dash-jordan-outline {
-  fill: none;
-  stroke: #d9e1ef;
-  stroke-linejoin: round;
-  stroke-width: 3;
+    fill: none;
+    stroke: var(--border);
+    stroke-linejoin: round;
+    stroke-width: 3;
 }
 
 .solent-dash-jordan-heat-zone {
-  stroke: rgba(255, 255, 255, 0.76);
-  stroke-linejoin: round;
-  stroke-width: 2;
+    stroke: var(--surface);
+    stroke-linejoin: round;
+    stroke-width: 2;
 }
 
 .solent-dash-jordan-city text {
-  fill: #344054;
-  font-family: Arial, sans-serif;
-  font-size: 11px;
-  font-weight: 800;
+    fill: var(--text-1);
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 800;
 }
 
 .solent-dash-jordan-city .solent-dash-jordan-city-value {
-  fill: #98a2b3;
-  font-size: 9px;
-  font-weight: 700;
+    fill: var(--text-3);
+    font-size: 9px;
+    font-weight: 700;
 }
 
-.solent-dash-map-modal .modal-content {
-  border: 0;
-  border-radius: 18px;
+.solent-dash-map-modal {
+    z-index: 1050;
+}
+
+.solent-dash-map-detail-modal {
+    background: rgba(15, 23, 42, 0.38);
+    z-index: 1070;
+}
+
+.solent-dash-map-modal .modal-dialog,
+.solent-dash-map-detail-modal .modal-dialog {
+    margin: 1.75rem auto;
+    width: 100%;
+}
+
+.solent-dash-map-modal .modal-dialog {
+    max-width: min(920px, calc(100vw - 32px));
+}
+
+.solent-dash-map-detail-modal .modal-dialog {
+    max-width: min(760px, calc(100vw - 32px));
+}
+
+.solent-dash-map-modal .modal-content,
+.solent-dash-map-detail-modal .modal-content {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    box-shadow: 0 26px 70px rgba(15, 23, 42, 0.2);
+    max-height: calc(100vh - 56px);
+    overflow: hidden;
+}
+
+.solent-dash-map-modal .modal-header,
+.solent-dash-map-detail-modal .modal-header {
+    align-items: flex-start;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 16px;
+    justify-content: space-between;
+    padding: 18px 20px 15px;
+}
+
+.solent-dash-map-modal-copy {
+    min-width: 0;
+}
+
+.solent-dash-map-modal-eyebrow {
+    color: var(--accent);
+    display: block;
+    font-size: 10px;
+    font-weight: 850;
+    letter-spacing: 0.09em;
+    line-height: 1.2;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+}
+
+.solent-dash-map-modal .modal-title,
+.solent-dash-map-detail-modal .modal-title {
+    color: var(--text-1);
+    font-size: 19px;
+    font-weight: 850;
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+    margin: 0;
+}
+
+.solent-dash-map-modal-summary,
+.solent-dash-map-detail-meta {
+    color: var(--text-2);
+    font-size: 12px;
+    font-weight: 650;
+    line-height: 1.45;
+    margin: 6px 0 0;
+}
+
+.solent-dash-map-modal .modal-header .close,
+.solent-dash-map-detail-modal .modal-header .close {
+    align-items: center;
+    background: var(--surface-raised);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--text-2);
+    display: inline-flex;
+    flex: 0 0 40px;
+    height: 40px;
+    justify-content: center;
+    margin: 0;
+    opacity: 1;
+    padding: 0;
+    text-shadow: none;
+    transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+    width: 40px;
+}
+
+.solent-dash-map-modal .modal-header .close:hover,
+.solent-dash-map-modal .modal-header .close:focus-visible,
+.solent-dash-map-detail-modal .modal-header .close:hover,
+.solent-dash-map-detail-modal .modal-header .close:focus-visible {
+    background: var(--accent-bg);
+    border-color: rgba(99, 102, 241, 0.32);
+    color: var(--accent);
+    outline: 0;
+}
+
+.solent-dash-map-modal .modal-header .close span,
+.solent-dash-map-detail-modal .modal-header .close span {
+    display: block;
+    font-size: 25px;
+    line-height: 1;
+    transform: translateY(-1px);
+}
+
+.solent-dash-map-modal .modal-body,
+.solent-dash-map-detail-modal .modal-body {
+    background: var(--surface-raised);
+    min-height: 0;
+    overflow: hidden;
+    padding: 14px;
 }
 
 .solent-dash-map-modal .modal-body {
-  background: linear-gradient(135deg, #f8faff, #f2fbf8);
-  border-radius: 0 0 18px 18px;
-  height: min(74vh, 720px);
-  padding: 18px;
+    height: min(62vh, 540px);
+}
+
+.solent-dash-map-detail-modal .modal-body {
+    height: min(56vh, 470px);
+}
+
+.solent-dash-map-stage {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 10px 28px rgba(15, 23, 42, 0.05);
+    height: 100%;
+    overflow: hidden;
+    padding: 10px;
+}
+
+.solent-dash-map-modal.fade .modal-dialog,
+.solent-dash-map-detail-modal.fade .modal-dialog {
+    opacity: 0;
+    transform: translateY(10px) !important;
+    transition: opacity 180ms ease, transform 180ms ease !important;
+}
+
+.solent-dash-map-modal.show .modal-dialog,
+.solent-dash-map-detail-modal.show .modal-dialog {
+    opacity: 1;
+    transform: translateY(0) !important;
 }
 
 .solent-dash-jordan-map-expanded {
-  height: 100%;
+    height: 100%;
 }
 
 .solent-dash-jordan-map-expanded .solent-dash-jordan-city text {
-  font-size: 10px;
-}
-
-.solent-dash .solent-dash-country-list {
-  display: grid;
-  gap: 12px;
-}
-
-.solent-dash .solent-dash-country-line {
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 6px;
-}
-
-.solent-dash .solent-dash-country-line strong {
-  color: #101828;
-  font-size: 12px;
-  font-weight: 850;
-}
-
-.solent-dash .solent-dash-track {
-  background: #eef2f7;
-  border-radius: 999px;
-  height: 7px;
-  overflow: hidden;
-}
-
-.solent-dash .solent-dash-track span {
-  background: linear-gradient(90deg, var(--solent-purple), var(--solent-teal));
-  border-radius: inherit;
-  display: block;
-  height: 100%;
+    font-size: 10px;
 }
 
 .solent-dash .solent-dash-activity-list {
-  display: grid;
-  gap: 10px;
-  margin-top: 14px;
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 8px;
 }
 
 .solent-dash .solent-dash-activity-item {
-  align-items: center;
-  background: #f8fafc;
-  border: 1px solid #edf1f7;
-  border-radius: 12px;
-  display: grid;
-  gap: 10px;
-  grid-template-columns: 38px minmax(0, 1fr) auto;
-  min-height: 58px;
-  padding: 10px;
+    align-items: center;
+    display: grid;
+    gap: 8px;
+    grid-template-columns: 28px minmax(0, 1fr) auto;
+    min-height: 40px;
+    padding: 5px 8px;
+    transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.solent-dash .solent-dash-activity-item:hover,
+.solent-dash .solent-dash-activity-item:focus {
+    border-color: var(--accent-lt);
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.05);
+    outline: 0;
+    transform: translateY(-1px);
 }
 
 .solent-dash .solent-dash-activity-icon {
-  align-items: center;
-  border-radius: 12px;
-  display: inline-flex;
-  height: 38px;
-  justify-content: center;
-  width: 38px;
+    align-items: center;
+    background: var(--accent-bg);
+    border-radius: 8px;
+    color: var(--accent);
+    display: inline-flex;
+    height: 28px;
+    justify-content: center;
+    width: 28px;
+}
+
+.solent-dash .solent-dash-activity-icon.tone-success {
+    background: color-mix(in srgb, var(--success) 14%, transparent);
+    color: var(--success);
+}
+
+.solent-dash .solent-dash-activity-icon.tone-warning {
+    background: color-mix(in srgb, var(--warning) 14%, transparent);
+    color: var(--warning);
+}
+
+.solent-dash .solent-dash-activity-icon.tone-danger {
+    background: color-mix(in srgb, var(--danger) 14%, transparent);
+    color: var(--danger);
+}
+
+.solent-dash .solent-dash-activity-icon.tone-accent {
+    background: var(--accent-bg);
+    color: var(--accent);
 }
 
 .solent-dash .solent-dash-activity-item strong {
-  color: #101828;
-  display: block;
-  font-size: 12px;
-  font-weight: 850;
-  line-height: 1.2;
+    color: var(--text-1);
+    display: block;
+    font-size: 12px;
+    font-weight: 850;
+    line-height: 1.2;
 }
 
 .solent-dash .solent-dash-activity-item span span,
 .solent-dash .solent-dash-activity-meta,
 .solent-dash .solent-dash-activity-empty {
-  color: var(--solent-muted);
-  font-size: 11px;
-  font-weight: 700;
-  line-height: 1.2;
+    color: var(--text-2);
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.2;
 }
 
 .solent-dash .solent-dash-load-kicker {
-  color: var(--solent-muted);
-  display: block;
-  font-size: 11px;
-  font-weight: 850;
-  letter-spacing: 0;
-  line-height: 1.2;
-  margin-bottom: 4px;
+    color: var(--text-3);
+    display: block;
+    font-size: 11px;
+    font-weight: 850;
+    letter-spacing: 0;
+    line-height: 1.2;
+    margin-bottom: 4px;
 }
 
 .solent-dash .solent-dash-load-body {
-  display: grid;
-  gap: 14px;
-  grid-template-columns: minmax(0, 1.1fr) minmax(150px, 0.9fr);
-  margin-top: 14px;
+    display: grid;
+    flex: 1 1 auto;
+    gap: 10px;
+    grid-template-columns: 1fr;
+    margin-top: 10px;
 }
 
 .solent-dash .solent-dash-load-chart {
-  height: 180px;
-  min-width: 0;
-  position: relative;
+    height: 150px;
+    min-width: 0;
+    position: relative;
 }
 
 .solent-dash .solent-dash-load-legend {
-  color: var(--solent-muted);
-  display: flex;
-  flex-wrap: wrap;
-  font-size: 10px;
-  font-weight: 800;
-  gap: 10px;
-  margin-top: 8px;
+    color: var(--text-2);
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 10px;
+    font-weight: 800;
+    gap: 10px;
+    margin-top: 6px;
 }
 
 .solent-dash .solent-dash-load-swatch {
-  border-radius: 999px;
-  display: inline-block;
-  height: 8px;
-  margin-right: 5px;
-  width: 8px;
+    border-radius: 999px;
+    display: inline-block;
+    height: 8px;
+    margin-right: 5px;
+    width: 8px;
 }
 
 .solent-dash .solent-dash-load-swatch-primary {
-  background: var(--solent-purple);
+    background: var(--accent);
 }
 
 .solent-dash .solent-dash-load-swatch-secondary {
-  background: rgba(149, 157, 185, 0.46);
+    background: var(--accent-bg);
 }
 
 .solent-dash .solent-dash-load-list {
-  display: grid;
-  gap: 10px;
+    display: grid;
+    gap: 8px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .solent-dash .solent-dash-load-item {
-  background: #f8fafc;
-  border: 1px solid #edf1f7;
-  border-radius: 12px;
-  display: grid;
-  gap: 8px;
-  padding: 10px;
+    display: grid;
+    gap: 5px;
+    grid-template-rows: 1fr auto;
+    min-height: 74px;
+    padding: 10px;
 }
 
 .solent-dash .solent-dash-load-item span {
-  color: var(--solent-muted);
-  display: block;
-  font-size: 11px;
-  font-weight: 700;
-  line-height: 1.2;
-  margin-top: 3px;
+    color: var(--text-2);
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-top: 3px;
 }
 
 .solent-dash .solent-dash-load-jobs {
-  color: #101828 !important;
-  font-weight: 850 !important;
+    color: var(--text-1) !important;
+    font-weight: 850 !important;
 }
 
-@media (max-width: 1320px) {
-  .solent-dash .solent-dash-kpis {
-    grid-template-columns: repeat(3, minmax(170px, 1fr));
-  }
+@media (max-width: 1199px) {
+    .solent-dash .solent-dash-kpis {
+        grid-template-columns: repeat(4, minmax(132px, 1fr));
+    }
 
-  .solent-dash .solent-dash-layout,
-  .solent-dash .solent-dash-mid-layout {
-    grid-template-columns: 1fr;
-  }
+    .solent-dash .solent-dash-layout,
+    .solent-dash .solent-dash-mid-layout {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-rows: none;
+    }
+
+    .solent-dash .solent-dash-layout {
+        grid-template-areas:
+      "map revenue"
+      "delivery service"
+      "orders orders";
+    }
+
+    .solent-dash .solent-dash-shell {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+    }
+
+    .solent-dash .solent-dash-customer-panel,
+    .solent-dash .solent-dash-panel-large {
+        min-height: 310px;
+    }
+
+    .solent-dash .solent-dash-customer-panel .solent-dash-panel-head {
+        align-self: auto;
+    }
+
+    .solent-dash .solent-dash-customer-panel .solent-dash-client-panel {
+        margin-top: 0;
+    }
+
+    .solent-dash .solent-dash-delivery-panel,
+    .solent-dash .solent-dash-service-panel {
+        min-height: 250px;
+    }
+
+    .solent-dash .solent-dash-chart-medium {
+        min-height: 220px;
+    }
+
+    .solent-dash .solent-dash-chart-tall {
+        min-height: 240px;
+    }
+}
+
+@media (max-width: 1080px) {
+    .solent-dash .solent-dash-kpis {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
 }
 
 @media (max-width: 760px) {
-  .solent-dash .solent-dash-kpis,
-  .solent-dash .solent-dash-client-panel,
-  .solent-dash .solent-dash-load-body {
-    grid-template-columns: 1fr;
-  }
+    .main-panel > .content.solent-dashboard-content {
+        padding: 66px 10px 16px !important;
+    }
 
-  .solent-dash .solent-dash-panel,
-  .solent-dash .solent-dash-kpi-card {
-    padding: 14px;
-  }
+    .solent-dash .solent-dash-shell {
+        gap: 12px;
+    }
 
-  .solent-dash .solent-dash-mix {
-    grid-template-columns: 1fr;
-  }
+    .solent-dash .solent-dash-load-body,
+    .solent-dash .solent-dash-layout,
+    .solent-dash .solent-dash-mid-layout {
+        grid-template-columns: 1fr;
+    }
 
-  .solent-dash .solent-dash-donut {
-    height: 210px;
-  }
+    .solent-dash .solent-dash-layout {
+        grid-template-areas:
+      "map"
+      "revenue"
+      "delivery"
+      "service"
+      "orders";
+    }
+
+    .solent-dash .solent-dash-kpi-card {
+        min-height: 78px;
+    }
+
+    .solent-dash .solent-dash-kpi-card.card-1 .solent-dash-value-number {
+        font-size: 27px;
+    }
+
+    .solent-dash .card-2,
+    .solent-dash .card-3 {
+        padding: 14px;
+    }
+
+    .solent-dash .solent-dash-panel-head {
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .solent-dash .solent-dash-customer-panel {
+        align-items: stretch;
+        display: flex;
+        gap: 0;
+        min-height: 320px;
+        padding: 0;
+    }
+
+    .solent-dash .solent-dash-customer-panel .solent-dash-client-panel {
+        margin-top: 0;
+    }
+
+    .solent-dash .solent-dash-map-card-summary {
+        max-width: 220px;
+    }
+
+    .solent-dash .solent-dash-map-card-action {
+        min-height: 44px;
+    }
+
+    .solent-dash .solent-dash-delivery-days {
+        grid-template-rows: repeat(3, auto);
+        min-height: 0;
+        overflow: visible;
+    }
+
+    .solent-dash .solent-dash-delivery-day {
+        min-height: 84px;
+    }
+
+    .solent-dash .solent-dash-delivery-case-list {
+        max-height: none;
+    }
+
+    .solent-dash .solent-dash-delivery-case {
+        min-height: 44px;
+        padding: 7px 8px;
+    }
+
+    .solent-dash .solent-dash-delivery-case-field strong,
+    .solent-dash .solent-dash-delivery-case > time strong {
+        font-size: 11px;
+    }
+
+    .solent-dash .solent-dash-delivery-case-field small,
+    .solent-dash .solent-dash-delivery-case > time small,
+    .solent-dash .solent-dash-delivery-empty {
+        font-size: 10px;
+    }
+
+    .solent-dash .solent-dash-delivery-link {
+        min-height: 36px;
+    }
+
+    .solent-dash .solent-dash-delivery-table-wrap {
+        margin-top: 8px;
+    }
+
+    .solent-dash .solent-dash-delivery-table {
+        min-width: 520px;
+    }
+
+    .solent-dash .solent-dash-panel-value,
+    .solent-dash .solent-dash-service-total strong {
+        font-size: 21px;
+    }
+
+    .solent-dash .solent-dash-chart-tall,
+    .solent-dash .solent-dash-chart-medium {
+        height: 190px;
+        min-height: 190px;
+    }
+
+    .solent-dash .solent-dash-load-chart {
+        height: 150px;
+    }
+
+    .solent-dash .solent-dash-load-list {
+        grid-template-columns: 1fr;
+    }
+
+    .solent-dash .solent-dash-activity-item {
+        align-items: flex-start;
+        grid-template-columns: 36px minmax(0, 1fr);
+        min-height: 48px;
+        padding: 9px;
+    }
+
+    .solent-dash .solent-dash-activity-icon {
+        height: 36px;
+        width: 36px;
+    }
+
+    .solent-dash .solent-dash-activity-meta {
+        grid-column: 2;
+        justify-self: start;
+    }
+
+    .solent-dash-map-modal,
+    .solent-dash-map-detail-modal {
+        padding: 8px !important;
+    }
+
+    .solent-dash-map-modal .modal-dialog,
+    .solent-dash-map-detail-modal .modal-dialog {
+        margin: 0 auto;
+        max-width: calc(100vw - 16px);
+    }
+
+    .solent-dash-map-modal .modal-content,
+    .solent-dash-map-detail-modal .modal-content {
+        border-radius: 18px;
+        max-height: calc(100vh - 16px);
+        max-height: calc(100dvh - 16px);
+    }
+
+    .solent-dash-map-modal .modal-header,
+    .solent-dash-map-detail-modal .modal-header {
+        padding: 15px 15px 12px;
+    }
+
+    .solent-dash-map-modal .modal-title,
+    .solent-dash-map-detail-modal .modal-title {
+        font-size: 17px;
+    }
+
+    .solent-dash-map-modal .modal-body,
+    .solent-dash-map-detail-modal .modal-body {
+        padding: 8px;
+    }
+
+    .solent-dash-map-modal .modal-body {
+        height: min(62vh, 500px);
+        height: min(62dvh, 500px);
+    }
+
+    .solent-dash-map-detail-modal .modal-body {
+        height: min(56vh, 440px);
+        height: min(56dvh, 440px);
+    }
+
+    .solent-dash-map-stage {
+        border-radius: 12px;
+        padding: 6px;
+    }
 }

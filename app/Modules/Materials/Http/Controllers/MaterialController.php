@@ -26,8 +26,9 @@ class MaterialController extends Controller
     public function create(Request $request)
     {
         $this->validate($request, [
-            'name'  => 'mat_name|max:30',
+            'mat_name' => 'required|max:30',
             'price' => 'required|numeric',
+            'jobTypes' => 'required|array|min:1',
         ]);
 
         $material = new material();
@@ -66,6 +67,13 @@ class MaterialController extends Controller
 
     public function update(Request $request)
     {
+        $this->validate($request, [
+            'mat_id' => 'required',
+            'mat_name' => 'required|max:30',
+            'price' => 'required|numeric',
+            'jobTypes' => 'required|array|min:1',
+        ]);
+
         $material = material::where('id', $request->mat_id)->first();
         if (!$material) {
             return back()->with('Material Not found');

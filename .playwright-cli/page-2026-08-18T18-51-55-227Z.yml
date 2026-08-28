@@ -1,0 +1,71 @@
+- generic [ref=e1]:
+  - link "Switch to English" [ref=e2] [cursor=pointer]:
+    - /url: http://solent.test/login?ui_locale=en
+    - generic [ref=e3]: English
+  - main [ref=e4]:
+    - region "Solent branding" [ref=e5]:
+      - generic [ref=e6]:
+        - img "Solent login logo" [ref=e7]
+        - paragraph [ref=e9]: المنصة الذكية لمختبرات الأسنان التي تتطلع إلى التميز.
+      - generic [ref=e10]: آمن وموثوق، ومصمم لمتخصصي طب الأسنان.
+    - region "تسجيل الدخول" [ref=e16]:
+      - heading "مرحباً بعودتك" [level=1] [ref=e17]
+      - paragraph [ref=e18]: سجّل الدخول إلى حسابك في Solent
+      - generic [ref=e19]:
+        - generic [ref=e20]:
+          - generic [ref=e21]: اسم المستخدم
+          - textbox "اسم المستخدم" [active] [ref=e23]:
+            - /placeholder: أدخل اسم المستخدم
+        - generic [ref=e24]:
+          - generic [ref=e25]: كلمة المرور
+          - generic [ref=e26]:
+            - textbox "كلمة المرور" [ref=e27]:
+              - /placeholder: أدخل كلمة المرور
+            - button "إظهار كلمة المرور" [ref=e28] [cursor=pointer]
+        - generic [ref=e32]:
+          - generic [ref=e33] [cursor=pointer]:
+            - checkbox "تذكرني"
+            - generic [ref=e37]: تذكرني
+          - link "هل نسيت كلمة المرور؟" [ref=e38] [cursor=pointer]:
+            - /url: http://solent.test/password/reset
+        - button "تسجيل الدخول" [ref=e39] [cursor=pointer]
+      - paragraph [ref=e40]: ليس لديك حساب؟ تواصل مع مسؤول النظام
+  - generic [ref=e41]:
+    - generic [ref=e43]:
+      - generic [ref=e44] [cursor=pointer]
+      - generic [ref=e45]:
+        - generic [ref=e46] [cursor=pointer]: 
+        - generic [ref=e48] [cursor=pointer]: 
+        - generic [ref=e50] [cursor=pointer]: 
+        - generic [ref=e52] [cursor=pointer]:
+          - generic [ref=e53]: 
+          - generic [ref=e54]: "2"
+        - generic [ref=e55] [cursor=pointer]: 
+        - generic [ref=e57] [cursor=pointer]:
+          - generic [ref=e58]: 
+          - generic [ref=e59]: "1"
+        - generic [ref=e60] [cursor=pointer]:
+          - generic [ref=e61]: 
+          - generic [ref=e62]: "0"
+        - generic [ref=e63] [cursor=pointer]: 
+        - generic [ref=e65] [cursor=pointer]: 
+        - generic [ref=e67] [cursor=pointer]: 
+        - generic [ref=e69] [cursor=pointer]: 
+      - generic [ref=e71]:
+        - generic [ref=e72] [cursor=pointer]
+        - generic [ref=e73] [cursor=pointer]
+        - generic [ref=e74] [cursor=pointer]
+        - generic [ref=e75]:
+          - generic [ref=e76]: 
+          - generic: 8.4.16
+        - generic [ref=e77]:
+          - generic [ref=e78]: 
+          - generic: 492ms
+        - generic [ref=e79]:
+          - generic [ref=e80]: 
+          - generic: 4MB
+        - generic [ref=e81]:
+          - generic [ref=e82]: 
+          - generic: GET login
+    - text:              
+  - text: 

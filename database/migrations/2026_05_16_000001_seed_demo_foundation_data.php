@@ -14,13 +14,13 @@ class SeedDemoFoundationData extends Migration
     ];
 
     private array $jobTypes = [
-        ['name' => 'Crown', 'teeth_or_jaw' => 1, 'a_secondary_item' => 0],
-        ['name' => 'Bridge', 'teeth_or_jaw' => 1, 'a_secondary_item' => 0],
-        ['name' => 'Veneer', 'teeth_or_jaw' => 1, 'a_secondary_item' => 0],
-        ['name' => 'Implant Crown', 'teeth_or_jaw' => 1, 'a_secondary_item' => 0],
-        ['name' => 'Surgical Guide', 'teeth_or_jaw' => 2, 'a_secondary_item' => 0],
-        ['name' => 'Night Guard', 'teeth_or_jaw' => 2, 'a_secondary_item' => 0],
-        ['name' => 'Temporary Crown', 'teeth_or_jaw' => 1, 'a_secondary_item' => 1],
+        ['name' => 'Crown', 'teeth_or_jaw' => 0, 'a_secondary_item' => 0],
+        ['name' => 'Bridge', 'teeth_or_jaw' => 0, 'a_secondary_item' => 0],
+        ['name' => 'Veneer', 'teeth_or_jaw' => 0, 'a_secondary_item' => 0],
+        ['name' => 'Implant Crown', 'teeth_or_jaw' => 0, 'a_secondary_item' => 0],
+        ['name' => 'Surgical Guide', 'teeth_or_jaw' => 1, 'a_secondary_item' => 0],
+        ['name' => 'Night Guard', 'teeth_or_jaw' => 1, 'a_secondary_item' => 0],
+        ['name' => 'Temporary Crown', 'teeth_or_jaw' => 0, 'a_secondary_item' => 1],
     ];
 
     private array $materials = [

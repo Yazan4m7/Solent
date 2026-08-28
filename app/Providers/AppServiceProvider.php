@@ -78,6 +78,9 @@ class AppServiceProvider extends ServiceProvider
             'brandingSettings' => $settings,
             'brandingLogoPath' => $settings->logoPath ?? config('branding.defaults.logo_path'),
             'brandingMarkPath' => $settings->extra['mark_path'] ?? config('branding.defaults.mark_path'),
+            'brandingLoginLogoPath' => $settings->extra['login_logo_path']
+                ?? config('branding.defaults.login_logo_path'),
+            'brandingSidebarMarkPath' => $settings->extra['sidebar_mark_path'] ?? config('branding.defaults.sidebar_mark_path'),
             'brandingFaviconPath' => $settings->faviconPath ?? config('branding.defaults.favicon_path'),
             'brandingName' => $settings->name ?? config('branding.defaults.name'),
         ];

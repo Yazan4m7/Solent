@@ -48,19 +48,31 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="{{ asset('assets/css/solent-case-workflows.css') }}" />
     @php
         $permissions = Cache::get('user'.Auth()->user()->id);
     @endphp
 
+    <header class="case-workflow-hero case-workflow-hero--repeat">
+        <div>
+            <span class="case-workflow-hero__eyebrow">{{ app()->getLocale() === 'ar' ? 'مسار الحالة' : 'Case workflow' }}</span>
+            <h1>{{ app()->getLocale() === 'ar' ? 'إعادة الحالة' : 'Repeat case' }}</h1>
+            <p>{{ app()->getLocale() === 'ar' ? 'راجع البيانات وحدد الأعمال التي ستُعاد قبل تأكيد الحالة.' : 'Review the case details and choose the work that should be repeated before confirming.' }}</p>
+        </div>
+        <div class="case-workflow-hero__reference">
+            <span>{{ app()->getLocale() === 'ar' ? 'الحالة الأصلية' : 'Original case' }}</span>
+            <strong>{{ $case->case_id }}</strong>
+        </div>
+    </header>
 
-    <form style="padding:10px" class="kt-form card" method="POST" enctype="multipart/form-data" action="{{route('repeat-case')}}">
+    <form class="kt-form card case-workflow-form case-workflow-form--repeat" method="POST" enctype="multipart/form-data" action="{{route('repeat-case')}}">
     @csrf
 
 
         <input name="id" type="hidden" value="{{$case->id}}" />
     <!-- CASE INFO -->
 
-        <div class="row">
+        <div class="row case-workflow-summary">
             <div class="col-md-3 col-xs-6 col-l-3 col-xl-3">
                 <div class="col-md-12 col-xs-12"><label>Doctor:</label></div>
                 <div class="col-md-12 col-xs-12">
@@ -97,7 +109,7 @@
         </div>
 
             <br/>
-        <div class="row">
+        <div class="row case-workflow-summary">
 
             <div class="col-md-4  col-xs-6 col-l-2  col-xl-3">
                 <div class="col-md-12 col-xs-12"><label>Delivery Date:</label></div>

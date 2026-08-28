@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    @php($brandLogo = asset('images/v_logo_eng.png'))
+    @php($brandLogo = asset($brandingLogoPath ?? config('branding.defaults.logo_path')))
     @php($brandTitle = $brandingName ?? config('branding.defaults.name'))
     @php($currencyLabel = (string) ($currencyContext['display'] ?? $currencyContext['code'] ?? 'JOD'))
     @php($currencyUnitAr = (string) ($currencyContext['unit_ar'] ?? 'دينار'))
@@ -380,7 +380,7 @@
 </head>
 <body>
 
-    <button class="print-button" onclick="window.print()">?????</button>
+    <button class="print-button" onclick="window.print()">print</button>
 
     <div class="invoice-box">
         <div class="top-bar"></div>
@@ -394,14 +394,14 @@
             </div>
 
             <div class="title">
-                <h1>??????</h1>
+
                 <h2>{{ $brandTitle }}</h2>
-                <div class="address">Digital dental laboratory - High-precision restorations</div>
+                <div class="address">Digital dental laboratory</div>
             </div>
 
             <div class="contact-info">
                 <div class="phones" style="text-align: left">
-                    <span>Solent Digital Dental Lab</span>
+                    <span>{{ $brandTitle }} Digital Dental Lab</span>
                     <span>Precision - Reliability - Speed</span>
                 </div>
             </div>

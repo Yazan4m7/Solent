@@ -1,444 +1,299 @@
 @extends('layouts.app' ,[ 'pageSlug' => 'Delivery Schedule' ])
 
-
 @section('content')
-    <style>
-        .row{
-            margin:0 !important;;
-        }
-        .table-odd tbody>tr:nth-of-type(odd) {
-            background-color: #ffffff !important;
-        }
-        .table-odd tbody>tr:nth-of-type(even) {
-            background-color: #f0f3f6 !important;
-        }
-        .mb-3, .my-3 {
-            margin-bottom: 0rem!important;
-        }
-        .vertical {
-            padding-left:5px;
-            border-left: 1px solid #aaaaaa;
-        }
-    </style>
     @php
-        $permissions = Cache::get('user'.Auth()->user()->id);
+        $permissions = Cache::get('user' . Auth()->user()->id);
+        $now = \Carbon\Carbon::now();
+        $rangeFrom = $data['from'] ?? null;
+        $rangeTo = $data['to'] ?? null;
+        $totalCases = count($cases);
+        $overdue = 0;
+        $dueToday = 0;
+        $dueTomorrow = 0;
+        $dueThisWeek = 0;
+        $numOfUnits = 0;
+        $deliveryUi = trans('ui.dom');
+        $isArabic = app()->isLocale('ar');
+
+        foreach ($cases as $case) {
+            $numOfUnits += $case->unitsAmount();
+
+            try {
+                $deliveryAt = $case->initial_delivery_date
+                    ? \Carbon\Carbon::parse(str_replace('T', ' ', $case->initial_delivery_date))
+                    : null;
+            } catch (\Exception $exception) {
+                $deliveryAt = null;
+            }
+
+            if (!$deliveryAt) {
+                continue;
+            }
+
+            if ($deliveryAt->lt($now)) {
+                $overdue++;
+            }
+
+            if ($deliveryAt->isSameDay($now)) {
+                $dueToday++;
+            }
+
+            if ($deliveryAt->isSameDay($now->copy()->addDay())) {
+                $dueTomorrow++;
+            }
+
+            if ($deliveryAt->betweenIncluded($now->copy()->startOfDay(), $now->copy()->addDays(7)->endOfDay())) {
+                $dueThisWeek++;
+            }
+        }
     @endphp
-<div class="row">
 
-    <div class="col-lg-12 col-sm-12 ">
+    <div class="delivery-page">
+        <section class="delivery-hero">
+            <div class="delivery-hero__copy">
 
-        <form class="kt-form" method="GET" action="{{route('delivery-schedule')}}">
-            @csrf
-            <div class="kt-portlet__body">
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-3 noLeftPadding">
-                    <label>From date</label><br>
-                    <input class="form-control SDTP" name="from"  type="text"   value="{{$data['from'] ?? ''}}" required readonly/>
-
-                    @if ($errors->has('from'))
-                        <span class="help-block" style="color: red">{{ $errors->first('from') }}</span>
-                    @endif
-                      </div>
-                        <div class="col-3  ">
-                <div class="form-group">
-                    <label>To date</label>
-                    <input class="form-control SDTP" name="to" type="text"   value="{{ $data['to'] ?? ''}}" required readonly/>
-
-
-                    @if ($errors->has('to'))
-                        <span class="help-block" style="color: red">{{ $errors->first('to') }}</span>
-                    @endif
-                </div>
-                    </div>
-                        </div>
-                        </div>
-
-                <div class="row">
-                <div class="col-3 noLeftPadding" >
-                        <button type="submit" class="btn btn-primary fillWidth">Filter</button>
-                </div>
-                    <div class="col-3 " >
-                        <button type="button" onclick="printResult()" class="btn btn-secondary fillWidth">Print</button>
-                    </div>
-                </div>
+                <h1>{{ $deliveryUi['Delivery Schedule'] ?? 'Delivery Schedule' }}</h1>
             </div>
-        </form>
-        </div>
-</div>
-@php
 
- $date = new DateTime;
- $date2 = $date->modify('+1 day');
- $date3 = $date->modify('+2 day');
-$endofToday  = substr(now()->addDays(0),0,10) . "T23:59:00";
-$endofTomorrow = substr(now()->addDays(1),0,10) . "T23:59:00";
-$endofSeventhDay = substr(now()->addDays(7),0,10) . "T23:59:00";
-@endphp
+            <form class="kt-form delivery-filter-card" method="GET" action="{{ route('delivery-schedule') }}">
+                @csrf
+                <div class="delivery-filter-card__grid">
+                    <div class="delivery-filter-card__field">
+                        <label class="solent-filter-label" for="deliveryFrom"><i class="fa-regular fa-calendar" aria-hidden="true"></i><span>{{ $deliveryUi['From date'] ?? 'From date' }}</span></label>
+                        <input id="deliveryFrom" class="form-control SDTP" name="from" type="text"
+                            value="{{ $rangeFrom ?? '' }}" required readonly>
 
-    <hr style="margin:0">
+                        @if ($errors->has('from'))
+                            <span class="help-block">{{ $errors->first('from') }}</span>
+                        @endif
+                    </div>
 
-            <div class=" table-responsive row">
-                <div class="col-lg-12 col-sm-12  row" style="flex-direction: row;padding-bottom:0px">
-                        <div class="col-lg-3 col-md-3 col-3 mb-3">
+                    <div class="delivery-filter-card__field">
+                        <label class="solent-filter-label" for="deliveryTo"><i class="fa-regular fa-calendar" aria-hidden="true"></i><span>{{ $deliveryUi['To date'] ?? 'To date' }}</span></label>
+                        <input id="deliveryTo" class="form-control SDTP" name="to" type="text"
+                            value="{{ $rangeTo ?? '' }}" required readonly>
 
-                            <div class= "vertical">
-                             <span style="font-weight: bold;font-size:15px;">Total deliveries:</span><br>
-                            <span style="font-weight:bold;font-size:19px; color:#3b8b45">{{count($cases)}}</span>
-                            <span style="font-size:13px;">Cases</span>
-                            </div>
-                        </div>
-                    <div class="col-lg-3 col-md-3 col-3 mb-3">
-                        <div class= "vertical">
-                <span style="font-weight: bold;font-size:15px;">Overdue deliveries:</span><br>
+                        @if ($errors->has('to'))
+                            <span class="help-block">{{ $errors->first('to') }}</span>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="delivery-filter-card__actions">
+                    <button type="submit" class="btn btn-primary">{{ $deliveryUi['Apply filter'] ?? 'Apply filter' }}</button>
+                    <button type="button" onclick="printResult()" class="btn btn-secondary">{{ $deliveryUi['Print schedule'] ?? 'Print schedule' }}</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="delivery-summary-grid delivery-summary-grid--standalone"
+            aria-label="{{ $deliveryUi['Delivery summary'] ?? 'Delivery summary' }}">
+            <article class="delivery-summary-card delivery-summary-card--primary">
+                <span class="delivery-summary-card__label">{{ $deliveryUi['Total deliveries'] ?? 'Total deliveries' }}</span>
+                <strong class="delivery-summary-card__value">{{ $totalCases }}</strong>
+            </article>
+            <article class="delivery-summary-card delivery-summary-card--danger">
+                <span class="delivery-summary-card__label">{{ $deliveryUi['Overdue'] ?? 'Overdue' }}</span>
+                <strong class="delivery-summary-card__value">{{ $overdue }}</strong>
+            </article>
+            <article class="delivery-summary-card">
+                <span class="delivery-summary-card__label">{{ $deliveryUi['Due today'] ?? 'Due today' }}</span>
+                <strong class="delivery-summary-card__value">{{ $dueToday }}</strong>
+            </article>
+            <article class="delivery-summary-card">
+                <span class="delivery-summary-card__label">{{ $deliveryUi['Due tomorrow'] ?? 'Due tomorrow' }}</span>
+                <strong class="delivery-summary-card__value">{{ $dueTomorrow }}</strong>
+            </article>
+            <article class="delivery-summary-card">
+                <span class="delivery-summary-card__label">{{ $deliveryUi['Next 7 days'] ?? 'Next 7 days' }}</span>
+                <strong class="delivery-summary-card__value">{{ $dueThisWeek }}</strong>
+            </article>
+            <article class="delivery-summary-card">
+                <span class="delivery-summary-card__label">{{ $deliveryUi['Units'] ?? 'Units' }}</span>
+                <strong class="delivery-summary-card__value">{{ $numOfUnits }}</strong>
+            </article>
+        </section>
+
+        <section class="list-results-shell delivery-results-shell">
+            <div class="delivery-results-shell__header">
+                <span class="delivery-results-shell__range">
+                    <bdi dir="ltr">{{ $rangeFrom ? str_replace('T', ' ', $rangeFrom) : ($deliveryUi['Open range'] ?? 'Open range') }}</bdi>
+                    <span>→</span>
+                    <bdi dir="ltr">{{ $rangeTo ? str_replace('T', ' ', $rangeTo) : ($deliveryUi['Now'] ?? 'Now') }}</bdi>
+                </span>
+            </div>
+
+            <div class="delivery-table-wrap">
+                <table id="datatable" class="table dataTable no-footer sunriseTable delivery-table" role="grid"
+                    aria-describedby="datatable_info">
+                    <thead>
+                        <tr>
+                            <th>{{ $deliveryUi['Doctor'] ?? 'Doctor' }}</th>
+                            <th>{{ $deliveryUi['Patient'] ?? 'Patient' }}</th>
+                            <th>{{ $deliveryUi['Delivery date'] ?? 'Delivery date' }}</th>
+                            <th>{{ $deliveryUi['Time'] ?? 'Time' }}</th>
+                            <th>{{ $deliveryUi['Units'] ?? 'Units' }}</th>
+                            <th>{{ $deliveryUi['Status'] ?? 'Status' }}</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach ($cases as $case)
                             @php
-                            $overdue = 0;
-                            $numOfUnits =0;
-                            foreach($cases as $case){
-                             $numOfUnits =$numOfUnits+$case->unitsAmount();
-                            if(strtotime($case->initial_delivery_date) < strtotime('now'))
-                            $overdue++;
-                            }
+                                $status = $case->status();
+
+                                try {
+                                    $deliveryAt = $case->initial_delivery_date
+                                        ? \Carbon\Carbon::parse(str_replace('T', ' ', $case->initial_delivery_date))
+                                        : null;
+                                } catch (\Exception $exception) {
+                                    $deliveryAt = null;
+                                }
+
+                                $isOverdue = $deliveryAt ? $deliveryAt->lt($now) : false;
+                                $isToday = $deliveryAt ? $deliveryAt->isSameDay($now) : false;
+                                $deliveryDate = $deliveryAt ? $deliveryAt->format('Y-m-d') : '-';
+                                $deliveryTime = $deliveryAt ? $deliveryAt->format('g:i') : '-';
+                                $deliveryPeriod = $deliveryAt
+                                    ? ($isArabic
+                                        ? ($deliveryAt->format('a') === 'am' ? 'ص' : 'م')
+                                        : $deliveryAt->format('a'))
+                                    : null;
+                                $rowState = $isOverdue ? 'is-overdue' : ($isToday ? 'is-today' : '');
+                                $statusClass = 'delivery-status--warning';
+
+                                if (str_contains($status, 'Completed')) {
+                                    $statusClass = 'delivery-status--success';
+                                } elseif (str_contains($status, 'Active') || str_contains($status, 'In-Progress')) {
+                                    $statusClass = 'delivery-status--active';
+                                } elseif (str_contains($status, 'Waiting')) {
+                                    $statusClass = 'delivery-status--danger';
+                                }
+
+                                $displayStatus = str_contains($status, 'In-Progress') ? 'Active' : $status;
                             @endphp
-                        <span style="font-weight: bold;font-size:19px;color:red">{{$overdue}}</span>
 
-                        <span style="font-size:13px;;color:red">Cases</span>
-                        </div>
-                </div>
-                    <div class="col-lg-3 col-md-3 col-3 mb-3">
-                        <div class= "vertical">
-                <span style="font-weight: bold;font-size:18px;"># of Units:</span><br>
-                 <span style="font-weight:bold;font-size:19px; color:#3b8b45">{{$numOfUnits}}</span>
-                        <span style="font-size:13px;">Units</span>
-                        </div>
-            </div>
-                    <div class="col-lg-3 col-md-3 col-3 mb-3">
-                        {{--<div class= "vertical">--}}
-                {{--<span style="font-weight: bold;font-size:15px;"></span><br>--}}
-                        {{--<span style="font-weight:bold;font-size:19px; color:#3b8b45"></span>--}}
-                        {{--<span style="font-size:13px;">Cases</span>--}}
-                        {{--</div>--}}
-                  </div>
-                </div>
-                <p class="text-muted"></p>
-                <div class="table-odd" style="width: 100%;">
-                    <div id="datatable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer" style="padding:0;margin:0;"><div class="row"><div class="col-sm-12" style="padding:0;margin:0;">
-
-                                <table id="datatable" class="table table-bordered dataTable no-footer sunriseTable" role="grid" aria-describedby="datatable_info">
-                                    <thead>
-                                    <tr class="" style="left: 0px;  !important;">
-                                        <th ><span >Doctor Name</span></th>
-                                        <th ><span>Patient Name</span></th>
-                                        <th ><span >Delivery Date</span></th>
-                                        <th ><span >Delivery Time</span></th>
-                                        <th ><span ># Of units</span></th>
-                                        <th class="statusCol" ><span >Status</span></th>
-
-
-                                    </tr>
-                                    </thead>
-
-                                    <tbody>
-                                    @foreach($cases as $case)
-                                        @php
-                                            $status = $case->status();
-                                            $color = '#595d6e';
-                                            if(strtotime($case->initial_delivery_date) < strtotime('now'))
-                                            $color='red';
-
-                                        @endphp
-                                        <tr data-row="{{$case->id}}" class="odd clickable"  data-toggle="modal" data-target="#actionsDialog{{$case->id}}" >
-
-                                            <td style="color:{{$color}} !important" ><span >{{$case->client->name }}</span></td>
-
-                                            <td style="color:{{$color}} !important"><span >{{$case->patient_name}}</span></td>
-                                            @php
-                                                $date = explode('T', $case->initial_delivery_date);
-                                            @endphp
-                                            <td style="color:{{$color}} !important" ><span >{{isset($date[0]) ? $date[0] : "-"}}</span></td>
-                                            <td style="color:{{$color}} !important"><span >{{isset($date[1]) ? date("g:i a", strtotime($date[1])) : "-"}}</span></td>
-                                            <td class="statusCol" style="color:{{$color}} !important"><span >{{$case->unitsAmount(-2)}}</span></td>
-                                            <td >
-                                                    @if(str_contains($status, "Completed") )
-                                                        <span style="font-size:12px !important;width: 160px; margin: auto; text-align: center" class="badge badge-success middle">Completed</span>
-                                                    @elseif( str_contains($status, "Active"))
-                                                        <span style="font-size:12px !important;width: 160px; margin: auto; text-align: center" class="badge badge-primary middle">{{$status}}</span>
-                                                @elseif(str_contains($status, "In-Progress"))
-                                                    <span style="font-size:12px !important;width: 160px; margin: auto; text-align: center" class="badge badge-primary middle">Active</span>
-                                                    @elseif(str_contains($status, "Waiting"))
-                                                        <span style="font-size:12px !important;width: 160px; margin: auto; text-align: center" class="badge badge-danger middle">{{$status}}</span>
-                                                        @else
-                                                        <span style="font-size:12px !important;width: 160px; margin: auto; text-align: center" class="badge badge-warning middle">{{$status}}</span>
-                                                @endif</td>
-
-                                        </tr>
-                                        @if(($permissions && $permissions->contains('permission_id', 110)) || Auth()->user()->is_admin)
-                                        <div class="modal" tabindex="-1" role="dialog" id="myModal{{$case->id}}">
-                                            <form action="{{route('edit-delivery-date')}}" method="POST">
-                                                @csrf
-                                                <input type="hidden" name="id" value="{{$case->id}}">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title">Delivery Date</h5>
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="form-group row">
-                                                                <div class="form-group col-6">
-                                                                    <label for="milled">Case:</label>
-                                                                    <h5>{{$case->client->name}} - {{$case->patient_name}}</h5>
-                                                                    </br>
-                                                                    <label for="milled">Delivery Date</label>
-                                                                    @php
-                                                                        $time = $case->initial_delivery_date;
-                                                                        $time = str_replace(' ','T', $time);
-                                                                    @endphp
-                                                                    <input class="form-control SDTP" name="delivery_date"  type="text"   value="{{$time}}" required readonly/>
-
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="submit" class="btn btn-primary">Save changes</button>
-                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
+                            <tr data-row="{{ $case->id }}" class="delivery-row clickable {{ $rowState }}"
+                                data-toggle="modal" data-target="#caseActionsModal{{ $case->id }}">
+                                <td>
+                                    <span class="delivery-table__primary">{{ $case->client->name ?? ($deliveryUi['Unknown doctor'] ?? 'Unknown doctor') }}</span>
+                                    <span class="delivery-table__meta">{{ $deliveryUi['Doctor'] ?? 'Doctor' }}</span>
+                                </td>
+                                <td>
+                                    <span class="delivery-table__primary">{{ $case->patient_name }}</span>
+                                    <span class="delivery-table__meta">{{ $deliveryUi['Patient'] ?? 'Patient' }}</span>
+                                </td>
+                                <td data-order="{{ $deliveryAt ? $deliveryAt->timestamp : 0 }}">
+                                    <span class="delivery-date-pill {{ $isOverdue ? 'delivery-date-pill--late' : '' }}">
+                                        {{ $deliveryDate }}
+                                    </span>
+                                </td>
+                                <td data-order="{{ $deliveryAt ? $deliveryAt->format('H:i:s') : '' }}">
+                                    <span class="delivery-time" dir="ltr">
+                                        <span>{{ $deliveryTime }}</span>
+                                        @if ($deliveryPeriod)
+                                            <span class="delivery-time__period">{{ $deliveryPeriod }}</span>
                                         @endif
-                                        <div class="modal" tabindex="-1" role="dialog" id="actionsDialog{{$case->id}}">
-
-                                            <input type="hidden" name="case_id" value="{{$case->id}}">
-                                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title">Case Actions</h5>
-
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-
-                                                        <div class="form-group row" style="margin-bottom: 0px">
-                                                            <div class="form-group col-6 " style="margin-bottom: 0px">
-                                                                <label for="doctor">Doctor: </label>
-                                                                <h5 id="doctor"><b>{{$case->client->name}}</b></h5>
-                                                            </div>
-                                                            <div class="form-group col-6 " style="margin-bottom: 0px">
-                                                                <label for="pat">Patient: </label>
-                                                                <h5 id="pat"><b>{{$case->patient_name}}</b></h5>
-                                                            </div>
-                                                        </div>
-                                                        <hr>
-                                                        <div class="form-group row">
-                                                            <div class=" col-12 ">
-                                                                <label ><b>Jobs:</b></label><br>
-
-
-
-                                                                @foreach( $case->jobs as $job)
-
-                                                                    @php
-                                                                        $unit = explode(', ',$job->unit_num);
-                                                                    @endphp
-
-                                                                    <span >{{$job->unit_num}} - {{$job->jobType->name ?? "No Job Type"}} - {{$job->material->name ?? "no material"}} {{$job->color =='0' ? "":" - " .$job->color}}
-                                                                        {{$job->style == 'None' ? "":" - " .$job->style}} {{isset($job->implantR) && $job->jobType->id ==6  ?( " - Implant Type: " . $job->implantR->name): "" }}<br>
-                                                                        {{isset($job->abutmentR)  && $job->jobType->id ==6  ?( " Abutment Type: " . $job->abutmentR->name): "" }} </span>
-                                                                @endforeach
-                                                            </div></div>
-                                                        @if(count($case->notes)>0)
-                                                            <hr>
-                                                            <label ><b>Notes:</b></label><br>
-                                                            @foreach($case->notes as $note)
-                                                                <div class="form-control" style="height:fit-content;width:80%;background-color: #dcecfd59;margin-bottom: 5px; color:black;font-size:12px" disabled>
-
-                                                                    <span class="noteHeader">{{'['. substr( $note->created_at,0,16) . '] [' . $note->writtenBy->name_initials . '] : ' }}</span><br> <span class="noteText">{{$note->note}}</span>
-                                                                </div>
-                                                            @endforeach
-                                                        @endif
-                                                    </div>
-                                                    <div class="modal-footer fullBtnsWidth" >
-                                                        <div class="row"  style=" margin-right: 0px; margin-left: 0px;width:100%">
-
-
-                                                                <div class="row">
-                                                                    <!-------------------------
-                                                                           ------ View Voucher ------
-                                                                           -------------------------->
-                                                                    <div class="col-6 padding5px" >
-                                                                        <a  href="{{route('view-voucher',$case->id)}}">
-                                                                            <button type="button" class="btn btn-info "><i
-                                                                                        class="fas fa-print"></i> View Voucher </button>
-                                                                        </a></div>
-
-                                                                    <!-------------------------
-                                                                    -------- View Case --------
-                                                                    -------------------------->
-                                                                    <div class="col-6 padding5px" >
-                                                                        <a  href="{{route('view-case',['id' =>$case->id ,'stage' =>-2 ])}}">
-                                                                            <button type="button" class="btn btn-info "><i
-                                                                                        class="far fa-file-alt"></i> View Case </button>
-                                                                        </a></div>
-                                                                </div>
-                                                                <div class="row">
-
-                                                                                <!-------------------------
-                                                                                  -------- Edit CASE --------
-                                                                                  -------------------------->
-                                                                    @if(Auth()->user()->is_admin ||
-                                                                    ($permissions && ($permissions->contains('permission_id', 102))) ||
-                                                                    ($permissions &&
-                                                                    ((!isset($case->actual_delivery_date)&& $permissions->contains('permission_id', 115)))
-                                                                    || ((isset($case->jobs[0]) && $case->jobs[0]->stage == 1) && $permissions->contains('permission_id', 1)))
-                                                                    )
-                                                                        @if(!$case->locked)
-
-                                                                            <div class="col-6 padding5px" >
-                                                                                <a  href="{{route('edit-case-view',$case->id)}}">
-                                                                                    <button type="button" class="btn btn-warning "><i class="fa-solid fa-pen-to-square"></i> Edit Case</button>
-                                                                                </a></div>
-                                                                        @endif
-                                                                    @endif
-                                                                    @if(($permissions && $permissions->contains('permission_id', 110)) || Auth()->user()->is_admin)
-                                                                        <div class="col-6 padding5px" >
-
-                                                                            <button type="button" class="btn btn-danger "  data-dismiss="modal"  data-toggle="modal" data-target="#myModal{{$case->id}}"><i class="fa-solid fa-pen-to-square"></i> Edit Delivery Date</button>
-                                                                        </div>
-                                                                    @endif
-                                                                </div>
-
-                                                            <div class="col-12 padding5px" >
-                                                                <button type="button" class="btn btn-secondary " data-dismiss="modal" style="width:100%">Cancel</button>
-                                                            </div>
-                                                        </div>
-
-
-                                                    </div>
-
-
-
-                                                </div>
-                                            </div>
-
-                                        </div>
-
-                                    @endforeach
-                                    </tbody>
-                                </table></div></div></div>
-                </div>
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="delivery-units-pill">{{ $case->unitsAmount(-2) }}</span>
+                                </td>
+                                <td>
+                                    <span class="delivery-status solent-case-status-badge {{ $statusClass }}">
+                                        {{ $deliveryUi[$displayStatus] ?? $displayStatus }}
+                                    </span>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
-
+        </section>
     </div>
 
+    @if (($permissions && $permissions->contains('permission_id', 110)) || Auth()->user()->is_admin)
+        @foreach ($cases as $case)
+            <div class="modal delivery-date-modal" tabindex="-1" role="dialog" id="myModal{{ $case->id }}">
+                <form action="{{ route('edit-delivery-date') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="id" value="{{ $case->id }}">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <div>
+                                    <span class="delivery-modal-eyebrow">{{ $deliveryUi['Delivery date'] ?? 'Delivery date' }}</span>
+                                    <h5 class="modal-title">{{ $case->client->name ?? ($deliveryUi['Unknown doctor'] ?? 'Unknown doctor') }} · {{ $case->patient_name }}</h5>
+                                </div>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ $deliveryUi['Close'] ?? 'Close' }}</button>
+                            </div>
+                            <div class="modal-body">
+                                @php($time = str_replace(' ', 'T', $case->initial_delivery_date))
+                                <label for="deliveryDate{{ $case->id }}">{{ $deliveryUi['Change delivery date'] ?? 'Change delivery date' }}</label>
+                                <input id="deliveryDate{{ $case->id }}" class="form-control SDTP" name="delivery_date"
+                                    type="text" value="{{ $time }}" required readonly>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">{{ $deliveryUi['Save changes'] ?? 'Save changes' }}</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        @endforeach
+    @endif
 
-
-
-
-    @endsection
+    @foreach ($cases as $case)
+        <x-partiels.caseActionsModal
+            :case="$case"
+            :modalId="'caseActionsModal' . $case->id"
+            :allowDeliveryDateChange="true"
+            :deliveryDateModalId="'myModal' . $case->id" />
+    @endforeach
+@endsection
 
 @push('js')
-
-    <!-- Responsive and datatable js -->
-    <script src="//cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
-
     <script type="text/javascript">
         $(document).ready(function() {
-            $('#datatable').DataTable({
-                "order": [ [ 2, "asc" ],[ 3, 'asc' ]],
-                "pageLength": 25,
-                "searching": false,
-                "lengthChange": false,
-                "columnDefs": [
-                    { "width": "20%", "targets": 5 }
-                ]
-            });
-        } );
+            if ($.fn.DataTable.isDataTable('#datatable')) {
+                return;
+            }
 
+            const deliveryTableLanguage = @json(trans('ui.datatables'));
+            deliveryTableLanguage.search = '';
+            deliveryTableLanguage.searchPlaceholder = @json($deliveryUi['Search deliveries...'] ?? 'Search deliveries...');
+
+            $('#datatable').DataTable({
+                "order": [[2, "asc"], [3, "asc"]],
+                "buttons": window.solentDataTableButtons ? window.solentDataTableButtons(true) : [],
+                "paging": true,
+                "pageLength": 25,
+                "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
+                "searching": true,
+                "lengthChange": true,
+                "responsive": true,
+                "autoWidth": false,
+                "dom": "<'solent-datatable-toolbar'Bfl>rt<'solent-datatable-foot'ip>",
+                "columnDefs": [
+                    { "width": "18%", "targets": 5 }
+                ],
+                "language": deliveryTableLanguage
+            });
+        });
 
         function printResult() {
-            var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+            if ($.fn.DataTable.isDataTable('#datatable')) {
+                const deliveryTable = $('#datatable').DataTable();
+                const printButton = deliveryTable.button('.buttons-print');
 
-            mywindow.document.write('<html><head><title>' + document.title + '</title>');
-            //noinspection JSAnnotator
-            mywindow.document.write(`
-                <style>
-                .kt-datatable__table,h2{font-size:17px;font-weight: bold;  padding: 10px;width:100%;text-align:center;}
-                .kt-datatable__body{font-size:17px;font-weight: normal;}
-                body{padding:50px;}
-                th,td{padding:8px;}
-                table{border-collapse: collapse;}
-                tr:nth-child(even) {background-color: #f2f2f2;}
-                th {
-                      background-color: #353535;
-                      color: white;
-                    }
-                </style>
-                 <body>
-                <h1> Delivery Schedule </h1>
+                if (printButton.any()) {
+                    printButton.trigger();
+                    return true;
+                }
+            }
 
-                @if (isset($data) && $data['from'] && $data['to'])
-                <p>From <b>{{$data['from'] ?? $data['to'] + " To" }}</b> To  <b>{{$data['to'] ?? $data['to']}}</b> <br>  <b>{{count($cases)}}</b> Cases</p>
-                @endif
-
-                <table border="1" class="kt-datatable__table" ">
-                                <thead class="kt-datatable__head">
-                                <tr class="kt-datatable__row" style="left: 0px;">
-                                    <th class="kt-datatable__cell"><span class="middle" style="width: 33%; margin: auto; text-align: center">Doctor Name</span></th>
-                                    <th class="kt-datatable__cell"><span class="middle" style="width: 33%; margin: auto; text-align: center">Patient Name</span></th>
-                                    <th class="kt-datatable__cell"><span class="middle" style="width: 33%; margin: auto; text-align: center">Delivery Date</span></th>
-                                    <th class="kt-datatable__cell"><span class="middle" style="width: 33%; margin: auto; text-align: center">Delivery Time</span></th>
-                                   <th class="kt-datatable__cell"><span class="middle" style="width: 33%; margin: auto; text-align: center">Status at print time</span></th>
-                                </tr>
-                                </thead>
-                                <tbody  class="kt-datatable__body">
-                                  @foreach($cases as $case)
-                    @php
-                        $status = $case->status();
-                        $color = '#595d6e';
-                        if(strtotime($case->initial_delivery_date) < strtotime('now'))
-                        $color='red';
-
-                    @endphp
-                <tr data-row="{{$case->id}}" class="kt-datatable__row" style="color:{{$color}}">
-
-                                            <td ><span >{{$case->client->name }}</span></td>
-
-                                            <td ><span >{{$case->patient_name}}</span></td>
-                                            @php
-                $date = explode('T', $case->initial_delivery_date);
-
-            @endphp
-                <td ><span >{{isset($date[0]) ?$date[0]: "-" }}</span></td>
-                                            <td ><span >{{date("g:i a", strtotime($date[1]))}}</span></td>
-
-                                            <td >
-                                                    @if(str_contains($status, "Completed") )
-                <span style="font-size:12px !important;width: 160px; margin: auto; text-align: center" class="badge badge-success middle">Completed</span>
-@elseif(str_contains($status, "In-Progress") || str_contains($status, "Active"))
-                <span style="font-size:12px !important;width: 160px; margin: auto; text-align: center" class="badge badge-primary middle">{{$status}}</span>
-                                                                                                        @elseif(str_contains($status, "Waiting"))
-                <span style="font-size:12px !important;width: 160px; margin: auto; text-align: center" class="badge badge-danger middle">{{$status}}</span>
-                                                                                                            @else
-                <span style="font-size:12px !important;width: 160px; margin: auto; text-align: center" class="badge badge-danger middle">Unknown</span>
-@endif</td> </tr>
-                                @endforeach
-                </tbody>
-            </table>
-            </body>
-`);
-            mywindow.document.close(); // necessary for IE >= 10
-            mywindow.focus(); // necessary for IE >= 10*/
-            setTimeout(function(){ mywindow.print(); mywindow.close(); },1000);
-
-            return true;
+            window.print();
+            return false;
         }
-
     </script>
 @endpush

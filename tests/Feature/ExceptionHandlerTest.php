@@ -50,4 +50,5 @@ class ExceptionHandlerTest extends TestCase
         $response->assertDontSee('Developer hint');
         $response->assertDontSee('Monitor layout is missing.');
     }
+
 }

@@ -243,15 +243,16 @@ class sCase extends Model
                 $newLine =  "<span style= 'color:" . $waitingColor . "'> Waiting in " . $this->stageToText($job->stage) . "</span>". "<br/>";
 
             } else {
+                $assigneeName = optional($job->assignedTo)->first_name ?: 'Former user';
                 if ($job->stage ==8)
                 {
                     if ($job->delivery_accepted == null)
-                        $newLine =  "<span style='color:" . $activeColor . "'> Assigned to " . $job->assignedTo->first_name . "</span>". "<br/>";
+                        $newLine =  "<span style='color:" . $activeColor . "'> Assigned to " . $assigneeName . "</span>". "<br/>";
                         else
-                        $newLine =  "<span style='color:" . $activeColor . "'> Active in " . $this->stageToText($job->stage) . " w/ " . $job->assignedTo->first_name . "</span>". "<br/>";
+                        $newLine =  "<span style='color:" . $activeColor . "'> Active in " . $this->stageToText($job->stage) . " w/ " . $assigneeName . "</span>". "<br/>";
                 }
                 else
-                $newLine =  "<span style='color:" . $activeColor . "'> Active in " . $this->stageToText($job->stage) . " w/ " . $job->assignedTo->first_name . "</span>". "<br/>";
+                $newLine =  "<span style='color:" . $activeColor . "'> Active in " . $this->stageToText($job->stage) . " w/ " . $assigneeName . "</span>". "<br/>";
             }
             if(!in_array($newLine,$sts)){
             $toolTip = $toolTip. $newLine;
@@ -340,10 +341,16 @@ class sCase extends Model
     public function statusAt($stage)
     {
         if (isset($this->actual_delivery_date)) return "Completed";
-            $jobs = $this->jobs()->where('stage',$stage)->get();
-         if (!isset($jobs[0]) ) {return "No Jobs";}
 
-        $firstJobAssignee = $jobs->first()->assignee ;
+        $jobs = $this->relationLoaded('jobs')
+            ? $this->jobs->where('stage', $stage)->values()
+            : $this->jobs()->where('stage', $stage)->get();
+
+        if ($jobs->isEmpty()) {
+            return "No Jobs";
+        }
+
+        $firstJobAssignee = $jobs->first()->assignee;
         foreach ($jobs as $job) {
             if ($job->assignee != $firstJobAssignee) {
                 $status = "Mixed";
@@ -353,8 +360,8 @@ class sCase extends Model
         }
         // in delivery
         if ($stage == 8) {
-            if ($jobs && $jobs[0]->assignee != null) {
-                if ($jobs[0]->delivery_accepted != null)
+            if ($jobs->first()->assignee != null) {
+                if ($jobs->first()->delivery_accepted != null)
                     return "Active";
                 else
                     return "Assigned to Driver";

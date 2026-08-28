@@ -1,205 +1,190 @@
 @extends('layouts.app' ,[ 'pageSlug' => 'New Material' ])
+
+@push('css')
+    @include('materials::_form-styles')
+@endpush
+
+@php
+    $currencyLabel = (string) ($currencyContext['display'] ?? $currencyContext['code'] ?? 'JOD');
+    $formWasSubmitted = (bool) old('material_form_submitted', false);
+    $selectedJobTypeIds = array_map('strval', (array) old('jobTypes', []));
+    $countAsUnitChecked = $formWasSubmitted ? old('count_as_unit') !== null : true;
+    $designChecked = $formWasSubmitted ? old('design') !== null : true;
+    $finishingChecked = $formWasSubmitted ? old('finishing') !== null : true;
+    $qualityControlChecked = $formWasSubmitted ? old('qc') !== null : true;
+    $deliveryChecked = $formWasSubmitted ? old('delivery') !== null : true;
+    $manufacturingValue = (string) old('manufacturing', '');
+    $furnaceValue = (string) old('furnace', '');
+@endphp
+
 @section('content')
-    @php($currencyLabel = (string) ($currencyContext['display'] ?? $currencyContext['code'] ?? 'JOD'))
-    <form  method="POST" style="padding:10px" class="card"  action="{{route('material-add-post')}}">
-        @csrf
-    <div class="kt-portlet__head">
-        <div class="kt-portlet__head-label">
-            <h6  class="kt-portlet__head-title">
-                <i class="fa  fa-suitcase"  style="width:3%"></i> Material Info:
-            </h6>
-        </div>
-    </div>
-    <hr style="margin-top: 0;">
-    <div class="row">
+    <div class="solent-material-shell">
+        <form method="POST" class="solent-material-form" action="{{ route('material-add-post') }}">
+            @csrf
+            <input type="hidden" name="material_form_submitted" value="1">
 
-    <div class="col-md-3  col-xs-6 col-l-3  col-xl-3">
-        <div class="col-md-12 col-xs-12"><label >Material Name:</label></div>
-        <div class="col-md-12 col-xs-12">
-            <input class="form-control" type="text" name="mat_name" required placeholder="Material Name"/>
-            <span class="help-block text-muted"><small>E.g. : Zircon, E.max ..etc</small></span>
-        </div>
+            @include('alerts.errors')
 
-    </div>
-    <div class="col-md-3  col-xs-6 col-l-3  col-xl-3">
-        <div class="col-md-12 col-xs-12"><label >Price:</label></div>
-        <div class="col-md-12 col-xs-12">
-            <input class="form-control" type="number" name="price" required placeholder="Price ({{ $currencyLabel }})" />
-            <span class="help-block text-muted"><small></small></span>
-        </div>
-    </div>
-    <div class="col-md-3  col-xs-6 col-l-3  col-xl-3">
-            <div class="col-md-12 col-xs-12"><label >Job Type:</label></div>
-            <div class="col-md-12 col-xs-12">
+            <section class="material-form-section" aria-labelledby="material-information-title">
+                <h2 class="material-section-header" id="material-information-title">
+                    <i class="fa fa-cube" aria-hidden="true"></i>
+                    <span>Material Information</span>
+                </h2>
 
-                <select class="select selectpicker" id="jobTypes" name="jobTypes[]" multiple required>
-                    @foreach($jobTypes as $type)
-                        <option value="{{$type->id}}">{{$type->name}}</option>
-                    @endforeach
-                </select>
-                <span class="help-block text-muted"><small></small></span>
-            </div>
-        </div>
-        <div class="col-md-3  col-xs-6 col-l-3  col-xl-3">
-            <div class="col-md-12 col-xs-12"><label >Count as unit:</label></div>
-            <div class="col-md-12 col-xs-12">
-        <label class="switch">
-            <input type="checkbox" name="count_as_unit" checked>
-            <span class="slider round"></span>
-        </label>
-        </div>
-        </div>
-    </div>
-    <br/>
-    <div class="kt-portlet__head">
-        <div class="kt-portlet__head-label">
-            <h6 class="kt-portlet__head-title">
-                <i class="fa  fa-suitcase"  style="width:3%"></i> Stages:
-            </h6>
-        </div>
-    </div>
-    <hr style="margin-top: 0;">
-    <div class="form-group row">
-        <label class="col-md-2 my-1 control-label">Design:</label>
-        <div class="col-md-9">
-            <div class="form-check-inline my-1">
-                <label class="cr-styled" for="design">
-                    <input type="checkbox" id="design" name="design" value="1"  checked>
-                    <i class="fa"></i>
+                <div class="material-info-grid">
+                    <div class="material-field">
+                        <label class="material-field-label" for="mat_name">Material Name</label>
+                        <input
+                            class="material-input"
+                            id="mat_name"
+                            type="text"
+                            name="mat_name"
+                            value="{{ old('mat_name') }}"
+                            required
+                            maxlength="30"
+                            placeholder="Enter material name"
+                            aria-describedby="material-name-help"
+                        >
+                        <div class="material-help-text" id="material-name-help">E.g. Zircon, E.max, etc.</div>
+                        @error('mat_name')
+                            <span class="material-error">{{ $message }}</span>
+                        @enderror
+                    </div>
 
-                </label>
-            </div>
+                    <div class="material-field">
+                        <label class="material-field-label" for="price">Price ({{ $currencyLabel }})</label>
+                        <input class="material-input" id="price" type="number" name="price" value="{{ old('price') }}" required min="0" step="0.01" placeholder="{{ trans('ui.dom')['Price'] ?? 'Price' }} ({{ $currencyLabel }})" aria-describedby="material-price-help">
+                        <div class="material-help-text" id="material-price-help">Price per unit in {{ $currencyLabel }}</div>
+                        @error('price')
+                            <span class="material-error">{{ $message }}</span>
+                        @enderror
+                    </div>
 
+                    <div class="material-field">
+                        <label class="material-field-label" for="jobTypes">Job Types</label>
+                        <select
+                            class="select selectpicker"
+                            id="jobTypes"
+                            name="jobTypes[]"
+                            multiple
+                            required
+                            title="Select Job Types"
+                            data-selected-text-format="count > 1"
+                            data-count-selected-text="{0} job types selected"
+                        >
+                            @foreach($jobTypes as $type)
+                                <option value="{{ $type->id }}" {{ in_array((string) $type->id, $selectedJobTypeIds, true) ? 'selected' : '' }}>{{ $type->name }}</option>
+                            @endforeach
+                        </select>
+                        <div class="material-help-text">Select compatible job types</div>
+                        @error('jobTypes')
+                            <span class="material-error">{{ $message }}</span>
+                        @enderror
+                    </div>
 
-        </div>
-    </div>
-        <div class="form-group row">
-            <label class="col-md-2 my-1 control-label">Manufacturing:</label>
-            <div class="col-md-9">
-                <div class="form-check-inline my-1">
-                    <label class="cr-styled" for="noMilling">
-                        <input type="radio" id="noMilling" name="manufacturing" value="0"  >
-                        <i class="fa"></i>
-                        None
-                    </label>
+                    <div class="material-field">
+                        <span class="material-field-label">Count as Unit</span>
+                        <label class="material-toggle" for="count_as_unit">
+                            <input type="checkbox" id="count_as_unit" name="count_as_unit" {{ $countAsUnitChecked ? 'checked' : '' }}>
+                            <span class="material-toggle-track" aria-hidden="true"></span>
+                        </label>
+                        <div class="material-help-text">Enable unit-based counting</div>
+                    </div>
                 </div>
-                <div class="form-check-inline my-1">
-                    <label class="cr-styled" for="milling">
-                        <input type="radio" id="milling" name="manufacturing" value="2"  >
-                        <i class="fa"></i>
-                        Milling
-                    </label>
+            </section>
+
+            <section class="material-form-section" aria-labelledby="workflow-configuration-title">
+                <h2 class="material-section-header" id="workflow-configuration-title">
+                    <i class="fa fa-code-fork" aria-hidden="true"></i>
+                    <span>Workflow Configuration</span>
+                </h2>
+
+                <div class="material-workflow-stack">
+                    <div class="material-field">
+                        <span class="material-field-label">Production Stages</span>
+                        <div class="material-choice-group">
+                            <label class="material-choice" for="design">
+                                <span class="material-choice-control material-choice-control--checkbox">
+                                    <input type="checkbox" id="design" name="design" value="1" {{ $designChecked ? 'checked' : '' }}>
+                                    <span class="material-choice-indicator" aria-hidden="true"></span>
+                                </span>
+                                <span>Design</span>
+                            </label>
+
+                            <label class="material-choice" for="finishing">
+                                <span class="material-choice-control material-choice-control--checkbox">
+                                    <input type="checkbox" id="finishing" name="finishing" value="6" {{ $finishingChecked ? 'checked' : '' }}>
+                                    <span class="material-choice-indicator" aria-hidden="true"></span>
+                                </span>
+                                <span>Finishing</span>
+                            </label>
+
+                            <label class="material-choice" for="qc">
+                                <span class="material-choice-control material-choice-control--checkbox">
+                                    <input type="checkbox" id="qc" name="qc" value="7" {{ $qualityControlChecked ? 'checked' : '' }}>
+                                    <span class="material-choice-indicator" aria-hidden="true"></span>
+                                </span>
+                                <span>Quality Control</span>
+                            </label>
+
+                            <label class="material-choice" for="delivery">
+                                <span class="material-choice-control material-choice-control--checkbox">
+                                    <input type="checkbox" id="delivery" name="delivery" value="8" {{ $deliveryChecked ? 'checked' : '' }}>
+                                    <span class="material-choice-indicator" aria-hidden="true"></span>
+                                </span>
+                                <span>Delivery</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="material-method-grid">
+                        <div class="material-field">
+                            <span class="material-field-label">Manufacturing Method</span>
+                            <div class="material-choice-group">
+                                @foreach ([0 => 'None', 2 => 'Milling', 3 => '3D Printing'] as $value => $label)
+                                    <label class="material-choice" for="manufacturing-{{ $value }}">
+                                        <span class="material-choice-control material-choice-control--radio">
+                                            <input type="radio" id="manufacturing-{{ $value }}" name="manufacturing" value="{{ $value }}" {{ $manufacturingValue === (string) $value ? 'checked' : '' }} {{ $value === 0 ? 'required' : '' }}>
+                                            <span class="material-choice-indicator" aria-hidden="true"></span>
+                                        </span>
+                                        <span>{{ $label }}</span>
+                                    </label>
+                                @endforeach
+                            </div>
+                        </div>
+
+                        <div class="material-field">
+                            <span class="material-field-label">Furnace Type</span>
+                            <div class="material-choice-group">
+                                @foreach ([0 => 'None', 4 => 'Sintering Furnace', 5 => 'Press Furnace', 9 => 'Metal Work'] as $value => $label)
+                                    <label class="material-choice" for="furnace-{{ $value }}">
+                                        <span class="material-choice-control material-choice-control--radio">
+                                            <input type="radio" id="furnace-{{ $value }}" name="furnace" value="{{ $value }}" {{ $furnaceValue === (string) $value ? 'checked' : '' }} {{ $value === 0 ? 'required' : '' }}>
+                                            <span class="material-choice-indicator" aria-hidden="true"></span>
+                                        </span>
+                                        <span>{{ $label }}</span>
+                                    </label>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-check-inline my-1">
-                    <label class="cr-styled" for="3dPrinting">
-                        <input type="radio" id="3dPrinting" name="manufacturing" value="3" required>
-                        <i class="fa"></i>
-                        3D Printing
-                    </label>
-                </div>
+            </section>
 
-            </div>
-        </div>
-    <div class="form-group row">
-        <label class="col-md-2 my-1 control-label">Furnace:</label>
-        <div class="col-md-9">
-            <div class="form-check-inline my-1">
-                <label class="cr-styled" for="furnace0">
-                    <input type="radio" id="furnace0" name="furnace" value="0">
-                    <i class="fa"></i>
-                    None
-                </label>
-            </div>
-            <div class="form-check-inline my-1">
-                <label class="cr-styled" for="furnace1">
-                    <input type="radio" id="furnace1" name="furnace" value="4">
-                    <i class="fa"></i>
-                    Sintering Furnace
-                </label>
-            </div>
-            <div class="form-check-inline my-1">
-                <label class="cr-styled" for="furnace2">
-                    <input type="radio" id="furnace2" name="furnace" value="5" required>
-                    <i class="fa"></i>
-                    Press Furnace
-                </label>
-            </div>
-            <div class="form-check-inline my-1">
-                <label class="cr-styled" for="furnace3">
-                    <input type="radio" id="furnace3" name="furnace" value="9">
-                    <i class="fa"></i>
-                    Metal Work
-                </label>
-            </div>
-
-        </div>
-    </div>
-    <div class="form-group row">
-        <label class="col-md-2 my-1 control-label">Finishing:</label>
-        <div class="col-md-9">
-            <div class="form-check-inline my-1">
-                <label class="cr-styled" for="finishing">
-                    <input type="checkbox" id="finishing" name="finishing" value="6"  checked>
-                    <i class="fa"></i>
-
-                </label>
-            </div>
-
-
-        </div>
-    </div>
-    <div class="form-group row">
-        <label class="col-md-2 my-1 control-label">Quality Control:</label>
-        <div class="col-md-9">
-            <div class="form-check-inline my-1">
-                <label class="cr-styled" for="qc">
-                    <input type="checkbox" id="qc" name="qc" value="7"  checked>
-                    <i class="fa"></i>
-
-                </label>
-            </div>
-
-
-        </div>
-    </div>
-    <div class="form-group row">
-        <label class="col-md-2 my-1 control-label">Delivery:</label>
-        <div class="col-md-9">
-            <div class="form-check-inline my-1">
-                <label class="cr-styled" for="delivery">
-                    <input type="checkbox" id="delivery" name="delivery" value="8"  checked>
-                    <i class="fa"></i>
-
-                </label>
-            </div>
-
-
-        </div>
-    </div>
-        <br/>
-    <div class=" form-group ">
-        <div class="form-group ">
-            <div>
-                <button type="submit" class="btn btn-primary ">
-                    Submit
+            <div class="material-button-group">
+                <button type="submit" class="btn material-action material-action--primary">
+                    <i class="fa fa-save" aria-hidden="true"></i>
+                    <span>Create Material</span>
                 </button>
-                <button type="reset" class="btn btn-secondary " style="margin:0 !important;">
-                    Cancel
+                <button type="reset" class="btn material-action material-action--secondary">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                    <span>Cancel</span>
                 </button>
             </div>
-        </div>
-
+        </form>
     </div>
-    </form>
 @endsection
 
-@section('scripts')
-    <script type="text/javascript">
-
-        $(document).ready(function() {
-            $('form').parsley();
-        });
-
-    </script>
-    <script type="text/javascript" src="{{asset('assets/plugins/parsleyjs/dist/parsley.min.js')}}"></script>
-@endsection
+@push('js')
+    @include('materials::_form-script')
+@endpush

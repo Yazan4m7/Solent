@@ -18,13 +18,13 @@
                             <div class="row " style="padding-bottom:0">
                                 <div class="col-12 col-sm-6 col-md-3 mb-3">
                                     <div class="kt-subheader__search" style="">
-                                        <label>From (Start of):</label>
+                                        <label class="solent-filter-label"><i class="fa-regular fa-calendar" aria-hidden="true"></i><span>From (Start of):</span></label>
                                         <input type="date" class="form-control" name="from" value="{{$from}}">
                                     </div>
                                 </div>
                                 <div class="col-12 col-sm-6 col-md-3 mb-3">
                                     <div class="kt-subheader__search" style="">
-                                        <label>To (End of):</label>
+                                        <label class="solent-filter-label"><i class="fa-regular fa-calendar" aria-hidden="true"></i><span>To (End of):</span></label>
                                         <input type="date" class="form-control" name="to" value="{{$to}}">
                                     </div>
                                 </div>
@@ -32,7 +32,7 @@
 
                                     @if(isset($clients))
                                         <div class="dropdown" style="text-align: left;">
-                                            <label>Doctor:</label>
+                                            <label class="solent-filter-label"><i class="fa-solid fa-user-doctor" aria-hidden="true"></i><span>Doctor:</span></label>
                                             <br>
 
                                             <select style="width:100%" class="selectpicker clearOnAll" multiple
@@ -56,7 +56,7 @@
 
                                     @if(isset($clients))
                                         <div class="kt-subheader__search">
-                                            <label>Patient Name:</label>
+                                            <label class="solent-filter-label"><i class="fa-regular fa-user" aria-hidden="true"></i><span>Patient Name:</span></label>
                                             <br>
                                             <input type="text" name="patient_name" value="{{$patientName ?? ''}}"
                                                    class="form-control">
@@ -196,7 +196,7 @@
                                             <tbody>
 
                                             @foreach($cases  as $case)
-                                                <tr role="row" class="odd clickable"  data-toggle="modal" data-target="#actionsDialog{{$case->id}}">
+                                                <tr role="row" class="odd clickable" data-toggle="modal" data-target="#caseActionsModal{{$case->id}}">
                                                     <td class="sorting_1 ">{{$case->id}}</td>
                                                     <td>{{$case->case_id}}</td>
                                                     <td>{{$case->client->name}}</td>
@@ -207,21 +207,21 @@
                                                         &nbsp;&nbsp; {{$case->actualDeliveryTime() ?? ""}}</td>
                                                     <td>
                                                         @if(str_contains($case->status(), "Completed") )
-                                                            <span class="badge badge-success">
+                                                            <span class="badge badge-success solent-case-status-badge">
                                                                            {{$case->status()}} </span>
                                                         @elseif(str_contains($case->status(), "In-Progress") || str_contains($case->status(), "Active"))
                                                             <span style="width:auto; margin: auto; text-align: center"
-                                                                  class="badge badge-primary">
+                                                                  class="badge badge-primary solent-case-status-badge">
                                                                            <span class="tooltipX"> {{$case->status()}}
                                                                                <span class="tooltiptext">{!!  $case->getStatusToolTipHTML() !!}</span>
                                                                 </span></span>
                                                         @elseif(str_contains($case->status(), "Waiting"))
                                                             <span style="width:auto; margin: auto; text-align: center"
-                                                                  class="badge badge-danger">
+                                                                  class="badge badge-danger solent-case-status-badge">
                                                                      {{$case->status()}} </span>
                                                         @else
                                                             <span style="width:auto; margin: auto; text-align: center"
-                                                                  class="badge badge-warning">
+                                                                  class="badge badge-warning solent-case-status-badge">
                                                                            <span class="tooltipX"> {{$case->status()}}
                                                                                <span class="tooltiptext">{!!  $case->getStatusToolTipHTML() !!}</span>
                                                                 </span></span>
@@ -457,6 +457,12 @@
                             </div>
                         </div>
 
+                        @foreach($cases as $case)
+                            <x-partiels.caseActionsModal
+                                :case="$case"
+                                :modalId="'caseActionsModal' . $case->id"
+                                :showCaseManagement="true" />
+                        @endforeach
 
                     @push('js')
                     <script src="//cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>

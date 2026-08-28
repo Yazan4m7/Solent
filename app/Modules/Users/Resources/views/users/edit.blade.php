@@ -1,102 +1,138 @@
 @extends('layouts.app' ,[ 'pageSlug' =>'Edit User'])
+
+@push('css')
+    @include('users._form-styles')
+@endpush
+
+@php
+    $formWasSubmitted = (bool) old('form_submitted', false);
+    $selectedPermissionIds = $formWasSubmitted
+        ? array_map('strval', (array) old('permission', []))
+        : $user->permissions->pluck('permission_id')->map(function ($permissionId) {
+            return (string) $permissionId;
+        })->all();
+    $isAdminChecked = $formWasSubmitted ? old('is_admin') !== null : (bool) $user->is_admin;
+    $statusChecked = $formWasSubmitted ? old('status') !== null : (bool) $user->status;
+
+    $profileImagePath = null;
+    if ($user->has_photo) {
+        $tenantProfilePath = app(\App\Support\Tenancy\TenantStorage::class)->path('users/' . $user->id . '/profile_picture.png');
+        $legacyProfilePath = 'users/' . $user->id . '/profile_picture.png';
+        $profilePath = file_exists(public_path($tenantProfilePath)) ? $tenantProfilePath : $legacyProfilePath;
+        $profileImagePath = '/' . $profilePath . '?v=' . time();
+    }
+@endphp
+
 @section('content')
-	<!--begin::Portlet-->
-    <div class="card" style="padding:15px">
+    <div class="card user-management-card">
+        <div class="kt-portlet">
             <div class="kt-portlet__head">
                 <div class="kt-portlet__head-label">
-                    <h3 class="kt-portlet__head-title">
-                        Edit User
-                    </h3>
+                    <h3 class="kt-portlet__head-title">Edit User</h3>
                 </div>
             </div>
 
-            <!--begin::Form-->
-            <form class="kt-form" method="POST" action="{{route('edit-user')}}" enctype="multipart/form-data">
+            <form class="kt-form user-management-form" method="POST" action="{{ route('edit-user') }}" enctype="multipart/form-data">
                 @csrf
-                <input type="hidden" name="id" value="{{$user->id}}">
+                <input type="hidden" name="id" value="{{ $user->id }}">
+                <input type="hidden" name="form_submitted" value="1">
+
                 <div class="kt-portlet__body">
                     @include('alerts.errors')
-                    <div class="row">
-                    <div class="form-group col-md-6">
-                        <label>User first name</label>
-                        <input type="text" class="form-control" name="first_name" placeholder="Enter the first name" value="{{$user->first_name}}">
-                        @if ($errors->has('first_name'))
-                        <span class="help-block" style="color: red">{{ $errors->first('first_name') }}</span>
-                        @endif
-                    </div>
-                    <div class="form-group col-md-6">
-                            <label>User last name</label>
-                            <input type="text" class="form-control" name="last_name" placeholder="Enter the first name" value="{{$user->last_name}}">
-                            @if ($errors->has('last_name'))
-                            <span class="help-block" style="color: red">{{ $errors->first('last_name') }}</span>
-                            @endif
-                        </div>
 
-                    <div class="form-group col-md-6">
-                        <label>Name initials</label>
-                        <input type="text" class="form-control" name="name_initials" placeholder="E.g. : Y. Moh."  value="{{$user->name_initials}}">
-
-                    </div>
-                        <div class="form-group col-md-6">
-                                <label>Username</label>
-                                <input type="text" class="form-control" name="username" placeholder="Enter the username" value="{{$user->username}}" disabled>
-                                @if ($errors->has('username'))
-                                <span class="help-block" style="color: red">{{ $errors->first('username') }}</span>
-                                @endif
-                        </div>
-                    <div class="form-group col-md-6">
-                            <label for="is_admin" style="color:red">Admin</label>
-                            <input type="checkbox" id="is_admin" name="is_admin" {{$user->is_admin ? 'checked' : ''}}>
-                            @if ($errors->has('is_admin'))
-                            <span class="help-block" style="color: red">{{ $errors->first('is_admin') }}</span>
+                    <div class="user-form-grid">
+                        <div class="form-group">
+                            <label for="first_name">User first name</label>
+                            <input type="text" class="form-control user-text-control" id="first_name" name="first_name" placeholder="Enter the first name" value="{{ old('first_name', $user->first_name) }}">
+                            @if ($errors->has('first_name'))
+                                <span class="help-block" style="color: red">{{ $errors->first('first_name') }}</span>
                             @endif
-                        </div>
-                    <div class="form-group col-md-6">
-                        <label for="exampleInputPassword1">New Password</label>
-                        <input type="password" class="form-control" name="password" placeholder="Password">
-                        @if ($errors->has('password'))
-                        <span class="help-block" style="color: red">{{ $errors->first('password') }}</span>
-                        @endif
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="exampleInputPassword1">Confirm Password</label>
-                        <input type="password" class="form-control" name="password_confirmation" placeholder="Password">
-                        @if ($errors->has('password_confirmation'))
-                        <span class="help-block" style="color: red">{{ $errors->first('password_confirmation') }}</span>
-                        @endif
-                    </div>
-                    <div class="form-group col-md-6">
-                            <label for="status">Status</label>
-                            <input type="checkbox" id="status" name="status" {{$user->status ? 'checked' : ''}}>
-                            @if ($errors->has('status'))
-                            <span class="help-block" style="color: red">{{ $errors->first('status') }}</span>
-                            @endif
-                    </div>
-                    </div>
-                    <div class="form-group" id="disable">
-                            <label for="Permission">Permission</label>
-                            <select class="form-control" id="Permission" multiple name="permission[]" style="height: 250px;">
-                                    @foreach($permissions as $perm)
-                                    <option value="{{$perm->id}}" {{$user->permissions->contains('permission_id', $perm->id) ? 'selected' : ''}}>{{$perm->name}}</option>
-                                    @endforeach
-                                </select>
                         </div>
 
                         <div class="form-group">
-                            <label>Profile Image</label>
-                            @php
-                                $profileImagePath = null;
-                                if ($user->has_photo) {
-                                    $tenantProfilePath = app(\App\Support\Tenancy\TenantStorage::class)->path('users/' . $user->id . '/profile_picture.png');
-                                    $legacyProfilePath = 'users/' . $user->id . '/profile_picture.png';
-                                    $profilePath = file_exists(public_path($tenantProfilePath)) ? $tenantProfilePath : $legacyProfilePath;
-                                    $profileImagePath = '/' . $profilePath . '?v=' . time();
-                                }
-                            @endphp
-                            <x-user-image-picker current_image="{{ $profileImagePath }}"></x-user-image-picker>
+                            <label for="last_name">User last name</label>
+                            <input type="text" class="form-control user-text-control" id="last_name" name="last_name" placeholder="Enter the last name" value="{{ old('last_name', $user->last_name) }}">
+                            @if ($errors->has('last_name'))
+                                <span class="help-block" style="color: red">{{ $errors->first('last_name') }}</span>
+                            @endif
                         </div>
 
+                        <div class="form-group">
+                            <label for="name_initials">Name initials</label>
+                            <input type="text" class="form-control user-text-control" id="name_initials" name="name_initials" placeholder="E.g. : Y. Moh." value="{{ old('name_initials', $user->name_initials) }}">
+                        </div>
+                    </div>
+
+                    <div class="user-form-grid mt-3">
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" class="form-control user-text-control" id="username" name="username" placeholder="Enter the username" value="{{ $user->username }}" disabled>
+                            @if ($errors->has('username'))
+                                <span class="help-block" style="color: red">{{ $errors->first('username') }}</span>
+                            @endif
+                        </div>
+
+                        <div class="form-group">
+                            <span class="user-field-label d-block">Account Status</span>
+                            <label class="user-toggle-panel" for="status">
+                                <span class="user-switch">
+                                    <input type="checkbox" class="user-switch__input" id="status" name="status" {{ $statusChecked ? 'checked' : '' }}>
+                                    <span class="user-switch__track" aria-hidden="true"></span>
+                                </span>
+                                <span class="user-toggle-panel__text">Active account</span>
+                            </label>
+                            @if ($errors->has('status'))
+                                <span class="help-block" style="color: red">{{ $errors->first('status') }}</span>
+                            @endif
+                        </div>
+
+                        <div class="form-group">
+                            <span class="user-field-label d-block">Admin Privileges</span>
+                            <label class="user-toggle-panel" for="is_admin">
+                                <span class="user-switch">
+                                    <input type="checkbox" class="user-switch__input" id="is_admin" name="is_admin" {{ $isAdminChecked ? 'checked' : '' }}>
+                                    <span class="user-switch__track" aria-hidden="true"></span>
+                                </span>
+                                <span class="user-toggle-panel__text">Grant administrator access</span>
+                            </label>
+                            @if ($errors->has('is_admin'))
+                                <span class="help-block" style="color: red">{{ $errors->first('is_admin') }}</span>
+                            @endif
+                        </div>
+                    </div>
+
+                    <section class="user-form-section" aria-labelledby="edit-user-security-title">
+                        <h4 class="user-form-section__title" id="edit-user-security-title">Security</h4>
+                        <div class="user-form-grid user-form-grid--security">
+                            <div class="form-group">
+                                <label for="password">New Password</label>
+                                <input type="password" class="form-control user-text-control" id="password" name="password" placeholder="Leave blank to keep current" autocomplete="new-password">
+                                @if ($errors->has('password'))
+                                    <span class="help-block" style="color: red">{{ $errors->first('password') }}</span>
+                                @endif
+                            </div>
+
+                            <div class="form-group">
+                                <label for="password_confirmation">Confirm Password</label>
+                                <input type="password" class="form-control user-text-control" id="password_confirmation" name="password_confirmation" placeholder="Confirm new password" autocomplete="new-password">
+                                @if ($errors->has('password_confirmation'))
+                                    <span class="help-block" style="color: red">{{ $errors->first('password_confirmation') }}</span>
+                                @endif
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="user-form-section" id="disable" aria-labelledby="edit-user-permissions-title">
+                        <h4 class="user-form-section__title" id="edit-user-permissions-title">Permissions</h4>
+                        @include('users._permissions-box', ['permissionInputPrefix' => 'edit-user'])
+                    </section>
+
+                    <section class="user-form-section" aria-labelledby="edit-user-profile-title">
+                        <h4 class="user-form-section__title" id="edit-user-profile-title">Profile Image</h4>
+                        <x-user-image-picker current_image="{{ $profileImagePath }}"></x-user-image-picker>
+                    </section>
                 </div>
+
                 <div class="kt-portlet__foot">
                     <div class="kt-form__actions">
                         <button type="submit" class="btn btn-primary">Submit</button>
@@ -104,95 +140,10 @@
                     </div>
                 </div>
             </form>
-
-            <!--end::Form-->
         </div>
+    </div>
+@endsection
 
-@stop
 @push('js')
-<script>
-    // Check if permission 131 (delivery driver) is selected
-    function checkDeliveryDriverPermission() {
-        if ($('#is_admin').is(':checked')) {
-            $('.delivery-driver-section').hide();
-            return;
-        }
-
-        // Check if permission ID 131 is selected
-        const hasDeliveryPermission = $('#Permission option[value="131"]:selected').length > 0;
-
-        if (hasDeliveryPermission) {
-            $('.delivery-driver-section').show();
-        } else {
-            $('.delivery-driver-section').hide();
-        }
-    }
-
-    // Initialize on page load
-    $(document).ready(function() {
-        // Set up driver image preview
-        $('#driver-image').on('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    $('#driver-image-preview').attr('src', event.target.result);
-                    $('#new-preview').show();
-                };
-                reader.readAsDataURL(file);
-
-                // Update file input label with selected filename
-                $(this).next('.custom-file-label').html(file.name);
-            }
-        });
-
-        // Check delivery driver permission on page load
-        checkDeliveryDriverPermission();
-
-        // Check delivery driver permission when permissions change
-        $('#Permission').on('change', function() {
-            checkDeliveryDriverPermission();
-        });
-    });
-
-    $("select").mousedown(function(e){
-        e.preventDefault();
-
-        var select = this;
-        var scroll = select.scrollTop;
-
-        e.target.selected = !e.target.selected;
-
-        setTimeout(function(){select.scrollTop = scroll;}, 0);
-
-        $(select).focus();
-    }).mousemove(function(e){e.preventDefault()});
-
-    $('#is_admin').on('change', function() {
-        if(this.checked){
-            $('#Permission').attr('disabled', true);
-            $('#disable').css('visibility', 'hidden');
-            // Hide delivery driver section if admin
-            $('.delivery-driver-section').hide();
-        } else {
-            $('#Permission').attr('disabled', false);
-            $('#disable').css('visibility', 'visible');
-            // Recheck permissions
-            checkDeliveryDriverPermission();
-        }
-    });
-
-    $('select[name="position"]').on('change', function() {
-        var selected = $(this).find('option:selected');
-        var extra = selected.data('content');
-        if (extra == 'B') {
-            $('#TypeC').prop('hidden', true);
-            $('#TypeB').removeAttr('hidden')
-        } else {
-            $('#TypeB').prop('hidden', true);
-            $('#TypeC').removeAttr('hidden')
-        }
-        console.log(extra)
-    })
-</script>
+    @include('users._access-script')
 @endpush

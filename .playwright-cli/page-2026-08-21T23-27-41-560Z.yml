@@ -1,0 +1,477 @@
+- generic [active] [ref=f46e1]:
+  - generic [ref=f46e5]:
+    - generic [ref=f46e6]: "Last refresh : 2:27 AM"
+    - generic [ref=f46e7]:
+      - generic [ref=f46e9]:
+        - generic [ref=f46e10]:
+          - generic [ref=f46e11]:
+            - heading "Design" [level=3] [ref=f46e12]
+            - heading "13" [level=3] [ref=f46e13]
+          - generic:
+            - link:
+              - /url: "#bg-info1"
+        - generic [ref=f46e17]:
+          - table [ref=f46e20]:
+            - rowgroup [ref=f46e21]:
+              - row [ref=f46e22]:
+                - columnheader "Patient" [ref=f46e23]
+                - columnheader "Delivery date" [ref=f46e24]
+                - columnheader "#" [ref=f46e25]
+                - columnheader "Status" [ref=f46e26]
+          - table [ref=f46e28]:
+            - rowgroup:
+              - 'row "Patient Delivery date # Status"':
+                - columnheader "Patient"
+                - columnheader "Delivery date"
+                - columnheader "#"
+                - columnheader "Status"
+            - rowgroup [ref=f46e29]:
+              - row [ref=f46e30]:
+                - cell [ref=f46e31]:
+                  - paragraph [ref=f46e32]: Demo Patient 19646
+                - cell [ref=f46e33]:
+                  - paragraph [ref=f46e34]: 09-Feb
+                - cell [ref=f46e35]:
+                  - paragraph [ref=f46e36]: "1"
+                - cell "OU14" [ref=f46e37]
+              - row [ref=f46e40]:
+                - cell [ref=f46e41]:
+                  - paragraph [ref=f46e42]: Demo Patient 19651
+                - cell [ref=f46e43]:
+                  - paragraph [ref=f46e44]: 10-Feb
+                - cell [ref=f46e45]:
+                  - paragraph [ref=f46e46]: "1"
+                - cell "OU14" [ref=f46e47]
+              - row [ref=f46e50]:
+                - cell [ref=f46e51]:
+                  - paragraph [ref=f46e52]: Demo Patient 19635
+                - cell [ref=f46e53]:
+                  - paragraph [ref=f46e54]: 10-Feb
+                - cell [ref=f46e55]:
+                  - paragraph [ref=f46e56]: "1"
+                - cell "OU14" [ref=f46e57]
+              - row [ref=f46e60]:
+                - cell [ref=f46e61]:
+                  - paragraph [ref=f46e62]: Demo Patient 19644
+                - cell [ref=f46e63]:
+                  - paragraph [ref=f46e64]: 10-Feb
+                - cell [ref=f46e65]:
+                  - paragraph [ref=f46e66]: "4"
+                - cell "OU14" [ref=f46e67]
+              - row [ref=f46e70]:
+                - cell [ref=f46e71]:
+                  - paragraph [ref=f46e72]: Demo Patient 19647
+                - cell [ref=f46e73]:
+                  - paragraph [ref=f46e74]: 12-Feb
+                - cell [ref=f46e75]:
+                  - paragraph [ref=f46e76]: "1"
+                - cell "OU14" [ref=f46e77]
+              - row [ref=f46e80]:
+                - cell [ref=f46e81]:
+                  - paragraph [ref=f46e82]: Demo Patient 19658
+                - cell [ref=f46e83]:
+                  - paragraph [ref=f46e84]: 02-Jun
+                - cell [ref=f46e85]:
+                  - paragraph [ref=f46e86]: "3"
+                - cell "OU02" [ref=f46e87]
+              - row [ref=f46e90]:
+                - cell [ref=f46e91]:
+                  - paragraph [ref=f46e92]: Demo Patient 19659
+                - cell [ref=f46e93]:
+                  - paragraph [ref=f46e94]: 30-Jun
+                - cell [ref=f46e95]:
+                  - paragraph [ref=f46e96]: "4"
+                - cell "Waiting" [ref=f46e97]
+              - row [ref=f46e99]:
+                - cell [ref=f46e100]:
+                  - paragraph [ref=f46e101]: Test
+                - cell [ref=f46e102]:
+                  - paragraph [ref=f46e103]: 03-Jul
+                - cell [ref=f46e104]:
+                  - paragraph [ref=f46e105]: "3"
+                - cell "Waiting" [ref=f46e106]
+              - row [ref=f46e108]:
+                - cell [ref=f46e109]:
+                  - paragraph [ref=f46e110]: yaz
+                - cell [ref=f46e111]:
+                  - paragraph [ref=f46e112]: 20-Jul
+                - cell [ref=f46e113]:
+                  - paragraph [ref=f46e114]: "2"
+                - cell "Waiting" [ref=f46e115]
+              - row [ref=f46e117]:
+                - cell [ref=f46e118]:
+                  - paragraph [ref=f46e119]: Demo Patient 17701
+                - cell [ref=f46e120]:
+                  - paragraph [ref=f46e121]: 27-Sep
+                - cell [ref=f46e122]:
+                  - paragraph [ref=f46e123]: "0"
+                - cell "Waiting" [ref=f46e124]
+              - row [ref=f46e126]:
+                - cell [ref=f46e127]:
+                  - paragraph [ref=f46e128]: Demo Patient 15879
+                - cell [ref=f46e129]:
+                  - paragraph [ref=f46e130]: 01-Nov
+                - cell [ref=f46e131]:
+                  - paragraph [ref=f46e132]: "2"
+                - cell "Waiting" [ref=f46e133]
+              - row [ref=f46e135]:
+                - cell [ref=f46e136]:
+                  - paragraph [ref=f46e137]: Demo Patient 15444
+                - cell [ref=f46e138]:
+                  - paragraph [ref=f46e139]: 30-Nov
+                - cell [ref=f46e140]:
+                  - paragraph [ref=f46e141]: "3"
+                - cell "Waiting" [ref=f46e142]
+              - row [ref=f46e144]:
+                - cell [ref=f46e145]:
+                  - paragraph [ref=f46e146]: Demo Patient 16274
+                - cell [ref=f46e147]:
+                  - paragraph [ref=f46e148]: 29-Jan
+                - cell [ref=f46e149]:
+                  - paragraph [ref=f46e150]: "3"
+                - cell "Waiting" [ref=f46e151]
+      - generic [ref=f46e154]:
+        - generic [ref=f46e155]:
+          - generic [ref=f46e156]:
+            - heading "Milling" [level=3] [ref=f46e157]
+            - heading "8" [level=3] [ref=f46e158]
+          - generic:
+            - link:
+              - /url: "#bg-info2"
+        - generic [ref=f46e162]:
+          - table [ref=f46e165]:
+            - rowgroup [ref=f46e166]:
+              - row [ref=f46e167]:
+                - columnheader "Patient" [ref=f46e168]
+                - columnheader "Delivery date" [ref=f46e169]
+                - columnheader "#" [ref=f46e170]
+                - columnheader "Status" [ref=f46e171]
+          - table [ref=f46e173]:
+            - rowgroup:
+              - 'row "Patient Delivery date # Status"':
+                - columnheader "Patient"
+                - columnheader "Delivery date"
+                - columnheader "#"
+                - columnheader "Status"
+            - rowgroup [ref=f46e174]:
+              - row [ref=f46e175]:
+                - cell [ref=f46e176]:
+                  - paragraph [ref=f46e177]: Demo Patient 19652
+                - cell [ref=f46e178]:
+                  - paragraph [ref=f46e179]: 08-Feb
+                - cell [ref=f46e180]:
+                  - paragraph [ref=f46e181]: "2"
+                - cell "Waiting" [ref=f46e182]
+              - row [ref=f46e184]:
+                - cell [ref=f46e185]:
+                  - paragraph [ref=f46e186]: Demo Patient 19642
+                - cell [ref=f46e187]:
+                  - paragraph [ref=f46e188]: 08-Feb
+                - cell [ref=f46e189]:
+                  - paragraph [ref=f46e190]: "2"
+                - cell "OU15" [ref=f46e191]
+              - row [ref=f46e194]:
+                - cell [ref=f46e195]:
+                  - paragraph [ref=f46e196]: Demo Patient 19648
+                - cell [ref=f46e197]:
+                  - paragraph [ref=f46e198]: 08-Feb
+                - cell [ref=f46e199]:
+                  - paragraph [ref=f46e200]: "1"
+                - cell "Waiting" [ref=f46e201]
+              - row [ref=f46e203]:
+                - cell [ref=f46e204]:
+                  - paragraph [ref=f46e205]: Demo Patient 19643
+                - cell [ref=f46e206]:
+                  - paragraph [ref=f46e207]: 08-Feb
+                - cell [ref=f46e208]:
+                  - paragraph [ref=f46e209]: "6"
+                - cell "OU15" [ref=f46e210]
+              - row [ref=f46e213]:
+                - cell [ref=f46e214]:
+                  - paragraph [ref=f46e215]: Demo Patient 19650
+                - cell [ref=f46e216]:
+                  - paragraph [ref=f46e217]: 08-Feb
+                - cell [ref=f46e218]:
+                  - paragraph [ref=f46e219]: "4"
+                - cell "OU15" [ref=f46e220]
+              - row [ref=f46e223]:
+                - cell [ref=f46e224]:
+                  - paragraph [ref=f46e225]: Demo Patient 19654
+                - cell [ref=f46e226]:
+                  - paragraph [ref=f46e227]: 09-Feb
+                - cell [ref=f46e228]:
+                  - paragraph [ref=f46e229]: "1"
+                - cell "OU15" [ref=f46e230]
+              - row [ref=f46e233]:
+                - cell [ref=f46e234]:
+                  - paragraph [ref=f46e235]: Demo Patient 19653
+                - cell [ref=f46e236]:
+                  - paragraph [ref=f46e237]: 09-Feb
+                - cell [ref=f46e238]:
+                  - paragraph [ref=f46e239]: "2"
+                - cell "OU15" [ref=f46e240]
+              - row [ref=f46e243]:
+                - cell [ref=f46e244]:
+                  - paragraph [ref=f46e245]: Demo Patient 19655
+                - cell [ref=f46e246]:
+                  - paragraph [ref=f46e247]: 10-Feb
+                - cell [ref=f46e248]:
+                  - paragraph [ref=f46e249]: "2"
+                - cell "Waiting" [ref=f46e250]
+      - generic [ref=f46e253]:
+        - generic [ref=f46e254]:
+          - generic [ref=f46e255]:
+            - heading "Sintering Furnace" [level=3] [ref=f46e256]
+            - heading "5" [level=3] [ref=f46e257]
+          - generic:
+            - link:
+              - /url: "#bg-info4"
+        - generic [ref=f46e261]:
+          - table [ref=f46e264]:
+            - rowgroup [ref=f46e265]:
+              - row [ref=f46e266]:
+                - columnheader "Patient" [ref=f46e267]
+                - columnheader "Delivery date" [ref=f46e268]
+                - columnheader "#" [ref=f46e269]
+                - columnheader "Status" [ref=f46e270]
+          - table [ref=f46e272]:
+            - rowgroup:
+              - 'row "Patient Delivery date # Status"':
+                - columnheader "Patient"
+                - columnheader "Delivery date"
+                - columnheader "#"
+                - columnheader "Status"
+            - rowgroup [ref=f46e273]:
+              - row [ref=f46e274]:
+                - cell [ref=f46e275]:
+                  - paragraph [ref=f46e276]: Demo Patient 19639
+                - cell [ref=f46e277]:
+                  - paragraph [ref=f46e278]: 08-Feb
+                - cell [ref=f46e279]:
+                  - paragraph [ref=f46e280]: "2"
+                - cell "Waiting" [ref=f46e281]
+              - row [ref=f46e283]:
+                - cell [ref=f46e284]:
+                  - paragraph [ref=f46e285]: Demo Patient 19649
+                - cell [ref=f46e286]:
+                  - paragraph [ref=f46e287]: 08-Feb
+                - cell [ref=f46e288]:
+                  - paragraph [ref=f46e289]: "1"
+                - cell "OU18" [ref=f46e290]
+              - row [ref=f46e293]:
+                - cell [ref=f46e294]:
+                  - paragraph [ref=f46e295]: Demo Patient 19641
+                - cell [ref=f46e296]:
+                  - paragraph [ref=f46e297]: 08-Feb
+                - cell [ref=f46e298]:
+                  - paragraph [ref=f46e299]: "1"
+                - cell "Waiting" [ref=f46e300]
+              - row [ref=f46e302]:
+                - cell [ref=f46e303]:
+                  - paragraph [ref=f46e304]: Demo Patient 19634
+                - cell [ref=f46e305]:
+                  - paragraph [ref=f46e306]: 09-Feb
+                - cell [ref=f46e307]:
+                  - paragraph [ref=f46e308]: "1"
+                - cell "Waiting" [ref=f46e309]
+              - row [ref=f46e311]:
+                - cell [ref=f46e312]:
+                  - paragraph [ref=f46e313]: Demo Patient 19640
+                - cell [ref=f46e314]:
+                  - paragraph [ref=f46e315]: 09-Feb
+                - cell [ref=f46e316]:
+                  - paragraph [ref=f46e317]: "2"
+                - cell "Waiting" [ref=f46e318]
+      - generic [ref=f46e321]:
+        - generic [ref=f46e322]:
+          - generic [ref=f46e323]:
+            - heading "Pressing Furnace" [level=3] [ref=f46e324]
+            - heading "0" [level=3] [ref=f46e325]
+          - generic:
+            - link:
+              - /url: "#bg-info5"
+        - generic [ref=f46e329]:
+          - table [ref=f46e332]:
+            - rowgroup [ref=f46e333]:
+              - row [ref=f46e334]:
+                - columnheader "Patient" [ref=f46e335]
+                - columnheader "Delivery date" [ref=f46e336]
+                - columnheader "#" [ref=f46e337]
+                - columnheader "Status" [ref=f46e338]
+          - table [ref=f46e340]:
+            - rowgroup:
+              - 'row "Patient Delivery date # Status"':
+                - columnheader "Patient"
+                - columnheader "Delivery date"
+                - columnheader "#"
+                - columnheader "Status"
+            - rowgroup [ref=f46e341]:
+              - row [ref=f46e342]:
+                - cell "No data available in table" [ref=f46e343]
+      - generic [ref=f46e345]:
+        - generic [ref=f46e346]:
+          - generic [ref=f46e347]:
+            - heading "Finishing & Build up" [level=3] [ref=f46e348]
+            - heading "5" [level=3] [ref=f46e349]
+          - generic:
+            - link:
+              - /url: "#bg-info6"
+        - generic [ref=f46e353]:
+          - table [ref=f46e356]:
+            - rowgroup [ref=f46e357]:
+              - row [ref=f46e358]:
+                - columnheader "Patient" [ref=f46e359]
+                - columnheader "Delivery date" [ref=f46e360]
+                - columnheader "#" [ref=f46e361]
+                - columnheader "Status" [ref=f46e362]
+          - table [ref=f46e364]:
+            - rowgroup:
+              - 'row "Patient Delivery date # Status"':
+                - columnheader "Patient"
+                - columnheader "Delivery date"
+                - columnheader "#"
+                - columnheader "Status"
+            - rowgroup [ref=f46e365]:
+              - row [ref=f46e366]:
+                - cell [ref=f46e367]:
+                  - paragraph [ref=f46e368]: Demo Patient 18341
+                - cell [ref=f46e369]:
+                  - paragraph [ref=f46e370]: 20-Jan
+                - cell [ref=f46e371]:
+                  - paragraph [ref=f46e372]: "1"
+                - cell "Waiting" [ref=f46e373]
+              - row [ref=f46e375]:
+                - cell [ref=f46e376]:
+                  - paragraph [ref=f46e377]: Demo Patient 19617
+                - cell [ref=f46e378]:
+                  - paragraph [ref=f46e379]: 08-Feb
+                - cell [ref=f46e380]:
+                  - paragraph [ref=f46e381]: "1"
+                - cell "OU04" [ref=f46e382]
+              - row [ref=f46e385]:
+                - cell [ref=f46e386]:
+                  - paragraph [ref=f46e387]: Demo Patient 19638
+                - cell [ref=f46e388]:
+                  - paragraph [ref=f46e389]: 08-Feb
+                - cell [ref=f46e390]:
+                  - paragraph [ref=f46e391]: "0"
+                - cell "OU10" [ref=f46e392]
+              - row [ref=f46e395]:
+                - cell [ref=f46e396]:
+                  - paragraph [ref=f46e397]: Demo Patient 16260
+                - cell [ref=f46e398]:
+                  - paragraph [ref=f46e399]: 31-Oct
+                - cell [ref=f46e400]:
+                  - paragraph [ref=f46e401]: "11"
+                - cell "Waiting" [ref=f46e402]
+              - row [ref=f46e404]:
+                - cell [ref=f46e405]:
+                  - paragraph [ref=f46e406]: Demo Patient 18195
+                - cell [ref=f46e407]:
+                  - paragraph [ref=f46e408]: 29-Jan
+                - cell [ref=f46e409]:
+                  - paragraph [ref=f46e410]: "1"
+                - cell "OU18" [ref=f46e411]
+      - generic [ref=f46e415]:
+        - generic [ref=f46e416]:
+          - generic [ref=f46e417]:
+            - heading "Delivery" [level=3] [ref=f46e418]
+            - heading "5" [level=3] [ref=f46e419]
+          - generic:
+            - link:
+              - /url: "#bg-info8"
+        - generic [ref=f46e423]:
+          - table [ref=f46e426]:
+            - rowgroup [ref=f46e427]:
+              - row [ref=f46e428]:
+                - columnheader "Patient" [ref=f46e429]
+                - columnheader "Delivery date" [ref=f46e430]
+                - columnheader "#" [ref=f46e431]
+                - columnheader "Status" [ref=f46e432]
+          - table [ref=f46e434]:
+            - rowgroup:
+              - 'row "Patient Delivery date # Status"':
+                - columnheader "Patient"
+                - columnheader "Delivery date"
+                - columnheader "#"
+                - columnheader "Status"
+            - rowgroup [ref=f46e435]:
+              - row [ref=f46e436]:
+                - cell [ref=f46e437]:
+                  - paragraph [ref=f46e438]: Demo Patient 19630
+                - cell [ref=f46e439]:
+                  - paragraph [ref=f46e440]: 08-Feb
+                - cell [ref=f46e441]:
+                  - paragraph [ref=f46e442]: "4"
+                - cell "Assigned to Driver" [ref=f46e443]
+              - row [ref=f46e445]:
+                - cell [ref=f46e446]:
+                  - paragraph [ref=f46e447]: Demo Patient 19611
+                - cell [ref=f46e448]:
+                  - paragraph [ref=f46e449]: 08-Feb
+                - cell [ref=f46e450]:
+                  - paragraph [ref=f46e451]: "2"
+                - cell "Waiting" [ref=f46e452]
+              - row [ref=f46e454]:
+                - cell [ref=f46e455]:
+                  - paragraph [ref=f46e456]: Demo Patient 19631
+                - cell [ref=f46e457]:
+                  - paragraph [ref=f46e458]: 09-Feb
+                - cell [ref=f46e459]:
+                  - paragraph [ref=f46e460]: "1"
+                - cell "Assigned to Driver" [ref=f46e461]
+              - row [ref=f46e463]:
+                - cell [ref=f46e464]:
+                  - paragraph [ref=f46e465]: Demo Patient 19615
+                - cell [ref=f46e466]:
+                  - paragraph [ref=f46e467]: 11-Feb
+                - cell [ref=f46e468]:
+                  - paragraph [ref=f46e469]: "1"
+                - cell "Waiting" [ref=f46e470]
+              - row [ref=f46e472]:
+                - cell [ref=f46e473]:
+                  - paragraph [ref=f46e474]: Demo Patient 19656
+                - cell [ref=f46e475]:
+                  - paragraph [ref=f46e476]: 16-Feb
+                - cell [ref=f46e477]:
+                  - paragraph [ref=f46e478]: "2"
+                - cell "Waiting" [ref=f46e479]
+  - generic [ref=f46e481]:
+    - generic [ref=f46e483]:
+      - generic [ref=f46e484] [cursor=pointer]
+      - generic [ref=f46e485]:
+        - generic [ref=f46e486] [cursor=pointer]: 
+        - generic [ref=f46e488] [cursor=pointer]: 
+        - generic [ref=f46e490] [cursor=pointer]: 
+        - generic [ref=f46e492] [cursor=pointer]:
+          - generic [ref=f46e493]: 
+          - generic [ref=f46e494]: "5"
+        - generic [ref=f46e495] [cursor=pointer]: 
+        - generic [ref=f46e497] [cursor=pointer]:
+          - generic [ref=f46e498]: 
+          - generic [ref=f46e499]: "8"
+        - generic [ref=f46e500] [cursor=pointer]:
+          - generic [ref=f46e501]: 
+          - generic [ref=f46e502]: "146"
+        - generic [ref=f46e503] [cursor=pointer]: 
+        - generic [ref=f46e505] [cursor=pointer]: 
+        - generic [ref=f46e507] [cursor=pointer]: 
+        - generic [ref=f46e509] [cursor=pointer]: 
+      - generic [ref=f46e511]:
+        - generic [ref=f46e512] [cursor=pointer]
+        - generic [ref=f46e513] [cursor=pointer]
+        - generic [ref=f46e514] [cursor=pointer]
+        - generic [ref=f46e515]:
+          - generic [ref=f46e516]: 
+          - generic: 8.2.28
+        - generic [ref=f46e517]:
+          - generic [ref=f46e518]: 
+          - generic: 306ms
+        - generic [ref=f46e519]:
+          - generic [ref=f46e520]: 
+          - generic: 23MB
+        - generic [ref=f46e521]:
+          - generic [ref=f46e522]: 
+          - generic: GET cases-monitor
+    - text:                                                 
+  - text: 

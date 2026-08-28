@@ -1,0 +1,477 @@
+- generic [active] [ref=f32e1]:
+  - generic [ref=f32e5]:
+    - generic [ref=f32e6]: "Last refresh : 2:25 AM"
+    - generic [ref=f32e7]:
+      - generic [ref=f32e9]:
+        - generic [ref=f32e10]:
+          - generic [ref=f32e11]:
+            - heading "Design" [level=3] [ref=f32e12]
+            - heading "13" [level=3] [ref=f32e13]
+          - generic:
+            - link:
+              - /url: "#bg-info1"
+        - generic [ref=f32e17]:
+          - table [ref=f32e20]:
+            - rowgroup [ref=f32e21]:
+              - row [ref=f32e22]:
+                - columnheader "المريض" [ref=f32e23]
+                - columnheader "تاريخ التسليم" [ref=f32e24]
+                - columnheader "#" [ref=f32e25]
+                - columnheader "الحالة" [ref=f32e26]
+          - table [ref=f32e28]:
+            - rowgroup [ref=f32e29]:
+              - row [ref=f32e30]:
+                - columnheader "المريض" [ref=f32e31]
+                - columnheader "تاريخ التسليم" [ref=f32e32]
+                - columnheader "#" [ref=f32e33]
+                - columnheader "الحالة" [ref=f32e34]
+            - rowgroup [ref=f32e35]:
+              - row [ref=f32e36]:
+                - cell [ref=f32e37]:
+                  - paragraph [ref=f32e38]: Demo Patient 19646
+                - cell [ref=f32e39]:
+                  - paragraph [ref=f32e40]: 09-Feb
+                - cell [ref=f32e41]:
+                  - paragraph [ref=f32e42]: "1"
+                - cell "OU14" [ref=f32e43]
+              - row [ref=f32e46]:
+                - cell [ref=f32e47]:
+                  - paragraph [ref=f32e48]: Demo Patient 19651
+                - cell [ref=f32e49]:
+                  - paragraph [ref=f32e50]: 10-Feb
+                - cell [ref=f32e51]:
+                  - paragraph [ref=f32e52]: "1"
+                - cell "OU14" [ref=f32e53]
+              - row [ref=f32e56]:
+                - cell [ref=f32e57]:
+                  - paragraph [ref=f32e58]: Demo Patient 19635
+                - cell [ref=f32e59]:
+                  - paragraph [ref=f32e60]: 10-Feb
+                - cell [ref=f32e61]:
+                  - paragraph [ref=f32e62]: "1"
+                - cell "OU14" [ref=f32e63]
+              - row [ref=f32e66]:
+                - cell [ref=f32e67]:
+                  - paragraph [ref=f32e68]: Demo Patient 19644
+                - cell [ref=f32e69]:
+                  - paragraph [ref=f32e70]: 10-Feb
+                - cell [ref=f32e71]:
+                  - paragraph [ref=f32e72]: "4"
+                - cell "OU14" [ref=f32e73]
+              - row [ref=f32e76]:
+                - cell [ref=f32e77]:
+                  - paragraph [ref=f32e78]: Demo Patient 19647
+                - cell [ref=f32e79]:
+                  - paragraph [ref=f32e80]: 12-Feb
+                - cell [ref=f32e81]:
+                  - paragraph [ref=f32e82]: "1"
+                - cell "OU14" [ref=f32e83]
+              - row [ref=f32e86]:
+                - cell [ref=f32e87]:
+                  - paragraph [ref=f32e88]: Demo Patient 19658
+                - cell [ref=f32e89]:
+                  - paragraph [ref=f32e90]: 02-Jun
+                - cell [ref=f32e91]:
+                  - paragraph [ref=f32e92]: "3"
+                - cell "OU02" [ref=f32e93]
+              - row [ref=f32e96]:
+                - cell [ref=f32e97]:
+                  - paragraph [ref=f32e98]: Demo Patient 19659
+                - cell [ref=f32e99]:
+                  - paragraph [ref=f32e100]: 30-Jun
+                - cell [ref=f32e101]:
+                  - paragraph [ref=f32e102]: "4"
+                - cell "قيد الانتظار" [ref=f32e103]
+              - row [ref=f32e105]:
+                - cell [ref=f32e106]:
+                  - paragraph [ref=f32e107]: Test
+                - cell [ref=f32e108]:
+                  - paragraph [ref=f32e109]: 03-Jul
+                - cell [ref=f32e110]:
+                  - paragraph [ref=f32e111]: "3"
+                - cell "قيد الانتظار" [ref=f32e112]
+              - row [ref=f32e114]:
+                - cell [ref=f32e115]:
+                  - paragraph [ref=f32e116]: yaz
+                - cell [ref=f32e117]:
+                  - paragraph [ref=f32e118]: 20-Jul
+                - cell [ref=f32e119]:
+                  - paragraph [ref=f32e120]: "2"
+                - cell "قيد الانتظار" [ref=f32e121]
+              - row [ref=f32e123]:
+                - cell [ref=f32e124]:
+                  - paragraph [ref=f32e125]: Demo Patient 17701
+                - cell [ref=f32e126]:
+                  - paragraph [ref=f32e127]: 27-Sep
+                - cell [ref=f32e128]:
+                  - paragraph [ref=f32e129]: "0"
+                - cell "قيد الانتظار" [ref=f32e130]
+              - row [ref=f32e132]:
+                - cell [ref=f32e133]:
+                  - paragraph [ref=f32e134]: Demo Patient 15879
+                - cell [ref=f32e135]:
+                  - paragraph [ref=f32e136]: 01-Nov
+                - cell [ref=f32e137]:
+                  - paragraph [ref=f32e138]: "2"
+                - cell "قيد الانتظار" [ref=f32e139]
+              - row [ref=f32e141]:
+                - cell [ref=f32e142]:
+                  - paragraph [ref=f32e143]: Demo Patient 15444
+                - cell [ref=f32e144]:
+                  - paragraph [ref=f32e145]: 30-Nov
+                - cell [ref=f32e146]:
+                  - paragraph [ref=f32e147]: "3"
+                - cell "قيد الانتظار" [ref=f32e148]
+              - row [ref=f32e150]:
+                - cell [ref=f32e151]:
+                  - paragraph [ref=f32e152]: Demo Patient 16274
+                - cell [ref=f32e153]:
+                  - paragraph [ref=f32e154]: 29-Jan
+                - cell [ref=f32e155]:
+                  - paragraph [ref=f32e156]: "3"
+                - cell "قيد الانتظار" [ref=f32e157]
+      - generic [ref=f32e160]:
+        - generic [ref=f32e161]:
+          - generic [ref=f32e162]:
+            - heading "Milling" [level=3] [ref=f32e163]
+            - heading "8" [level=3] [ref=f32e164]
+          - generic:
+            - link:
+              - /url: "#bg-info2"
+        - generic [ref=f32e168]:
+          - table [ref=f32e171]:
+            - rowgroup [ref=f32e172]:
+              - row [ref=f32e173]:
+                - columnheader "المريض" [ref=f32e174]
+                - columnheader "تاريخ التسليم" [ref=f32e175]
+                - columnheader "#" [ref=f32e176]
+                - columnheader "الحالة" [ref=f32e177]
+          - table [ref=f32e179]:
+            - rowgroup [ref=f32e180]:
+              - row [ref=f32e181]:
+                - columnheader "المريض" [ref=f32e182]
+                - columnheader "تاريخ التسليم" [ref=f32e183]
+                - columnheader "#" [ref=f32e184]
+                - columnheader "الحالة" [ref=f32e185]
+            - rowgroup [ref=f32e186]:
+              - row [ref=f32e187]:
+                - cell [ref=f32e188]:
+                  - paragraph [ref=f32e189]: Demo Patient 19652
+                - cell [ref=f32e190]:
+                  - paragraph [ref=f32e191]: 08-Feb
+                - cell [ref=f32e192]:
+                  - paragraph [ref=f32e193]: "2"
+                - cell "قيد الانتظار" [ref=f32e194]
+              - row [ref=f32e196]:
+                - cell [ref=f32e197]:
+                  - paragraph [ref=f32e198]: Demo Patient 19642
+                - cell [ref=f32e199]:
+                  - paragraph [ref=f32e200]: 08-Feb
+                - cell [ref=f32e201]:
+                  - paragraph [ref=f32e202]: "2"
+                - cell "OU15" [ref=f32e203]
+              - row [ref=f32e206]:
+                - cell [ref=f32e207]:
+                  - paragraph [ref=f32e208]: Demo Patient 19648
+                - cell [ref=f32e209]:
+                  - paragraph [ref=f32e210]: 08-Feb
+                - cell [ref=f32e211]:
+                  - paragraph [ref=f32e212]: "1"
+                - cell "قيد الانتظار" [ref=f32e213]
+              - row [ref=f32e215]:
+                - cell [ref=f32e216]:
+                  - paragraph [ref=f32e217]: Demo Patient 19643
+                - cell [ref=f32e218]:
+                  - paragraph [ref=f32e219]: 08-Feb
+                - cell [ref=f32e220]:
+                  - paragraph [ref=f32e221]: "6"
+                - cell "OU15" [ref=f32e222]
+              - row [ref=f32e225]:
+                - cell [ref=f32e226]:
+                  - paragraph [ref=f32e227]: Demo Patient 19650
+                - cell [ref=f32e228]:
+                  - paragraph [ref=f32e229]: 08-Feb
+                - cell [ref=f32e230]:
+                  - paragraph [ref=f32e231]: "4"
+                - cell "OU15" [ref=f32e232]
+              - row [ref=f32e235]:
+                - cell [ref=f32e236]:
+                  - paragraph [ref=f32e237]: Demo Patient 19654
+                - cell [ref=f32e238]:
+                  - paragraph [ref=f32e239]: 09-Feb
+                - cell [ref=f32e240]:
+                  - paragraph [ref=f32e241]: "1"
+                - cell "OU15" [ref=f32e242]
+              - row [ref=f32e245]:
+                - cell [ref=f32e246]:
+                  - paragraph [ref=f32e247]: Demo Patient 19653
+                - cell [ref=f32e248]:
+                  - paragraph [ref=f32e249]: 09-Feb
+                - cell [ref=f32e250]:
+                  - paragraph [ref=f32e251]: "2"
+                - cell "OU15" [ref=f32e252]
+              - row [ref=f32e255]:
+                - cell [ref=f32e256]:
+                  - paragraph [ref=f32e257]: Demo Patient 19655
+                - cell [ref=f32e258]:
+                  - paragraph [ref=f32e259]: 10-Feb
+                - cell [ref=f32e260]:
+                  - paragraph [ref=f32e261]: "2"
+                - cell "قيد الانتظار" [ref=f32e262]
+      - generic [ref=f32e265]:
+        - generic [ref=f32e266]:
+          - generic [ref=f32e267]:
+            - heading "Sintering Furnace" [level=3] [ref=f32e268]
+            - heading "5" [level=3] [ref=f32e269]
+          - generic:
+            - link:
+              - /url: "#bg-info4"
+        - generic [ref=f32e273]:
+          - table [ref=f32e276]:
+            - rowgroup [ref=f32e277]:
+              - row [ref=f32e278]:
+                - columnheader "المريض" [ref=f32e279]
+                - columnheader "تاريخ التسليم" [ref=f32e280]
+                - columnheader "#" [ref=f32e281]
+                - columnheader "الحالة" [ref=f32e282]
+          - table [ref=f32e284]:
+            - rowgroup [ref=f32e285]:
+              - row [ref=f32e286]:
+                - columnheader "المريض" [ref=f32e287]
+                - columnheader "تاريخ التسليم" [ref=f32e288]
+                - columnheader "#" [ref=f32e289]
+                - columnheader "الحالة" [ref=f32e290]
+            - rowgroup [ref=f32e291]:
+              - row [ref=f32e292]:
+                - cell [ref=f32e293]:
+                  - paragraph [ref=f32e294]: Demo Patient 19639
+                - cell [ref=f32e295]:
+                  - paragraph [ref=f32e296]: 08-Feb
+                - cell [ref=f32e297]:
+                  - paragraph [ref=f32e298]: "2"
+                - cell "قيد الانتظار" [ref=f32e299]
+              - row [ref=f32e301]:
+                - cell [ref=f32e302]:
+                  - paragraph [ref=f32e303]: Demo Patient 19649
+                - cell [ref=f32e304]:
+                  - paragraph [ref=f32e305]: 08-Feb
+                - cell [ref=f32e306]:
+                  - paragraph [ref=f32e307]: "1"
+                - cell "OU18" [ref=f32e308]
+              - row [ref=f32e311]:
+                - cell [ref=f32e312]:
+                  - paragraph [ref=f32e313]: Demo Patient 19641
+                - cell [ref=f32e314]:
+                  - paragraph [ref=f32e315]: 08-Feb
+                - cell [ref=f32e316]:
+                  - paragraph [ref=f32e317]: "1"
+                - cell "قيد الانتظار" [ref=f32e318]
+              - row [ref=f32e320]:
+                - cell [ref=f32e321]:
+                  - paragraph [ref=f32e322]: Demo Patient 19634
+                - cell [ref=f32e323]:
+                  - paragraph [ref=f32e324]: 09-Feb
+                - cell [ref=f32e325]:
+                  - paragraph [ref=f32e326]: "1"
+                - cell "قيد الانتظار" [ref=f32e327]
+              - row [ref=f32e329]:
+                - cell [ref=f32e330]:
+                  - paragraph [ref=f32e331]: Demo Patient 19640
+                - cell [ref=f32e332]:
+                  - paragraph [ref=f32e333]: 09-Feb
+                - cell [ref=f32e334]:
+                  - paragraph [ref=f32e335]: "2"
+                - cell "قيد الانتظار" [ref=f32e336]
+      - generic [ref=f32e339]:
+        - generic [ref=f32e340]:
+          - generic [ref=f32e341]:
+            - heading "Pressing Furnace" [level=3] [ref=f32e342]
+            - heading "0" [level=3] [ref=f32e343]
+          - generic:
+            - link:
+              - /url: "#bg-info5"
+        - generic [ref=f32e347]:
+          - table [ref=f32e350]:
+            - rowgroup [ref=f32e351]:
+              - row [ref=f32e352]:
+                - columnheader "المريض" [ref=f32e353]
+                - columnheader "تاريخ التسليم" [ref=f32e354]
+                - columnheader "#" [ref=f32e355]
+                - columnheader "الحالة" [ref=f32e356]
+          - table [ref=f32e358]:
+            - rowgroup [ref=f32e359]:
+              - row [ref=f32e360]:
+                - columnheader "المريض" [ref=f32e361]
+                - columnheader "تاريخ التسليم" [ref=f32e362]
+                - columnheader "#" [ref=f32e363]
+                - columnheader "الحالة" [ref=f32e364]
+            - rowgroup [ref=f32e365]:
+              - row [ref=f32e366]:
+                - cell "لا توجد بيانات في الجدول" [ref=f32e367]
+      - generic [ref=f32e369]:
+        - generic [ref=f32e370]:
+          - generic [ref=f32e371]:
+            - heading "Finishing & Build up" [level=3] [ref=f32e372]
+            - heading "5" [level=3] [ref=f32e373]
+          - generic:
+            - link:
+              - /url: "#bg-info6"
+        - generic [ref=f32e377]:
+          - table [ref=f32e380]:
+            - rowgroup [ref=f32e381]:
+              - row [ref=f32e382]:
+                - columnheader "المريض" [ref=f32e383]
+                - columnheader "تاريخ التسليم" [ref=f32e384]
+                - columnheader "#" [ref=f32e385]
+                - columnheader "الحالة" [ref=f32e386]
+          - table [ref=f32e388]:
+            - rowgroup [ref=f32e389]:
+              - row [ref=f32e390]:
+                - columnheader "المريض" [ref=f32e391]
+                - columnheader "تاريخ التسليم" [ref=f32e392]
+                - columnheader "#" [ref=f32e393]
+                - columnheader "الحالة" [ref=f32e394]
+            - rowgroup [ref=f32e395]:
+              - row [ref=f32e396]:
+                - cell [ref=f32e397]:
+                  - paragraph [ref=f32e398]: Demo Patient 18341
+                - cell [ref=f32e399]:
+                  - paragraph [ref=f32e400]: 20-Jan
+                - cell [ref=f32e401]:
+                  - paragraph [ref=f32e402]: "1"
+                - cell "قيد الانتظار" [ref=f32e403]
+              - row [ref=f32e405]:
+                - cell [ref=f32e406]:
+                  - paragraph [ref=f32e407]: Demo Patient 19617
+                - cell [ref=f32e408]:
+                  - paragraph [ref=f32e409]: 08-Feb
+                - cell [ref=f32e410]:
+                  - paragraph [ref=f32e411]: "1"
+                - cell "OU04" [ref=f32e412]
+              - row [ref=f32e415]:
+                - cell [ref=f32e416]:
+                  - paragraph [ref=f32e417]: Demo Patient 19638
+                - cell [ref=f32e418]:
+                  - paragraph [ref=f32e419]: 08-Feb
+                - cell [ref=f32e420]:
+                  - paragraph [ref=f32e421]: "0"
+                - cell "OU10" [ref=f32e422]
+              - row [ref=f32e425]:
+                - cell [ref=f32e426]:
+                  - paragraph [ref=f32e427]: Demo Patient 16260
+                - cell [ref=f32e428]:
+                  - paragraph [ref=f32e429]: 31-Oct
+                - cell [ref=f32e430]:
+                  - paragraph [ref=f32e431]: "11"
+                - cell "قيد الانتظار" [ref=f32e432]
+              - row [ref=f32e434]:
+                - cell [ref=f32e435]:
+                  - paragraph [ref=f32e436]: Demo Patient 18195
+                - cell [ref=f32e437]:
+                  - paragraph [ref=f32e438]: 29-Jan
+                - cell [ref=f32e439]:
+                  - paragraph [ref=f32e440]: "1"
+                - cell "OU18" [ref=f32e441]
+      - generic [ref=f32e445]:
+        - generic [ref=f32e446]:
+          - generic [ref=f32e447]:
+            - heading "Delivery" [level=3] [ref=f32e448]
+            - heading "5" [level=3] [ref=f32e449]
+          - generic:
+            - link:
+              - /url: "#bg-info8"
+        - generic [ref=f32e453]:
+          - table [ref=f32e456]:
+            - rowgroup [ref=f32e457]:
+              - row [ref=f32e458]:
+                - columnheader "المريض" [ref=f32e459]
+                - columnheader "تاريخ التسليم" [ref=f32e460]
+                - columnheader "#" [ref=f32e461]
+                - columnheader "الحالة" [ref=f32e462]
+          - table [ref=f32e464]:
+            - rowgroup [ref=f32e465]:
+              - row [ref=f32e466]:
+                - columnheader "المريض" [ref=f32e467]
+                - columnheader "تاريخ التسليم" [ref=f32e468]
+                - columnheader "#" [ref=f32e469]
+                - columnheader "الحالة" [ref=f32e470]
+            - rowgroup [ref=f32e471]:
+              - row [ref=f32e472]:
+                - cell [ref=f32e473]:
+                  - paragraph [ref=f32e474]: Demo Patient 19630
+                - cell [ref=f32e475]:
+                  - paragraph [ref=f32e476]: 08-Feb
+                - cell [ref=f32e477]:
+                  - paragraph [ref=f32e478]: "4"
+                - cell "Assigned to Driver" [ref=f32e479]
+              - row [ref=f32e481]:
+                - cell [ref=f32e482]:
+                  - paragraph [ref=f32e483]: Demo Patient 19611
+                - cell [ref=f32e484]:
+                  - paragraph [ref=f32e485]: 08-Feb
+                - cell [ref=f32e486]:
+                  - paragraph [ref=f32e487]: "2"
+                - cell "قيد الانتظار" [ref=f32e488]
+              - row [ref=f32e490]:
+                - cell [ref=f32e491]:
+                  - paragraph [ref=f32e492]: Demo Patient 19631
+                - cell [ref=f32e493]:
+                  - paragraph [ref=f32e494]: 09-Feb
+                - cell [ref=f32e495]:
+                  - paragraph [ref=f32e496]: "1"
+                - cell "Assigned to Driver" [ref=f32e497]
+              - row [ref=f32e499]:
+                - cell [ref=f32e500]:
+                  - paragraph [ref=f32e501]: Demo Patient 19615
+                - cell [ref=f32e502]:
+                  - paragraph [ref=f32e503]: 11-Feb
+                - cell [ref=f32e504]:
+                  - paragraph [ref=f32e505]: "1"
+                - cell "قيد الانتظار" [ref=f32e506]
+              - row [ref=f32e508]:
+                - cell [ref=f32e509]:
+                  - paragraph [ref=f32e510]: Demo Patient 19656
+                - cell [ref=f32e511]:
+                  - paragraph [ref=f32e512]: 16-Feb
+                - cell [ref=f32e513]:
+                  - paragraph [ref=f32e514]: "2"
+                - cell "قيد الانتظار" [ref=f32e515]
+  - generic [ref=f32e517]:
+    - generic [ref=f32e519]:
+      - generic [ref=f32e520] [cursor=pointer]
+      - generic [ref=f32e521]:
+        - generic [ref=f32e522] [cursor=pointer]: 
+        - generic [ref=f32e524] [cursor=pointer]: 
+        - generic [ref=f32e526] [cursor=pointer]: 
+        - generic [ref=f32e528] [cursor=pointer]:
+          - generic [ref=f32e529]: 
+          - generic [ref=f32e530]: "5"
+        - generic [ref=f32e531] [cursor=pointer]: 
+        - generic [ref=f32e533] [cursor=pointer]:
+          - generic [ref=f32e534]: 
+          - generic [ref=f32e535]: "8"
+        - generic [ref=f32e536] [cursor=pointer]:
+          - generic [ref=f32e537]: 
+          - generic [ref=f32e538]: "146"
+        - generic [ref=f32e539] [cursor=pointer]: 
+        - generic [ref=f32e541] [cursor=pointer]: 
+        - generic [ref=f32e543] [cursor=pointer]: 
+        - generic [ref=f32e545] [cursor=pointer]: 
+      - generic [ref=f32e547]:
+        - generic [ref=f32e548] [cursor=pointer]
+        - generic [ref=f32e549] [cursor=pointer]
+        - generic [ref=f32e550] [cursor=pointer]
+        - generic [ref=f32e551]:
+          - generic [ref=f32e552]: 
+          - generic: 8.2.28
+        - generic [ref=f32e553]:
+          - generic [ref=f32e554]: 
+          - generic: 267ms
+        - generic [ref=f32e555]:
+          - generic [ref=f32e556]: 
+          - generic: 23MB
+        - generic [ref=f32e557]:
+          - generic [ref=f32e558]: 
+          - generic: GET cases-monitor
+    - text:                                                 
+  - text: 

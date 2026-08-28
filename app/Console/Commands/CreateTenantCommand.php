@@ -14,8 +14,13 @@ class CreateTenantCommand extends Command
         {--database= : Tenant database name}
         {--currency=JOD : Tenant currency code}
         {--admin-name=Tenant Admin : First admin display name}
+        {--admin-username= : First admin username}
         {--admin-email= : First admin email}
         {--admin-password= : First admin password}
+        {--client-name= : Optional first client display name}
+        {--client-username= : Optional first client portal username}
+        {--client-email= : Optional first client email}
+        {--client-password= : Optional first client portal password}
         {--resume : Resume a failed/provisioning tenant}';
 
     protected $description = 'Provision a new isolated tenant database and first admin user.';
@@ -29,8 +34,13 @@ class CreateTenantCommand extends Command
             'database' => $this->option('database'),
             'currency_code' => $this->option('currency') ?: 'JOD',
             'admin_name' => $this->option('admin-name') ?: 'Tenant Admin',
+            'admin_username' => $this->option('admin-username'),
             'admin_email' => $this->option('admin-email') ?: $this->ask('Admin email'),
             'admin_password' => $this->option('admin-password') ?: $this->secret('Admin password'),
+            'client_name' => $this->option('client-name'),
+            'client_username' => $this->option('client-username'),
+            'client_email' => $this->option('client-email'),
+            'client_password' => $this->option('client-password'),
         ];
 
         try {

@@ -95,9 +95,9 @@ section {
 
 body {
     margin: 0;
-    font-family: "Poppins", sans-serif;
-    font-size: 0.rem;
-    font-weight: 400;
+    /* font-family: "Poppins", sans-serif; */
+    font-size: 0.9rem !important;
+    font-weight: 600;
     line-height: 1.5;
     text-align: left;
     background-color: #1E4157;
@@ -12996,7 +12996,7 @@ fieldset[disabled] .btnWD-link.active {
 
 @media screen and (min-width: 992px) {
     .dropdown-menu .dropdown-item {
-        /*color: #000000;*/
+        color: #000000;
     }
 }
 
@@ -14839,7 +14839,7 @@ h6,
 }
 
 p {
-    /* font-weight: 300; */
+    font-weight: 300;
 }
 
 button,

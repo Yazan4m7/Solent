@@ -207,21 +207,21 @@
                                                         &nbsp;&nbsp; {{$case->actualDeliveryTime() ?? ""}}</td>
                                                     <td>
                                                         @if(str_contains($case->status(), "Completed") )
-                                                            <span class="badge badge-success">
+                                                            <span class="badge badge-success solent-case-status-badge">
                                                                            {{$case->status()}} </span>
                                                         @elseif(str_contains($case->status(), "In-Progress") || str_contains($case->status(), "Active"))
                                                             <span style="width:auto; margin: auto; text-align: center"
-                                                                  class="badge badge-primary">
+                                                                  class="badge badge-primary solent-case-status-badge">
                                                                            <span class="tooltipX"> {{$case->status()}}
                                                                                <span class="tooltiptext">{!!  $case->getStatusToolTipHTML() !!}</span>
                                                                 </span></span>
                                                         @elseif(str_contains($case->status(), "Waiting"))
                                                             <span style="width:auto; margin: auto; text-align: center"
-                                                                  class="badge badge-danger">
+                                                                  class="badge badge-danger solent-case-status-badge">
                                                                      {{$case->status()}} </span>
                                                         @else
                                                             <span style="width:auto; margin: auto; text-align: center"
-                                                                  class="badge badge-warning">
+                                                                  class="badge badge-warning solent-case-status-badge">
                                                                            <span class="tooltipX"> {{$case->status()}}
                                                                                <span class="tooltiptext">{!!  $case->getStatusToolTipHTML() !!}</span>
                                                                 </span></span>

@@ -8,13 +8,13 @@
 
             <div class="col-lg-3 col-md-3 ">
                 <div class="kt-subheader__search" style="">
-                    <label>From:</label>
+                    <label class="solent-filter-label"><i class="fa-regular fa-calendar" aria-hidden="true"></i><span>From:</span></label>
                     <input type="date" class="form-control" name="from" value="{{$from ?? ''}}">
                 </div>
             </div>
             <div class="col-lg-3 col-md-3 ">
                 <div class="kt-subheader__search" style="">
-                    <label>To:</label>
+                    <label class="solent-filter-label"><i class="fa-regular fa-calendar" aria-hidden="true"></i><span>To:</span></label>
                     <input type="date" class="form-control" name="to" value="{{$to ?? ''}}">
                 </div>
             </div>
@@ -22,7 +22,7 @@
 
                 @if(isset($labs))
                     <div class="kt-subheader__search" style="width:100%">
-                        <label>Lab:</label>
+                        <label class="solent-filter-label"><i class="fa-solid fa-flask" aria-hidden="true"></i><span>Lab:</span></label>
                         <select style="width:100%"  class="selectpicker form-control clearOnAll" multiple name="labs[]" id="doctor" data-container="body" data-live-search="true" title="All" data-hide-disabled="true">
 
                             <option value="all">All</option>
@@ -58,8 +58,7 @@
             <div class=" ">
                 <div class="">
                     <div class="row">
-                        <div class="col-md-6">     </div>
-                        <div class="col-md-6" style="text-align: right">  <a href="{{route('new-lab-view')}}" ><button type="button"  class="btn btn-secondary"><i class="fa fa-plus-circle"></i> </button></a>   </div>
+                        <div class="col-12 solent-config-create-row">  <a href="{{route('new-lab-view')}}" ><button type="button"  class="btn btn-secondary"><i class="fa fa-plus-circle"></i> </button></a>   </div>
                     </div>
 
                     <p class="text-muted"></p>

@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Solent - Employee Workspace Draft</title>
+    <style>
+        * { box-sizing: border-box; }
+
+        :root {
+            font-family: Arial, sans-serif;
+            color: #1f2937;
+            background: #f4f5f7;
+        }
+
+        body { margin: 0; }
+        button, input, select { font: inherit; }
+        button { cursor: pointer; }
+        h1, h2, h3, p { margin-top: 0; }
+        h1 { margin-bottom: 6px; font-size: 28px; }
+        h2 { margin-bottom: 0; font-size: 19px; }
+        h3 { margin-bottom: 6px; font-size: 16px; }
+
+        .page {
+            width: min(1180px, 100%);
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        .page-header,
+        .section-header,
+        .current-task__header,
+        .current-task__footer,
+        .queue-card__top,
+        .queue-card__footer,
+        .toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .muted { color: #6b7280; }
+        .small { font-size: 13px; }
+
+        .employee-context {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            flex-wrap: wrap;
+        }
+
+        .employee-context select,
+        input,
+        .button {
+            min-height: 42px;
+            border: 1px solid #cbd0d8;
+            border-radius: 7px;
+            background: #fff;
+            padding: 8px 11px;
+        }
+
+        .badge,
+        .status,
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            border: 1px solid #d1d5db;
+            border-radius: 999px;
+            padding: 4px 9px;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 10px;
+            margin: 20px 0 16px;
+        }
+
+        .summary-card,
+        .panel,
+        .queue-card {
+            border: 1px solid #d9dde4;
+            border-radius: 10px;
+            background: #fff;
+        }
+
+        .summary-card { padding: 14px; }
+        .summary-card span { display: block; color: #6b7280; font-size: 13px; }
+        .summary-card strong { display: block; margin-top: 5px; font-size: 24px; }
+
+        .current-task { margin-bottom: 16px; overflow: hidden; }
+        .current-task__header,
+        .section-header { padding: 16px; border-bottom: 1px solid #e5e7eb; }
+
+        .current-task__body {
+            display: grid;
+            grid-template-columns: minmax(0, 1.25fr) minmax(280px, .75fr);
+            gap: 16px;
+            padding: 16px;
+        }
+
+        .case-title { margin-bottom: 14px; }
+        .case-title strong { display: block; margin-bottom: 4px; font-size: 21px; }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .detail-grid div,
+        .work-checklist {
+            border: 1px solid #e2e5ea;
+            border-radius: 8px;
+            padding: 11px;
+        }
+
+        .detail-grid span { display: block; margin-bottom: 4px; color: #6b7280; font-size: 12px; }
+        .work-checklist ul { margin: 10px 0 0; padding-left: 21px; }
+        .work-checklist li + li { margin-top: 8px; }
+
+        .current-task__footer {
+            justify-content: flex-end;
+            padding: 14px 16px;
+            border-top: 1px solid #e5e7eb;
+            flex-wrap: wrap;
+        }
+
+        .button--primary { border-color: #2563eb; background: #2563eb; color: #fff; }
+        .button--quiet { background: #f8fafc; }
+
+        .toolbar {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e5e7eb;
+            flex-wrap: wrap;
+        }
+
+        .toolbar input { min-width: 260px; }
+
+        .queue-switcher {
+            display: flex;
+            gap: 5px;
+            overflow-x: auto;
+        }
+
+        .queue-switcher button {
+            border: 1px solid transparent;
+            border-radius: 7px;
+            background: transparent;
+            padding: 8px 11px;
+            white-space: nowrap;
+        }
+
+        .queue-switcher button[aria-pressed="true"] {
+            border-color: #cbd5e1;
+            background: #f1f5f9;
+        }
+
+        .queue-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+            padding: 14px;
+        }
+
+        .queue-card {
+            display: grid;
+            gap: 11px;
+            padding: 14px;
+        }
+
+        .queue-card__meta {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 7px 12px;
+            color: #4b5563;
+            font-size: 13px;
+        }
+
+        .queue-card__footer {
+            padding-top: 10px;
+            border-top: 1px solid #edf0f3;
+        }
+
+        .queue-card__actions { display: flex; gap: 7px; }
+        .queue-card[hidden] { display: none; }
+
+        .empty-current {
+            display: none;
+            padding: 28px 16px;
+            text-align: center;
+        }
+
+        .draft-note {
+            margin-top: 16px;
+            color: #6b7280;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        @media (max-width: 800px) {
+            .page { padding: 14px; }
+            .page-header { align-items: flex-start; }
+            .summary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .current-task__body { grid-template-columns: 1fr; }
+            .queue-grid { grid-template-columns: 1fr; }
+            .toolbar input { width: 100%; min-width: 0; }
+            .queue-switcher { width: 100%; }
+        }
+
+        @media (max-width: 520px) {
+            h1 { font-size: 23px; }
+            .page-header { display: block; }
+            .employee-context { margin-top: 10px; }
+            .employee-context select { flex: 1; }
+            .summary-card strong { font-size: 20px; }
+            .detail-grid, .queue-card__meta { grid-template-columns: 1fr; }
+            .current-task__footer .button { flex: 1; }
+            .queue-card__footer { align-items: flex-end; }
+        }
+    </style>
+</head>
+<body>
+<main class="page">
+    <header class="page-header">
+        <div>
+            <h1>My Work</h1>
+            <p class="muted">Your assigned work and the cases ready to start.</p>
+        </div>
+        <div class="employee-context">
+            <span class="badge">Operator User 18</span>
+            <select aria-label="Work stage">
+                <option>Design workstation</option>
+                <option>Milling workstation</option>
+                <option>Finishing workstation</option>
+            </select>
+        </div>
+    </header>
+
+    <section class="summary-grid" aria-label="Work summary">
+        <article class="summary-card"><span>In progress</span><strong id="progress-count">1</strong></article>
+        <article class="summary-card"><span>Ready for me</span><strong>8</strong></article>
+        <article class="summary-card"><span>Due today</span><strong>2</strong></article>
+        <article class="summary-card"><span>Needs attention</span><strong>1</strong></article>
+    </section>
+
+    <section class="panel current-task" id="current-task" aria-labelledby="current-task-title">
+        <header class="current-task__header">
+            <div>
+                <span class="muted small">Currently working on</span>
+                <h2 id="current-task-title">Design · SL-19656</h2>
+            </div>
+            <span class="status">In progress · 32 min</span>
+        </header>
+
+        <div class="current-task__body">
+            <div>
+                <div class="case-title">
+                    <strong id="current-patient">Omar Salem</strong>
+                    <span class="muted" id="current-doctor">Demo Dental Clinic 08</span>
+                </div>
+                <div class="detail-grid">
+                    <div><span>Delivery</span><strong id="current-due">Tomorrow</strong></div>
+                    <div><span>Work</span><strong id="current-work">3-unit zirconia bridge</strong></div>
+                    <div><span>Material</span><strong>Zirconia</strong></div>
+                    <div><span>Priority</span><strong>Normal</strong></div>
+                </div>
+            </div>
+
+            <section class="work-checklist">
+                <h3>Before completing</h3>
+                <ul>
+                    <li>Review attached scan</li>
+                    <li>Confirm margins and insertion path</li>
+                    <li>Add a note if anything needs attention</li>
+                </ul>
+            </section>
+        </div>
+
+        <footer class="current-task__footer">
+            <button class="button button--quiet" type="button">Add note</button>
+            <button class="button" type="button">Open full case</button>
+            <button class="button button--primary" type="button">Complete work</button>
+        </footer>
+    </section>
+
+    <section class="empty-current panel" id="empty-current">
+        <h2>No active case</h2>
+        <p class="muted">Choose a case from the Ready queue to begin working.</p>
+    </section>
+
+    <section class="panel" aria-labelledby="queue-title">
+        <header class="section-header">
+            <div>
+                <h2 id="queue-title">Work queue</h2>
+                <span class="muted small">Only work available to this employee and stage is shown.</span>
+            </div>
+        </header>
+
+        <div class="toolbar">
+            <input id="case-search" type="search" placeholder="Search case, patient or doctor">
+            <div class="queue-switcher" aria-label="Queue filter">
+                <button type="button" data-filter="all" aria-pressed="true">All</button>
+                <button type="button" data-filter="ready" aria-pressed="false">Ready</button>
+                <button type="button" data-filter="attention" aria-pressed="false">Needs attention</button>
+            </div>
+        </div>
+
+        <div class="queue-grid" id="queue-grid">
+            <article class="queue-card" data-state="ready">
+                <div class="queue-card__top"><strong>SL-19611 · Lina Haddad</strong><span class="status">Ready</span></div>
+                <div class="queue-card__meta"><span>Demo Dental Clinic 05</span><span>Due today, 4:00 PM</span><span>2-unit crown</span><span>Scan attached</span></div>
+                <div><span class="tag">Priority</span></div>
+                <footer class="queue-card__footer">
+                    <span class="muted small">Waiting 18 min</span>
+                    <div class="queue-card__actions">
+                        <button class="button button--quiet view-button" type="button">Details</button>
+                        <button class="button button--primary start-button" type="button" data-case="SL-19611" data-patient="Lina Haddad" data-doctor="Demo Dental Clinic 05" data-due="Today, 4:00 PM" data-work="2-unit crown">Start</button>
+                    </div>
+                </footer>
+            </article>
+
+            <article class="queue-card" data-state="attention">
+                <div class="queue-card__top"><strong>SL-19615 · Maya Khalil</strong><span class="status">Attention</span></div>
+                <div class="queue-card__meta"><span>Demo Dental Clinic 13</span><span>Overdue by 1 day</span><span>Single crown</span><span>Scan needs review</span></div>
+                <div><span class="tag">Missing information</span></div>
+                <footer class="queue-card__footer">
+                    <span class="muted small">Waiting 1 hr 12 min</span>
+                    <div class="queue-card__actions">
+                        <button class="button button--quiet view-button" type="button">Details</button>
+                        <button class="button" type="button">Report issue</button>
+                    </div>
+                </footer>
+            </article>
+
+            <article class="queue-card" data-state="ready">
+                <div class="queue-card__top"><strong>SL-19622 · Adam Nasser</strong><span class="status">Ready</span></div>
+                <div class="queue-card__meta"><span>Demo Dental Clinic 03</span><span>Due 18 Aug</span><span>4-unit bridge</span><span>Implant case</span></div>
+                <div><span class="tag">Implant</span></div>
+                <footer class="queue-card__footer">
+                    <span class="muted small">Waiting 6 min</span>
+                    <div class="queue-card__actions">
+                        <button class="button button--quiet view-button" type="button">Details</button>
+                        <button class="button button--primary start-button" type="button" data-case="SL-19622" data-patient="Adam Nasser" data-doctor="Demo Dental Clinic 03" data-due="18 Aug" data-work="4-unit bridge">Start</button>
+                    </div>
+                </footer>
+            </article>
+
+            <article class="queue-card" data-state="ready">
+                <div class="queue-card__top"><strong>SL-19631 · Sara Ali</strong><span class="status">Ready</span></div>
+                <div class="queue-card__meta"><span>Demo Dental Clinic 02</span><span>Due 19 Aug</span><span>Single veneer</span><span>Photos attached</span></div>
+                <div><span class="tag">Veneer</span></div>
+                <footer class="queue-card__footer">
+                    <span class="muted small">Waiting 2 min</span>
+                    <div class="queue-card__actions">
+                        <button class="button button--quiet view-button" type="button">Details</button>
+                        <button class="button button--primary start-button" type="button" data-case="SL-19631" data-patient="Sara Ali" data-doctor="Demo Dental Clinic 02" data-due="19 Aug" data-work="Single veneer">Start</button>
+                    </div>
+                </footer>
+            </article>
+        </div>
+    </section>
+
+    <p class="draft-note">Static employee-workspace draft only. Buttons do not perform production actions.</p>
+</main>
+
+<script>
+    const filterButtons = document.querySelectorAll('.queue-switcher button');
+    const queueCards = document.querySelectorAll('.queue-card');
+    const search = document.querySelector('#case-search');
+    let selectedFilter = 'all';
+
+    function applyFilters() {
+        const term = search.value.trim().toLowerCase();
+
+        queueCards.forEach((card) => {
+            const matchesState = selectedFilter === 'all' || card.dataset.state === selectedFilter;
+            const matchesSearch = !term || card.innerText.toLowerCase().includes(term);
+            card.hidden = !(matchesState && matchesSearch);
+        });
+    }
+
+    filterButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            filterButtons.forEach((item) => item.setAttribute('aria-pressed', 'false'));
+            button.setAttribute('aria-pressed', 'true');
+            selectedFilter = button.dataset.filter;
+            applyFilters();
+        });
+    });
+
+    document.querySelectorAll('.start-button').forEach((button) => {
+        button.addEventListener('click', () => {
+            document.querySelector('#current-task').style.display = 'block';
+            document.querySelector('#empty-current').style.display = 'none';
+            document.querySelector('#current-task-title').textContent = `Design · ${button.dataset.case}`;
+            document.querySelector('#current-patient').textContent = button.dataset.patient;
+            document.querySelector('#current-doctor').textContent = button.dataset.doctor;
+            document.querySelector('#current-due').textContent = button.dataset.due;
+            document.querySelector('#current-work').textContent = button.dataset.work;
+            document.querySelector('#current-task').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    });
+
+    search.addEventListener('input', applyFilters);
+</script>
+</body>
+</html>

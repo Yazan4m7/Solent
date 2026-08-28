@@ -1019,6 +1019,344 @@
             color: #111827;
         }
 
+        .YSH-slide-panel.YSH-operations-case-sheet {
+            --case-sheet-text: #111827;
+            --case-sheet-muted: #64748b;
+            --case-sheet-border: #d8dce3;
+            --case-sheet-subtle: #f8fafc;
+            --case-sheet-accent: #6366f1;
+            --case-sheet-accent-soft: #eef2ff;
+            --case-sheet-shadow: 0 24px 60px rgba(15, 23, 42, 0.22);
+
+            display: grid;
+            grid-template-rows: auto minmax(0, 1fr) auto;
+            width: min(760px, calc(100vw - 32px));
+            max-width: min(760px, calc(100vw - 32px));
+            height: min(760px, calc(100dvh - 32px));
+            max-height: calc(100dvh - 32px);
+            margin: auto;
+            padding: 0;
+            overflow: hidden;
+            color: var(--case-sheet-text);
+            background: #ffffff;
+            border: 1px solid var(--case-sheet-border);
+            border-radius: 16px;
+            box-shadow: var(--case-sheet-shadow);
+        }
+
+        .YSH-operations-case-sheet__header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 22px 24px 18px;
+            color: #ffffff;
+            background: #151c27;
+            border-bottom: 3px solid var(--case-sheet-accent);
+        }
+
+        .YSH-operations-case-sheet__header h2,
+        .YSH-operations-case-sheet__section-heading h3 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 0;
+        }
+
+        .YSH-operations-case-sheet__eyebrow,
+        .YSH-operations-case-sheet__label {
+            display: block;
+            color: var(--case-sheet-muted);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0;
+            line-height: 1.3;
+            text-transform: uppercase;
+        }
+
+        .YSH-operations-case-sheet__header .YSH-operations-case-sheet__eyebrow {
+            margin-bottom: 5px;
+            color: #c7d2fe;
+        }
+
+        .YSH-operations-case-sheet__close {
+            display: inline-grid;
+            width: 40px;
+            min-width: 40px;
+            height: 40px;
+            place-items: center;
+            padding: 0;
+            color: #ffffff;
+            font-size: 28px;
+            line-height: 1;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .YSH-operations-case-sheet__close:hover,
+        .YSH-operations-case-sheet__close:focus-visible {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.7);
+            outline: none;
+        }
+
+        .YSH-operations-case-sheet__content {
+            min-height: 0;
+            padding: 22px 24px 24px;
+            overflow-y: auto;
+            overscroll-behavior: contain;
+            background: #ffffff;
+        }
+
+        .YSH-operations-case-sheet__summary {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1px;
+            margin-bottom: 24px;
+            overflow: hidden;
+            background: var(--case-sheet-border);
+            border: 1px solid var(--case-sheet-border);
+            border-radius: 10px;
+        }
+
+        .YSH-operations-case-sheet__summary-item {
+            min-width: 0;
+            padding: 14px 16px;
+            background: var(--case-sheet-subtle);
+        }
+
+        .YSH-operations-case-sheet__summary-item .YSH-operations-case-sheet__label {
+            margin-bottom: 6px;
+        }
+
+        .YSH-operations-case-sheet__summary-item strong {
+            display: block;
+            overflow-wrap: anywhere;
+            color: var(--case-sheet-text);
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 1.45;
+        }
+
+        .YSH-operations-case-sheet__section + .YSH-operations-case-sheet__section {
+            margin-top: 26px;
+            padding-top: 24px;
+            border-top: 1px solid var(--case-sheet-border);
+        }
+
+        .YSH-operations-case-sheet__section-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 12px;
+        }
+
+        .YSH-operations-case-sheet__section-heading .YSH-operations-case-sheet__eyebrow {
+            margin-bottom: 4px;
+        }
+
+        .YSH-operations-case-sheet__section-heading h3 {
+            color: var(--case-sheet-text);
+            font-size: 16px;
+        }
+
+        .YSH-operations-case-sheet__count {
+            display: inline-grid;
+            width: 28px;
+            min-width: 28px;
+            height: 28px;
+            place-items: center;
+            color: var(--case-sheet-accent);
+            font-size: 12px;
+            font-weight: 700;
+            background: var(--case-sheet-accent-soft);
+            border-radius: 999px;
+        }
+
+        .YSH-operations-case-sheet__jobs,
+        .YSH-operations-case-sheet__notes {
+            display: grid;
+            gap: 10px;
+        }
+
+        .YSH-operations-case-sheet__job,
+        .YSH-operations-case-sheet__note {
+            padding: 14px 16px;
+            background: #ffffff;
+            border: 1px solid var(--case-sheet-border);
+            border-radius: 10px;
+        }
+
+        .YSH-operations-case-sheet__job-topline,
+        .YSH-operations-case-sheet__note-meta {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .YSH-operations-case-sheet__job-topline strong {
+            min-width: 0;
+            overflow-wrap: anywhere;
+            color: var(--case-sheet-text);
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .YSH-operations-case-sheet__job-topline > span {
+            flex: 0 1 auto;
+            color: var(--case-sheet-muted);
+            font-size: 12px;
+            font-weight: 600;
+            text-align: end;
+        }
+
+        .YSH-operations-case-sheet__job-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px 8px;
+            margin-top: 9px;
+        }
+
+        .YSH-operations-case-sheet__job-details span {
+            max-width: 100%;
+            overflow-wrap: anywhere;
+            color: var(--case-sheet-muted);
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        .YSH-operations-case-sheet__job-details span + span::before {
+            margin-inline-end: 8px;
+            color: #cbd5e1;
+            content: '\2022';
+        }
+
+        .YSH-operations-case-sheet__note-meta {
+            color: var(--case-sheet-muted);
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .YSH-operations-case-sheet__note-meta time {
+            text-align: end;
+        }
+
+        .YSH-operations-case-sheet__note p,
+        .YSH-operations-case-sheet__empty {
+            margin: 8px 0 0;
+            overflow-wrap: anywhere;
+            color: var(--case-sheet-text);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .YSH-operations-case-sheet__empty {
+            margin: 0;
+            padding: 16px;
+            color: var(--case-sheet-muted);
+            background: var(--case-sheet-subtle);
+            border: 1px dashed var(--case-sheet-border);
+            border-radius: 10px;
+        }
+
+        .YSH-operations-case-sheet__actions {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+            padding: 16px 24px;
+            background: #ffffff;
+            border-top: 1px solid var(--case-sheet-border);
+        }
+
+        .YSH-operations-case-sheet__action {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-height: 44px;
+            padding: 10px 14px;
+            color: var(--case-sheet-text);
+            font-size: 13px;
+            font-weight: 700;
+            line-height: 1.2;
+            text-align: center;
+            text-decoration: none;
+            background: #ffffff;
+            border: 1px solid var(--case-sheet-border);
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .YSH-operations-case-sheet__action:hover,
+        .YSH-operations-case-sheet__action:focus-visible {
+            color: var(--case-sheet-text);
+            text-decoration: none;
+            border-color: #a5b4fc;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.14);
+            outline: none;
+        }
+
+        .YSH-operations-case-sheet__action--primary {
+            color: #ffffff;
+            background: var(--case-sheet-accent);
+            border-color: var(--case-sheet-accent);
+        }
+
+        .YSH-operations-case-sheet__action--primary:hover,
+        .YSH-operations-case-sheet__action--primary:focus-visible {
+            color: #ffffff;
+            background: #4f46e5;
+            border-color: #4f46e5;
+        }
+
+        .YSH-operations-case-sheet__action--quiet {
+            color: var(--case-sheet-muted);
+            background: var(--case-sheet-subtle);
+        }
+
+        @media (max-width: 575.98px) {
+            .YSH-slide-panel.YSH-operations-case-sheet {
+                width: calc(100vw - 24px);
+                max-width: calc(100vw - 24px);
+                height: calc(100dvh - 24px);
+                max-height: calc(100dvh - 24px);
+                border-radius: 14px;
+            }
+
+            .YSH-operations-case-sheet__header,
+            .YSH-operations-case-sheet__content,
+            .YSH-operations-case-sheet__actions {
+                padding-inline: 18px;
+            }
+
+            .YSH-operations-case-sheet__summary {
+                grid-template-columns: 1fr;
+            }
+
+            .YSH-operations-case-sheet__job-topline,
+            .YSH-operations-case-sheet__note-meta {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .YSH-operations-case-sheet__job-topline > span,
+            .YSH-operations-case-sheet__note-meta time {
+                text-align: start;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .YSH-operations-case-sheet__action,
+            .YSH-operations-case-sheet__close {
+                transition: none;
+            }
+        }
+
         .modal {
             padding: 16px !important;
         }
@@ -1106,6 +1444,193 @@
                 padding-left: 18px;
                 padding-right: 18px;
             }
+        }
+
+        .ops-dashboard .macaw-tabs.macaw-aurora-tabs > [role="tabpanel"],
+        .ops-dashboard .macaw-tabs.macaw-silk-tabs > [role="tabpanel"],
+        .ops-dashboard .dataTables_wrapper {
+            background: var(--surface) !important;
+            border: 1px solid var(--border) !important;
+            border-radius: 16px !important;
+            box-shadow: 0 10px 28px var(--shadow-2) !important;
+        }
+
+        .ops-dashboard .dataTables_wrapper {
+            padding: 10px !important;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .ops-dashboard .YSH-operations-table-tools {
+            align-items: center;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px 16px;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .ops-dashboard .YSH-operations-table-tools .dt-buttons,
+        .ops-dashboard .YSH-operations-table-tools .dataTables_filter,
+        .ops-dashboard .YSH-operations-table-tools .dataTables_length {
+            float: none;
+            margin: 0;
+        }
+
+        .ops-dashboard .dataTables_wrapper .dataTables_filter {
+            float: none;
+            margin: 0;
+            text-align: start;
+        }
+
+        .ops-dashboard .dataTables_wrapper .dataTables_filter label {
+            display: block;
+            margin: 0;
+        }
+
+        .ops-dashboard .dataTables_wrapper .dataTables_filter input {
+            width: min(280px, 100%);
+            height: 40px;
+            margin: 0;
+            padding: 8px 12px;
+            color: var(--text-1);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+
+        .ops-dashboard .dataTables_wrapper .dataTables_filter input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-bg);
+            outline: none;
+        }
+
+        .ops-dashboard .YSH-operations-table-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding-top: 12px;
+        }
+
+        .ops-dashboard .YSH-operations-table-footer .dataTables_info,
+        .ops-dashboard .YSH-operations-table-footer .dataTables_paginate {
+            float: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        @media (max-width: 575.98px) {
+            .ops-dashboard .YSH-operations-table-tools {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .ops-dashboard .YSH-operations-table-tools .dt-buttons,
+            .ops-dashboard .YSH-operations-table-tools .dataTables_length,
+            .ops-dashboard .dataTables_wrapper .dataTables_filter,
+            .ops-dashboard .dataTables_wrapper .dataTables_filter label,
+            .ops-dashboard .dataTables_wrapper .dataTables_filter input {
+                width: 100%;
+            }
+
+            .ops-dashboard .YSH-operations-table-footer {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+
+        .ops-dashboard table.sunriseTable,
+        .ops-dashboard table.dataTable.sunriseTable {
+            min-width: 640px;
+            background: var(--surface) !important;
+            border: 1px solid var(--border) !important;
+            border-radius: 12px !important;
+            border-collapse: separate !important;
+            border-spacing: 0 !important;
+            overflow: hidden;
+        }
+
+        .ops-dashboard .sunriseTable thead,
+        .ops-dashboard .sunriseTable thead tr,
+        .ops-dashboard .sunriseTable thead th,
+        .ops-dashboard .sunriseTable thead td {
+            background: var(--text-1) !important;
+            color: var(--surface) !important;
+            border-color: var(--text-1) !important;
+            font-size: 12px !important;
+            font-weight: 700 !important;
+            letter-spacing: 0.02em;
+            padding: 12px 14px !important;
+            text-transform: uppercase;
+        }
+
+        .ops-dashboard .sunriseTable tbody tr {
+            background: var(--surface) !important;
+        }
+
+        .ops-dashboard .sunriseTable tbody tr:nth-child(even) {
+            background: var(--surface-raised) !important;
+        }
+
+        .ops-dashboard .sunriseTable tbody tr:hover {
+            background: var(--accent-bg) !important;
+        }
+
+        .ops-dashboard .sunriseTable tbody td {
+            border-color: var(--border) !important;
+            color: var(--text-1) !important;
+            font-size: 13px !important;
+            padding: 12px 14px !important;
+            vertical-align: middle !important;
+        }
+
+        .ops-dashboard .stageSidebar .badge,
+        .ops-dashboard .activeBadge,
+        .ops-dashboard .waitingBadge,
+        .ops-dashboard .macaw-tabs.macaw-aurora-tabs > [role="tablist"].stageSidebar > [role="tab"][aria-selected="true"] .activeBadge,
+        .ops-dashboard .macaw-tabs.macaw-aurora-tabs > [role="tablist"].stageSidebar > [role="tab"][aria-selected="true"] .waitingBadge {
+            align-items: center !important;
+            border-radius: 999px !important;
+            color: var(--surface) !important;
+            display: inline-flex !important;
+            font-size: 14px !important;
+            font-weight: 700 !important;
+            justify-content: center !important;
+            min-height: 24px !important;
+            min-width: 28px !important;
+            padding: 6px 6px !important;
+        }
+
+        .ops-dashboard .activeBadge,
+        .ops-dashboard .stageSidebar .activeBadge,
+        .ops-dashboard .macaw-tabs.macaw-aurora-tabs > [role="tablist"].stageSidebar > [role="tab"][aria-selected="true"] .activeBadge {
+            background: var(--accent) !important;
+            border-color: var(--accent) !important;
+        }
+
+        .ops-dashboard .waitingBadge,
+        .ops-dashboard .stageSidebar .waitingBadge,
+        .ops-dashboard .macaw-tabs.macaw-aurora-tabs > [role="tablist"].stageSidebar > [role="tab"][aria-selected="true"] .waitingBadge {
+            background: var(--warning) !important;
+            border-color: var(--warning) !important;
+        }
+
+        .ops-dashboard .macaw-silk-tabs > [role="tablist"] > .innerBtn {
+            align-items: center;
+            direction: ltr;
+            display: inline-flex;
+            gap: 6px;
+        }
+
+        .ops-dashboard .macaw-silk-tabs > [role="tablist"] > .innerBtn .badge {
+            margin: 0 !important;
+        }
+
+        .ops-dashboard .macaw-silk-tabs > [role="tablist"] > .innerBtn .phaselabel {
+            direction: rtl;
+            padding: 0 !important;
+            unicode-bidi: isolate;
         }
 
     </style>
@@ -1258,13 +1783,13 @@
                             <div tabindex="0" role="tabpanel" hidden aria-labelledby="{{'waiting-'.$key .'label'}}" id="{{'waiting-'.$key}}">
                                 @if($key == '3DPrinting')
                                 <div class="d-flex" id="assign-3dprinting-actions" style="display: none; gap: 8px; flex-wrap: wrap; margin: 5px 0;">
-                                    <button type="button" class="btn btn-secondary" id="assign-3dprinting-to-me-btn" onclick="assign3dPrintingToMe()">Assign to me</button>
+                                    <button type="button" class="btn btn-secondary" id="assign-3dprinting-to-me-btn" onclick="assign3dPrintingToMe()">{{ trans('ui.dom')['Assign to me'] ?? 'Assign to me' }}</button>
                                     @if($canAssignEmployees)
                                         <button type="button" class="btn btn-primary" id="assign-3dprinting-btn" onclick="openEmployeeModal('3dprinting')">Assign Selected</button>
                                     @endif
                                 </div>
 
-                                <table class=" waitingTable sunriseTable" style="width:100%">
+                                <table class="waitingTable sunriseTable" style="width:100%">
                                     <thead>
                                     <tr>
                                         <th><input type="checkbox" id="select-all-waiting-printing"></th>
@@ -1309,7 +1834,13 @@
                                         </tbody>
                                     </table>
                                     @foreach ($stage['waitingCases'] as $case)
-                                        <x-partiels.caseSlidePanel :case="$case" stageType="3dprinting" panelScope="dashboard"/>
+                                        <x-partiels.operationsCaseSlidePanel
+                                            :case="$case"
+                                            stageType="3dprinting"
+                                            panelScope="dashboard"
+                                            :stageName="$key"
+                                            :stageNumber="$stage['numericStage']"
+                                            caseState="waiting" />
                                     @endforeach
 
                                     <!-- Employee Assignment Dialog for 3D Printing -->
@@ -1322,7 +1853,7 @@
                                         stageName="3D Printing"
                                     />
                                 @else
-                                <table class=" waitingTable sunriseTable" style="width:100%">
+                                <table class="waitingTable sunriseTable" style="width:100%">
                                     <thead>
                                     <tr>
                                         <th>Doctor</th>
@@ -1339,8 +1870,8 @@
                                     <tbody>
                                     @foreach ($stage['waitingCases'] as $case)
 
-                                        <tr style="color:{{$color}}" class="clickable" data-toggle="modal"
-                                            data-target="#waitingDialog{{$key. $case->id}}">
+                                        <tr style="color:{{$color}}" class="clickable"
+                                            onclick="YSH_openSlidePanel({{ $case->id }}, '{{ strtolower($key) }}', 'dashboard')">
                                             @if ($key == "Finishing")
                                                 @php
                                                     $notReadyA=false;
@@ -1444,157 +1975,6 @@
                                                 </form>
                                             </div>
                                         @endif
-                                        <div class="modal fade" tabindex="-1" role="dialog" id="waitingDialog{{$key.$case->id}}">
-                                            <form action="{{$key=="Delivery" ? route('delivery-accept', $case->id) : route('assign-to-me',['caseId'=> $case->id,'stage'=>$stage["numericStage"]] )}}"
-                                                  method="GET">
-                                                @csrf
-                                                <input type="hidden" name="case_id" value="{{$case->id}}">
-                                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title">Case Completion</h5>
-
-                                                            <button type="button" class="close" data-dismiss="modal"
-                                                                    aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-
-                                                            <div class="form-group row" style="margin-bottom: 0px">
-                                                                <div class="form-group col-6 " style="margin-bottom: 0px">
-                                                                    <label for="doctor">Doctor: </label>
-                                                                    <h5 id="doctor"><b>{{$case->client->name}}</b></h5>
-                                                                </div>
-                                                                <div class="form-group col-6 " style="margin-bottom: 0px">
-                                                                    <label for="pat">Patient: </label>
-                                                                    <h5 id="pat"><b>{{$case->patient_name}}</b></h5>
-                                                                </div>
-                                                            </div>
-                                                            <hr>
-                                                            <div class="form-group row">
-                                                                <div class=" col-12 ">
-                                                                    <label><b>Jobs:</b></label><br>
-
-
-                                                                    @foreach( $case->jobs->where('stage',$stage["numericStage"]) as $job)
-
-                                                                        @php
-                                                                            $unit = explode(', ',$job->unit_num);
-                                                                        @endphp
-
-                                                                        <span>{{$job->unit_num}}
-                                                                        - {{$job->jobType->name ?? "No Job Type"}}
-                                                                        - {{$job->material->name ?? "no material"}} {{$job->color =='0' ? "":" - " .$job->color}}
-                                                                            {{$job->style == 'None' ? "":" - " .$job->style}} {{isset($job->implantR) && $job->jobType->id ==6  ?( " - Implant Type: " . $job->implantR->name): "" }}
-                                                                        <br>
-                                                                        {{isset($job->abutmentR)  && $job->jobType->id ==6  ?( " Abutment Type: " . $job->abutmentR->name): "" }} </span>
-                                                                    @endforeach
-                                                                </div>
-                                                            </div>
-                                                            @if(count($case->notes)>0)
-                                                                <hr>
-                                                                <label><b>Notes:</b></label><br>
-                                                                @foreach($case->notes as $note)
-                                                                    <div class="form-control"
-                                                                         style="height:fit-content;width:80%;background-color: #dcecfd59;margin-bottom: 5px; color:black;font-size:12px"
-                                                                         disabled>
-
-                                                                        <span class="noteHeader">{{'['. substr( $note->created_at,0,16) . '] [' . $note->writtenBy->name_initials . '] : ' }}</span><br>
-                                                                        <span class="noteText">{{$note->note}}</span>
-                                                                    </div>
-                                                                @endforeach
-                                                            @endif
-                                                        </div>
-                                                        <div class="modal-footer fullBtnsWidth">
-                                                            <div class="row btnsRow"
-                                                                 style=" margin-right: 0px; margin-left: 0px;width:100%">
-                                                                <div class="col-md-3 col-sm-12 padding5px">
-                                                                    <a href="{{route('view-case', ['id' => $case->id, 'stage' => $stage["numericStage"]  ])}}">
-                                                                        <button type="button" class="btn btn-info ">View
-                                                                        </button>
-                                                                    </a></div>
-
-                                                                <div class="col-md-6 col-sm-12 padding5px">
-                                                                    <button type="submit" class="btn btn-success"
-                                                                            style="width:100%">{{$key == "Delivery" ? 'Take' : 'Assign To Me'}}</button>
-                                                                </div>
-                                                                <div class="col-md-3 col-sm-12 padding5px"><a
-                                                                        href="{{route('edit-case-view',$case->id)}}">
-                                                                        <button type="button"
-                                                                                class="btn btn-warning " {{$canEditCase ? '' : 'disabled'}}>
-                                                                            Edit Case
-                                                                        </button>
-                                                                    </a></div>
-
-                                                                @if ($key == "QC")
-                                                                    <div class="col-12 padding5px" >
-                                                                        <a  href="{{route('assign-and-finish',['caseId'=> $case->id,'stage'=>$stage["numericStage"]])}}">
-                                                                            <button type="button" class="btn btn-info "><i class="fa-solid fa-arrow-trend-up"></i> Assign & Complete </button>
-                                                                        </a></div>
-                                                                @endif
-
-                                                                {{-- Add assign buttons for all non-delivery stages --}}
-                                                                @if ($key != "Delivery")
-                                                                    @php
-                                                                        $currentJob = $case->jobs->where('stage', $stage["numericStage"])->first();
-                                                                        $hasAssignee = $currentJob && $currentJob->assignee;
-                                                                    @endphp
-                                                                    @if(Auth()->user()->is_admin || ($permissions && ($permissions->contains('permission_id', 129))))
-                                                                        <div class="col-12 padding5px" >
-                                                                            <a  data-toggle="modal"
-                                                                                data-target="#assignModal{{$key}}{{$case->id}}"
-                                                                            >
-                                                                                <button type="button" data-dismiss="modal" class="btn btn-warning">
-                                                                                    @if($hasAssignee) Re-Assign.. @else Assign to.. @endif
-                                                                                </button>
-                                                                            </a>
-                                                                        </div>
-                                                                    @endif
-                                                                @endif
-
-                                                                @if ($key == "Delivery")
-                                                                    @if(Auth()->user()->is_admin || ($permissions && ($permissions->contains('permission_id', 129))))
-                                                                        @if($case->jobs[0]->assignee == null)
-                                                                            <div class="col-12 padding5px" >
-                                                                                <a  data-toggle="modal"
-                                                                                    data-target="#myModal{{$case->id}} "
-                                                                                >
-                                                                                    <button type="button" data-dismiss="modal" class="btn btn-warning"> Assign to..  </button>
-                                                                                </a>
-                                                                            </div>
-                                                                        @else
-                                                                            <div class="col-12 padding5px" >
-                                                                                <a  data-toggle="modal"
-                                                                                    data-target="#myModal{{$case->id}}"
-                                                                                >
-                                                                                    <button type="button" data-dismiss="modal" class="btn btn-warning">Re-Assign.. </button>
-                                                                                </a>
-                                                                            </div>
-                                                                        @endif
-                                                                    @endif
-                                                                @endif
-                                                                @if ($key == "Delivery")
-                                                                    <div class="col-12 padding5px" >
-                                                                        <a  href="{{route('view-voucher',$case->id)}}">
-                                                                            <button type="button" class="btn btn-info "><i
-                                                                                    class="fas fa-print"></i> Print Voucher </button>
-                                                                        </a></div>
-                                                                @endif
-                                                                <div class="col-12 padding5px">
-                                                                    <button type="button" class="btn btn-secondary "
-                                                                            data-dismiss="modal" style="width:100%">Cancel
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-
                                         {{-- Add assignment modals for all non-delivery stages --}}
                                         @if($key != "Delivery")
                                             <div class="modal fade" tabindex="-1" role="dialog"
@@ -1661,6 +2041,15 @@
 
                                     </tbody>
                                 </table>
+                                @foreach ($stage['waitingCases'] as $case)
+                                    <x-partiels.operationsCaseSlidePanel
+                                        :case="$case"
+                                        :stageType="strtolower($key)"
+                                        panelScope="dashboard"
+                                        :stageName="$key"
+                                        :stageNumber="$stage['numericStage']"
+                                        caseState="waiting" />
+                                @endforeach
                                 @endif
                             </div>
                             <div tabindex="0" role="tabpanel" aria-labelledby="{{'active-'.$key .'label'}}" id="{{'active-'.$key}}" hidden>
@@ -1669,7 +2058,7 @@
                                     @csrf
                                     <input type="hidden" name="case_ids" id="bulk-complete-case-ids">
                                     <button type="submit" class="btn btn-primary" style="display: none; margin: 5px 0">Complete Selected</button>
-                                    <table class=" activeTable sunriseTable" style="width:100%;">
+                                    <table class="activeTable sunriseTable" style="width:100%;">
                                         <thead>
                                         <tr>
                                             <th><input type="checkbox" id="select-all-active-printing"></th>
@@ -1712,10 +2101,16 @@
                                     </table>
                                 </form>
                                 @foreach ($stage['activeCases'] as $case)
-                                    <x-partiels.caseSlidePanel :case="$case" stageType="3dprinting" panelScope="dashboard"/>
+                                    <x-partiels.operationsCaseSlidePanel
+                                        :case="$case"
+                                        stageType="3dprinting"
+                                        panelScope="dashboard"
+                                        :stageName="$key"
+                                        :stageNumber="$stage['numericStage']"
+                                        caseState="active" />
                                 @endforeach
                                 @else
-                                <table class=" activeTable sunriseTable" style="width:100%;">
+                                <table class="activeTable sunriseTable" style="width:100%;">
                                     <thead>
                                     <tr>
 
@@ -1731,8 +2126,8 @@
                                     </thead>
                                     <tbody>
                                     @foreach ($stage['activeCases'] as $case)
-                                        <tr class="clickable" style="color:{{$color}}" data-toggle="modal"
-                                            data-target="#confirmCompletion{{$key.$case->id}}">
+                                        <tr class="clickable" style="color:{{$color}}"
+                                            onclick="YSH_openSlidePanel({{ $case->id }}, '{{ strtolower($key) }}', 'dashboard')">
                                             @if ($key == "Finishing")
                                                 @php
                                                     $notReadyA=false;
@@ -1830,177 +2225,18 @@
                                                 </form>
                                             </div>
                                         @endif
-                                        <!-- Active case actions Dialog -->
-                                        <div class="modal fade" tabindex="-1" role="dialog"
-                                             id="confirmCompletion{{$key.$case->id}}">
-                                            <form action="{{$key == "delivery" ? route('delivery-accept', $case->id) : route('finish-case',['caseId'=> $case->id,'stage'=>$stage["numericStage"]] )}}"
-                                                  method="GET">
-                                                @csrf
-                                                <input type="hidden" name="case_id" value="{{$case->id}}">
-                                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title">Case Completion</h5>
-
-                                                            <button type="button" class="close" data-dismiss="modal"
-                                                                    aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-
-                                                            <div class="form-group row" style="margin-bottom: 0px">
-                                                                <div class="form-group col-6 "
-                                                                     style="margin-bottom: 0px">
-                                                                    <label for="doctor">Doctor: </label>
-                                                                    <h5 id="doctor"><b>{{$case->client->name}}</b></h5>
-                                                                </div>
-                                                                <div class="form-group col-6 "
-                                                                     style="margin-bottom: 0px">
-                                                                    <label for="pat">Patient: </label>
-                                                                    <h5 id="pat"><b>{{$case->patient_name}}</b></h5>
-                                                                </div>
-                                                            </div>
-                                                            <hr>
-                                                            <div class="form-group row">
-                                                                <div class=" col-12 ">
-                                                                    <label><b>Jobs:</b></label><br>
-
-
-                                                                    @foreach( $case->jobs->where('stage',$stage["numericStage"]) as $job)
-
-                                                                        @php
-                                                                            $unit = explode(', ',$job->unit_num);
-                                                                        @endphp
-
-                                                                        <span>{{$job->unit_num}}
-                - {{$job->jobType->name ?? "No Job Type"}}
-                - {{$job->material->name ?? "no material"}} {{$job->color =='0' ? "":" - " .$job->color}}
-                                                                            {{$job->style == 'None' ? "":" - " .$job->style}} {{isset($job->implantR) && $job->jobType->id ==6  ?( " - Implant Type: " . $job->implantR->name): "" }}
-                <br>
-                {{isset($job->abutmentR)  && $job->jobType->id ==6  ?( " Abutment Type: " . $job->abutmentR->name): "" }} </span>
-                                                                    @endforeach
-                                                                </div>
-                                                            </div>
-                                                            @if(count($case->notes)>0)
-                                                                <hr>
-                                                                <label><b>Notes:</b></label><br>
-                                                                @foreach($case->notes as $note)
-                                                                    <div class="form-control"
-                                                                         style="height:fit-content;width:80%;background-color: #dcecfd59;margin-bottom: 5px; color:black;font-size:12px"
-                                                                         disabled>
-
-                                                                        <span class="noteHeader">{{'['. substr( $note->created_at,0,16) . '] [' . $note->writtenBy->name_initials . '] : ' }}</span><br>
-                                                                        <span class="noteText">{{$note->note}}</span>
-                                                                    </div>
-                                                                @endforeach
-                                                            @endif
-
-                                                        </div>
-                                                        <div class="modal-footer fullBtnsWidth">
-                                                            <div class="row btnsRow"
-                                                                 style=" margin-right: 0px; margin-left: 0px;width:100%">
-                                                                @if($key == "Delivery")
-                                                                    <div class="col-12 padding5px">
-
-                                                                        <a class="dropdown-item" href="{{route('delivered-in-box',$case->id)}}">
-                                                                            <button type="button" class="btn btn-outline-info" style="width:100%">Delivered In Box</button></a>
-                                                                    </div>
-                                                                @endif
-                                                                <div class="col-3 padding5px">
-                                                                    <a href="{{route('view-case', ['id' => $case->id, 'stage' =>$stage["numericStage"]])}}">
-                                                                        <button type="button" class="btn btn-info ">
-                                                                            View
-                                                                        </button>
-                                                                    </a></div>
-
-                                                                <div class="col-6 padding5px">
-                                                                    @php
-                                                                        $isAdmin =  Auth()->user()->is_admin;
-                                                                        $canBeFinished= true;
-                                                                        $isUserCase = false;
-                                                                        $canComplete = false;
-                                                                            if($case->jobs->where('stage',$stage["numericStage"])->first() && $case->jobs->where('stage',$stage["numericStage"])->first()->assignee == Auth()->user()->id)
-                                                                         {$canComplete = true;
-                                                                          $isUserCase= true;  }
-                                                                        if($key == "Finishing")
-                                                                        if ($notReadyA || !$abutmentsReceived){
-                                                                         $canComplete= false;
-                                                                         $canBeFinished = false;
-                                                                         }
-                                                                    @endphp
-                                                                    @if ($isAdmin && $canBeFinished && !$isUserCase)
-
-                                                                        <a class=""
-                                                                           href="{{route('complete-by-admin', ['id'=>$case->id,'stage'=>$stage["numericStage"]] )}}">
-                                                                            <button type="button" class="btn btn-success">Override Complete</button>
-                                                                        </a>
-
-
-                                                                    @else
-                                                                        <button type="submit" class="btn btn-success"
-                                                                                style="width:100%" {{$canComplete ? '' : 'disabled'}}>{{$canComplete ? 'Complete' : 'Case cannot be completed'}}</button>
-                                                                    @endif
-                                                                </div>
-                                                                <div class="col-3 padding5px"><a
-                                                                        href="{{route('edit-case-view',$case->id)}}">
-                                                                        <button type="button"
-                                                                                class="btn btn-warning " {{$canEditCase ? '' : 'disabled'}}>
-                                                                            Edit Case
-                                                                        </button>
-                                                                    </a></div>
-
-                                                                @if ($key == "Milling")
-                                                                    <div class="col-12 padding5px">
-                                                                        <button type="button" class="btn btn-dark "
-                                                                                data-toggle="modal"
-                                                                                data-target="#MEX{{$case->id}}"
-                                                                                data-dismiss="modal" style="width:100%">
-                                                                            Externally Milled
-                                                                        </button>
-                                                                    </div>
-                                                            </div>
-                                                            @endif
-                                                            @if ($key == "Delivery")
-
-                                                                <div class="col-12 padding5px">
-
-                                                                    <a class="dropdown-item" href="{{route('view-voucher',$case->id)}}"> <button type="button" class="btn btn-outline-info">Print voucher</button></a>
-                                                                </div>
-                                                                @if($case->delivered_to_client == 1)
-                                                                    @if (Auth()->user()->is_admin || ($permissions && $permissions->contains('permission_id', 9)))
-                                                                        <div class="col-12 padding5px">
-                                                                            <a class="dropdown-item"
-                                                                               href="{{route('receive-voucher', $case->id )}}">
-                                                                                <button type="button" class="btn btn-outline-secondary">Receive Voucher</button>
-                                                                            </a>
-
-                                                                        </div>
-                                                                    @endif
-                                                                @endif
-                                                            @endif
-
-                                                            <div class="col-12 padding5px">
-                                                                <a class=""
-                                                                   href="{{route('reset-to-waiting', ['id'=>$case->id,'stage'=>$stage["numericStage"]] )}}">
-                                                                    <button type="button" class="btn btn-outline-danger">Reset To Waiting</button>
-                                                                </a>
-                                                            </div>
-                                                            <div class="col-12 padding5px">
-                                                                <button type="button" class="btn btn-secondary "
-                                                                        data-dismiss="modal" style="width:100%">Cancel
-                                                                </button>
-                                                            </div>
-                                                        </div>
-
-
-                                                    </div>
-                                                </div>
-                                        </div>
-                                        </form>
                                     @endforeach
-                                    </tbody>
+                                </tbody>
                                 </table>
+                                @foreach ($stage['activeCases'] as $case)
+                                    <x-partiels.operationsCaseSlidePanel
+                                        :case="$case"
+                                        :stageType="strtolower($key)"
+                                        panelScope="dashboard"
+                                        :stageName="$key"
+                                        :stageNumber="$stage['numericStage']"
+                                        caseState="active" />
+                                @endforeach
                                 @endif
                             </div>
                         </div>
@@ -2023,22 +2259,78 @@
     <script src="{{asset('https://cdn.jsdelivr.net/gh/htmlcssfreebies/macaw-tabs@v1.0.4/dist/js/macaw-tabs.js')}}"></script>
 
     <script>
+        function YSH_getOperationsTableInputs(selector) {
+            var $inputs = $();
+
+            $('.ops-dashboard table.sunriseTable').each(function () {
+                if ($.fn.DataTable && $.fn.DataTable.isDataTable(this)) {
+                    $inputs = $inputs.add($(this).DataTable().$(selector));
+                    return;
+                }
+
+                $inputs = $inputs.add($(this).find(selector));
+            });
+
+            return $inputs;
+        }
+
+        function YSH_adjustOperationsDataTables() {
+            if (!$.fn.DataTable) {
+                return;
+            }
+
+            $('.ops-dashboard table.sunriseTable:visible').each(function () {
+                if (!$.fn.DataTable.isDataTable(this)) {
+                    return;
+                }
+
+                $(this).DataTable().columns.adjust();
+            });
+        }
+
         $(document).ready(function () {
-            var tables2 = $('.sunriseTable');
-            if (tables2){
-                tables2.each(function () {
+            var tables = $('.ops-dashboard table.sunriseTable');
+
+            if ($.fn.DataTable && tables.length) {
+                tables.each(function () {
                     if ($.fn.DataTable.isDataTable(this)) {
                         return;
                     }
 
-                    $(this).DataTable({
-                        "pageLength": 10,
-                        "searching": false,
-                        "lengthChange": false,
-                        "fixedHeader": true
+                    var $table = $(this);
+                    var nonOrderableColumns = [$table.find('thead th').length - 1];
+
+                    if ($table.find('thead input[type="checkbox"]').length) {
+                        nonOrderableColumns.unshift(0);
+                    }
+
+                    $table.DataTable({
+                        autoWidth: false,
+                        buttons: window.solentDataTableButtons ? window.solentDataTableButtons(true) : [],
+                        pageLength: 10,
+                        lengthChange: true,
+                        paging: true,
+                        searching: true,
+                        info: true,
+                        ordering: true,
+                        columnDefs: [{
+                            targets: nonOrderableColumns,
+                            orderable: false,
+                            searchable: false
+                        }],
+                        dom: "<'YSH-operations-table-tools solent-datatable-toolbar'Bfl>rt<'YSH-operations-table-footer'ip>",
+                        language: Object.assign({}, (window.SolentI18n && window.SolentI18n.dataTables) || {}, {
+                            search: '',
+                            searchPlaceholder: @json(trans('ui.dom')['Search cases...'] ?? 'Search cases...')
+                        })
                     });
                 });
-                tables2.addClass("nowrap hover compact  stripe");
+
+                $(document).on('click', '.ops-dashboard [role="tab"]', function () {
+                    window.setTimeout(YSH_adjustOperationsDataTables, 20);
+                });
+
+                window.setTimeout(YSH_adjustOperationsDataTables, 20);
             }
 
 
@@ -2063,12 +2355,51 @@
             }
 
 // activate single outer tab =>
+            function activateOuterTab(tabId) {
+                var btn = document.getElementById(tabId);
+                var panel = document.getElementById(tabId + 'label');
+
+                if (!btn || !panel) {
+                    return false;
+                }
+
+                $(btn).attr('aria-selected', true);
+                $(btn).removeAttr('tabindex');
+                $(panel).addClass('active');
+                $(panel).removeAttr('hidden');
+
+                return true;
+            }
+
+            function activateInnerTab(tabId) {
+                var innerTabBtn = document.getElementById(tabId);
+
+                if (!innerTabBtn) {
+                    return false;
+                }
+
+                var innerTab = document.getElementById(innerTabBtn.getAttribute('aria-controls'));
+
+                if (!innerTab) {
+                    return false;
+                }
+
+                $(innerTab).addClass('active');
+                $(innerTab).removeAttr('hidden');
+                $(innerTabBtn).attr('aria-selected', true);
+                $(innerTabBtn).removeAttr('tabindex');
+
+                return true;
+            }
+
             var activeOuter = Cookies.get("activeOuterTab");
-            var btn = $('#' + activeOuter);
-            btn.attr('aria-selected',true);
-            btn.removeAttr('tabindex');
-            $('#' + activeOuter + "label").addClass('active');
-            $('#' + activeOuter + "label").removeAttr('hidden');
+
+            if (!activateOuterTab(activeOuter)) {
+                activeOuter = $('.macaw-aurora-tabs > [role="tablist"] > [role="tab"]').first().attr('id');
+                if (activeOuter && activateOuterTab(activeOuter)) {
+                    Cookies.set('activeOuterTab', activeOuter);
+                }
+            }
 
 
 // activate multiple inner tabs =>
@@ -2079,12 +2410,20 @@
                     continue;
                 }
                 else {
-                    var innerTabBtn = $("[id='"+activeInnerTab+"']");
-                    var innerTab = $("[aria-labelledby='"+activeInnerTab+"']");
-                    innerTab.addClass('active');
-                    innerTab.removeAttr('hidden');
-                    innerTabBtn.attr('aria-selected',true);
-                    innerTabBtn.removeAttr('tabindex');
+                    activateInnerTab(activeInnerTab);
+                }
+            }
+
+            if (activeOuter) {
+                var activeOuterBtn = document.getElementById(activeOuter);
+                var activeStage = activeOuterBtn ? activeOuterBtn.getAttribute('aria-controls') : '';
+                var activeStagePanel = activeStage ? $(document.getElementById(activeStage)) : $();
+                var waitingBtn = activeStagePanel.find('.innerWaitingBtn').first();
+                var hasSelectedInnerTab = activeStagePanel.find('.innerBtn[aria-selected="true"]').length > 0;
+
+                if (waitingBtn.length && !hasSelectedInnerTab) {
+                    activateInnerTab(waitingBtn.attr('id'));
+                    Cookies.set('inner' + waitingBtn.attr('href'), waitingBtn.attr('id'));
                 }
             }
         });
@@ -2101,6 +2440,24 @@
         }
         function setOuterTab(btnElement) {
             Cookies.set('activeOuterTab', btnElement.id);
+
+            // Macaw reveals the outer stage panel after this inline click handler.
+            // Once it has done so, default an untouched stage to its Waiting pane.
+            // A stage with an explicitly selected inner tab keeps that selection.
+            window.setTimeout(function () {
+                var stagePanelId = btnElement.getAttribute('aria-controls');
+                var stagePanel = stagePanelId ? document.getElementById(stagePanelId) : null;
+
+                if (!stagePanel || stagePanel.querySelector('.innerBtn[aria-selected="true"]')) {
+                    return;
+                }
+
+                var waitingTab = stagePanel.querySelector('.innerWaitingBtn');
+
+                if (waitingTab) {
+                    waitingTab.click();
+                }
+            }, 0);
         }
 
         function YSH_findSlideOverlay(caseId, stageType = '', panelScope = '') {
@@ -2120,6 +2477,24 @@
             return null;
         }
 
+        function YSH_findCaseActionsModal(caseId, stageType = '', panelScope = '') {
+            const candidateIds = [
+                panelScope && stageType ? `caseActionsModal-${panelScope}-${stageType}-${caseId}` : null,
+                stageType ? `caseActionsModal-${stageType}-${caseId}` : null,
+                `caseActionsModal-${caseId}`,
+                `caseActionsModal${caseId}`
+            ].filter(Boolean);
+
+            for (const id of candidateIds) {
+                const modal = document.getElementById(id);
+                if (modal) {
+                    return modal;
+                }
+            }
+
+            return null;
+        }
+
         function YSH_closeAllSlidePanels() {
             document.querySelectorAll('.YSH-slide-overlay.YSH-active, .YSH-slide-overlay.YSH-closing').forEach(function (overlay) {
                 overlay.classList.remove('YSH-active', 'YSH-closing');
@@ -2129,6 +2504,12 @@
         }
 
         function YSH_openSlidePanel(caseId, stageType = '', panelScope = '') {
+            const caseActionsModal = YSH_findCaseActionsModal(caseId, stageType, panelScope);
+            if (caseActionsModal && window.jQuery && typeof window.jQuery(caseActionsModal).modal === 'function') {
+                window.jQuery(caseActionsModal).modal('show');
+                return;
+            }
+
             const overlay = YSH_findSlideOverlay(caseId, stageType, panelScope);
             if (!overlay) {
                 return;
@@ -2163,7 +2544,7 @@
         });
 
         function assign3dPrintingToMe() {
-            const checkboxes = document.querySelectorAll('input[data-stage-type="3dprinting"][data-case-checkbox]:checked');
+            const checkboxes = YSH_getOperationsTableInputs('input[data-stage-type="3dprinting"][data-case-checkbox]').filter(':checked');
             if (!checkboxes.length) {
                 alert('Please select at least one case');
                 return;
@@ -2175,7 +2556,9 @@
                 return;
             }
 
-            const caseIds = Array.from(checkboxes).map(cb => cb.getAttribute('data-case-id')).join(',');
+            const caseIds = checkboxes.map(function () {
+                return this.getAttribute('data-case-id');
+            }).get().join(',');
             const employeeInput = document.getElementById('employee-id-input-3dprinting');
             const caseIdsInput = document.getElementById('case-ids-input-3dprinting');
 
@@ -2190,7 +2573,7 @@
         }
 
         function update3dPrintingAssignButtons() {
-            const anyChecked = document.querySelectorAll('input[data-stage-type="3dprinting"][data-case-checkbox]:checked').length > 0;
+            const anyChecked = YSH_getOperationsTableInputs('input[data-stage-type="3dprinting"][data-case-checkbox]').filter(':checked').length > 0;
             const actions = document.getElementById('assign-3dprinting-actions');
             if (actions) {
                 actions.style.display = anyChecked ? 'flex' : 'none';
@@ -2224,31 +2607,23 @@
             }
         }
 
-        $('#select-all-waiting-printing').click(function(event) {
-            const boxes = $('input[data-stage-type="3dprinting"][data-case-checkbox]');
+        $(document).on('change', '#select-all-waiting-printing', function () {
+            const boxes = YSH_getOperationsTableInputs('input[data-stage-type="3dprinting"][data-case-checkbox]');
             boxes.prop('checked', this.checked);
             update3dPrintingAssignButtons();
         });
 
         // Old bulk assign form removed - now using employee dialog
 
-        $('#select-all-active-printing').click(function(event) {
-            if(this.checked) {
-                // Iterate each checkbox
-                $('.case-checkbox-active').each(function() {
-                    this.checked = true;
-                });
-            } else {
-                $('.case-checkbox-active').each(function() {
-                    this.checked = false;
-                });
-            }
-            $('.case-checkbox-active').trigger('change');
+        $(document).on('change', '#select-all-active-printing', function () {
+            YSH_getOperationsTableInputs('input.case-checkbox-active')
+                .prop('checked', this.checked)
+                .trigger('change');
         });
 
         $('#bulk-complete-printing-form').submit(function(e) {
             var ids = [];
-            $('.case-checkbox-active:checked').each(function() {
+            YSH_getOperationsTableInputs('input.case-checkbox-active').filter(':checked').each(function() {
                 ids.push($(this).val());
             });
             if (ids.length > 0) {
@@ -2260,13 +2635,13 @@
         });
 
         // Show/hide assignment actions for 3D Printing
-        $('input[data-stage-type="3dprinting"][data-case-checkbox]').change(function() {
+        $(document).on('change', 'input[data-stage-type="3dprinting"][data-case-checkbox]', function () {
             update3dPrintingAssignButtons();
         });
 
         // Show/hide "Complete Selected" button
-        $('.case-checkbox-active').change(function() {
-            if ($('.case-checkbox-active:checked').length > 0) {
+        $(document).on('change', '.case-checkbox-active', function () {
+            if (YSH_getOperationsTableInputs('input.case-checkbox-active').filter(':checked').length > 0) {
                 $('#bulk-complete-printing-form button[type="submit"]').show();
             } else {
                 $('#bulk-complete-printing-form button[type="submit"]').hide();

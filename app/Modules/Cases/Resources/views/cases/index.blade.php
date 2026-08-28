@@ -10,19 +10,30 @@
             display: none;
         }
 
-        /* Button improvements */
-        .btn-outline-danger, .btn-outline-secondary {
-            transition: all 0.3s ease;
+        /* Case preview action hover states */
+        .solent-case-actions-modal__actions .btn-primary:hover,
+        .solent-case-actions-modal__actions .btn-primary:focus-visible,
+        .solent-case-actions-modal__actions .btn-outline-primary:hover,
+        .solent-case-actions-modal__actions .btn-outline-primary:focus-visible,
+        .solent-case-actions-modal__actions .btn-outline-secondary:hover,
+        .solent-case-actions-modal__actions .btn-outline-secondary:focus-visible {
+            background: #4f46e5 !important;
+            border-color: #4f46e5 !important;
+            color: #ffffff !important;
         }
 
-        .btn-outline-danger:hover {
-            background-color: #dc3545;
-            color: white;
+        .solent-case-actions-modal__actions .btn-outline-danger:hover,
+        .solent-case-actions-modal__actions .btn-outline-danger:focus-visible {
+            background: #dc2626 !important;
+            border-color: #dc2626 !important;
+            color: #ffffff !important;
         }
 
-        .btn-outline-secondary:hover {
-            background-color: #6c757d;
-            color: white;
+        .solent-case-actions-modal__actions .btn-light:hover,
+        .solent-case-actions-modal__actions .btn-light:focus-visible {
+            background: #334155 !important;
+            border-color: #334155 !important;
+            color: #ffffff !important;
         }
 
         /* Filter section improvements */
@@ -141,18 +152,18 @@
                         <form class="kt-form" method="GET" action="{{route('dentist-cases',['id' =>$id])}}">
                             <input type="hidden" class="form-control" name="id" value="{{$id}}">
                             @endif
-                            <div class="container full-width">
+                            <div class="container full-width list-filter-shell">
                                 <div class="row " style="padding-bottom:0;justify-content: flex-end;">
                                     <!-- Date filtering section -->
                                     <div class="col-6 col-sm-6 col-md-3 mb-3">
                                         <div class="kt-subheader__search">
-                                            <label>From (Start of):</label>
+                                            <label class="solent-filter-label"><i class="fa-regular fa-calendar" aria-hidden="true"></i><span>From (Start of):</span></label>
                                             <input type="date" class="form-control" name="from" value="{{$from}}">
                                         </div>
                                     </div>
                                     <div class="col-6 col-sm-6 col-md-3 mb-3">
                                         <div class="kt-subheader__search">
-                                            <label>To (End of):</label>
+                                            <label class="solent-filter-label"><i class="fa-regular fa-calendar" aria-hidden="true"></i><span>To (End of):</span></label>
                                             <input type="date" class="form-control" name="to" value="{{$to}}">
                                         </div>
                                     </div>
@@ -160,7 +171,7 @@
                                     <!-- New Date Column Selection -->
                                     <div class="col-6 col-sm-6 col-md-3 mb-3">
                                         <div class="kt-subheader__search">
-                                            <label>Filter Date By:</label>
+                                            <label class="solent-filter-label"><i class="fa-regular fa-calendar-check" aria-hidden="true"></i><span>Filter Date By:</span></label>
                                             <select class="form-control" name="date_column">
                                                 <option value="initial_delivery_date" {{ isset($date_column) && $date_column == 'initial_delivery_date' ? 'selected' : '' }}>Initial Delivery Date</option>
                                                 <option value="actual_delivery_date" {{ isset($date_column) && $date_column == 'actual_delivery_date' ? 'selected' : '' }}>Actual Delivery Date</option>
@@ -173,7 +184,7 @@
                                     <div class="col-6 col-sm-6 col-md-3 mb-3">
                                         @if(isset($clients))
                                             <div class="dropdown" style="text-align: left;">
-                                                <label>Doctor:</label>
+                                                <label class="solent-filter-label"><i class="fa-solid fa-user-doctor" aria-hidden="true"></i><span>Doctor:</span></label>
                                                 <br>
                                                 <select style="width:100%" class="selectpicker clearOnAll greyBG"
                                                         multiple
@@ -276,7 +287,7 @@
                         </form>
                     @endif
                     @endif
-                    <div class="container full-width">
+                    <div class="container full-width list-results-shell">
                         <div class="row" style="justify-content: flex-end;">
                             <div class="col-12">
                                 <br>
@@ -308,7 +319,7 @@
                                     @foreach($cases  as $case)
 
                                         <tr role="row" class="odd clickable" data-toggle="modal"
-                                            data-target="#actionsDialog{{ $case->id }}">
+                                            data-target="#caseActionsModal{{ $case->id }}">
                                             <td class="sorting_1 ">{{$case->id }}</td>
                                             <td>{{$case->case_id ?? "x"}}</td>
                                             <td>{{$case->client->name ?? "x"}}</td>
@@ -319,18 +330,18 @@
                                                 &nbsp;&nbsp; {{$case->actualDeliveryTime() ?? ""}}</td>
                                             <td>
                                                 @if(str_contains($case->status(), "Completed") )
-                                                    <span class="badge badge-success">
+                                                    <span class="badge badge-success solent-case-status-badge">
                                                                            {{$case->status()}} </span>
                                                 @elseif(str_contains($case->status(), "In-Progress") || str_contains($case->status(), "Active"))
                                                     <span style="width:auto; margin: auto; text-align: center"
-                                                          class="badge badge-primary">
+                                                          class="badge badge-primary solent-case-status-badge">
                                                                            <span class="tooltipX"> {{str_replace("Active in","",$case->status())}}
                                                                                <span
                                                                                    class="tooltiptext">{!!  $case->getStatusToolTipHTML() !!}</span>
                                                                 </span></span>
                                                 @elseif(str_contains($case->status(), "Waiting"))
                                                     <span style="width:auto; margin: auto; text-align: center"
-                                                          class="badge badge-danger">
+                                                          class="badge badge-danger solent-case-status-badge">
                                                                 @php
                                                                     $status =  preg_replace('/' . "in" . '/', "", str_replace("Waiting","",$case->status()), 1);
                                                                 @endphp
@@ -338,7 +349,7 @@
                                                         {{$status}} </span>
                                                 @else
                                                     <span style="width:auto; margin: auto; text-align: center"
-                                                          class="badge badge-warning">
+                                                          class="badge badge-warning solent-case-status-badge">
                                                                            <span class="tooltipX"> {{$case->status()}}
                                                                                <span
                                                                                    class="tooltiptext">{!!  $case->getStatusToolTipHTML() !!}</span>
@@ -627,6 +638,15 @@
 
                     </div>
                 </form>
+
+                @foreach($cases as $case)
+                    <x-partiels.caseActionsModal
+                        :case="$case"
+                        :modalId="'caseActionsModal' . $case->id"
+                        :showCaseManagement="true"
+                        :trashed="isset($trashedCases)" />
+                @endforeach
+
                 @push('js')
                     {{--<script src="//cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>--}}
                     <!-- Responsive and datable js -->

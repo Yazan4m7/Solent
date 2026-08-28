@@ -3,6 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use App\Support\DemoMode;
+use App\Support\Tenancy\TenantContext;
 use App\Support\Tenancy\TenantDatabaseManager;
 use App\Support\Tenancy\TenantResolver;
 use Illuminate\Http\Request;
@@ -14,6 +16,10 @@ class ApplyDomainContext
 {
     public function handle(Request $request, Closure $next)
     {
+        if ($this->isPlatformAdminRequest($request)) {
+            return $this->applyPlatformAdminContext($request, $next);
+        }
+
         $selectedOption = $this->resolveSelectionOption((string) $request->query('select_country_domain', ''));
         if ($selectedOption !== null) {
             return $this->redirectWithSavedSelection($request, $selectedOption);
@@ -25,6 +31,14 @@ class ApplyDomainContext
         }
 
         $tenantContext = app(TenantResolver::class)->resolve($request);
+        if (DemoMode::isDemoRequest($request) && ! DemoMode::hasIsolatedDatabase($tenantContext)) {
+            return $this->renderDomainSelectionPage(
+                $request,
+                'demo_database_mismatch',
+                $tenantContext->domainContext()
+            );
+        }
+
         if (!$tenantContext->isResolved()) {
             return $this->renderDomainSelectionPage($request, (string) ($tenantContext->reason ?? 'unknown'));
         }
@@ -45,6 +59,54 @@ class ApplyDomainContext
 
             return $this->renderDomainSelectionPage($request, 'database_unavailable', $tenantContext->domainContext());
         }
+
+        app()->instance('app.tenant_context', $tenantContext);
+        $this->shareContext($tenantContext->domainContext());
+
+        return $next($request);
+    }
+
+    private function isPlatformAdminRequest(Request $request): bool
+    {
+        return $this->normalizeHost($request->getHost()) ===
+            $this->normalizeHost((string) config('tenancy.platform_admin_host', 'admin.solentjo.com'));
+    }
+
+    private function applyPlatformAdminContext(Request $request, Closure $next)
+    {
+        $landlordConnection = (string) config('tenancy.landlord_connection', 'landlord');
+        $connectionName = (string) config('tenancy.platform_admin_connection', 'platform_admin');
+        $databaseName = trim((string) config('tenancy.platform_admin_database', ''));
+        $connectionConfig = config('database.connections.' . $landlordConnection);
+
+        if ($databaseName === '' || !is_array($connectionConfig)) {
+            return response('Platform administration database is not configured.', 503);
+        }
+
+        $connectionConfig['database'] = $databaseName;
+        $connectionConfig['url'] = null;
+        config()->set('database.connections.' . $connectionName, $connectionConfig);
+        config()->set('database.default', $connectionName);
+        DB::purge($connectionName);
+
+        try {
+            DB::connection($connectionName)->getPdo();
+        } catch (\Throwable $exception) {
+            report($exception);
+
+            return response('Platform administration database is unavailable.', 503);
+        }
+
+        $tenantContext = TenantContext::fromArray([
+            'uuid' => 'platform-admin',
+            'slug' => 'platform-admin',
+            'name' => 'Platform Administration',
+            'database' => $databaseName,
+            'status' => 'active',
+            'domain' => $request->getHost(),
+            'branding_key' => 'platform-admin',
+            'source' => 'platform_admin',
+        ]);
 
         app()->instance('app.tenant_context', $tenantContext);
         $this->shareContext($tenantContext->domainContext());
@@ -135,7 +197,9 @@ class ApplyDomainContext
 
     private function renderDomainSelectionPage(Request $request, string $reason, array $context = [])
     {
-        $statusCode = $reason === 'database_unavailable' ? 503 : 421;
+        $statusCode = in_array($reason, ['database_unavailable', 'demo_database_mismatch'], true)
+            ? 503
+            : 421;
 
         return response()->view('errors.domain-selection', [
             'reason' => $reason,
@@ -180,29 +244,6 @@ class ApplyDomainContext
                 'url' => $url,
                 'country_code' => strtoupper((string) ($option['country_code'] ?? '')),
                 'country_name' => (string) ($option['country_name'] ?? $host),
-            ];
-        }
-
-        if (count($preparedOptions) > 0) {
-            return $preparedOptions;
-        }
-
-        $hostsMap = (array) config('domain_context.hosts', []);
-        foreach ($hostsMap as $host => $context) {
-            if (!is_array($context)) {
-                continue;
-            }
-
-            $normalizedHost = $this->normalizeHost((string) $host);
-            if ($normalizedHost === '') {
-                continue;
-            }
-
-            $preparedOptions[] = [
-                'host' => $normalizedHost,
-                'url' => 'https://' . $normalizedHost,
-                'country_code' => strtoupper((string) ($context['country_code'] ?? '')),
-                'country_name' => (string) ($context['country_name'] ?? $normalizedHost),
             ];
         }
 

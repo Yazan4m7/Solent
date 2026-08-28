@@ -1,0 +1,189 @@
+- generic [active] [ref=f1e1]:
+  - generic [ref=f1e2]:
+    - generic [ref=f1e3]:
+      - generic [ref=f1e4]:
+        - link "Solent home" [ref=f1e5] [cursor=pointer]:
+          - /url: http://127.0.0.1:8765/main-dashboard
+          - img "Solent sidebar logo" [ref=f1e6]
+        - button "Close menu" [ref=f1e7] [cursor=pointer]
+      - generic [ref=f1e10]:
+        - link "Create new case Start a production order" [ref=f1e12] [cursor=pointer]:
+          - /url: http://127.0.0.1:8765/new-case
+          - generic [ref=f1e17]:
+            - strong [ref=f1e18]: Create new case
+            - generic [ref=f1e19]: Start a production order
+        - list [ref=f1e20]:
+          - listitem [ref=f1e21]: Overview
+          - listitem [ref=f1e22]:
+            - link "Home Business snapshot" [ref=f1e23] [cursor=pointer]:
+              - /url: http://127.0.0.1:8765/main-dashboard
+              - generic [ref=f1e28]:
+                - generic [ref=f1e29]: Home
+                - generic [ref=f1e30]: Business snapshot
+          - listitem [ref=f1e31]:
+            - link "Operations Live production overview" [ref=f1e32] [cursor=pointer]:
+              - /url: http://127.0.0.1:8765/operations-dashboard
+              - generic [ref=f1e39]:
+                - generic [ref=f1e40]: Operations
+                - generic [ref=f1e41]: Live production overview
+          - separator [ref=f1e42]
+          - listitem [ref=f1e43]: Workspace
+          - listitem [ref=f1e44]:
+            - link "Cases Search and manage orders" [ref=f1e45] [cursor=pointer]:
+              - /url: http://127.0.0.1:8765/cases
+              - generic [ref=f1e50]:
+                - generic [ref=f1e51]: Cases
+                - generic [ref=f1e52]: Search and manage orders
+          - listitem [ref=f1e53]:
+            - link "Live monitor Track active workflow" [ref=f1e54] [cursor=pointer]:
+              - /url: http://127.0.0.1:8765/cases-monitor
+              - generic [ref=f1e59]:
+                - generic [ref=f1e60]: Live monitor
+                - generic [ref=f1e61]: Track active workflow
+          - listitem [ref=f1e62]:
+            - link "Deliveries Schedule and dispatch" [ref=f1e63] [cursor=pointer]:
+              - /url: http://127.0.0.1:8765/delivery-schedule
+              - generic [ref=f1e68]:
+                - generic [ref=f1e69]: Deliveries
+                - generic [ref=f1e70]: Schedule and dispatch
+          - listitem [ref=f1e71]:
+            - link "Clients Doctors and clinics" [ref=f1e72] [cursor=pointer]:
+              - /url: http://127.0.0.1:8765/doctors/index
+              - generic [ref=f1e78]:
+                - generic [ref=f1e79]: Clients
+                - generic [ref=f1e80]: Doctors and clinics
+          - separator [ref=f1e81]
+          - listitem [ref=f1e82]: Management
+          - listitem [ref=f1e83]:
+            - link "Reports Performance insights" [ref=f1e84] [cursor=pointer]:
+              - /url: "#sidebarReports"
+              - generic [ref=f1e88]:
+                - generic [ref=f1e89]: Reports
+                - generic [ref=f1e90]: Performance insights
+          - listitem [ref=f1e92]:
+            - link "Billing Invoices and payments" [ref=f1e93] [cursor=pointer]:
+              - /url: "#sidebarBilling"
+              - generic [ref=f1e98]:
+                - generic [ref=f1e99]: Billing
+                - generic [ref=f1e100]: Invoices and payments
+          - listitem [ref=f1e102]:
+            - link "Configuration Lab setup and access" [ref=f1e103] [cursor=pointer]:
+              - /url: "#sidebarSettings"
+              - generic [ref=f1e108]:
+                - generic [ref=f1e109]: Configuration
+                - generic [ref=f1e110]: Lab setup and access
+      - link "Operator User 18 Administrator" [ref=f1e114] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f1e115]: OP
+        - generic [ref=f1e116]:
+          - generic [ref=f1e117]: Operator User 18
+          - generic [ref=f1e118]: Administrator
+    - generic [ref=f1e119]:
+      - generic "Workspace actions":
+        - button "Open menu" [ref=f1e120] [cursor=pointer]
+        - textbox "Search cases, doctors..." [ref=f1e127]
+      - generic [ref=f1e128]:
+        - navigation "Quick navigation" [ref=f1e129]:
+          - link "Home" [ref=f1e130] [cursor=pointer]:
+            - /url: http://127.0.0.1:8765/main-dashboard
+          - link "Operations" [ref=f1e136] [cursor=pointer]:
+            - /url: http://127.0.0.1:8765/operations-dashboard
+          - link "Cases" [ref=f1e144] [cursor=pointer]:
+            - /url: http://127.0.0.1:8765/cases
+          - link "Live monitor" [ref=f1e150] [cursor=pointer]:
+            - /url: http://127.0.0.1:8765/cases-monitor
+          - link "Deliveries" [ref=f1e156] [cursor=pointer]:
+            - /url: http://127.0.0.1:8765/delivery-schedule
+        - main [ref=f1e163]:
+          - region "Dashboard key metrics" [ref=f1e164]:
+            - article [ref=f1e165]:
+              - generic [ref=f1e167]:
+                - generic [ref=f1e168]: Total Revenue
+                - strong [ref=f1e169]:
+                  - generic [ref=f1e170]: JOD
+                  - generic [ref=f1e171]: "0"
+            - article [ref=f1e172]:
+              - generic [ref=f1e174]:
+                - generic [ref=f1e175]: Orders
+                - strong [ref=f1e176]:
+                  - generic [ref=f1e177]: "0"
+            - article [ref=f1e178]:
+              - generic [ref=f1e180]:
+                - generic [ref=f1e181]: Customers
+                - strong [ref=f1e182]:
+                  - generic [ref=f1e183]: "0"
+            - article [ref=f1e184]:
+              - generic [ref=f1e185]:
+                - generic [ref=f1e186]:
+                  - generic [ref=f1e187]: Demo Data
+                  - strong [ref=f1e188]: "Off"
+                - switch "Show demo dashboard data" [ref=f1e189] [cursor=pointer]
+          - generic [ref=f1e192]:
+            - article [ref=f1e193]:
+              - generic [ref=f1e194]:
+                - generic [ref=f1e195]:
+                  - generic [ref=f1e196]: Geographic activity
+                  - heading "Case Activity by Governorate" [level=2] [ref=f1e197]
+                - button "Explore case activity by Jordan governorate" [ref=f1e198] [cursor=pointer]:
+                  - img [ref=f1e199]: 
+                  - generic [ref=f1e201]: Explore
+            - article [ref=f1e203]:
+              - generic [ref=f1e205]:
+                - heading "Revenue Overview" [level=2] [ref=f1e206]
+                - paragraph [ref=f1e207]: JOD 0
+            - article [ref=f1e210]:
+              - generic [ref=f1e211]:
+                - heading "Case delivery" [level=2] [ref=f1e212]
+                - link "View delivery schedule" [ref=f1e213] [cursor=pointer]:
+                  - /url: http://127.0.0.1:8765/delivery-schedule
+                  - img [ref=f1e214]: 
+              - generic [ref=f1e217]: No cases scheduled
+            - article [ref=f1e222]:
+              - heading "Revenue by Service Type" [level=2] [ref=f1e224]
+              - generic [ref=f1e225]:
+                - generic [ref=f1e226]: This month
+                - strong [ref=f1e227]: JOD 0
+              - generic [ref=f1e228]: No service revenue this month
+            - article [ref=f1e230]:
+              - generic [ref=f1e232]:
+                - heading "Orders Over Time" [level=2] [ref=f1e233]
+                - paragraph [ref=f1e234]: "0"
+  - generic [ref=f1e237]:
+    - generic [ref=f1e239]:
+      - generic [ref=f1e240] [cursor=pointer]
+      - generic [ref=f1e241]:
+        - generic [ref=f1e242] [cursor=pointer]: 
+        - generic [ref=f1e244] [cursor=pointer]: 
+        - generic [ref=f1e246] [cursor=pointer]: 
+        - generic [ref=f1e248] [cursor=pointer]:
+          - generic [ref=f1e249]: 
+          - generic [ref=f1e250]: "31"
+        - generic [ref=f1e251] [cursor=pointer]: 
+        - generic [ref=f1e253] [cursor=pointer]:
+          - generic [ref=f1e254]: 
+          - generic [ref=f1e255]: "142"
+        - generic [ref=f1e256] [cursor=pointer]:
+          - generic [ref=f1e257]: 
+          - generic [ref=f1e258]: "137"
+        - generic [ref=f1e259] [cursor=pointer]: 
+        - generic [ref=f1e261] [cursor=pointer]: 
+        - generic [ref=f1e263] [cursor=pointer]: 
+        - generic [ref=f1e265] [cursor=pointer]: 
+      - generic [ref=f1e267]:
+        - generic [ref=f1e268] [cursor=pointer]
+        - generic [ref=f1e269] [cursor=pointer]
+        - generic [ref=f1e270] [cursor=pointer]
+        - generic [ref=f1e271]:
+          - generic [ref=f1e272]: 
+          - generic: 8.2.28
+        - generic [ref=f1e273]:
+          - generic [ref=f1e274]: 
+          - generic: 4s
+        - generic [ref=f1e275]:
+          - generic [ref=f1e276]: 
+          - generic: 25MB
+        - generic [ref=f1e277]:
+          - generic [ref=f1e278]: 
+          - generic: GET home
+    - text:                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+  - text:  DEMO

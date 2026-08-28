@@ -1,0 +1,189 @@
+/* Site-wide typography for both Arabic and English interfaces. */
+:root {
+    --solent-font-family: "Cairo", Arial, sans-serif;
+    --font-family-sans-serif: var(--solent-font-family);
+}
+
+html,
+body {
+    font-family: var(--solent-font-family) !important;
+}
+
+body h1,
+body h2,
+body h3,
+body h4,
+body h5,
+body h6,
+body p,
+body a,
+body label,
+body small,
+body strong,
+body b,
+body em,
+body button,
+body input,
+body select,
+body textarea,
+body optgroup,
+body option,
+body table,
+body th,
+body td,
+body .btn,
+body .form-control,
+body .dropdown-menu,
+body .modal,
+body .popover,
+body .tooltip,
+body .dataTables_wrapper {
+    font-family: var(--solent-font-family) !important;
+}
+
+/* Shared data-table treatment. Keep the contrast subtle so dense mobile tables
+   remain easy to scan without competing with selected or hover states. */
+body table.table > tbody > tr:nth-child(even) > *,
+body table.sunriseTable > tbody > tr:nth-child(even) > *,
+body table.dataTable > tbody > tr:nth-child(even) > *,
+body table.statement-table > tbody > tr:nth-child(even) > * {
+    background-color: var(--surface-raised, #f8fafc) !important;
+}
+
+body table.table > tbody > tr:nth-child(odd) > *,
+body table.sunriseTable > tbody > tr:nth-child(odd) > *,
+body table.dataTable > tbody > tr:nth-child(odd) > *,
+body table.statement-table > tbody > tr:nth-child(odd) > * {
+    background-color: var(--surface, #ffffff) !important;
+}
+
+body table.table > tbody > tr:hover > *,
+body table.sunriseTable > tbody > tr:hover > *,
+body table.dataTable > tbody > tr:hover > *,
+body table.statement-table > tbody > tr:hover > * {
+    background-color: var(--accent-bg, #eef2ff) !important;
+}
+
+/* Case workflow statuses use one predictable visual language everywhere. */
+body .solent-case-status-badge {
+    align-items: center;
+    background: var(--accent-bg, #eef2ff) !important;
+    border: 1px solid var(--accent-lt, #c7d2fe) !important;
+    border-radius: 999px;
+    box-sizing: border-box;
+    color: var(--accent, #4f46e5) !important;
+    display: flex;
+    font-size: 11px;
+    font-weight: 800;
+    inline-size: 104px !important;
+    justify-content: center;
+    line-height: 1.25;
+    margin-inline: auto;
+    max-inline-size: 104px;
+    min-block-size: 28px;
+    padding: 5px 9px;
+    text-align: center;
+    white-space: normal;
+    width: 104px !important;
+}
+
+body th.solent-case-status-column,
+body td.solent-case-status-column {
+    min-inline-size: 112px;
+    overflow: visible;
+    width: 112px !important;
+}
+
+/* Filter labels share an icon/text baseline in either writing direction. */
+body .solent-filter-label {
+    align-items: center;
+    display: inline-flex;
+    gap: 6px;
+    justify-content: flex-start;
+    line-height: 1.35;
+}
+
+body .solent-filter-label > i {
+    color: var(--accent, #4f46e5) !important;
+    flex: 0 0 16px;
+    inline-size: 16px;
+    text-align: center;
+}
+
+html[dir="rtl"] body .solent-filter-label {
+    direction: rtl;
+}
+
+html[dir="ltr"] body .solent-filter-label {
+    direction: ltr;
+}
+
+/* Physical right alignment is intentional for configuration create actions in
+   both locales, per the configuration-page convention. */
+body .solent-config-create-row {
+    display: block;
+    text-align: right;
+}
+
+body .solent-config-create-row > a {
+    display: inline-block;
+}
+
+@media (max-width: 575.98px) {
+    body .solent-config-create-row {
+        margin-top: 8px;
+    }
+}
+/* Shared request-processing overlay */
+body.solent-processing {
+    overflow: hidden;
+}
+
+.solent-processing-overlay {
+    position: fixed;
+    z-index: 11000;
+    inset: 0;
+    display: grid;
+    padding: 20px;
+    place-items: center;
+    background: rgba(15, 23, 42, 0.42);
+    backdrop-filter: blur(2px);
+}
+
+.solent-processing-overlay[hidden] {
+    display: none !important;
+}
+
+.solent-processing-overlay__panel {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: min(92vw, 360px);
+    padding: 15px 18px;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 13px;
+    background: #ffffff;
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.2);
+    color: #0f172a;
+    font-size: 0.88rem;
+}
+
+.solent-processing-overlay__spinner {
+    flex: 0 0 24px;
+    width: 24px;
+    height: 24px;
+    border: 3px solid #dbe4ea;
+    border-block-start-color: var(--brand-primary, #176b87);
+    border-radius: 50%;
+    animation: solent-processing-spin 700ms linear infinite;
+}
+
+@keyframes solent-processing-spin {
+    to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .solent-processing-overlay__spinner {
+        animation-duration: 1.4s;
+    }
+}

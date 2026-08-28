@@ -1,0 +1,920 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Solent - دليل عرض النظام</title>
+    <style>
+        @font-face {
+            font-family: "Cairo";
+            src: url("assets/Cairo-VariableFont.ttf") format("truetype");
+            font-style: normal;
+            font-weight: 200 1000;
+            font-display: swap;
+        }
+
+        :root {
+            --ink: #0f172a;
+            --muted: #5f687c;
+            --accent: #5852ee;
+            --accent-dark: #4338ca;
+            --accent-soft: #f1f0ff;
+            --panel: #f6f7fb;
+            --line: #dfe3ed;
+            --teal: #159a92;
+            --teal-soft: #e9f8f6;
+            --orange: #e77918;
+            --orange-soft: #fff4e6;
+            --orange-line: #f5c785;
+            --red: #d84a3c;
+            --red-soft: #fff0ed;
+            --green: #087a53;
+            --green-soft: #eaf8f1;
+            --paper: #ffffff;
+            --canvas: #e9edf4;
+        }
+
+        * { box-sizing: border-box; }
+
+        html { background: var(--canvas); }
+
+        body {
+            margin: 0;
+            color: var(--ink);
+            background: var(--canvas);
+            font-family: "Cairo", sans-serif;
+            line-height: 1.48;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .page {
+            width: 210mm;
+            height: 297mm;
+            margin: 12mm auto;
+            padding: 8mm 10mm 7mm;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            background: var(--paper);
+            box-shadow: 0 14px 38px rgba(15, 23, 42, 0.13);
+            break-after: page;
+            page-break-after: always;
+        }
+
+        .page:last-child {
+            break-after: auto;
+            page-break-after: auto;
+        }
+
+        .header {
+            min-height: 10mm;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            direction: ltr;
+        }
+
+        .brand-logo {
+            width: 29mm;
+            height: 8.5mm;
+            object-fit: contain;
+            object-position: left center;
+        }
+
+        .page-meta {
+            display: grid;
+            gap: 1px;
+            color: #687087;
+            direction: ltr;
+            text-align: right;
+            font-size: 7.5px;
+            font-weight: 700;
+            letter-spacing: 1.25px;
+        }
+
+        .page-meta strong {
+            color: var(--accent);
+            font-size: 9px;
+            letter-spacing: 1.6px;
+        }
+
+        .intro { padding: 2.5mm 0 3mm; }
+
+        .eyebrow {
+            display: flex;
+            align-items: center;
+            gap: 2.5mm;
+            margin-bottom: 1.7mm;
+            color: var(--accent-dark);
+            font-size: 8px;
+            font-weight: 800;
+        }
+
+        .eyebrow-number {
+            min-width: 8mm;
+            height: 6.6mm;
+            display: grid;
+            place-items: center;
+            direction: ltr;
+            color: var(--accent);
+            background: #fff;
+            border: 1px solid #9c99ff;
+            border-radius: 1.5mm;
+            font-size: 8px;
+        }
+
+        .eyebrow-label {
+            padding: 1mm 2.4mm;
+            background: var(--accent-soft);
+            border-radius: 999px;
+        }
+
+        h1 {
+            margin: 0;
+            color: var(--ink);
+            font-size: 23px;
+            line-height: 1.25;
+            font-weight: 850;
+            letter-spacing: -0.25px;
+        }
+
+        .lead {
+            max-width: 180mm;
+            margin: 1.4mm 0 0;
+            color: var(--muted);
+            font-size: 10.3px;
+            font-weight: 500;
+        }
+
+        .context-card {
+            position: relative;
+            margin-bottom: 3mm;
+            padding: 3.6mm 4.2mm;
+            color: #fff;
+            background: var(--ink);
+            border-radius: 3mm;
+            border-right: 2.2mm solid var(--teal);
+        }
+
+        .context-card strong {
+            display: block;
+            margin-bottom: 0.8mm;
+            color: #f4b629;
+            font-size: 10.4px;
+            font-weight: 800;
+        }
+
+        .context-card p {
+            margin: 0;
+            color: #eef2ff;
+            font-size: 8.8px;
+            line-height: 1.65;
+        }
+
+        .screen-frame,
+        .workflow-frame {margin: 5vh 0;position: relative;overflow: hidden;width: 100%;display: grid;place-items: center;background: var(--panel);border: 1px solid var(--line);border-radius: 3mm;justify-content: end;grid-auto-flow: row;}
+
+        .screen-frame {height: 71mm;}
+        .workflow-frame { height: 76mm; padding: 2.5mm; background: #fbfbfe; }
+
+        .shot-image {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            width: 100%;
+            height: 100%;
+            display: none;
+            object-fit: contain;
+            background: #fff;
+        }
+
+        .screen-frame.has-image .shot-image { display: block; }
+        .screen-frame.has-image .shot-placeholder { display: none; }
+
+        .shot-placeholder {
+            display: grid;
+            justify-items: center;
+            gap: 1mm;
+            color: #687087;
+            text-align: center;
+        }
+
+        .ghost-logo {
+            width: 11mm;
+            height: 11mm;
+            margin-bottom: 0.5mm;
+            object-fit: contain;
+            opacity: 0.18;
+            filter: grayscale(1);
+        }
+
+        .shot-placeholder strong {
+            color: #3c455d;
+            font-size: 10px;
+            font-weight: 750;
+        }
+
+        .shot-placeholder small {
+            color: var(--accent);
+            direction: ltr;
+            font-size: 7.4px;
+            font-weight: 700;
+            letter-spacing: 0.45px;
+        }
+
+        .figure-caption {
+            min-height: 6.3mm;
+            display: flex;
+            align-items: center;
+            gap: 2.5mm;
+            padding-top: 1mm;
+            color: #697188;
+            direction: ltr;
+            font-size: 7.8px;
+        }
+
+        .figure-caption strong {
+            flex: 0 0 auto;
+            color: var(--accent);
+            font-size: 7.5px;
+            letter-spacing: 0.7px;
+        }
+
+        .figure-caption span { direction: rtl; }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 2.5mm;
+            margin: 7.2mm 0 1.7mm;
+            color: var(--ink);
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .section-title::before {
+            content: "";
+            width: 10mm;
+            height: 1px;
+            background: #cdd2df;
+        }
+
+        .section-title small {
+            color: var(--accent);
+            direction: ltr;
+            font-size: 6.7px;
+            font-weight: 800;
+            letter-spacing: 0.8px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 2mm 2.8mm;
+        }
+
+        .feature-box {
+            position: relative;
+            min-height: 17.5mm;
+            padding: 2.7mm 10.5mm 2.4mm 3mm;
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 2.7mm;
+        }
+
+        .feature-index {
+            position: absolute;
+            top: 2.7mm;
+            right: 2.7mm;
+            width: 6mm;
+            height: 6mm;
+            display: grid;
+            place-items: center;
+            color: var(--accent);
+            background: var(--accent-soft);
+            border: 1px solid #c9c7ff;
+            border-radius: 1.4mm;
+            direction: ltr;
+            font-size: 9.7px;
+            font-weight: 850;
+        }
+
+        .feature-box h2 {
+            margin: 0 0 0.6mm;
+            color: var(--ink);
+            font-size: 10.2px;
+            line-height: 1.3;
+            font-weight: 800;
+        }
+
+        .feature-box p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 7.7px;
+            line-height: 1.48;
+        }
+
+        .feature-box.emphasis {
+            background: #f8f8ff;
+            border: 1.5px solid var(--accent);
+        }
+
+        .feature-box.emphasis h2 {
+            color: var(--accent-dark);
+            font-size: 11px;
+        }
+
+        .feature-box.secondary {
+            background: var(--orange-soft);
+            border-color: #adadad;
+        }
+
+        .feature-box.secondary .feature-index {
+            color: var(--orange);
+            background: #fff;
+            border-color: var(--orange-line);
+        }
+
+        .feature-box.secondary::after {
+            content: "إضافي";
+            position: absolute;
+            top: 2.6mm;
+            left: 3mm;
+            color: var(--orange);
+            font-size: 6px;
+            font-weight: 850;
+        }
+
+        .comparison {
+            width: 100%;
+            overflow: hidden;
+            border: 1px solid var(--line);
+            border-radius: 2.7mm;
+            border-collapse: separate;
+            border-spacing: 0;
+            table-layout: fixed;
+        }
+
+        .comparison th {
+            padding: 2.1mm 2.6mm;
+            color: #fff;
+            background: var(--ink);
+            text-align: right;
+            font-size: 7.3px;
+            font-weight: 800;
+        }
+
+        .comparison th:first-child { width: 23%; }
+
+        .comparison td {
+            padding: 1.9mm 2.6mm;
+            vertical-align: middle;
+            border-top: 1px solid var(--line);
+            font-size: 7.6px;
+            line-height: 1.35;
+        }
+
+        .comparison tbody tr:first-child td { border-top: 0; }
+        .comparison td:first-child { color: var(--ink); background: #fff; font-weight: 750; }
+        .comparison td.manual { color: var(--red); background: var(--red-soft); }
+        .comparison td.solent { color: var(--green); background: var(--green-soft); font-weight: 650; }
+
+        .class-band {
+            margin-bottom: 5vh;
+            padding: 3.2mm;
+            color: #fff;
+            background: linear-gradient(135deg, #5852ee, #655ff3);
+            border-radius: 3mm;
+        }
+
+        .class-band-label {
+            margin-bottom: 2.2mm;
+            color: #dddfff;
+            direction: ltr;
+            text-align: left;
+            font-size: 6.8px;
+            font-weight: 800;
+            letter-spacing: 0.7px;
+        }
+
+        .class-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 4.2mm;
+            direction: ltr;
+        }
+
+        .class-item {
+            min-height: 15mm;
+            display: grid;
+            font-size: 1px;
+            place-items: center;
+            gap: 0;
+            padding: 1.4mm;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.32);
+            border-radius: 2.2mm;
+            /* margin-bottom: 5vh; */
+        }
+
+        .class-item strong {font-size: 15px;line-height: 1;}
+        .class-item span {font-size: 16.4px;font-weight: 750;}
+
+        .reason-panel {
+            margin-top: 2.2mm;
+            padding: 2.2mm 2.8mm;
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 2.7mm;
+        }
+
+        .reason-panel strong {
+            display: block;
+            margin-bottom: 1.5mm;
+            color: var(--ink);
+            font-size: 7.8px;
+        }
+
+        .reason-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.3mm;
+        }
+
+        .reason-chip {
+            padding: 0.8mm 2.2mm;
+            color: #ad560f;
+            background: var(--orange-soft);
+            border-radius: 999px;
+            font-size: 6.8px;
+            font-weight: 700;
+        }
+
+        .process-strip,
+        .portal-strip,
+        .platform-strip {
+            display: grid;
+            gap: 2mm;
+            margin-top: 2.2mm;
+        }
+
+        .process-strip { grid-template-columns: repeat(4, minmax(0, 1fr)); direction: rtl; }
+        .portal-strip { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        .platform-strip { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+        .process-step,
+        .portal-item,
+        .platform-item {
+            min-height: 15mm;
+            display: grid;
+            align-content: center;
+            gap: 0.5mm;
+            padding: 2mm 2.5mm;
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 2.4mm;
+        }
+
+        .process-step strong,
+        .portal-item strong,
+        .platform-item strong { color: var(--ink); font-size: 8px; }
+        .process-step span,
+        .portal-item span,
+        .platform-item span { color: var(--muted); font-size: 6.8px; line-height: 1.4; }
+
+        .portal-item:last-child,
+        .platform-item:last-child {
+            background: var(--orange-soft);
+            border-color: var(--orange-line);
+        }
+
+        .route-table {
+            width: 100%;
+            overflow: hidden;
+            border: 1px solid var(--line);
+            border-radius: 2.7mm;
+            border-collapse: separate;
+            border-spacing: 0;
+            table-layout: fixed;
+        }
+
+        .route-table th {
+            padding: 1.8mm 2.5mm;
+            color: #fff;
+            background: var(--ink);
+            text-align: right;
+            font-size: 7px;
+        }
+
+        .route-table th:first-child { width: 23%; }
+        .route-table th:last-child { width: 18%; }
+
+        .route-table td {
+            padding: 1.6mm 2.5mm;
+            color: #485168;
+            background: #fff;
+            border-top: 1px solid var(--line);
+            font-size: 7px;
+            line-height: 1.35;
+        }
+
+        .route-table tbody tr:nth-child(even) td { background: #f8fafc; }
+
+        .route-flow {
+            color: var(--teal);
+            direction: ltr;
+            text-align: left;
+            font-size: 6.8px;
+            font-weight: 800;
+        }
+
+        .page-workflow .route-table td:first-child,
+        .page-workflow .route-table td:last-child {
+            direction: ltr;
+            text-align: left;
+        }
+
+        .permission-table th:first-child { width: 21%; }
+        .permission-table td { text-align: center; }
+        .permission-table td:first-child { text-align: right; font-weight: 750; }
+        .permission-yes { color: var(--green); background: var(--green-soft) !important; font-weight: 800; }
+        .permission-scope { color: var(--accent-dark); background: var(--accent-soft) !important; font-weight: 750; }
+        .permission-no { color: #9aa1b2; }
+
+        .answer-table th:first-child { width: 23%; }
+        .answer-table th:nth-child(2) { width: 28%; }
+        .answer-table td:last-child {
+            color: var(--green);
+            background: var(--green-soft);
+            font-weight: 700;
+        }
+
+        .demo-cue {
+            min-height: 9mm;
+            display: flex;
+            align-items: center;
+            gap: 2.5mm;
+            margin-top: 2.3mm;
+            padding: 1.8mm 2.6mm;
+            color: #384158;
+            background: #fafafe;
+            border: 1px solid var(--line);
+            border-radius: 2.3mm;
+            font-size: 7.7px;
+            font-weight: 650;
+        }
+
+        .demo-cue strong {
+            flex: 0 0 auto;
+            color: var(--accent);
+            font-size: 7.2px;
+        }
+
+        .footer {
+            min-height: 7mm;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-top: auto;
+            padding-top: 2mm;
+            color: #8a92a5;
+            direction: ltr;
+            border-top: 1px solid #eceef4;
+            font-size: 6.9px;
+        }
+
+        .footer strong { color: #4e576d; font-weight: 800; }
+
+        .workflow { width: 100%; height: 100%; direction: ltr; }
+        .workflow .link { fill: none; stroke: #b8bfd2; stroke-width: 3; marker-end: url(#workflow-arrow); }
+        .workflow .junction { fill: #b8bfd2; }
+        .workflow .stage { fill: #fff; stroke: #d8ddea; stroke-width: 2; }
+        .workflow .stage.branch { fill: var(--teal-soft); stroke: var(--teal); }
+        .workflow .stage.active { fill: var(--accent); stroke: var(--accent); }
+        .workflow .stage-no { fill: var(--accent); font-family: "Cairo", sans-serif; font-size: 13px; font-weight: 850; text-anchor: middle; }
+        .workflow .stage.branch + .stage-no { fill: var(--teal); }
+        .workflow .stage-name { fill: var(--ink); font-family: "Cairo", sans-serif; font-size: 16px; font-weight: 780; text-anchor: middle; direction: ltr; unicode-bidi: normal; }
+        .workflow .active-text { fill: #fff; }
+
+        .page-workflow .feature-box { min-height: 19.5mm; }
+        .page-quality .screen-frame {height: 42mm;}
+        .page-quality .intro { padding-bottom: 2.4mm; }
+        .page-finance .screen-frame {height: 103mm;}
+        .page-settings .feature-box { min-height: 21mm; }
+
+
+        .screen-frame--page-02{
+        height: 77mm !important;
+        }
+
+
+
+
+        .screen-frame--page-07{
+        height: 77mm !important;
+        }
+
+
+
+
+
+
+
+
+
+
+        @page { size: A4 portrait; margin: 0; }
+
+        @media print {
+            html, body { background: #fff; }
+            .page { margin: 0; box-shadow: none; }
+        }
+
+        @media screen and (max-width: 850px) {
+            .page {
+                width: 100%;
+                height: auto;
+                min-height: 100vh;
+                margin: 0 0 18px;
+                padding: 24px 18px;
+            }
+
+            .feature-grid,
+            .class-grid,
+            .process-strip,
+            .portal-strip,
+            .platform-strip { grid-template-columns: 1fr; }
+
+            .screen-frame,
+            .workflow-frame { height: auto; min-height: 280px; }
+            .comparison,
+            .route-table { display: block; overflow-x: auto; }
+        }
+    </style>
+</head>
+<body>
+    <main id="handout"></main>
+
+    <script>
+        var pages = [
+            {
+                number: "01", className: "page-workflow", category: "المسار والصلاحيات",
+                title: "كل طلب يسلك المسار المناسب داخل المختبر",
+                lead: "يبدأ كل طلب من Design، ثم يتفرع حسب نوع العمل والمادة. في الوقت نفسه، يرى كل موظف المراحل المرتبطة بدوره فقط.",
+                type: "workflow",
+                contextTitle: "المسار ليس قائمة ثابتة",
+                contextText: "يحدد النظام المسار المناسب للعمل، ويتجاوز المراحل غير المطلوبة. النتيجة: انتقال أوضح بين الأقسام، ومسؤولية محددة في كل خطوة، ومسار واحد يمكن الرجوع إليه عند السؤال عن الطلب.",
+                figureCaption: "خريطة مسارات الإنتاج من Design حتى Delivery",
+                features: [
+                    { title: "صلاحيات كل مرحلة", text: "الموظف يرى ويستلم وينهي المراحل المرتبطة بدوره." },
+                    { title: "التوجيه حسب العمل", text: "المادة ونوع العمل يحددان الفرع المناسب من المسار." },
+                    { title: "إعادة الطلب للانتظار", text: "إرجاع المرحلة عند الحاجة مع بقاء الطلب في مساره.", secondary: true },
+                    { title: "إكمال إداري", text: "تنفيذ الإجراء الاستثنائي من مستخدم مخول فقط.", secondary: true }
+                ],
+                cue: ""
+            },
+            {
+                number: "02", category: "مركز المتابعة", title: "تتبّع كل طلب من شاشة واحدة",
+                lead: "ابحث برقم الطلب أو الطبيب أو المريض، وشاهد المرحلة الحالية، الموظف المسؤول، الموعد، وما ينتظر التنفيذ من دون التنقل بين الأقسام.",
+                type: "standard", screenshot: "Operations Dashboard / Live Monitor",
+                figureCaption: "الطلبات موزعة حسب المرحلة والحالة الحالية",
+                features: [
+                    { title: "شاشة المراقبة الحية", text: "صورة مباشرة لكل قسم وما ينتظر العمل الآن." },
+                    { title: "تتبّع الطلب", text: "المرحلة الحالية والحالة وموعد التسليم في مكان واحد." },
+                    { title: "البحث الشامل", text: "الوصول للطلب من رقمه أو بيانات الطبيب أو المريض." },
+                    { title: "المسؤول عن المرحلة", text: "الفني المكلف ظاهر مع الطلب بدلاً من السؤال اليدوي." },
+                    { title: "إجراءات جماعية", text: "تشغيل أو إنهاء مجموعة طلبات من الشاشة نفسها.", secondary: true },
+                    { title: "الأجهزة والتنبيهات", text: "متابعة الدفعات والأجهزة والملاحظات المرتبطة بالعمل.", secondary: true }
+                ],
+                comparison: { title: "الفرق في المتابعة اليومية", rows: [
+                    ["مكان الطلب", "بحث بين الأقسام أو اتصال بالموظفين.", "المرحلة والحالة ظاهرتان فوراً."],
+                    ["المسؤول", "السؤال يدوياً عمن يعمل على الطلب.", "اسم الفني مرتبط بالمرحلة."],
+                    ["الموعد", "ملاحظة منفصلة يصعب متابعتها.", "تاريخ التسليم يظهر مع الطلب."]
+                ]},
+                cue: ""
+            },
+            {
+                number: "03", className: "page-quality", category: "الحوكمة والجودة",
+                title: "كل تغيير وقرار جودة يبقى مرتبطاً بالطلب",
+                lead: "من أنشأ الطلب، من نقله، متى تغير، ولماذا أعيد العمل؟ السجل يجمع الحركة والقرار والمسؤول في مكان واحد.",
+                type: "quality", screenshot: "Case Audit History / QC Incident",
+                figureCaption: "سجل الطلب وحالات الجودة المرتبطة به",
+                classifications: ["Redo", "Repeat", "Modification", "Rejection"],
+                reasons: ["لون غير مطابق", "تلامس ضيق", "إطباق مرتفع", "مشكلة بالحواف", "Milling Error", "سبب مخصص"],
+                features: [
+                    { title: "سجل التدقيق", text: "المستخدم والوقت والمرحلة لكل حركة على الطلب." },
+                    { title: "تفاصيل الطلب والمرفقات", text: "الملفات والملاحظات تبقى مع سجل العمل." },
+                    { title: "أسباب الإخفاق", text: "تسجيل سبب واضح وقابل للتخصيص لكل حالة." },
+                    { title: "تقارير الجودة", text: "مراجعة QC والتكرارات وأسباب الأعمال المعادة." },
+                    { title: "قفل وفتح الطلب", text: "منع التعديل أو السماح به حسب الصلاحية.", secondary: true },
+                    { title: "الحذف والاستعادة", text: "استعادة الطلب المحذوف مع الحفاظ على تاريخه.", secondary: true }
+                ],
+                comparison: { title: "الفرق عند حدوث مشكلة", rows: [
+                    ["القرار", "محادثة أو ملاحظة يصعب الرجوع إليها.", "نوع المعالجة والسبب مسجلان."],
+                    ["المسؤولية", "غير واضحة بعد مرور الوقت.", "المستخدم والوقت محفوظان في السجل."],
+                    ["العمل المعاد", "يُعامل كطلب منفصل.", "يبقى مرتبطاً بالطلب الأصلي."]
+                ]},
+                cue: ""
+            },
+            {
+                number: "04", category: "الجدولة والتسليم", title: "طلبات اليوم والغد واضحة حتى تأكيد الاستلام",
+                lead: "يعرض جدول التسليم الطبيب والمريض والوقت والمسؤول، ويمنح العميل قناة مستقلة لمتابعة حالته عند تفعيل البوابة.",
+                type: "delivery", screenshot: "Delivery Schedule",
+                figureCaption: "جدول اليوم والغد وتفاصيل مسؤول التسليم",
+                features: [
+                    { title: "جدول اليوم والغد", text: "الأعمال مرتبة حسب التاريخ والوقت المطلوب." },
+                    { title: "تعديل الموعد", text: "تحديث تاريخ ووقت التسليم من سجل الطلب." },
+                    { title: "مسؤول التسليم", text: "إسناد الطلب إلى الموظف المكلف ومتابعة حالته." },
+                    { title: "سند الاستلام", text: "عرض وطباعة سند واضح عند تسليم العمل." },
+                    { title: "دخول مستقل للعميل", text: "صفحة دخول منفصلة عن موظفي المختبر.", secondary: true },
+                    { title: "متابعة العميل", text: "عرض حالته من بوابته الخاصة عند تفعيلها.", secondary: true }
+                ],
+                comparison: { title: "الفرق في التسليم", rows: [
+                    ["تحديث العميل", "اتصالات متكررة للسؤال عن الحالة.", "حالة الطلب متاحة من البوابة."],
+                    ["جدول السائق", "قائمة يدوية أو رسائل متفرقة.", "جدول موحد حسب الموعد والمسؤول."],
+                    ["إثبات الاستلام", "لا يوجد نموذج موحد.", "سند قابل للعرض والطباعة."]
+                ]},
+                cue: ""
+            },
+            {
+                number: "05", category: "ملف العميل", title: "طلبات العميل ورصيده في مكان واحد",
+                lead: "افتح ملف العميل لترى طلباته الجارية والمكتملة، المرحلة الحالية لكل طلب، الفواتير والدفعات والرصيد من دون تجميع يدوي.",
+                type: "client", screenshot: "Client Profile / Orders / Balance",
+                figureCaption: "ملف العميل والوصول المباشر إلى طلباته وحسابه",
+                contextTitle: "الإجابة أمام العميل تبدأ من شاشة واحدة",
+                contextText: "يمكن الانتقال من بيانات العميل إلى طلباته ومراحلها، ثم إلى الرصيد والفواتير والدفعات. هذه الصفحة هي نقطة البداية للسؤال التشغيلي والمالي معاً.",
+                features: [
+                    { title: "رصيد العميل", text: "معرفة المبلغ المستحق مباشرة من ملفه.", emphasis: true },
+                    { title: "طلبات العميل ومراحلها", text: "كل الطلبات مع المرحلة والحالة الحالية.", emphasis: true },
+                    { title: "الفواتير والدفعات", text: "السجل المالي المرتبط بالعميل والطلبات." },
+                    { title: "الرصيد الافتتاحي", text: "نقطة البداية المعتمدة لحساب العميل." },
+                    { title: "خصم الحساب", text: "ضبط الخصم الخاص بالعميل عند الحاجة.", secondary: true },
+                    { title: "تفعيل أو تعطيل السجل", text: "إيقاف التعامل مع الحفاظ على البيانات والتاريخ.", secondary: true }
+                ],
+                cue: ""
+            },
+            {
+                number: "06", className: "page-finance", category: "الحسابات والتحصيل",
+                title: "كشف حساب عربي جاهز للطباعة لأي فترة",
+                lead: "يعرض الرصيد الافتتاحي، الفواتير، الدفعات، الخصومات والرصيد الختامي في تسلسل واضح يناسب العرض والطباعة على A4.",
+                type: "finance", screenshot: "Account Statement / Client Balances",
+                figureCaption: "كشف الحساب وأرصدة العملاء خلال الفترة المحددة",
+                features: [
+                    { title: "كشف الحساب", text: "حركة مالية كاملة خلال الفترة مع رصيد ختامي واضح.", emphasis: true },
+                    { title: "أرصدة العملاء", text: "مراجعة المبالغ المستحقة من مكان واحد.", emphasis: true },
+                    { title: "فاتورة لكل طلب", text: "الفاتورة مرتبطة بالعمل ويمكن عرضها وطباعتها." },
+                    { title: "تسجيل الدفعة", text: "إضافة التحصيل إلى حساب العميل وسجله المالي." },
+                    { title: "دفعات المحصلين", text: "متابعة الدفعات المرتبطة بالموظف المحصل.", secondary: true },
+                    { title: "إيصال الدفعة", text: "إيصال مستقل قابل للعرض والطباعة.", secondary: true }
+                ],
+                comparison: { title: "الفرق في متابعة الحساب", rows: [
+                    ["الرصيد", "ملفات وأرقام موزعة بين أكثر من مكان.", "رصيد العميل ظاهر مباشرة."],
+                    ["إعداد الكشف", "تجميع يدوي للفواتير والدفعات.", "اختيار فترة والحصول على كشف جاهز."],
+                    ["التحصيل", "إيصالات منفصلة عن سجل العميل.", "الدفعة مرتبطة بحسابه ويمكن طباعتها."]
+                ]},
+                cue: ""
+            },
+            {
+                number: "07", category: "التقارير والإدارة", title: "أرقام التشغيل تشرح أداء المختبر",
+                lead: "حوّل العمل اليومي إلى قراءة واضحة للوحدات وأنواع الأعمال والمواد والجودة والتكرارات والزرعات خلال الفترة التي تختارها.",
+                type: "reports", screenshot: "Reports Dashboard",
+                figureCaption: "لوحة الإدارة وتقارير الإنتاج والجودة",
+                features: [
+                    { title: "لوحة الإدارة", text: "نظرة سريعة على حجم العمل والحالة العامة." },
+                    { title: "الوحدات والإنتاج", text: "قياس عدد الوحدات خلال الفترة المختارة." },
+                    { title: "أنواع الأعمال والمواد", text: "فهم توزيع الإنتاج حسب الخدمة والمادة." },
+                    { title: "الجودة والتكرارات", text: "متابعة نتائج QC والأعمال المعادة." },
+                    { title: "الزرعات", text: "تقرير مستقل لأعمال الزرعات." },
+                    { title: "التحليل الإداري", text: "قراءة مؤشرات التشغيل من شاشة الإدارة." },
+                    { title: "استخدام الهاتف", text: "إحصاءات الاستخدام عبر الأجهزة المحمولة.", secondary: true },
+                    { title: "إعدادات الفترة", text: "تغيير نطاق التاريخ لقراءة الأداء المطلوبة.", secondary: true }
+                ],
+                comparison: { title: "الفرق في اتخاذ القرار", rows: [
+                    ["المراجعة", "تجميع الأرقام في نهاية الشهر.", "تقارير حسب الفترة عند الحاجة."],
+                    ["أسباب الخسارة", "لا تظهر بصورة موحدة.", "QC والتكرارات ضمن تقارير مستقلة."],
+                    ["الإنتاج", "انطباع عام يصعب قياسه.", "وحدات موزعة حسب النوع والمادة."]
+                ]},
+                cue: ""
+            },
+            {
+                number: "08", className: "page-settings", category: "المستخدمون والإعداد",
+                title: "صلاحيات واضحة وقوائم تناسب طريقة عمل المختبر",
+                lead: "أنشئ حساباً لكل موظف، حدد ما يراه وما يستطيع تنفيذه، ثم اضبط المواد وأنواع الأعمال والقوائم التشغيلية من دون تغيير طريقة العمل الأساسية.",
+                type: "settings",
+                contextTitle: "كل دور يرى ما يحتاجه فقط",
+                contextText: "تُفصل صلاحيات التنفيذ والحسابات والإدارة حسب الدور. تبقى إدارة الجهة والهوية ضمن مستوى المنصة الداخلي، بعيداً عن شاشة العمل اليومية.",
+                features: [
+                    { title: "المستخدمون والصلاحيات", text: "حساب مستقل لكل موظف وصلاحيات حسب المهمة." },
+                    { title: "Materials & Job Types", text: "إعداد المواد والخدمات التي يقدمها المختبر." },
+                    { title: "Implants & Tags", text: "قوائم للزرعات وتنظيم الطلبات بالوسوم." },
+                    { title: "أسباب الإخفاق", text: "تخصيص الأسباب المستخدمة في قرارات الجودة." },
+                    { title: "تعطيل المستخدم", text: "إيقاف الوصول مع الحفاظ على السجل.", secondary: true },
+                    { title: "إدارة الجهة والهوية", text: "ملحق داخلي لإدارة الجهة وشعاراتها وحالتها.", secondary: true }
+                ],
+                cue: ""
+            }
+        ];
+
+        var workflowSvg =
+            '<svg class="workflow" viewBox="0 0 1050 320" role="img" aria-label="Job workflow from Design to Delivery">' +
+                '<defs><marker id="workflow-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#b8bfd2"></path></marker></defs>' +
+                '<path class="link" d="M 145 155 H 168 V 82 H 190"></path><path class="link" d="M 145 155 H 168 V 226 H 190"></path>' +
+                '<path class="link" d="M 320 82 H 344 V 50 H 370"></path><path class="link" d="M 320 82 H 344 V 130 H 370"></path>' +
+                '<path class="link" d="M 500 50 H 535 V 155 H 570"></path><path class="link" d="M 500 130 H 535 V 155 H 570"></path>' +
+                '<path class="link" d="M 320 226 H 535 V 155 H 570"></path><path class="link" d="M 700 155 H 750"></path><path class="link" d="M 850 155 H 900"></path>' +
+                '<circle class="junction" cx="168" cy="155" r="4"></circle><circle class="junction" cx="344" cy="82" r="4"></circle><circle class="junction" cx="535" cy="155" r="4"></circle>' +
+                '<rect class="stage" x="15" y="121" width="130" height="68" rx="12"></rect><text class="stage-no" x="80" y="144">01</text><text class="stage-name" x="80" y="172">Design</text>' +
+                '<rect class="stage branch" x="190" y="48" width="130" height="68" rx="12"></rect><text class="stage-no" x="255" y="71">02</text><text class="stage-name" x="255" y="99">Milling</text>' +
+                '<rect class="stage branch" x="190" y="192" width="130" height="68" rx="12"></rect><text class="stage-no" x="255" y="215">03</text><text class="stage-name" x="255" y="243">3D Printing</text>' +
+                '<rect class="stage branch" x="370" y="16" width="130" height="68" rx="12"></rect><text class="stage-no" x="435" y="39">04</text><text class="stage-name" x="435" y="67">Sintering</text>' +
+                '<rect class="stage branch" x="370" y="96" width="130" height="68" rx="12"></rect><text class="stage-no" x="435" y="119">05</text><text class="stage-name" x="435" y="147">Pressing</text>' +
+                '<rect class="stage active" x="570" y="121" width="130" height="68" rx="12"></rect><text class="stage-no active-text" x="635" y="144">06</text><text class="stage-name active-text" x="635" y="172">Finishing</text>' +
+                '<rect class="stage" x="750" y="121" width="100" height="68" rx="12"></rect><text class="stage-no" x="800" y="144">07</text><text class="stage-name" x="800" y="172">QC</text>' +
+                '<rect class="stage" x="900" y="121" width="130" height="68" rx="12"></rect><text class="stage-no" x="965" y="144">08</text><text class="stage-name" x="965" y="172">Delivery</text></svg>';
+
+        function esc(value) {
+            return String(value).replace(/[&<>\"]/g, function (character) {
+                return { "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;" }[character];
+            });
+        }
+
+        function renderFeatures(features) {
+            return '<div class="feature-grid">' + features.map(function (feature, index) {
+                var classes = ['feature-box'];
+                if (feature.emphasis) { classes.push('emphasis'); }
+                if (feature.secondary) { classes.push('secondary'); }
+                return '<article class="' + classes.join(' ') + '"><span class="feature-index">' + String(index + 1).padStart(2, '0') + '</span><h2>' + esc(feature.title) + '</h2><p>' + esc(feature.text) + '</p></article>';
+            }).join('') + '</div>';
+        }
+
+        function renderComparison(comparison) {
+            if (!comparison) { return ''; }
+            return '<div class="section-title"><small>THE DIFFERENCE</small><span>' + esc(comparison.title) + '</span></div><table class="comparison"><thead><tr><th>المجال</th><th>دون نظام موحد</th><th>مع Solent</th></tr></thead><tbody>' + comparison.rows.map(function (row) {
+                return '<tr><td>' + esc(row[0]) + '</td><td class="manual">' + esc(row[1]) + '</td><td class="solent">' + esc(row[2]) + '</td></tr>';
+            }).join('') + '</tbody></table>';
+        }
+
+        function renderScreenshot(page) {
+            var pageClass = 'page-' + page.number;
+            return '<div class="screen-frame screen-frame--' + pageClass + '"><img class="shot-image shot-image--' + pageClass + '" src="assets/screens/' + page.number + '.png" alt="' + esc(page.screenshot) + '"><div class="shot-placeholder shot-placeholder--' + pageClass + '"><img class="ghost-logo" src="assets/solent-vertical.svg" alt=""><strong>أضف لقطة الشاشة المختارة هنا</strong><small>' + esc(page.screenshot) + '</small></div></div><div class="figure-caption"><strong>FIG. ' + page.number + '</strong><span>' + esc(page.figureCaption) + '</span></div>';
+        }
+
+        function renderWorkflow(page) {
+            var rows = [
+                ['Milling + Sintering', 'Design -> Milling -> Sintering -> Finishing -> QC -> Delivery', 'Pressing / 3D Printing'],
+                ['Milling + Pressing', 'Design -> Milling -> Pressing -> Finishing -> QC -> Delivery', 'Sintering / 3D Printing'],
+                ['3D Printing', 'Design -> 3D Printing -> Finishing -> QC -> Delivery', 'Milling / Furnaces']
+            ];
+            return '<div class="context-card"><strong>' + esc(page.contextTitle) + '</strong><p>' + esc(page.contextText) + '</p></div><div class="workflow-frame">' + workflowSvg + '</div><div class="figure-caption"><strong>FIG. 01</strong><span>' + esc(page.figureCaption) + '</span></div><div class="section-title"><small>ROUTING MATRIX</small><span>أمثلة مختصرة لمسارات العمل</span></div><table class="route-table"><thead><tr><th>الفرع</th><th>المسار</th><th>المراحل المتجاوزة</th></tr></thead><tbody>' + rows.map(function (row) {
+                return '<tr><td>' + esc(row[0]) + '</td><td class="route-flow">' + esc(row[1]) + '</td><td>' + esc(row[2]) + '</td></tr>';
+            }).join('') + '</tbody></table><div class="section-title"><small>ACCESS</small><span>الصلاحيات المرتبطة بالمسار</span></div>' + renderFeatures(page.features);
+        }
+
+        function renderQuality(page) {
+            return renderScreenshot(page) + '<div class="class-band"><div class="class-band-label">EVERY QUALITY EVENT HAS A CLEAR TYPE</div><div class="class-grid">' + page.classifications.map(function (item, index) {
+                return '<div class="class-item"><strong>' + (index + 1) + '</strong><span>' + esc(item) + '</span></div>';
+            }).join('') + '</div></div><div class="reason-panel"><strong>أمثلة على أسباب الإخفاق - والقائمة قابلة للتخصيص</strong><div class="reason-chips">' + page.reasons.map(function (reason) {
+                return '<span class="reason-chip">' + esc(reason) + '</span>';
+            }).join('') + '</div></div><div class="section-title"><small>CASE GOVERNANCE</small><span>ما يبقى محفوظاً مع الطلب</span></div>' + renderFeatures(page.features) + renderComparison(page.comparison);
+        }
+
+        function renderDelivery(page) {
+            return renderScreenshot(page) + '<div class="section-title"><small>DELIVERY</small><span>من الجدولة حتى الاستلام</span></div>' + renderFeatures(page.features) + '<div class="portal-strip"><div class="portal-item"><strong>جلسة مستقلة</strong><span>دخول العميل منفصل عن موظفي المختبر.</span></div><div class="portal-item"><strong>عرض الحالة</strong><span>الوصول إلى المعلومات المسموحة للعميل.</span></div><div class="portal-item"><strong>خيار إضافي</strong><span>تُعرض البوابة عندما تكون جزءاً من الاتفاق.</span></div></div>' + renderComparison(page.comparison);
+        }
+
+        function renderClient(page) {
+            return '<div class="context-card"><strong>' + esc(page.contextTitle) + '</strong><p>' + esc(page.contextText) + '</p></div>' + renderScreenshot(page) + '<div class="section-title"><small>CLIENT VIEW</small><span>البيانات المهمة أثناء الحديث مع العميل</span></div>' + renderFeatures(page.features) + '<div class="process-strip"><div class="process-step"><strong>العميل</strong><span>البيانات الأساسية</span></div><div class="process-step"><strong>الطلبات</strong><span>الحالة والمرحلة</span></div><div class="process-step"><strong>الحساب</strong><span>الفواتير والدفعات</span></div><div class="process-step"><strong>الرصيد</strong><span>المبلغ المستحق</span></div></div><div class="section-title"><small>QUICK ANSWERS</small><span>أسئلة يجيب عنها ملف العميل مباشرة</span></div><table class="route-table answer-table"><thead><tr><th>السؤال</th><th>مكان الإجابة</th><th>ما يظهر أمامك</th></tr></thead><tbody><tr><td>أين الطلب؟</td><td>طلبات العميل</td><td>المرحلة والحالة الحالية.</td></tr><tr><td>كم الرصيد؟</td><td>حساب العميل</td><td>الرصيد المستحق مباشرة.</td></tr><tr><td>ما آخر حركة؟</td><td>الفواتير والدفعات</td><td>آخر فاتورة أو دفعة مسجلة.</td></tr></tbody></table>';
+        }
+
+        function renderSettings(page) {
+            return '<div class="context-card"><strong>' + esc(page.contextTitle) + '</strong><p>' + esc(page.contextText) + '</p></div><div class="section-title"><small>PERMISSIONS MATRIX</small><span>مثال على توزيع الوصول حسب الدور</span></div><table class="route-table permission-table"><thead><tr><th>الدور</th><th>عرض الطلبات</th><th>تنفيذ المراحل</th><th>الحسابات</th><th>الإدارة</th></tr></thead><tbody><tr><td>الفني</td><td class="permission-scope">ضمن دوره</td><td class="permission-yes">نعم</td><td class="permission-no">-</td><td class="permission-no">-</td></tr><tr><td>التسليم</td><td class="permission-scope">طلبات التسليم</td><td class="permission-scope">التسليم</td><td class="permission-no">-</td><td class="permission-no">-</td></tr><tr><td>المحاسب</td><td class="permission-scope">حسب الصلاحية</td><td class="permission-no">-</td><td class="permission-yes">نعم</td><td class="permission-no">-</td></tr><tr><td>المدير</td><td class="permission-yes">نعم</td><td class="permission-yes">نعم</td><td class="permission-yes">نعم</td><td class="permission-yes">نعم</td></tr><tr><td>العميل</td><td class="permission-scope">بياناته فقط</td><td class="permission-no">-</td><td class="permission-scope">حسابه</td><td class="permission-no">-</td></tr></tbody></table><div class="section-title"><small>CONFIGURATION</small><span>قوائم النظام وإدارة الوصول</span></div>' + renderFeatures(page.features) + '<div class="section-title"><small>PLATFORM APPENDIX</small><span>ملحق داخلي لمالك المنصة</span></div><div class="platform-strip"><div class="platform-item"><strong>إضافة جهة</strong><span>إنشاء سجل مستقل لمختبر جديد.</span></div><div class="platform-item"><strong>هوية مستقلة</strong><span>شعارات وإعدادات خاصة بكل جهة.</span></div><div class="platform-item"><strong>إدارة داخلية</strong><span>يمكن عدم عرض هذا الملحق أثناء شرح العميل.</span></div></div>';
+        }
+
+        function renderBody(page) {
+            if (page.type === 'workflow') { return renderWorkflow(page); }
+            if (page.type === 'quality') { return renderQuality(page); }
+            if (page.type === 'delivery') { return renderDelivery(page); }
+            if (page.type === 'client') { return renderClient(page); }
+            if (page.type === 'settings') { return renderSettings(page); }
+            return renderScreenshot(page) + '<div class="section-title"><small>KEY FEATURES</small><span>النقاط التي تستحق العرض</span></div>' + renderFeatures(page.features) + renderComparison(page.comparison);
+        }
+
+        function renderPage(page) {
+            var section = document.createElement('section');
+            section.className = 'page ' + (page.className || '');
+            section.innerHTML = '<header class="header"><img class="brand-logo" src="assets/solent-horizontal.svg" alt="Solent"><div class="page-meta"><span>SYSTEM WALKTHROUGH</span><strong>' + page.number + ' / 08</strong></div></header><div class="intro"><div class="eyebrow"><span class="eyebrow-number">' + page.number + '</span><span class="eyebrow-label">' + esc(page.category) + '</span></div><h1>' + esc(page.title) + '</h1><p class="lead">' + esc(page.lead) + '</p></div>' + renderBody(page) + esc(page.cue) + '</span></div><footer class="footer"><strong>Solent</strong><span>' + esc(page.category) + '</span><span>' + page.number + ' / 08</span></footer>';
+            var screenshot = section.querySelector('.shot-image');
+            if (screenshot) {
+                screenshot.addEventListener('load', function () { screenshot.parentElement.classList.add('has-image'); });
+                screenshot.addEventListener('error', function () { screenshot.style.display = 'none'; });
+                if (screenshot.complete && screenshot.naturalWidth > 0) { screenshot.parentElement.classList.add('has-image'); }
+            }
+            return section;
+        }
+
+        var handout = document.getElementById('handout');
+        pages.forEach(function (page) { handout.appendChild(renderPage(page)); });
+    </script>
+</body>
+</html>

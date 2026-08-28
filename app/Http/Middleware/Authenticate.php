@@ -16,9 +16,26 @@ class Authenticate extends Middleware
     public function handle($request, Closure $next, ...$guards)
     {
         //check here if the user is authenticated
-        if ( ! $this->auth->user() || !Auth()->check() )
+        $user = $this->auth->user();
+        if (! $user || ! Auth()->check())
         {
             return redirect("/login");
+        }
+
+        $attributes = method_exists($user, 'getAttributes') ? $user->getAttributes() : [];
+        $isDisabled =
+            (array_key_exists('status', $attributes) && ! (bool) $user->status) ||
+            (array_key_exists('active', $attributes) && ! (bool) $user->active);
+
+        if ($isDisabled) {
+            $this->auth->logout();
+
+            if ($request->hasSession()) {
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+            }
+
+            return redirect('/login')->with('error', 'This account is disabled.');
         }
 
         return $next($request);

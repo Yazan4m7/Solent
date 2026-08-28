@@ -16,6 +16,9 @@ return [
         'case_list' => env('TENANT_CACHE_CASE_LIST_TTL', 30),
     ],
 
+    'platform_admin_host' => env('PLATFORM_ADMIN_HOST', 'admin.solentjo.com'),
+    'platform_admin_connection' => 'platform_admin',
+    'platform_admin_database' => env('PLATFORM_ADMIN_DB_DATABASE', env('LANDLORD_DB_DATABASE', env('DB_DATABASE', 'forge'))),
     'platform_admin_emails' => array_filter(array_map('trim', explode(',', env('PLATFORM_ADMIN_EMAILS', '')))),
 
     'provisioning' => [

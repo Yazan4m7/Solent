@@ -35,13 +35,13 @@
             <div class="row " style="padding-bottom:0">
                 <div class=" col-sm-6 col-md-3 mb-3">
                     <div class="kt-subheader__search" style="">
-                        <label>From (Start of):</label>
+                        <label class="solent-filter-label"><i class="fa-regular fa-calendar" aria-hidden="true"></i><span>From (Start of):</span></label>
                         <input type="date" class="form-control" name="from" value="{{$from}}">
                     </div>
                 </div>
                 <div class="col-12 col-sm-6 col-md-3 mb-3">
                     <div class="kt-subheader__search" style="">
-                        <label>To (End of):</label>
+                        <label class="solent-filter-label"><i class="fa-regular fa-calendar" aria-hidden="true"></i><span>To (End of):</span></label>
                         <input type="date" class="form-control" name="to" value="{{$to}}">
                     </div>
                 </div>

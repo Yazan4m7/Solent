@@ -337,7 +337,7 @@ $permissions = Cache::get('user'.Auth()->user()->id);
                                                     </button>
                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
-                                                        <a class="dropdown-item" href="{{route('assign-to-me',['caseId'=> $case->id,'stage'=>$stage] )}}">Assign To Me</a>
+                                                        <a class="dropdown-item" href="{{route('assign-to-me',['caseId'=> $case->id,'stage'=>$stage] )}}">{{ trans('ui.dom')['Assign To Me'] ?? 'Assign To Me' }}</a>
                                                         <a class="dropdown-item" href="{{route('view-case', ['id' => $case->id, 'stage' =>$stage])}}">View case</a>
                                                         @if(Auth()->user()->is_admin || ($permissions && ($permissions->contains('permission_id', 102)||$permissions->contains('permission_id', 1))))
                                                             <a class="dropdown-item" href="{{route('edit-case-view',$case->id)}}">Edit case</a>

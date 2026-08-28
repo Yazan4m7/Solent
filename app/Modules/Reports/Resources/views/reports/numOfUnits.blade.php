@@ -7,6 +7,7 @@
    <!-- styles to carry on while printing -->
 <div id="style">
     <style>
+        @media print {
         .KorvexPanel {
             padding-bottom:10px;
             padding-top:10px;
@@ -70,6 +71,7 @@
         .doctorName{
             font-weight: bold;
         }
+        }
     </style>
 </div>
     <!-- styles for the view only -->
@@ -77,21 +79,34 @@
       table{
           margin-bottom:5vh;}
     </style>
-    <form class="kt-form filtersPanel bd-callout bd-callout-info KorvexPanel" method="GET" action="{{route('num-of-units-report')}}" style="height:30%">
-        <div class="row h-50" style="padding-left: 10px;padding-top: 0;padding-bottom: 0px">
+    @include('reports.partials.report-ui')
 
-            <div class="col-lg-3 col-md-3 col-6 mb-3">
-                <div class="kt-subheader__search" style="">
-                    <label>Date Range:</label>
+    <div class="solent-report-page">
+    @include('reports.partials.report-header', [
+        'title' => 'Units Summary',
+        'description' => 'Compare completed units by doctor and material for the selected period.',
+        'icon' => 'fas fa-layer-group',
+    ])
+
+    <form class="kt-form filtersPanel KorvexPanel report-filters" method="GET" action="{{route('num-of-units-report')}}">
+        @include('reports.partials.report-section-heading', [
+            'title' => 'Filters',
+            'description' => 'Choose the period, materials, and doctors to include.',
+            'icon' => 'fas fa-sliders-h',
+        ])
+        <div class="report-filter-grid">
+            <div class="report-filter">
+                <div class="kt-subheader__search">
+                    <label class="report-filter-label"><i class="far fa-calendar" aria-hidden="true"></i><span>Date Range:</span></label>
                     <input class="form-control dateRange" name="dateRange" autocomplete="off" readonly
-                           value="{{$dateRangeValue ?? "Select Period"}}" style="cursor: pointer;">
+                           value="{{$dateRangeValue ?? "Select Period"}}">
                 </div>
             </div>
-            <div class="col-lg-3 col-md-3 col-6 mb-3">
+            <div class="report-filter">
                 @if(isset($materials))
                     <div class="dropdown">
-                        <label>Material:</label>
-                        <select style="width:100%" class="selectpicker clearOnAll" multiple name="material[]"
+                        <label class="report-filter-label"><i class="fas fa-cubes" aria-hidden="true"></i><span>Material:</span></label>
+                        <select class="selectpicker clearOnAll" multiple name="material[]"
                                 id="material" data-live-search="true" title="All" data-hide-disabled="true">
 
                                 <option value="all" {{(isset($selectedMaterials) && $selectedMaterials== 'all') ? 'selected' : ''}}>
@@ -105,11 +120,11 @@
                     </div>
                 @endif
             </div>
-            <div class="col-lg-3 col-md-3 col-6 mb-3">
+            <div class="report-filter">
                 @if(isset($clients))
                     <div class="dropdown">
-                        <label>Doctor:</label>
-                        <select style="width:100%" class="selectpicker clearOnAll" multiple name="doctor[]"
+                        <label class="report-filter-label"><i class="fas fa-user-md" aria-hidden="true"></i><span>Doctor:</span></label>
+                        <select class="selectpicker clearOnAll" multiple name="doctor[]"
                                 id="doctor" data-live-search="true" title="All" data-hide-disabled="true">
 
                                 <option value="all" {{(isset($selectedClients) && $selectedClients== 'all') ? 'selected' : ''}}>
@@ -124,182 +139,70 @@
                 @endif
             </div>
         </div>
-        <div class="row h-50" style="padding-left: 10px;padding-top: 0;padding-bottom: 0px">
-            <div class="col-lg-3 col-md-3 col-3 mb-3">
-                <div class="kt-subheader__search">
-                    <label></label>
-                    <div class="kt-form__actions">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-3 col-3 mb-3">
-                <div class="kt-subheader__search">
-                    <label></label>
-                    <div class="kt-form__actions">
-                        <button  class="btn btn-secondary printBtn">Print</button>
-                    </div>
-                </div>
-            </div>
+        <div class="report-filter-actions">
+            <button type="submit" class="btn btn-primary"><i class="fas fa-filter" aria-hidden="true"></i><span>Apply Filters</span></button>
+            <button type="button" class="btn btn-secondary printBtn"><i class="fas fa-print" aria-hidden="true"></i><span>Print</span></button>
         </div>
     </form>
 
-    <div class="KorvexPanel" style="">
-        <div class="col-lg-12 col-sm-12">
-            <div class=" ">
-                <div class="">
-                    <p class="text-muted"></p>
-                    <div class="" style="overflow-x:auto;">
-                        <div id="totalsTableHolder"> </div>
-                        @foreach($selectedMonths as $month)
-                        <table border="1" class="xl649957 printable sunriseTable" style="border-collapse:collapse;">
-                            <thead>
-                            <tr class="bottom-Border subHeaderRow" style="mso-height-source:userset;">
-                                <th class="" style="background-color: transparent !important;">Month:</th>
-
-                                <th colspan="{{count($selectedMaterials)+1}}"
-                                    style="height:21.95pt;border-top:none">{{$month}}</th>
-
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <!-- The Months row -->
-
-                            <!--The Materials row -->
-                            <tr class=" border-bottom tableHeaderRow">
-                                <td class="xl639957" style="height:21.95pt;border-top:none">Dr Name</td>
-
-                                    @foreach($materials as $d)
-                                        @if (isset($selectedMaterials) && in_array($d->id ,$selectedMaterials))
-                                            <td class="xl639957" style="">{{$d->name}}</td>
-                                        @endif
-                                    @endforeach
-                                    <td class="totalsCol" style="">All</td>
-
-                            </tr>
-                            <!-- Main ROWS -->
-                            @foreach($clients as $client )
-                                <!-- if all is selected, don't check if client is selected or not, otherwise check each one by id -->
-                                @if(!in_array('all' ,$selectedClients))
-                                    @if(isset($selectedClients) && !in_array($client->id ,$selectedClients))
-                                        @continue;
-                                    @endif
-                                @endif
-
-                                <tr class="dataRow" style="">
-                                    <td class="xl669957 doctorName">{{$client->name}}</td>
-
-                                        @php
-                                            $docTotalUnits = 0;
-                                            $currentTotal = 0;
-
-                                        @endphp
-
-                                        @foreach($selectedMaterials as $matId)
-                                            @php
-
-                                                    $currentTotal= $client->numOfUnitsByMaterial($matId,$month);
-                                                    $docTotalUnits += $currentTotal;
-                                                    $totalsArray[$month][$matId] += $currentTotal;
-                                                    $totals[$client->id][$matId] += $currentTotal;
-                                            @endphp
-                                            <td class="xl649957">{{$currentTotal}}</td>
-                                        @endforeach
-                                        <td style="" class="totalsCol"><b>{{$docTotalUnits}}</b></td>
-                                        @php $totalsArray[$month][99] += $docTotalUnits; @endphp
-
-                                </tr>
-                            @endforeach
-
-
-                            <!-- Totals for whole lab Row -->
-                            <tr style="">
-                                <td class="xl669957">Totals</td>
-
-                                    @foreach($totalsArray[$month] as $total)
-                                        <td class="totalsRow" style="">{{$total}}</td>
-                                    @endforeach
-
-                            </tr>
-                            </tbody>
-                        </table>
+    <div class="KorvexPanel report-results" data-report-consolidated="true">
+        @php
+            $filteredClients = in_array('all', $selectedClients, true)
+                ? $clients
+                : $clients->whereIn('id', $selectedClients);
+            $reportMaterials = $materials->whereIn('id', $selectedMaterials)->values();
+            $reportTotals = array_fill_keys($reportMaterials->pluck('id')->all(), 0);
+        @endphp
+        @include('reports.partials.report-section-heading', [
+            'title' => 'Units by doctor',
+            'description' => 'Material totals for every doctor in the selected range.',
+            'icon' => 'fas fa-table',
+            'count' => $filteredClients->count(),
+            'countLabel' => 'doctors',
+        ])
+        @include('reports.partials.report-range')
+        <div class="report-table-scroll">
+            <table border="1" class="xl649957 printable sunriseTable report-table" style="border-collapse:collapse;">
+                <thead>
+                    <tr class="tableHeaderRow">
+                        <th>Dr Name</th>
+                        @foreach($reportMaterials as $reportMaterial)
+                            <th>{{ $reportMaterial->name }}</th>
                         @endforeach
-                        <div id="totalsTableTempHolder">
-                        <table border="1" class="xl649957 printable sunriseTable " style="border-collapse:collapse;">
-                                <thead>
-                                <tr class="bottom-Border subHeaderRow" style="mso-height-source:userset;">
-                                    <th class="" style="background-color: transparent !important;">Month:</th>
-
-                                    <th colspan="{{count($selectedMaterials)+1}}"
-                                        style="height:21.95pt;border-top:none">All Time</th>
-
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <!-- The Months row -->
-
-                                <!--The Materials row -->
-                                <tr class=" border-bottom tableHeaderRow">
-                                    <td class="xl639957" style="height:21.95pt;border-top:none">Dr Name</td>
-
-                                    @foreach($materials as $d)
-                                        @if (isset($selectedMaterials) && in_array($d->id ,$selectedMaterials))
-                                            <td class="xl639957" style="">{{$d->name}}</td>
-                                        @endif
-                                    @endforeach
-                                    <td class="totalsCol" style="">All</td>
-
-                                </tr>
-                                <!-- Main ROWS -->
-                                @foreach($clients as $client )
-                                    <!-- if all is selected, don't check if client is selected or not, otherwise check each one by id -->
-                                    @if(!in_array('all' ,$selectedClients))
-                                        @if(isset($selectedClients) && !in_array($client->id ,$selectedClients))
-                                            @continue;
-                                        @endif
-                                    @endif
-
-                                    <tr class="dataRow" style="">
-                                        <td class="xl669957 doctorName">{{$client->name}}</td>
-
-                                        @php
-                                            $docTotalUnits = 0;
-                                            $currentTotal = 0;
-                                        @endphp
-
-                                        @foreach($selectedMaterials as $matId)
-                                            @php
-                                                $currentTotal= $totals[$client->id][$matId];
-                                                $docTotalUnits += $currentTotal;
-                                                $totals2[$matId] += $currentTotal;
-
-                                            @endphp
-                                            <td class="xl649957">{{$currentTotal}}</td>
-                                        @endforeach
-                                        <td style="" class="totalsCol"><b>{{$docTotalUnits}}</b></td>
-                                        @php $totals2[99] += $docTotalUnits; @endphp
-
-                                    </tr>
-                                @endforeach
-
-
-                                <!-- Totals for whole lab Row -->
-                                <tr style="">
-                                    <td class="xl669957">Totals</td>
-
-                                    @foreach($totals2 as $total)
-                                        <td class="totalsRow" style="">{{$total}}</td>
-                                    @endforeach
-
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
+                        <th class="totalsCol">All</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($filteredClients as $client)
+                        @php $doctorTotal = 0; @endphp
+                        <tr class="dataRow">
+                            <td class="doctorName">{{ $client->name }}</td>
+                            @foreach($reportMaterials as $reportMaterial)
+                                @php
+                                    $currentTotal = collect($selectedMonths)->sum(function ($month) use ($client, $reportMaterial) {
+                                        return $client->numOfUnitsByMaterial($reportMaterial->id, $month);
+                                    });
+                                    $doctorTotal += $currentTotal;
+                                    $reportTotals[$reportMaterial->id] += $currentTotal;
+                                @endphp
+                                <td>{{ $currentTotal }}</td>
+                            @endforeach
+                            <td class="totalsCol"><b>{{ $doctorTotal }}</b></td>
+                        </tr>
+                    @endforeach
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Totals</th>
+                        @foreach($reportMaterials as $reportMaterial)
+                            <th>{{ $reportTotals[$reportMaterial->id] }}</th>
+                        @endforeach
+                        <th>{{ array_sum($reportTotals) }}</th>
+                    </tr>
+                </tfoot>
+            </table>
         </div>
+    </div>
     </div>
 
 @endsection
@@ -314,7 +217,7 @@
 
         $('.dateRange').rangePicker(
             {
-                RTL: false,
+                RTL: {{ trans('ui.direction') === 'rtl' ? 'true' : 'false' }},
                 closeOnSelect: true,
                 presets: [{
                     buttonText: 'Last Month',
@@ -342,8 +245,6 @@
                 console.log(result);
             });
 
-        $("#totalsTableHolder").html($("#totalsTableTempHolder").html());
-        $("#totalsTableTempHolder").html("");
     });
 
     function printData()

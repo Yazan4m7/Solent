@@ -1,6 +1,6 @@
 
 
-    body {font-family: 'Roboto', sans-serif; background: var(--ops-surface, #D7DAE5); color: var(--ops-text, #11151E);}
+    body {font-family: 'Roboto', sans-serif; background: var(--ops-surface, #F3F4F7); color: var(--ops-text, #111827);}
 
     .modal-overlay {
         z-index: 9990;
@@ -13,7 +13,7 @@
     }
 
     .modal-container {
-        background-color: var(--ops-panel, #D7DAE5);
+        background-color: var(--ops-panel, #FFFFFF);
         border-radius: 0.5rem;
         box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
         width: 100%;
@@ -27,8 +27,8 @@
         position: absolute;
         top: 1rem;
         right: 1rem;
-        background-color: var(--ops-primary, #B3872D);
-        color: #11151E;
+        background-color: var(--ops-primary, #22B8A5);
+        color: #061313;
         border: none;
         border-radius: 50%;
         width: 2rem;
@@ -43,7 +43,7 @@
     }
 
     .close-button:hover {
-        background-color: #8c6b20;
+        background-color: #178d80;
     }
 
     .modal-title {
@@ -69,13 +69,13 @@
     }
 
     .option-row.orange {
-        background-color: var(--ops-secondary, #A6D8D4);
-        color: #11151E;
+        background-color: var(--ops-warning, #FF8A1F);
+        color: #111827;
     }
 
     .option-row.blue {
-        background-color: var(--ops-primary, #B3872D);
-        color: #11151E;
+        background-color: var(--ops-primary, #22B8A5);
+        color: #061313;
     }
 
     /*.option-row.blue > .id-circle {*/
@@ -104,8 +104,8 @@
         width: 30px;
         height: 30px;
         border-radius: 50%;
-        background-color: var(--ops-panel, #D7DAE5);
-        color: var(--ops-text, #11151E);
+        background-color: var(--ops-panel, #FFFFFF);
+        color: var(--ops-text, #111827);
         display: flex;
         justify-content: center;
         align-items: center;
@@ -114,8 +114,8 @@
         border: 2px solid var(--ops-border, rgba(17, 21, 30, 0.16));
     }
     .id-circle.selected {
-        background-color: var(--ops-primary, #B3872D);
-        color: #11151E;
+        background-color: var(--ops-primary, #22B8A5);
+        color: #061313;
     }
 
     .blackbox-modal .modal-title {
@@ -123,8 +123,8 @@
     }
 
     .option-row.blue {
-        background-color: var(--ops-primary, #B3872D);
-        color: #11151E;
+        background-color: var(--ops-primary, #22B8A5);
+        color: #061313;
 
     }
     .option-row {
@@ -144,10 +144,10 @@
     }
 
     .option-row.blue:hover {
-        background-color: var(--ops-surface-alt, #B9CDDA); /* Brand hover tint */
+        background-color: rgba(34, 184, 165, 0.14); /* Brand hover tint */
     }
     .option-row.orange:hover {
-        background-color: var(--ops-surface-alt, #B9CDDA); /* Brand hover tint */
+        background-color: rgba(34, 184, 165, 0.14); /* Brand hover tint */
     }
 
     .text-container {
@@ -203,8 +203,8 @@
     }
 
     .action-button {
-        background: linear-gradient(to right, var(--ops-primary, #B3872D), var(--ops-secondary, #A6D8D4));
-        color: #11151E;
+        background: linear-gradient(to right, var(--ops-primary, #22B8A5), var(--ops-secondary, #6366F1));
+        color: #ffffff;
         padding: 0.75rem 1.5rem;
         border-radius: 9999px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -214,7 +214,7 @@
     }
 
     .action-button:hover {
-        background: linear-gradient(to right, #8c6b20, var(--ops-primary, #B3872D));
+        background: linear-gradient(to right, #178d80, var(--ops-primary, #22B8A5));
     }
 
     @media (max-width: 400px) {
@@ -229,15 +229,17 @@
 
     /* === Korvex brand palette overrides for active cases modal === */
     :root {
-        --ops-primary: var(--color-accent-gold, #B3872D);
-        --ops-secondary: var(--color-surface-soft, #A6D8D4);
-        --ops-accent: var(--color-accent-gold, #B3872D);
-        --ops-surface: var(--color-surface, #D7DAE5);
-        --ops-surface-alt: var(--color-surface-alt, #B9CDDA);
-        --ops-panel: var(--color-surface, #D7DAE5);
-        --ops-border: rgba(17, 21, 30, 0.16);
-        --ops-text: #11151E;
-        --ops-muted: #4b5563;
+        --ops-primary: var(--color-primary-teal, #22B8A5);
+        --ops-secondary: var(--color-secondary-purple, #6366F1);
+        --ops-accent: var(--color-brand-gold, #DBC373);
+        --ops-warning: var(--color-warning-orange, #FF8A1F);
+        --ops-danger: var(--color-danger-pink, #EF5DA8);
+        --ops-surface: var(--color-main-bg, #F3F4F7);
+        --ops-surface-alt: #E9EEF4;
+        --ops-panel: var(--color-card, #FFFFFF);
+        --ops-border: var(--color-card-border, #D8DCE3);
+        --ops-text: var(--color-text, #111827);
+        --ops-muted: var(--color-muted, #64748B);
     }
 
     body {
@@ -257,11 +259,11 @@
 
     .close-button {
         background-color: var(--ops-primary);
-        color: #0b0e14;
+        color: #061313;
     }
 
     .close-button:hover {
-        background-color: #8c6b20;
+        background-color: #178d80;
     }
 
     .option-row {
@@ -272,18 +274,18 @@
     }
 
     .option-row.orange {
-        background-color: var(--ops-secondary);
-        color: #0b0e14;
+        background-color: var(--ops-warning);
+        color: #111827;
     }
 
     .option-row.blue {
         background-color: var(--ops-primary);
-        color: #0b0e14;
+        color: #061313;
     }
 
     .option-row.blue:hover,
     .option-row.orange:hover {
-        background-color: rgba(179, 135, 45, 0.22);
+        background-color: rgba(34, 184, 165, 0.14);
     }
 
     .id-circle {
@@ -294,7 +296,7 @@
 
     .id-circle.selected {
         background-color: var(--ops-primary);
-        color: #0b0e14;
+        color: #061313;
     }
 
     .checkbox {
@@ -307,10 +309,10 @@
 
     .action-button {
         background: linear-gradient(to right, var(--ops-primary), var(--ops-secondary));
-        color: #0b0e14;
-        box-shadow: 0 4px 12px rgba(200, 155, 60, 0.25);
+        color: #ffffff;
+        box-shadow: 0 4px 12px rgba(34, 184, 165, 0.24);
     }
 
     .action-button:hover {
-        background: linear-gradient(to right, #8c6b20, var(--ops-primary));
+        background: linear-gradient(to right, #178d80, var(--ops-primary));
     }

@@ -1,0 +1,76 @@
+- generic [ref=e1]:
+  - link "Switch to English" [ref=e2] [cursor=pointer]:
+    - /url: http://127.0.0.1:8123/login?ui_locale=en
+    - text: English
+  - main [ref=e3]:
+    - region "إدارة منصة سولنت" [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]:
+          - generic [ref=e7]: S
+          - generic [ref=e8]:
+            - strong [ref=e9]: Solent
+            - generic [ref=e10]: إدارة المنصة
+        - generic [ref=e11]:
+          - heading "مركز إدارة العملاء" [level=1] [ref=e12]
+          - paragraph [ref=e13]: أدِر تجهيز العملاء والنطاقات وعزل الحسابات من مساحة عمل آمنة واحدة.
+      - generic [ref=e14]: معزول عن جميع مساحات عمل العملاء.
+    - region "تسجيل دخول مسؤول المنصة" [ref=e19]:
+      - paragraph [ref=e20]: لمسؤولي المنصة المصرح لهم فقط
+      - heading "مرحباً بعودتك" [level=2] [ref=e21]
+      - paragraph [ref=e22]: سجّل الدخول لإدارة عملاء سولنت.
+      - generic [ref=e23]:
+        - generic [ref=e24]:
+          - generic [ref=e25]: اسم المستخدم
+          - textbox "اسم المستخدم" [active] [ref=e27]:
+            - /placeholder: أدخل اسم المستخدم
+        - generic [ref=e28]:
+          - generic [ref=e29]: كلمة المرور
+          - textbox "كلمة المرور" [ref=e31]:
+            - /placeholder: أدخل كلمة المرور
+        - generic [ref=e32]:
+          - generic [ref=e33] [cursor=pointer]:
+            - checkbox "تذكرني" [ref=e34]
+            - generic [ref=e35]: تذكرني
+          - link "هل نسيت كلمة المرور؟" [ref=e36] [cursor=pointer]:
+            - /url: http://127.0.0.1:8123/password/reset
+        - button "تسجيل الدخول" [ref=e37] [cursor=pointer]
+      - paragraph [ref=e38]: هذه البوابة منفصلة عن حسابات العملاء والمختبرات.
+  - generic [ref=e39]:
+    - generic [ref=e41]:
+      - generic [ref=e42] [cursor=pointer]
+      - generic [ref=e43]:
+        - generic [ref=e44] [cursor=pointer]: 
+        - generic [ref=e46] [cursor=pointer]: 
+        - generic [ref=e48] [cursor=pointer]: 
+        - generic [ref=e50] [cursor=pointer]:
+          - generic [ref=e51]: 
+          - generic [ref=e52]: "2"
+        - generic [ref=e53] [cursor=pointer]: 
+        - generic [ref=e55] [cursor=pointer]:
+          - generic [ref=e56]: 
+          - generic [ref=e57]: "1"
+        - generic [ref=e58] [cursor=pointer]:
+          - generic [ref=e59]: 
+          - generic [ref=e60]: "0"
+        - generic [ref=e61] [cursor=pointer]: 
+        - generic [ref=e63] [cursor=pointer]: 
+        - generic [ref=e65] [cursor=pointer]: 
+        - generic [ref=e67] [cursor=pointer]: 
+      - generic [ref=e69]:
+        - generic [ref=e70] [cursor=pointer]
+        - generic [ref=e71] [cursor=pointer]
+        - generic [ref=e72] [cursor=pointer]
+        - generic [ref=e73]:
+          - generic [ref=e74]: 
+          - generic: 8.2.28
+        - generic [ref=e75]:
+          - generic [ref=e76]: 
+          - generic: 282ms
+        - generic [ref=e77]:
+          - generic [ref=e78]: 
+          - generic: 21MB
+        - generic [ref=e79]:
+          - generic [ref=e80]: 
+          - generic: GET login
+    - text:              
+  - text: 

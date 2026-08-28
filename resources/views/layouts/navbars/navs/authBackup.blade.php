@@ -8,7 +8,7 @@
                     <span class="navbar-toggler-bar bar3"></span>
                 </button>
             </div>
-            <div class="navbar-brand" href="#"><img src="{{ asset('images/tooth_only_logo.png') }}"  width=190 alt="{{ $brandingName ?? 'Brand' }}"/> </div>
+            <div class="navbar-brand" href="#"><img src="{{ asset($brandingSidebarMarkPath ?? config('branding.defaults.sidebar_mark_path')) }}"  width=190 alt="{{ $brandingName ?? 'Brand' }}"/> </div>
         </div>
         <div style = "flex-grow: 5"> {{$pageSlug ?? ($brandingName ?? 'Korvex')}} </div>
         <button stlyle= "flex-grow: 3" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">

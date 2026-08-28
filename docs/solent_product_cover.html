@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="data:,">
+    <title>Solent — Product Booklet Cover</title>
+    <style>
+        :root {
+            --ink: #12302f;
+            --muted: #607574;
+            --teal: #159d9a;
+            --teal-deep: #087c79;
+            --teal-soft: #dff4f1;
+            --gold: #d2a84b;
+            --paper: #f8fbfa;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            min-height: 100%;
+            background: #dce4e3;
+            color: var(--ink);
+            font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+        }
+
+        body {
+            display: grid;
+            place-items: center;
+            padding: 24px;
+        }
+
+        .cover {
+            position: relative;
+            width: 210mm;
+            height: 297mm;
+            overflow: hidden;
+            isolation: isolate;
+            background:
+                radial-gradient(circle at 14% 17%, rgba(21, 157, 154, .09), transparent 24%),
+                linear-gradient(145deg, #ffffff 0%, var(--paper) 64%, #edf6f4 100%);
+            box-shadow: 0 24px 70px rgba(18, 48, 47, .17);
+        }
+
+        .cover::before {
+            content: "";
+            position: absolute;
+            z-index: -2;
+            top: -54mm;
+            right: -67mm;
+            width: 167mm;
+            height: 167mm;
+            border: 1px solid rgba(21, 157, 154, .18);
+            border-radius: 50%;
+            box-shadow:
+                0 0 0 18mm rgba(21, 157, 154, .035),
+                0 0 0 36mm rgba(21, 157, 154, .025);
+        }
+
+        .cover::after {
+            content: "";
+            position: absolute;
+            z-index: -2;
+            right: -30mm;
+            bottom: -42mm;
+            width: 116mm;
+            height: 116mm;
+            border: 26mm solid rgba(21, 157, 154, .08);
+            border-radius: 50%;
+        }
+
+        .topline {
+            position: absolute;
+            top: 18mm;
+            left: 18mm;
+            right: 18mm;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10mm;
+        }
+
+        .document-type {
+            display: inline-flex;
+            align-items: center;
+            gap: 3mm;
+            color: var(--teal-deep);
+            font-size: 8.5pt;
+            font-weight: 700;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+        }
+
+        .document-type::before {
+            content: "";
+            width: 12mm;
+            height: 1.1mm;
+            border-radius: 99px;
+            background: linear-gradient(90deg, var(--teal), var(--gold));
+        }
+
+        .edition {
+            color: var(--muted);
+            font-size: 8.5pt;
+            font-weight: 600;
+            letter-spacing: .08em;
+            white-space: nowrap;
+        }
+
+        .hero {
+            position: absolute;
+            top: 82mm;
+            left: 24mm;
+            width: 138mm;
+        }
+
+        .logo {
+            display: block;
+            width: 104mm;
+            height: auto;
+            margin: 0 0 16mm;
+        }
+
+        h1 {
+            max-width: 127mm;
+            margin: 0;
+            font-size: 27pt;
+            font-weight: 650;
+            line-height: 1.18;
+            letter-spacing: -.035em;
+        }
+
+        .subtitle {
+            max-width: 112mm;
+            margin: 6mm 0 0;
+            color: var(--muted);
+            font-size: 12pt;
+            line-height: 1.6;
+        }
+
+        .subtitle-ar {
+            width: 90mm;
+            margin-top: 2mm;
+            color: var(--teal-deep);
+            font-size: 11pt;
+            font-weight: 600;
+            line-height: 1.65;
+            text-align: right;
+        }
+
+        .accent-mark {
+            position: absolute;
+            top: 105mm;
+            right: 20mm;
+            width: 28mm;
+            height: 70mm;
+            transform: skewX(-19deg);
+            border-radius: 3mm;
+            background: linear-gradient(180deg, var(--teal) 0%, var(--teal-deep) 100%);
+            box-shadow: -10mm 14mm 0 -7mm var(--gold);
+            opacity: .94;
+        }
+
+        .accent-mark::after {
+            content: "";
+            position: absolute;
+            left: -9mm;
+            bottom: -22mm;
+            width: 20mm;
+            height: 40mm;
+            border-radius: 2mm;
+            background: var(--teal-soft);
+        }
+
+        .footer {
+            position: absolute;
+            left: 18mm;
+            right: 18mm;
+            bottom: 18mm;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 14mm;
+            padding-top: 7mm;
+            border-top: .35mm solid rgba(18, 48, 47, .16);
+        }
+
+        .company-kicker {
+            margin-bottom: 1.5mm;
+            color: var(--muted);
+            font-size: 7.5pt;
+            font-weight: 600;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+        }
+
+        .company-name {
+            font-size: 11pt;
+            font-weight: 750;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+        }
+
+        .footer-note {
+            max-width: 58mm;
+            color: var(--muted);
+            font-size: 8pt;
+            line-height: 1.5;
+            text-align: right;
+        }
+
+        @page {
+            size: A4 portrait;
+            margin: 0;
+        }
+
+        @media print {
+            html,
+            body {
+                width: 210mm;
+                height: 297mm;
+                background: transparent;
+            }
+
+            body {
+                display: block;
+                padding: 0;
+            }
+
+            .cover {
+                box-shadow: none;
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+            }
+        }
+
+        @media screen and (max-width: 850px) {
+            body {
+                display: block;
+                padding: 0;
+                overflow-x: auto;
+            }
+
+            .cover {
+                transform-origin: top left;
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="cover" aria-label="Solent product booklet front cover">
+        <header class="topline">
+            <div class="document-type">Product Booklet</div>
+            <div class="edition">Product Overview · 2026</div>
+        </header>
+
+        <section class="hero">
+            <img class="logo" src="../public/images/brands/solent/solent_h.svg" alt="Solent">
+            <h1>Dental Laboratory<br>Management Platform</h1>
+            <p class="subtitle">A connected workspace for cases, production, delivery, inventory, and laboratory performance.</p>
+            <p class="subtitle-ar" lang="ar" dir="rtl">منصة متكاملة لإدارة مختبرات الأسنان</p>
+        </section>
+
+        <div class="accent-mark" aria-hidden="true"></div>
+
+        <footer class="footer">
+            <div>
+                <div class="company-kicker">A product by</div>
+                <div class="company-name">Korvion Technologies</div>
+            </div>
+            <div class="footer-note">Built for modern dental laboratories and their everyday workflow.</div>
+        </footer>
+    </main>
+</body>
+</html>

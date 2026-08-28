@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="ar" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <title>Solent - Korvion Technologies | نظام إدارة مختبرات الأسنان</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@700;800;900&family=JetBrains+Mono:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: #94a3b8;
+      color: #0f172a;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+      line-height: 1.5;
+    }
+
+    .page {
+      width: 210mm;
+      height: 297mm;
+      min-height: 297mm;
+      max-height: 297mm;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 16mm 18mm 14mm 18mm;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      page-break-after: always;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    }
+
+    @media print {
+      body {
+        background: none;
+      }
+      .page {
+        box-shadow: none;
+        margin: 0;
+        width: 210mm;
+        height: 297mm;
+        max-height: 297mm;
+        padding: 16mm 18mm 14mm 18mm;
+      }
+    }
+
+    /* Top Accent Line */
+    .page::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, #0d9488 0%, #14b8a6 45%, #c89b3c 100%);
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 12px;
+      border-bottom: 1.5px solid #e2e8f0;
+    }
+
+    .brand-corp {
+      font-family: 'Plus Jakarta Sans', 'Cairo', sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      color: #475569;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-corp-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #0d9488;
+    }
+
+    .brand-solent {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-logo-text {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      color: #0f172a;
+    }
+
+    .brand-logo-text span {
+      color: #0d9488;
+    }
+
+    .brand-badge {
+      background: #0f172a;
+      color: #c89b3c;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 10.5px;
+      padding: 3px 9px;
+      border-radius: 5px;
+      letter-spacing: 0.5px;
+    }
+
+    /* Main Content Container (fills vertical space) */
+    .content-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 14px 0 10px 0;
+      gap: 12px;
+    }
+
+    /* Titles Area */
+    .hero-title-area {
+      text-align: right;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #f0fdfa;
+      border: 1px solid #ccfbf1;
+      color: #0f766e;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 6px;
+    }
+
+    .page-title {
+      font-size: 24px;
+      font-weight: 900;
+      color: #0f172a;
+      letter-spacing: -0.4px;
+      line-height: 1.25;
+      text-align: right;
+    }
+
+    .page-subtitle {
+      font-size: 13px;
+      font-weight: 600;
+      color: #64748b;
+      margin-top: 3px;
+      text-align: right;
+    }
+
+    /* Hero Callout Card */
+    .hero-callout {
+      background: linear-gradient(135deg, #f8fafc 0%, #f0fdfa 100%);
+      border: 1px solid #ccfbf1;
+      border-right: 5px solid #0d9488;
+      border-radius: 10px;
+      padding: 14px 18px;
+      text-align: right;
+    }
+
+    .hero-callout-text {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #134e4a;
+      line-height: 1.6;
+    }
+
+    .hero-callout-text strong {
+      color: #0f766e;
+      font-weight: 900;
+    }
+
+    /* Section Title */
+    .section-title {
+      font-size: 14.5px;
+      font-weight: 800;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      text-align: right;
+      direction: rtl;
+    }
+
+    .section-title::after {
+      content: "";
+      flex: 1;
+      height: 1.5px;
+      background: #e2e8f0;
+    }
+
+    /* 6-Grid Features */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .feature-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 12px 14px;
+      box-shadow: 0 1px 4px rgba(15, 23, 42, 0.03);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      position: relative;
+      text-align: right;
+    }
+
+    .feature-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 40px;
+      height: 3px;
+      background: #0d9488;
+      border-top-right-radius: 10px;
+    }
+
+    .feature-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      direction: rtl;
+    }
+
+    .feature-icon-badge {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      background: #f0fdfa;
+      color: #0d9488;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11.5px;
+      font-weight: 900;
+    }
+
+    .feature-title {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    .feature-desc {
+      font-size: 11px;
+      color: #475569;
+      line-height: 1.5;
+      font-weight: 500;
+    }
+
+    .feature-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 4px;
+      direction: rtl;
+    }
+
+    .tech-pill {
+      font-size: 9.5px;
+      font-weight: 800;
+      font-family: 'JetBrains Mono', 'Cairo', monospace;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: #f1f5f9;
+      color: #334155;
+    }
+
+    /* Core Concept Box */
+    .concept-box {
+      background: #0f172a;
+      color: #ffffff;
+      border-radius: 10px;
+      padding: 12px 18px;
+      text-align: right;
+    }
+
+    .concept-label {
+      font-size: 11px;
+      font-weight: 800;
+      color: #c89b3c;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 6px;
+      direction: rtl;
+    }
+
+    .concept-desc {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #e2e8f0;
+      line-height: 1.6;
+    }
+
+    /* Benefits Strip */
+    .benefits-strip {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 8px 14px;
+      direction: rtl;
+    }
+
+    .benefit-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 800;
+      color: #0f766e;
+    }
+
+    .benefit-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #0d9488;
+    }
+
+    /* Footer */
+    .page-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 10px;
+      border-top: 1.5px solid #f1f5f9;
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #94a3b8;
+    }
+
+    .footer-brand {
+      font-family: 'Plus Jakarta Sans', 'Cairo', sans-serif;
+      color: #64748b;
+    }
+
+    /* ================= PAGE 2: STAGE WORKFLOW ================= */
+    .timeline-container {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .stage-row {
+      display: flex;
+      align-items: stretch;
+      gap: 12px;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 10px 14px;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.02);
+      direction: rtl;
+    }
+
+    .stage-row.highlight {
+      border-right: 5px solid #0d9488;
+      background: #fafafa;
+    }
+
+    .stage-num-badge {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-width: 44px;
+      background: #0f172a;
+      color: #ffffff;
+      border-radius: 8px;
+      padding: 6px 4px;
+    }
+
+    .stage-num-digit {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 15px;
+      font-weight: 900;
+      color: #c89b3c;
+      line-height: 1;
+    }
+
+    .stage-num-tag {
+      font-size: 8.5px;
+      font-weight: 800;
+      color: #94a3b8;
+      margin-top: 2px;
+    }
+
+    .stage-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 3px;
+      text-align: right;
+    }
+
+    .stage-header-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .stage-name {
+      font-size: 14px;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    .stage-sub-badge {
+      font-size: 10px;
+      font-weight: 800;
+      font-family: 'JetBrains Mono', monospace;
+      background: #f1f5f9;
+      color: #475569;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    .stage-details {
+      font-size: 11.5px;
+      color: #475569;
+      font-weight: 600;
+      line-height: 1.45;
+    }
+
+    .flow-steps-pill {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 4px;
+      direction: ltr;
+      justify-content: flex-end;
+    }
+
+    .flow-step-item {
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      border-radius: 4px;
+      padding: 3px 8px;
+      font-size: 10.5px;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    .flow-step-arrow {
+      color: #0d9488;
+      font-weight: 900;
+      font-size: 12px;
+    }
+
+    /* Exception Box */
+    .exception-card {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-right: 5px solid #f59e0b;
+      border-radius: 10px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      direction: rtl;
+    }
+
+    .exception-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #fef3c7;
+      color: #b45309;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+
+    .exception-text {
+      font-size: 12px;
+      color: #78350f;
+      font-weight: 600;
+      line-height: 1.55;
+      text-align: right;
+    }
+
+    .exc-tag {
+      background: #fef3c7;
+      border: 1px solid #fde68a;
+      color: #92400e;
+      font-family: 'JetBrains Mono', sans-serif;
+      font-size: 9.5px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 3px;
+      display: inline-block;
+      margin: 1px 2px;
+    }
+
+    /* ================= PAGE 3: COMPARISON & DEMO ================= */
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .comparison-col-header {
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      direction: rtl;
+    }
+
+    .header-before {
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
+
+    .header-after {
+      background: #ccfbf1;
+      color: #0f766e;
+      border: 1px solid #99f6e4;
+    }
+
+    .compare-items-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .compare-card {
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-size: 11.5px;
+      font-weight: 600;
+      line-height: 1.45;
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      min-height: 44px;
+      direction: rtl;
+      text-align: right;
+    }
+
+    .card-before {
+      background: #fff5f5;
+      border: 1px solid #fee2e2;
+      color: #7f1d1d;
+    }
+
+    .card-after {
+      background: #f0fdfa;
+      border: 1px solid #ccfbf1;
+      color: #134e4a;
+      font-weight: 700;
+    }
+
+    .compare-icon {
+      font-size: 12px;
+      font-weight: 900;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .card-before .compare-icon { color: #dc2626; }
+    .card-after .compare-icon { color: #0d9488; }
+
+    /* Live Demo Scope Box */
+    .demo-scope-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 12px 16px;
+      box-shadow: 0 1px 4px rgba(15, 23, 42, 0.03);
+      text-align: right;
+    }
+
+    .demo-scope-title {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-bottom: 8px;
+      direction: rtl;
+    }
+
+    .demo-scope-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      direction: rtl;
+    }
+
+    .demo-point {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #334155;
+      line-height: 1.45;
+      text-align: right;
+    }
+
+    .demo-point-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #0d9488;
+      margin-top: 6px;
+      flex-shrink: 0;
+    }
+
+    /* Bottom Punchline Banner */
+    .punchline-banner {
+      background: #0f172a;
+      color: #ffffff;
+      border-radius: 10px;
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-right: 5px solid #c89b3c;
+    }
+
+    .punchline-logo {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 17px;
+      font-weight: 900;
+      color: #c89b3c;
+      letter-spacing: 1px;
+    }
+
+    .punchline-text {
+      font-size: 12.5px;
+      font-weight: 800;
+      color: #f8fafc;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      direction: rtl;
+    }
+
+    .punchline-sep {
+      color: #64748b;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== PAGE 1 ==================== -->
+  <div class="page">
+    
+    <!-- Header -->
+    <div class="header">
+      <div class="brand-corp">
+        <span class="brand-corp-dot"></span>
+        <span>Korvion Technologies</span>
+      </div>
+      <div class="brand-solent">
+        <div class="brand-logo-text">SOLENT<span>.</span></div>
+        <div class="brand-badge">PRO</div>
+      </div>
+    </div>
+
+    <!-- Content Body -->
+    <div class="content-body">
+
+      <!-- Hero Header Area -->
+      <div class="hero-title-area">
+        <div class="eyebrow">
+          <span>⚡</span>
+          <span>إدارة مختبرات الأسنان الذكية</span>
+        </div>
+        <h1 class="page-title">إدارة مختبر الأسنان بشكل أوضح</h1>
+        <p class="page-subtitle">من استلام الحالة حتى التسليم — كل خطوة ومرحلة في مكان واحد</p>
+      </div>
+
+      <!-- Hero Statement Box -->
+      <div class="hero-callout">
+        <p class="hero-callout-text">
+          <strong>Solent</strong> ينظّم حركة الحالات داخل المختبر، يوضح مسؤولية كل مرحلة، ويساعد الإدارة على معرفة ما يحدث <strong>الآن</strong> بدون سؤال كل قسم على حدة.
+        </p>
+      </div>
+
+      <!-- Section Title -->
+      <div class="section-title">ماذا يغيّر Solent في العمل اليومي؟</div>
+
+      <!-- 6-Grid Features -->
+      <div class="features-grid">
+
+        <!-- 1. توزيع العمل -->
+        <div class="feature-card">
+          <div class="feature-header">
+            <div class="feature-title">توزيع العمل</div>
+            <div class="feature-icon-badge">01</div>
+          </div>
+          <p class="feature-desc">إسناد المهام للفنيين والأجهزة مع متابعة حالة التنفيذ لحظياً وبدقة.</p>
+          <div class="feature-tags">
+            <span class="tech-pill">إسناد ذكي</span>
+            <span class="tech-pill">متابعة الفنيين</span>
+          </div>
+        </div>
+
+        <!-- 2. الحالة واضحة دائماً -->
+        <div class="feature-card">
+          <div class="feature-header">
+            <div class="feature-title">الحالة واضحة دائماً</div>
+            <div class="feature-icon-badge">02</div>
+          </div>
+          <p class="feature-desc">اعرف أين وصلت كل حالة وما المرحلة التالية بدون بحث أو اتصالات داخلية معطلة.</p>
+          <div class="feature-tags">
+            <span class="tech-pill">تتبع فوري</span>
+            <span class="tech-pill">بدون سؤال</span>
+          </div>
+        </div>
+
+        <!-- 3. تاريخ كامل للحالة -->
+        <div class="feature-card">
+          <div class="feature-header">
+            <div class="feature-title">تاريخ كامل للحالة</div>
+            <div class="feature-icon-badge">03</div>
+          </div>
+          <p class="feature-desc">تسجيل التعديلات، الإعادات، التكرار، الرفض، وتوثيق من نفّذ كل خطوة.</p>
+          <div class="feature-tags">
+            <span class="tech-pill">Audit Trail</span>
+            <span class="tech-pill">سجل العمليات</span>
+          </div>
+        </div>
+
+        <!-- 4. متابعة مراحل الإنتاج -->
+        <div class="feature-card">
+          <div class="feature-header">
+            <div class="feature-title">متابعة مراحل الإنتاج</div>
+            <div class="feature-icon-badge">04</div>
+          </div>
+          <p class="feature-desc">مسارات متكاملة للمراحل التصنيعية من التصميم حتى التسليم النهائي.</p>
+          <div class="feature-tags">
+            <span class="tech-pill">Design</span>
+            <span class="tech-pill">Milling</span>
+            <span class="tech-pill">3D Print</span>
+            <span class="tech-pill">QC</span>
+          </div>
+        </div>
+
+        <!-- 5. رؤية إدارية أفضل -->
+        <div class="feature-card">
+          <div class="feature-header">
+            <div class="feature-title">رؤية إدارية أفضل</div>
+            <div class="feature-icon-badge">05</div>
+          </div>
+          <p class="feature-desc">لوحات متابعة وتقارير تساعد الإدارة على مراقبة الضغط والتأخير ومعدلات الأداء.</p>
+          <div class="feature-tags">
+            <span class="tech-pill">تقارير مباشرة</span>
+            <span class="tech-pill">كفاءة التشغيل</span>
+          </div>
+        </div>
+
+        <!-- 6. تسليم منظم -->
+        <div class="feature-card">
+          <div class="feature-header">
+            <div class="feature-title">تسليم منظّم</div>
+            <div class="feature-icon-badge">06</div>
+          </div>
+          <p class="feature-desc">متابعة الحالات الجاهزة، مواعيد التسليم المحددة، وما تم تسليمه فعلياً للعيادات.</p>
+          <div class="feature-tags">
+            <span class="tech-pill">تطبيق السائق</span>
+            <span class="tech-pill">تأكيد الاستلام</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Core Concept Box -->
+      <div class="concept-box">
+        <div class="concept-label">
+          <span>💡</span>
+          <span>الفكرة ببساطة</span>
+        </div>
+        <p class="concept-desc">
+          بدلاً من أن تكون معلومات الحالة موزعة بين الذاكرة، الورق، المحادثات والأقسام، تصبح الحالة نفسها هي نقطة المتابعة المركزية من لحظة دخولها حتى خروجها من المختبر.
+        </p>
+      </div>
+
+      <!-- Benefits Footer Strip -->
+      <div class="benefits-strip">
+        <div class="benefit-item">
+          <div class="benefit-dot"></div>
+          <span>أسرع في المتابعة</span>
+        </div>
+        <div class="benefit-item">
+          <div class="benefit-dot"></div>
+          <span>أوضح في تحديد المسؤولية</span>
+        </div>
+        <div class="benefit-item">
+          <div class="benefit-dot"></div>
+          <span>سجل رقمي موحد لكل حالة</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="page-footer">
+      <div class="footer-brand">Solent &bull; Korvion Technologies</div>
+      <div>صفحة 1 من 3 &bull; نظرة عامة والقيمة التشغيلية</div>
+    </div>
+
+  </div>
+
+  <!-- ==================== PAGE 2 ==================== -->
+  <div class="page">
+    
+    <!-- Header -->
+    <div class="header">
+      <div class="brand-corp">
+        <span class="brand-corp-dot"></span>
+        <span>Korvion Technologies</span>
+      </div>
+      <div class="brand-solent">
+        <div class="brand-logo-text">SOLENT<span>.</span></div>
+        <div class="brand-badge">WORKFLOW</div>
+      </div>
+    </div>
+
+    <!-- Content Body -->
+    <div class="content-body">
+
+      <!-- Title Area -->
+      <div class="hero-title-area">
+        <div class="eyebrow">
+          <span>🔄</span>
+          <span>دورة حياة الحالة في المختبر</span>
+        </div>
+        <h1 class="page-title">كيف تتحرك الحالة داخل النظام؟</h1>
+        <p class="page-subtitle">مسار تشغيلي واحد وواضح — مع تسجيل أدق التفاصيل في كل مرحلة</p>
+      </div>
+
+      <!-- Timeline Stages 01 to 06 -->
+      <div class="timeline-container">
+
+        <!-- Stage 01 -->
+        <div class="stage-row highlight">
+          <div class="stage-num-badge">
+            <span class="stage-num-digit">01</span>
+            <span class="stage-num-tag">INTAKE</span>
+          </div>
+          <div class="stage-content">
+            <div class="stage-header-line">
+              <span class="stage-name">استلام وتسجيل الحالة</span>
+              <span class="stage-sub-badge">Doctor &amp; Case Rx</span>
+            </div>
+            <div class="stage-details">
+              العميل / الطبيب، نوع العمل المطلوب، المادة، اللون، عدد الوحدات، الملاحظات والموعد المستهدف.
+            </div>
+          </div>
+        </div>
+
+        <!-- Stage 02 -->
+        <div class="stage-row">
+          <div class="stage-num-badge">
+            <span class="stage-num-digit">02</span>
+            <span class="stage-num-tag">DISPATCH</span>
+          </div>
+          <div class="stage-content">
+            <div class="stage-header-line">
+              <span class="stage-name">التجهيز وتوزيع العمل</span>
+              <span class="stage-sub-badge">Assign &amp; Queue</span>
+            </div>
+            <div class="stage-details">
+              تحديد المرحلة التشغيلية المطلوبة، الفني المسؤول عن التنفيذ، وتعيين الجهاز المناسب عند الحاجة.
+            </div>
+          </div>
+        </div>
+
+        <!-- Stage 03 -->
+        <div class="stage-row highlight">
+          <div class="stage-num-badge">
+            <span class="stage-num-digit">03</span>
+            <span class="stage-num-tag">FABRICATION</span>
+          </div>
+          <div class="stage-content">
+            <div class="stage-header-line">
+              <span class="stage-name">مراحل الإنتاج والتصنيع</span>
+              <span class="stage-sub-badge">CAD / CAM / Lab</span>
+            </div>
+            <div class="flow-steps-pill">
+              <div class="flow-step-item">CAD (التصميم)</div>
+              <span class="flow-step-arrow">➔</span>
+              <div class="flow-step-item">Milling / 3D Print</div>
+              <span class="flow-step-arrow">➔</span>
+              <div class="flow-step-item">Furnace (الأفران)</div>
+              <span class="flow-step-arrow">➔</span>
+              <div class="flow-step-item">Finish (التشطيب)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stage 04 -->
+        <div class="stage-row">
+          <div class="stage-num-badge">
+            <span class="stage-num-digit">04</span>
+            <span class="stage-num-tag">QC CHECK</span>
+          </div>
+          <div class="stage-content">
+            <div class="stage-header-line">
+              <span class="stage-name">ضبط ومراقبة الجودة (QC)</span>
+              <span class="stage-sub-badge">Quality Audit</span>
+            </div>
+            <div class="stage-details">
+              مراجعة الحالة واعتماد مطابقتها للمواصفات الطبية قبل التسليم، مع الحفاظ على سجل التنفيذ الكامل.
+            </div>
+          </div>
+        </div>
+
+        <!-- Stage 05 -->
+        <div class="stage-row">
+          <div class="stage-num-badge">
+            <span class="stage-num-digit">05</span>
+            <span class="stage-num-tag">LOGISTICS</span>
+          </div>
+          <div class="stage-content">
+            <div class="stage-header-line">
+              <span class="stage-name">التسليم والتوزيع</span>
+              <span class="stage-sub-badge">Delivery Run</span>
+            </div>
+            <div class="stage-details">
+              متابعة الحالات الجاهزة، إسناد السائقين، توثيق ما تم تسليمه للعيادة وتحديث حالة العمل فوراً.
+            </div>
+          </div>
+        </div>
+
+        <!-- Stage 06 -->
+        <div class="stage-row">
+          <div class="stage-num-badge">
+            <span class="stage-num-digit">06</span>
+            <span class="stage-num-tag">GOVERNANCE</span>
+          </div>
+          <div class="stage-content">
+            <div class="stage-header-line">
+              <span class="stage-name">الإدارة والمتابعة الشاملة</span>
+              <span class="stage-sub-badge">Analytics &amp; KPI</span>
+            </div>
+            <div class="stage-details">
+              لوحات متابعة وتقارير استراتيجية لرؤية الضغط التشغيلي، التأخير، معدلات الأداء والحالات المفتوحة.
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Exception Callout Box -->
+      <div class="exception-card">
+        <div class="exception-icon">!</div>
+        <div class="exception-text">
+          <strong>عند حدوث استثناء:</strong>
+          يمكن تسجيل وتوثيق أي استثناء وربطه بتاريخ الحالة وسجل تكلفتها فوراً:
+          <span style="display:inline-block; margin-right:4px;">
+            <span class="exc-tag">Modification (تعديل)</span>
+            <span class="exc-tag">Redo (إعادة)</span>
+            <span class="exc-tag">Repeat (تكرار)</span>
+            <span class="exc-tag">Rejection (رفض)</span>
+          </span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="page-footer">
+      <div class="footer-brand">Solent &bull; Korvion Technologies</div>
+      <div>صفحة 2 من 3 &bull; مسار الحالة في المختبر</div>
+    </div>
+
+  </div>
+
+  <!-- ==================== PAGE 3 ==================== -->
+  <div class="page">
+    
+    <!-- Header -->
+    <div class="header">
+      <div class="brand-corp">
+        <span class="brand-corp-dot"></span>
+        <span>Korvion Technologies</span>
+      </div>
+      <div class="brand-solent">
+        <div class="brand-logo-text">SOLENT<span>.</span></div>
+        <div class="brand-badge">IMPACT</div>
+      </div>
+    </div>
+
+    <!-- Content Body -->
+    <div class="content-body">
+
+      <!-- Title Area -->
+      <div class="hero-title-area">
+        <div class="eyebrow">
+          <span>⚖️</span>
+          <span>الفارق التشغيلي</span>
+        </div>
+        <h1 class="page-title">قبل Solent / مع Solent</h1>
+        <p class="page-subtitle">المشكلة ليست في وجود المعلومة فقط — بل في الوصول إليها وقت الحاجة</p>
+      </div>
+
+      <!-- Comparison Grid -->
+      <div class="comparison-grid">
+
+        <!-- Column 1: Before -->
+        <div>
+          <div class="comparison-col-header header-before">
+            <span>قبل Solent</span>
+            <span>✕ المعاناة التقليدية</span>
+          </div>
+          <div class="compare-items-list">
+            <div class="compare-card card-before">
+              <span class="compare-icon">✕</span>
+              <span>السؤال المتكرر بين الأقسام لمعرفة مكان الحالة الحالي.</span>
+            </div>
+            <div class="compare-card card-before">
+              <span class="compare-icon">✕</span>
+              <span>التفاصيل مشتتة بين الأوراق والذاكرة والمحادثات.</span>
+            </div>
+            <div class="compare-card card-before">
+              <span class="compare-icon">✕</span>
+              <span>صعوبة معرفة المسؤول الفعلي عن أي تأخير أو خطأ.</span>
+            </div>
+            <div class="compare-card card-before">
+              <span class="compare-icon">✕</span>
+              <span>الإعادة أو التعديل قد يُنسى سببها ومسؤوليتها.</span>
+            </div>
+            <div class="compare-card card-before">
+              <span class="compare-icon">✕</span>
+              <span>الحالات الجاهزة والتسليم تحتاج متابعة يدوية مستمرة.</span>
+            </div>
+            <div class="compare-card card-before">
+              <span class="compare-icon">✕</span>
+              <span>القرار الإداري يعتمد على السؤال الفردي والتخمين.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column 2: After -->
+        <div>
+          <div class="comparison-col-header header-after">
+            <span>مع Solent</span>
+            <span>✓ الكفاءة الرقمية</span>
+          </div>
+          <div class="compare-items-list">
+            <div class="compare-card card-after">
+              <span class="compare-icon">✓</span>
+              <span>حالة ومراحل واضحة ومحدثة فورياً على النظام.</span>
+            </div>
+            <div class="compare-card card-after">
+              <span class="compare-icon">✓</span>
+              <span>كافة تفاصيل ومرفقات الحالة موحدة في سجل رقمي واحد.</span>
+            </div>
+            <div class="compare-card card-after">
+              <span class="compare-icon">✓</span>
+              <span>إسناد دقيق وتاريخ زمني موثق لكل مرحلة وفني.</span>
+            </div>
+            <div class="compare-card card-after">
+              <span class="compare-icon">✓</span>
+              <span>تسجيل وتصنيف فوري: Redo / Repeat / Rejection.</span>
+            </div>
+            <div class="compare-card card-after">
+              <span class="compare-icon">✓</span>
+              <span>صفحة تسليم ذكية وقائمة حالات جاهزة منظمة للسائقين.</span>
+            </div>
+            <div class="compare-card card-after">
+              <span class="compare-icon">✓</span>
+              <span>لوحات متابعة وتقارير دقيقة مبنية على البيانات الفعلية.</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Live Demo Scope Box -->
+      <div class="demo-scope-card">
+        <div class="demo-scope-title">
+          <span>🎯</span>
+          <span>ما الذي سنعرضه في التجربة العملية؟</span>
+        </div>
+        <div class="demo-scope-grid">
+          <div class="demo-point">
+            <div class="demo-point-dot"></div>
+            <span><strong>حالة حقيقية نموذجية:</strong> مسار كامل من التسجيل وحتى التسليم النهائي.</span>
+          </div>
+          <div class="demo-point">
+            <div class="demo-point-dot"></div>
+            <span><strong>لوحة العمليات الحية:</strong> كيف تظهر الحالة وتتنقل بسلاسة بين المحطات.</span>
+          </div>
+          <div class="demo-point">
+            <div class="demo-point-dot"></div>
+            <span><strong>إدارة الاستثناءات:</strong> التعامل العملي مع التعديل أو الإعادة أو الرفض.</span>
+          </div>
+          <div class="demo-point">
+            <div class="demo-point-dot"></div>
+            <span><strong>الرؤية الإدارية:</strong> متابعة العمل الفعلي والتسليم والتقارير من مكان واحد.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Punchline Banner -->
+      <div class="punchline-banner">
+        <div class="punchline-logo">SOLENT</div>
+        <div class="punchline-text">
+          <span>كل حالة واضحة</span>
+          <span class="punchline-sep">&bull;</span>
+          <span>كل مرحلة مسجلة</span>
+          <span class="punchline-sep">&bull;</span>
+          <span>كل عملية أسهل في المتابعة</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="page-footer">
+      <div class="footer-brand">Solent &bull; Korvion Technologies</div>
+      <div>صفحة 3 من 3 &bull; المقارنة والتجربة العملية</div>
+    </div>
+
+  </div>
+
+</body>
+</html>

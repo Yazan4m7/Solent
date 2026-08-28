@@ -1,28 +1,28 @@
-/* Brand overrides (tenant-aware) - bright palette */
+/* Brand overrides (tenant-aware) - Solent premium palette */
 :root {
     /* Brand and functional palette */
-    --brand-primary: #33899a;
-    --brand-secondary: #4ba1d7;
-    --brand-accent: #1f2a3d;
-    --brand-title-accent: #265057;
-    --brand-title-accent-soft: #2c6068;
+    --brand-primary: var(--accent);
+    --brand-secondary: var(--accent);
+    --brand-accent: var(--accent);
+    --brand-title-accent: var(--accent);
+    --brand-title-accent-soft: var(--accent);
 
-    --palette-surface: #f8f9fa;
-    --palette-surface-strong: #f1f5f9;
-    --palette-panel: #ffffff;
-    --palette-anchor: #1c2732;
-    --palette-muted-green: #5b8f7a;
-    --palette-secondary: #6d7d8c;
+    --palette-surface: var(--surface-raised);
+    --palette-surface-strong: var(--surface-raised);
+    --palette-panel: var(--surface);
+    --palette-anchor: var(--text-1);
+    --palette-muted-green: var(--accent);
+    --palette-secondary: var(--text-2);
 
     --korvion-primary: var(--brand-primary);
     --korvion-secondary: var(--brand-secondary);
     --korvion-accent: var(--brand-accent);
     --korvion-surface: var(--palette-surface);
-    --korvion-surface-alt: #f1f5f9;
+    --korvion-surface-alt: var(--surface-raised);
     --korvion-panel: var(--palette-panel);
-    --korvion-border: #e2e8f0;
-    --korvion-text: #1e293b;
-    --korvion-muted: #64748b;
+    --korvion-border: var(--border);
+    --korvion-text: var(--text-1);
+    --korvion-muted: var(--text-2);
 }
 
 body.white-content,
@@ -60,7 +60,7 @@ body {
 .macaw-aurora-tabs [role="tab"][aria-selected="true"],
 .macaw-silk-tabs [role="tab"][aria-selected="true"] {
     background: var(--korvion-primary) !important;
-    color: #ffffff !important;
+    color: var(--surface) !important;
     border-color: var(--korvion-primary);
 }
 
@@ -70,7 +70,7 @@ body {
     border: 1px solid var(--korvion-border);
     border-radius: 12px;
     padding: 10px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 1px 3px var(--shadow-2);
 }
 
 .sunriseTable {
@@ -103,15 +103,15 @@ body {
     padding: 12px 14px !important;
     color: var(--korvion-text);
     border-bottom: 1px solid var(--korvion-border);
-    background: #ffffff;
+    background: var(--surface);
 }
 
 .sunriseTable tbody tr:nth-child(odd) td {
-    background: #f9fafb;
+    background: var(--surface-raised);
 }
 
 .sunriseTable tbody tr:hover td {
-    background: #eef3f5;
+    background: var(--accent-bg);
 }
 
 .dataTables_wrapper .dataTables_paginate {
@@ -128,7 +128,7 @@ body {
 
 .dataTables_wrapper .dataTables_paginate .paginate_button.current {
     background: var(--korvion-primary) !important;
-    color: #0b0e14 !important;
+    color: var(--text-1) !important;
     border-color: var(--korvion-primary) !important;
 }
 
@@ -144,7 +144,7 @@ body {
     background: var(--palette-panel) !important;
     color: var(--korvion-text) !important;
     border: 1px solid var(--korvion-border) !important;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 1px 3px var(--shadow-2);
 }
 
 .card .card-header {
@@ -161,7 +161,7 @@ body {
 
 .nav-tabs .nav-link.active {
     background: var(--korvion-primary) !important;
-    color: #0b0e14 !important;
+    color: var(--text-1) !important;
     border-color: var(--korvion-primary) !important;
 }
 
@@ -176,19 +176,19 @@ table th {
 
 table.dataTable tbody tr,
 table tbody tr {
-    background: #ffffff !important;
+    background: var(--surface) !important;
     color: var(--korvion-text) !important;
     border-color: var(--korvion-border) !important;
 }
 
 table.dataTable tbody tr:nth-child(even),
 table tbody tr:nth-child(even) {
-    background: #f9fafb !important;
+    background: var(--surface-raised) !important;
 }
 
 table.dataTable tbody tr:hover,
 table tbody tr:hover {
-    background: #eef3f5 !important;
+    background: var(--accent-bg) !important;
 }
 
 .dataTables_wrapper .dataTables_paginate .paginate_button {
@@ -199,13 +199,13 @@ table tbody tr:hover {
 
 .dataTables_wrapper .dataTables_paginate .paginate_button.current {
     background: var(--korvion-primary) !important;
-    color: #0b0e14 !important;
+    color: var(--text-1) !important;
     border-color: var(--korvion-primary) !important;
 }
 
 .dataTables_wrapper .dataTables_filter input,
 .dataTables_wrapper .dataTables_length select {
-    background: #ffffff !important;
+    background: var(--surface) !important;
     color: var(--korvion-text) !important;
     border: 1px solid var(--korvion-border) !important;
     border-radius: 8px !important;
@@ -220,14 +220,14 @@ table {
 .badge-primary {
     background: var(--korvion-primary) !important;
     border-color: var(--korvion-primary) !important;
-    color: #ffffff !important;
+    color: var(--surface) !important;
 }
 
 .btn-info,
 .badge-info {
     background: var(--korvion-secondary) !important;
     border-color: var(--korvion-secondary) !important;
-    color: #ffffff !important;
+    color: var(--surface) !important;
 }
 
 .btn-secondary,
@@ -284,7 +284,7 @@ table.dataTable thead th.sorting_desc::after {
 input,
 select,
 textarea {
-    background: #ffffff;
+    background: var(--surface);
     color: var(--korvion-text);
     border: 1px solid var(--korvion-border);
     border-radius: 8px;
@@ -300,14 +300,14 @@ textarea {
 input:hover,
 select:hover,
 textarea:hover {
-    border-color: #cbd5e1;
+    border-color: var(--border);
 }
 .card-stats .icon-big,
 .card .icon-big {
-    background: #f0f4f8 !important;
+    background: var(--surface-raised) !important;
     color: var(--korvion-primary) !important;
     border-radius: 12px;
-    box-shadow: inset 0 1px 1px rgba(0,0,0,0.04);
+    box-shadow: inset 0 1px 1px var(--shadow-2);
     opacity: 0.9;
 }
 
@@ -340,7 +340,7 @@ textarea:hover {
 
 .apexcharts-grid line,
 .ct-grid {
-    stroke: #d8e0e6 !important;
+    stroke: var(--border) !important;
     opacity: 0.6;
 }
 
@@ -349,7 +349,7 @@ h1, h2, h3, h4, h5, h6,
 .card-title,
 .section-title,
 .stat-title {
-    color: #1e293b !important;
+    color: var(--text-1) !important;
 }
 
 body,
@@ -358,13 +358,13 @@ p,
 .card-category,
 .card-text,
 label {
-    color: #475569 !important;
+    color: var(--text-2) !important;
 }
 
 label,
 .card-eyebrow,
 .card-category {
-    color: #64748b !important;
+    color: var(--text-2) !important;
 }
 
 /* Global dropdown positioning/visual fixes */
@@ -372,12 +372,12 @@ label,
     margin-top: 4px !important;
     transition: none !important;
     animation: none !important;
-    background: #ffffff !important;
-    border: 1px solid #d8e1ea !important;
+    background: var(--surface) !important;
+    border: 1px solid var(--border) !important;
     border-radius: 8px !important;
-    box-shadow: 0 10px 24px rgba(17, 21, 30, 0.12) !important;
+    box-shadow: 0 10px 24px var(--shadow-1) !important;
     z-index: 2000 !important;
-    color: #1f2a3d !important;
+    color: var(--text-1) !important;
     padding: 6px 0 !important;
 }
 
@@ -400,10 +400,10 @@ label,
     margin-top: 4px !important;
     transition: none !important;
     animation: none !important;
-    background: #ffffff !important;
-    border: 1px solid #d8e1ea !important;
+    background: var(--surface) !important;
+    border: 1px solid var(--border) !important;
     border-radius: 8px !important;
-    box-shadow: 0 10px 24px rgba(17, 21, 30, 0.12) !important;
+    box-shadow: 0 10px 24px var(--shadow-1) !important;
     z-index: 2000 !important;
 }
 
@@ -414,7 +414,7 @@ label,
 .dropdown-item,
 .bootstrap-select .dropdown-menu li a,
 .select2-container .select2-results__option {
-    color: #1f2a3d !important;
+    color: var(--text-1) !important;
     padding: 6px 12px !important;
 }
 
@@ -423,8 +423,8 @@ label,
 .bootstrap-select .dropdown-menu li a:hover,
 .bootstrap-select .dropdown-menu li a:focus,
 .select2-container .select2-results__option--highlighted[aria-selected] {
-    background: #eef2f6 !important;
-    color: #1f2a3d !important;
+    background: var(--accent-bg) !important;
+    color: var(--text-1) !important;
 }
 
 /* Operations Dashboard (page-scoped) */
@@ -432,13 +432,13 @@ label,
     --ops-radius: 14px;
     --ops-radius-sm: 10px;
     --ops-border: var(--korvion-border);
-    --ops-surface: var(--palette-panel, #ffffff);
-    --ops-surface-alt: var(--palette-surface-strong, #f1f5f9);
+    --ops-surface: var(--palette-panel, var(--surface));
+    --ops-surface-alt: var(--palette-surface-strong, var(--surface-raised));
     --ops-text: var(--korvion-text);
     --ops-muted: var(--korvion-muted);
     --ops-accent: var(--korvion-primary);
-    --ops-accent-soft: rgba(51, 137, 154, 0.10);
-    --ops-accent-border: rgba(51, 137, 154, 0.35);
+    --ops-accent-soft: var(--accent-bg);
+    --ops-accent-border: var(--accent-lt);
 
     width: 100%;
     max-width: 1600px;
@@ -513,7 +513,7 @@ label,
 
 .ops-dashboard .macaw-tabs.macaw-aurora-tabs > [role="tablist"] > [role="tab"]:focus-visible {
     outline: 0 !important;
-    box-shadow: 0 0 0 3px rgba(51, 137, 154, 0.25) !important;
+    box-shadow: 0 0 0 3px var(--accent-bg) !important;
 }
 
 .ops-dashboard .stageSidebar [role="tab"] > div {
@@ -539,23 +539,23 @@ label,
 }
 
 .ops-dashboard .stageSidebar [role="tab"][aria-selected="true"] .badge {
-    background: #ffffff !important;
+    background: var(--surface) !important;
     border-color: var(--ops-accent-border) !important;
 }
 
 /* Inner tabs (Active / Waiting) */
 .ops-dashboard .macaw-tabs.macaw-silk-tabs > [role="tablist"] {
-    gap: 8px;
+    gap: 21px;
     align-items: center;
-    padding: 0 !important;
-    margin: 0 0 12px 0 !important;
-    border-bottom: 1px solid var(--ops-border);
+    padding: 4px !important;
+    margin: 0 0 12px 26px !important;
+    /* border-bottom: 1px solid rgb(0 0 0 / 10%); */
 }
 
 .ops-dashboard .macaw-tabs.macaw-silk-tabs > [role="tablist"] > [role="tab"] {
     border: 1px solid transparent !important;
-    border-radius: 999px !important;
-    padding: 8px 12px !important;
+    border-radius: 2.9rem !important;
+    padding: 8px 40px !important;
     margin: 0 !important;
     background: transparent !important;
     color: var(--ops-muted) !important;
@@ -579,7 +579,7 @@ label,
 
 .ops-dashboard .macaw-tabs.macaw-silk-tabs > [role="tablist"] > [role="tab"]:focus-visible {
     outline: 0 !important;
-    box-shadow: 0 0 0 3px rgba(51, 137, 154, 0.25) !important;
+    box-shadow: 0 0 0 3px var(--accent-bg) !important;
 }
 
 .ops-dashboard .activeBadge {
@@ -605,7 +605,7 @@ label,
 .ops-dashboard table.dataTable.sunriseTable,
 .ops-dashboard .sunriseTable {
     width: 100% !important;
-    background: #ffffff !important;
+    background: var(--surface) !important;
     border: 1px solid var(--ops-border) !important;
     border-radius: var(--ops-radius) !important;
     border-collapse: separate !important;
@@ -623,15 +623,15 @@ label,
 }
 
 .ops-dashboard .sunriseTable tbody td {
-    background: #ffffff !important;
+    background: var(--surface) !important;
     color: var(--ops-text) !important;
-    border-bottom: 1px solid var(--ops-border) !important;
+    /* border-bottom: 1px solid var(--ops-border) !important; */
     padding: 10px 12px !important;
     vertical-align: middle;
 }
 
 .ops-dashboard .sunriseTable tbody tr:hover td {
-    background: #f8fafc !important;
+    background: var(--surface-raised) !important;
 }
 
 .ops-dashboard .sunriseTable tbody tr:last-child td {
@@ -645,7 +645,7 @@ label,
 }
 
 .ops-dashboard .dataTables_wrapper .dataTables_paginate .paginate_button {
-    background: #ffffff !important;
+    background: var(--surface) !important;
     border: 1px solid var(--ops-border) !important;
     border-radius: 8px !important;
     margin: 0 2px !important;
@@ -667,7 +667,7 @@ label,
 
 .ops-dashboard .dataTables_wrapper .dataTables_paginate .paginate_button:focus-visible {
     outline: 0 !important;
-    box-shadow: 0 0 0 3px rgba(51, 137, 154, 0.25) !important;
+    box-shadow: 0 0 0 3px var(--accent-bg) !important;
 }
 
 .ops-dashboard input[type="checkbox"] {

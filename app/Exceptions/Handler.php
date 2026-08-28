@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Support\DemoMode;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -52,22 +53,38 @@ class Handler extends ExceptionHandler
         if ($e instanceof HttpExceptionInterface) {
             $statusCode = $e->getStatusCode();
         }
+        $isDemoRequest = DemoMode::isDemoRequest($request);
+
         if ($request->expectsJson() || $request->is('api/*')) {
             return response()->json([
-                'message' => 'Something went wrong. Please try again.',
+                'message' => $isDemoRequest
+                    ? 'Demo version does not allow this operation.'
+                    : 'Something went wrong. Please try again.',
                 'status' => $statusCode,
             ], $statusCode);
+        }
+
+        if ($statusCode === 503 && app()->isDownForMaintenance()) {
+            try {
+                return response()->view('errors.maintenance', [
+                    'retryAfter' => $e instanceof HttpExceptionInterface
+                        ? $e->getHeaders()['Retry-After'] ?? null
+                        : null,
+                ], 503, $e instanceof HttpExceptionInterface ? $e->getHeaders() : []);
+            } catch (Throwable $viewException) {
+                return response(config('branding.defaults.name', 'Solent') . ' is temporarily down for maintenance. Please try again soon.', 503);
+            }
         }
 
         try {
             return response()->view('errors.generic', [
                 'statusCode' => $statusCode,
-                'developerMessage' => config('app.debug')
-                    ? Str::limit(trim($e->getMessage()) ?: class_basename($e), 180)
-                    : null,
+                'isDemoRequest' => $isDemoRequest,
+                'developerMessage' => Str::limit(trim($e->getMessage()) ?: class_basename($e), 180)
+                    ,
             ], $statusCode);
         } catch (Throwable $viewException) {
-            return response('Something went wrong. Please try again.', $statusCode);
+            return response('Something went wrong. Please try again later.' . $e->getMessage(), $statusCode);
         }
     }
 }

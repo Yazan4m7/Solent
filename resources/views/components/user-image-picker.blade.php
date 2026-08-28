@@ -36,19 +36,13 @@ $current_image = $attributes['current_image'] ?? null;
                     <?php if ($current_image): ?>
                         <img src="<?php echo $current_image; ?>" alt="Profile image" class="img-fluid rounded" style="max-height: 150px;">
                     <?php else: ?>
-                        <img src="/assets/images/default-avatar.png" alt="Default profile image"  onerror="
-    // Stop further error handling (avoid loops)
-    this.onerror = null;
-
-    // Hide the broken image
-    this.style.display = 'none';
-
-    // Show a separate text span
-    document.getElementById('profile-fallback').style.display = 'inline';
-  " class="img-fluid rounded" style="max-height: 150px;">
-                        <span id="profile-fallback" style="display:none;">
-  User's profile
-</span>
+                        <div class="user-image-placeholder" aria-label="Default profile image">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <circle cx="12" cy="8" r="4"></circle>
+                                <path d="M4.5 20c.7-4 3.2-6 7.5-6s6.8 2 7.5 6"></path>
+                            </svg>
+                            <span>User's profile</span>
+                        </div>
                     <?php endif; ?>
                 </div>
             </div>
@@ -57,34 +51,91 @@ $current_image = $attributes['current_image'] ?? null;
 </div>
 
 <style>
-
-    .input-container{
-
-        background-color: #f8f9fa;
-        border: #c3c3c3 solid 2px;
-        border-radius: 5px;
-
-    }
-    .user-image-input{
-        height: 12rem;
-        cursor: pointer;
-    }
 .user-image-picker-container {
-    margin-bottom: 50px;
+    margin-bottom: 0;
 }
-.image-preview-container {
-    margin-top: 10px;
-    padding: 15px;
-    border: 1px dashed #ccc;
-    border-radius: 5px;
-    background-color: #f8f9fa;
-    min-height: 160px;
-    display: flex;
+
+.user-image-picker-container > .row {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: minmax(0, 1.35fr) minmax(220px, .65fr);
+    margin: 0;
+}
+
+.user-image-picker-container > .row > [class*="col-"] {
+    flex: none;
+    max-width: none;
+    padding: 0;
+    width: auto;
+}
+
+.user-image-picker-container .input-container,
+.user-image-picker-container .image-preview-container {
     align-items: center;
-    justify-content: center;
+    background: var(--surface-raised, #f8fafc);
+    border: 1px dashed #cbd5e1;
+    border-radius: 12px;
+    display: flex;
+    min-height: 168px;
+    padding: 20px;
 }
-.loading-indicator {
+
+.user-image-picker-container .input-container .form-group {
+    margin: 0;
+    width: 100%;
+}
+
+.user-image-picker-container .user-image-input {
+    background: var(--surface, #ffffff);
+    border: 1px solid #dbe3eb;
+    border-radius: 9px;
+    cursor: pointer;
+    height: auto;
+    margin-top: 8px;
+    padding: 10px;
+    width: 100%;
+}
+
+.user-image-picker-container .image-preview-container {
+    justify-content: center;
+    margin-top: 0;
     text-align: center;
+}
+
+.user-image-picker-container .loading-indicator {
+    text-align: center;
+}
+
+.user-image-picker-container .user-image-placeholder {
+    align-items: center;
+    color: var(--text-2, #64748b);
+    display: flex;
+    flex-direction: column;
+    font-size: 13px;
+    font-weight: 650;
+    gap: 8px;
+}
+
+.user-image-picker-container .user-image-placeholder svg {
+    fill: none;
+    height: 54px;
+    stroke: var(--accent, #6366f1);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.5;
+    width: 54px;
+}
+
+@media (max-width: 767.98px) {
+    .user-image-picker-container > .row {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .user-image-picker-container .input-container,
+    .user-image-picker-container .image-preview-container {
+        min-height: 140px;
+        padding: 16px;
+    }
 }
 </style>
 

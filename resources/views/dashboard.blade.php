@@ -5,157 +5,37 @@
         .solent-dash {
             position: relative;
         }
-
-        .solent-dash-metrics-guide-toggle {
-            align-items: center;
-            appearance: none;
-            background: #111827;
-            border: 0;
-            border-radius: 999px;
-            box-shadow: 0 10px 24px rgba(17, 24, 39, 0.18);
-            color: #ffffff;
-            cursor: pointer;
-            display: inline-flex;
-            font-size: 14px;
-            font-weight: 800;
-            height: 28px;
-            justify-content: center;
-            line-height: 1;
-            padding: 0;
-            position: absolute;
-            right: 10px;
-            top: 10px;
-            width: 28px;
-            z-index: 30;
-        }
-
-        .solent-dash-metrics-guide-panel {
-            background: #ffffff;
-            border: 1px solid #dbe1ea;
-            border-radius: 14px;
-            box-shadow: 0 22px 55px rgba(17, 24, 39, 0.18);
-            max-height: min(78vh, 820px);
-            overflow: auto;
-            padding: 14px;
-            position: absolute;
-            right: 10px;
-            top: 46px;
-            width: min(760px, calc(100% - 20px));
-            z-index: 29;
-        }
-
-        .solent-dash-metrics-guide-head {
-            align-items: center;
-            display: flex;
-            gap: 12px;
-            justify-content: space-between;
-            margin-bottom: 12px;
-        }
-
-        .solent-dash-metrics-guide-title {
-            color: #111827;
-            font-size: 14px;
-            font-weight: 800;
-            margin: 0;
-        }
-
-        .solent-dash-metrics-guide-meta {
-            color: #6b7280;
-            font-size: 11px;
-            font-weight: 700;
-            margin: 4px 0 0;
-        }
-
-        .solent-dash-metrics-guide-close {
-            background: transparent;
-            border: 0;
-            color: #6b7280;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 800;
-            line-height: 1;
-            padding: 0;
-        }
-
-        .solent-dash-metrics-guide-badge {
-            background: #eef2ff;
-            border-radius: 999px;
-            color: #4f46e5;
-            display: inline-flex;
-            font-size: 10px;
-            font-weight: 800;
-            padding: 4px 8px;
-        }
-
-        .solent-dash-metrics-guide-table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        .solent-dash-metrics-guide-table th,
-        .solent-dash-metrics-guide-table td {
-            border-bottom: 1px solid #e5e7eb;
-            font-size: 11px;
-            line-height: 1.45;
-            padding: 8px 9px;
-            text-align: left;
-            vertical-align: top;
-        }
-
-        .solent-dash-metrics-guide-table th {
-            background: #f8fafc;
-            color: #374151;
-            font-weight: 800;
-            position: sticky;
-            top: -14px;
-            z-index: 1;
-        }
-
-        .solent-dash-metrics-guide-table td:first-child,
-        .solent-dash-metrics-guide-table th:first-child {
-            white-space: nowrap;
-            width: 46px;
-        }
-
-        .solent-dash-metrics-guide-table td:nth-child(2),
-        .solent-dash-metrics-guide-table th:nth-child(2) {
-            min-width: 180px;
-        }
-
-        .solent-dash-metrics-guide-table td:nth-child(3),
-        .solent-dash-metrics-guide-table th:nth-child(3) {
-            min-width: 140px;
-        }
-
-        .solent-dash-metrics-guide-table td:last-child,
-        .solent-dash-metrics-guide-table th:last-child {
-            min-width: 120px;
-        }
-
-        @media (max-width: 768px) {
-            .solent-dash-metrics-guide-panel {
-                max-height: 72vh;
-                padding: 12px;
-                right: 8px;
-                top: 42px;
-                width: calc(100% - 16px);
-            }
-
-            .solent-dash-metrics-guide-toggle {
-                right: 8px;
-                top: 8px;
-            }
-        }
     </style>
 @endpush
 
 @section('content')
     @php
         $currencyLabel = (string) ($currencyContext['display'] ?? $currencyContext['code'] ?? 'JOD');
-        $dashboardSampleDataMode = (bool) ($dashboardSampleDataMode ?? config('features.dashboard.sample_data', true));
+        $dashboardSampleDataMode = (bool) ($dashboardSampleDataMode ?? config('features.dashboard.sample_data', false));
 
         $paymentsReceivedToday = $paymentsReceivedToday ?? [];
         $DeliveriesToday = $DeliveriesToday ?? [];
+        $dashboardUi = trans('ui.dom');
+        $deliveryScheduleDays = collect($deliveryScheduleDays ?? []);
+        if ($deliveryScheduleDays->isEmpty()) {
+            $deliveryScheduleDays = collect(range(0, 1))->map(function (int $offset) use ($DeliveriesToday) {
+                return [
+                    'key' => ['today', 'tomorrow'][$offset],
+                    'label' => ['Today', 'Tomorrow'][$offset],
+                    'date' => now()->copy()->addDays($offset)->toDateString(),
+                    'cases' => $offset === 0 ? collect($DeliveriesToday) : collect(),
+                ];
+            });
+        }
+        $deliveryCardCases = $deliveryScheduleDays
+            ->filter(fn (array $day) => in_array(($day['key'] ?? ''), ['today', 'tomorrow'], true))
+            ->flatMap(fn (array $day) => collect($day['cases'] ?? []))
+            ->sortBy(function ($case) {
+                return method_exists($case, 'getRawOriginal')
+                    ? ($case->getRawOriginal('initial_delivery_date') ?: $case->initial_delivery_date)
+                    : $case->initial_delivery_date;
+            })
+            ->values();
         $compUnitsCount7Days = $compUnitsCount7Days ?? [];
         $compCasesCount7Days = $compCasesCount7Days ?? [];
         $collectionsInLast30Days = $collectionsInLast30Days ?? [];
@@ -170,7 +50,6 @@
         $completedUnits = (int) ($CompletedJobsToday ?? 0);
         $activeUnits = (int) ($ActiveJobsToday ?? 0);
         $waitingUnits = (int) ($waitingJobsToday ?? 0);
-        $completedUnits7dTotal = array_sum($compUnitsCount7Days);
         $revenueTotal = collect($collectionsInLast30Days)->sum();
         $ordersTotal = collect($compCasesCount30Days)->sum();
         $totalUnits = $completedUnits + $activeUnits + $waitingUnits;
@@ -181,43 +60,83 @@
         $displayOrdersTotal = $dashboardSampleDataMode ? max($ordersTotal, 3721) : $ordersTotal;
         $displayNewCustomers = $dashboardSampleDataMode ? max($newCustomers, 2145) : $newCustomers;
         $displayConversionRate = $dashboardSampleDataMode ? max($conversionRate, 2.48) : $conversionRate;
-        $displayWorkloadTotal = $dashboardSampleDataMode ? max($completedUnits7dTotal + $activeUnits + $waitingUnits, 128) : ($completedUnits7dTotal + $activeUnits + $waitingUnits);
+        $serviceRevenueRows = collect();
 
-        $series = function ($values, int $length = 12): array {
-            $result = collect($values)->take(-$length)->values();
-            return $result->isEmpty() ? array_fill(0, $length, 0) : $result->all();
-        };
+        try {
+            $serviceMonthStart = now()->startOfMonth()->toDateTimeString();
+            $serviceMonthEnd = now()->endOfMonth()->toDateTimeString();
+
+            if (\Illuminate\Support\Facades\Schema::hasColumn('cases', 'service_type')) {
+                $serviceRevenueRows = \Illuminate\Support\Facades\DB::table('invoices')
+                    ->join('cases', 'cases.id', '=', 'invoices.case_id')
+                    ->selectRaw("COALESCE(NULLIF(cases.service_type, ''), 'Unassigned') as label, SUM(invoices.amount) as value")
+                    ->whereBetween('invoices.date_applied', [$serviceMonthStart, $serviceMonthEnd])
+                    ->where('invoices.status', 1)
+                    ->whereNull('invoices.deleted_at')
+                    ->whereNull('cases.deleted_at')
+                    ->groupBy('label')
+                    ->orderByDesc('value')
+                    ->get();
+            } else {
+                $caseServiceQuery = \Illuminate\Support\Facades\DB::table('jobs')
+                    ->leftJoin('job_types', 'job_types.id', '=', 'jobs.type')
+                    ->selectRaw("jobs.case_id, COALESCE(MIN(NULLIF(job_types.name, '')), 'Unassigned') as service_label")
+                    ->whereNull('jobs.deleted_at')
+                    ->groupBy('jobs.case_id');
+
+                $serviceRevenueRows = \Illuminate\Support\Facades\DB::table('invoices')
+                    ->join('cases', 'cases.id', '=', 'invoices.case_id')
+                    ->leftJoinSub($caseServiceQuery, 'case_services', 'case_services.case_id', '=', 'cases.id')
+                    ->selectRaw("COALESCE(case_services.service_label, 'Unassigned') as label, SUM(invoices.amount) as value")
+                    ->whereBetween('invoices.date_applied', [$serviceMonthStart, $serviceMonthEnd])
+                    ->where('invoices.status', 1)
+                    ->whereNull('invoices.deleted_at')
+                    ->whereNull('cases.deleted_at')
+                    ->groupBy('label')
+                    ->orderByDesc('value')
+                    ->get();
+            }
+        } catch (\Throwable $exception) {
+            $serviceRevenueRows = collect();
+        }
+
+        if ($dashboardSampleDataMode && $serviceRevenueRows->sum('value') <= 0) {
+            $serviceRevenueRows = collect([
+                ['label' => 'Crowns', 'value' => 184200],
+                ['label' => 'Implants', 'value' => 126450],
+                ['label' => 'Bridges', 'value' => 74300],
+                ['label' => 'Models', 'value' => 28640],
+                ['label' => 'Repairs', 'value' => 14950],
+            ]);
+        }
+
+        $serviceRevenueTotal = (float) $serviceRevenueRows->sum('value');
+        $serviceRevenueRows = $serviceRevenueRows
+            ->map(fn ($row) => [
+                'label' => (string) (is_array($row) ? $row['label'] : $row->label),
+                'value' => (float) (is_array($row) ? $row['value'] : $row->value),
+            ])
+            ->sortByDesc('value')
+            ->take(5)
+            ->values()
+            ->map(fn (array $row) => $row + [
+                'width' => $serviceRevenueTotal > 0 ? round(($row['value'] / $serviceRevenueTotal) * 100, 1) : 0,
+            ]);
 
         $productionLoadRows = collect($productionLoadRows ?? ($dashboardSampleDataMode ? [
-            ['label' => 'Design', 'color' => '#4f6ef7', 'jobs' => 42, 'active' => 31, 'waiting' => 11, 'utilization' => 82, 'jobsScaled' => 76],
-            ['label' => 'Milling', 'color' => '#30c7b5', 'jobs' => 35, 'active' => 26, 'waiting' => 9, 'utilization' => 74, 'jobsScaled' => 64],
-            ['label' => '3D Printing', 'color' => '#fb8c1f', 'jobs' => 27, 'active' => 19, 'waiting' => 8, 'utilization' => 58, 'jobsScaled' => 50],
-            ['label' => 'Sintering', 'color' => '#ee5ea3', 'jobs' => 18, 'active' => 12, 'waiting' => 6, 'utilization' => 41, 'jobsScaled' => 34],
+            ['label' => 'Design', 'jobs' => 42, 'active' => 31, 'waiting' => 11, 'utilization' => 82, 'jobsScaled' => 76],
+            ['label' => 'Milling', 'jobs' => 35, 'active' => 26, 'waiting' => 9, 'utilization' => 74, 'jobsScaled' => 64],
+            ['label' => '3D Printing', 'jobs' => 27, 'active' => 19, 'waiting' => 8, 'utilization' => 58, 'jobsScaled' => 50],
+            ['label' => 'Sintering', 'jobs' => 18, 'active' => 12, 'waiting' => 6, 'utilization' => 41, 'jobsScaled' => 34],
         ] : [
-            ['label' => 'Design', 'color' => '#4f6ef7', 'jobs' => 0, 'active' => 0, 'waiting' => 0, 'utilization' => 0, 'jobsScaled' => 0],
-            ['label' => 'Milling', 'color' => '#30c7b5', 'jobs' => 0, 'active' => 0, 'waiting' => 0, 'utilization' => 0, 'jobsScaled' => 0],
-            ['label' => '3D Printing', 'color' => '#fb8c1f', 'jobs' => 0, 'active' => 0, 'waiting' => 0, 'utilization' => 0, 'jobsScaled' => 0],
-            ['label' => 'Sintering', 'color' => '#ee5ea3', 'jobs' => 0, 'active' => 0, 'waiting' => 0, 'utilization' => 0, 'jobsScaled' => 0],
+            ['label' => 'Design', 'jobs' => 0, 'active' => 0, 'waiting' => 0, 'utilization' => 0, 'jobsScaled' => 0],
+            ['label' => 'Milling', 'jobs' => 0, 'active' => 0, 'waiting' => 0, 'utilization' => 0, 'jobsScaled' => 0],
+            ['label' => '3D Printing', 'jobs' => 0, 'active' => 0, 'waiting' => 0, 'utilization' => 0, 'jobsScaled' => 0],
+            ['label' => 'Sintering', 'jobs' => 0, 'active' => 0, 'waiting' => 0, 'utilization' => 0, 'jobsScaled' => 0],
         ]))->values();
-        $productionLoadHighlights = $productionLoadRows->sortByDesc('jobs')->take(3)->values();
+        $productionLoadHighlights = $productionLoadRows->sortByDesc('jobs')->values();
 
         $dashboardMetrics = [
-            'kpiSparks' => [
-                'revenue' => $dashboardSampleDataMode ? [18, 15, 21, 19, 27, 23, 31, 29, 35, 33, 39, 36] : $series($collectionsInLast30Days),
-                'orders' => $dashboardSampleDataMode ? [9, 12, 10, 15, 17, 13, 18, 20, 19, 23, 21, 25] : $series($compCasesCount30Days),
-                'clients' => $dashboardSampleDataMode ? [7, 9, 13, 11, 15, 16, 14, 20, 22, 18, 24, 21] : array_fill(0, 12, $newCustomers),
-                'conversion' => $dashboardSampleDataMode ? [20, 18, 22, 25, 24, 27, 23, 21, 19, 20, 22, 23] : array_fill(0, 12, $conversionRate),
-            ],
-            'kpiBars' => [
-                'workload' => $dashboardSampleDataMode ? [3, 4, 2, 5, 4, 6, 5, 7, 6, 8, 7, 9] : [$completedUnits7dTotal, $activeUnits, $waitingUnits, $deliveriesTodayCount, $paymentsCount],
-            ],
-            'workloadMix' => [
-                ['label' => 'Completed units', 'value' => $dashboardSampleDataMode ? max(1, $completedUnits7dTotal) : $completedUnits7dTotal, 'color' => '#6d5dfc'],
-                ['label' => 'Active units', 'value' => $dashboardSampleDataMode ? max(1, $activeUnits) : $activeUnits, 'color' => '#20b997'],
-                ['label' => 'Waiting units', 'value' => $dashboardSampleDataMode ? max(1, $waitingUnits) : $waitingUnits, 'color' => '#2f8fed'],
-                ['label' => 'Deliveries', 'value' => $dashboardSampleDataMode ? max(1, $deliveriesTodayCount) : $deliveriesTodayCount, 'color' => '#fb8c1f'],
-                ['label' => 'Payments', 'value' => $dashboardSampleDataMode ? max(1, $paymentsCount) : $paymentsCount, 'color' => '#ec5fa5'],
-            ],
             'clientCountries' => $dashboardSampleDataMode ? [
                 ['name' => 'Amman', 'value' => max(842, $ordersTotal + 220), 'width' => 96],
                 ['name' => 'Irbid', 'value' => max(312, $ordersTotal + 80), 'width' => 62],
@@ -236,9 +155,12 @@
         }
 
         $ordersTrendLabels = collect($last7DaysLabels)->values()->all();
-        $ordersTrendValues = collect($compCasesCount7Days)->values();
-        if ($dashboardSampleDataMode && $ordersTrendValues->sum() <= 0) {
-            $ordersTrendValues = collect([820, 710, 960, 880, 835, 930, 948]);
+        $ordersTrendSampleValues = collect([820, 710, 960, 880, 835, 930, 948]);
+        $ordersTrendValues = collect($compCasesCount7Days)
+            ->values()
+            ->map(fn ($value) => (int) max(0, round((float) $value)));
+        if ($dashboardSampleDataMode && $ordersTrendValues->sum() < $ordersTrendSampleValues->sum()) {
+            $ordersTrendValues = $ordersTrendSampleValues;
         } elseif ($ordersTrendValues->isEmpty()) {
             $ordersTrendValues = collect(array_fill(0, count($ordersTrendLabels), 0));
         }
@@ -250,7 +172,7 @@
                 'meta' => number_format((float) $payment->amount, 2) . ' ' . $currencyLabel,
                 'time' => optional($payment->created_at)->diffForHumans() ?? 'Today',
                 'icon' => 'fa-money-bill-wave',
-                'color' => '#20b997',
+                'tone' => 'success',
                 'modal' => '#receivePaymentModal' . $payment->id,
             ]);
         }
@@ -260,266 +182,220 @@
                 'meta' => $case->patient_name ?? 'Patient',
                 'time' => date('g:i a', strtotime(str_replace('T', ' ', $case->initial_delivery_date))),
                 'icon' => 'fa-truck-fast',
-                'color' => '#6d5dfc',
+                'tone' => 'warning',
                 'modal' => '#updateDeliveryDate' . $case->id,
             ]);
         }
         if ($dashboardSampleDataMode && $activityItems->isEmpty()) {
             $activityItems = collect([
-                ['title' => 'New dental case #CASE-1256', 'meta' => 'Implant crown | Dr. Lina Haddad', 'time' => '2m ago', 'icon' => 'fa-clipboard-list', 'color' => '#20b997', 'modal' => null],
-                ['title' => 'Clinic payment received', 'meta' => '850.00 ' . $currencyLabel . ' | Abdoun Dental Center', 'time' => '15m ago', 'icon' => 'fa-money-bill-wave', 'color' => '#20b997', 'modal' => null],
-                ['title' => 'Case ready for delivery', 'meta' => 'Zirconia bridge | Sweifieh Clinic', 'time' => '1h ago', 'icon' => 'fa-truck-fast', 'color' => '#6d5dfc', 'modal' => null],
-                ['title' => 'Design stage completed', 'meta' => '6-unit anterior case', 'time' => '2h ago', 'icon' => 'fa-pen-ruler', 'color' => '#2f8fed', 'modal' => null],
-                ['title' => 'QC approved', 'meta' => 'E.max veneer case', 'time' => '3h ago', 'icon' => 'fa-clipboard-check', 'color' => '#ec5fa5', 'modal' => null],
+                ['title' => 'New dental case #CASE-1256', 'meta' => 'Implant crown | Dr. Lina Haddad', 'time' => '2m ago', 'icon' => 'fa-clipboard-list', 'tone' => 'accent', 'modal' => null],
+                ['title' => 'Clinic payment received', 'meta' => '850.00 ' . $currencyLabel . ' | Abdoun Dental Center', 'time' => '15m ago', 'icon' => 'fa-money-bill-wave', 'tone' => 'success', 'modal' => null],
+                ['title' => 'Case ready for delivery', 'meta' => 'Zirconia bridge | Sweifieh Clinic', 'time' => '1h ago', 'icon' => 'fa-truck-fast', 'tone' => 'warning', 'modal' => null],
             ]);
         }
 
         $kpiCards = [
-            ['label' => 'Total Revenue', 'value' => $currencyLabel . ' ' . number_format($displayRevenueTotal, 0), 'canvas' => 'solentDashSparkRevenue', 'note' => 'current month payments total'],
-            ['label' => 'Orders', 'value' => number_format($displayOrdersTotal), 'canvas' => 'solentDashSparkOrders', 'note' => 'completed cases total'],
-            ['label' => 'Customers', 'value' => number_format($displayNewCustomers), 'canvas' => 'solentDashSparkClients', 'note' => 'active doctor network'],
-            ['label' => 'Conversion Rate', 'value' => number_format($displayConversionRate, 2) . '%', 'canvas' => 'solentDashSparkConversion', 'note' => 'completed vs workload'],
-            ['label' => 'Workload Mix', 'value' => number_format($displayWorkloadTotal), 'canvas' => 'solentDashSparkMix', 'note' => 'jobs each column represents amount of jobs in that day'],
+            ['label' => 'Total Revenue', 'prefix' => $currencyLabel, 'number' => number_format($displayRevenueTotal, 0)],
+            ['label' => 'Orders', 'prefix' => null, 'number' => number_format($displayOrdersTotal)],
+            ['label' => 'Customers', 'prefix' => null, 'number' => number_format($displayNewCustomers)],
         ];
 
-        $dashboardMetricGuideRows = [
-            ['metric' => 'Total Revenue card', 'value' => $currencyLabel . ' ' . number_format($displayRevenueTotal, 0), 'formula' => 'Sum of payment.amount over the last 30 days. In sample mode it shows the larger of the real total or 428,540.', 'source' => $dashboardSampleDataMode ? 'Real + sample floor' : 'Real'],
-            ['metric' => 'Orders card', 'value' => number_format($displayOrdersTotal), 'formula' => 'Sum of completed case counts across the last 30 days. In sample mode it shows the larger of the real total or 3,721.', 'source' => $dashboardSampleDataMode ? 'Real + sample floor' : 'Real'],
-            ['metric' => 'Customers card', 'value' => number_format($displayNewCustomers), 'formula' => 'Unique client_id count from today\'s undelivered deliveries. In sample mode it shows the larger of the real total or 2,145.', 'source' => $dashboardSampleDataMode ? 'Real + sample floor' : 'Real'],
-            ['metric' => 'Conversion Rate card', 'value' => number_format($displayConversionRate, 2) . '%', 'formula' => 'CompletedJobsToday / (CompletedJobsToday + ActiveJobsToday + waitingJobsToday) * 100, rounded to 2 decimals. In sample mode it shows the larger of the real rate or 2.48%.', 'source' => $dashboardSampleDataMode ? 'Real + sample floor' : 'Real'],
-            ['metric' => 'Workload Mix card', 'value' => number_format($displayWorkloadTotal), 'formula' => 'completedUnits7dTotal + activeUnits + waitingUnits. In sample mode it shows the larger of the real total or 128.', 'source' => $dashboardSampleDataMode ? 'Real + sample floor' : 'Real'],
-            ['metric' => 'Completed Jobs Today', 'value' => number_format($completedUnits), 'formula' => 'Units inside cases whose actual_delivery_date is today. A unit counts only when job.material.count_as_unit = 1, then it counts the comma-separated unit_num entries.', 'source' => 'Real'],
-            ['metric' => 'Waiting Jobs Today', 'value' => number_format($waitingUnits), 'formula' => 'All unassigned jobs where stage != -1, counted as units. Despite the label, it is not limited to today.', 'source' => 'Real'],
-            ['metric' => 'Active Jobs Today', 'value' => number_format($activeUnits), 'formula' => 'All assigned jobs where stage != -1, counted as units. Despite the label, it is not limited to today.', 'source' => 'Real'],
-            ['metric' => 'Deliveries Today count', 'value' => number_format($deliveriesTodayCount), 'formula' => 'Cases where initial_delivery_date is today and delivered_to_client = 0.', 'source' => 'Real'],
-            ['metric' => 'Payments Today count', 'value' => number_format($paymentsCount), 'formula' => 'Count of payment rows whose created_at is today.', 'source' => 'Real'],
-            ['metric' => 'Customer Overview total', 'value' => number_format($displayNewCustomers), 'formula' => 'Same number as the Customers card.', 'source' => $dashboardSampleDataMode ? 'Real + sample floor' : 'Real'],
-            ['metric' => 'Revenue Overview total', 'value' => $currencyLabel . ' ' . number_format($displayRevenueTotal, 0), 'formula' => 'Same displayed total as the Total Revenue card.', 'source' => $dashboardSampleDataMode ? 'Real + sample floor' : 'Real'],
-            ['metric' => 'Revenue Overview chart', 'value' => collect($revenueTrendValues)->implode(', '), 'formula' => 'Last 7 daily payment sums from the 30-day collection series. If sample mode is on and the real sum is 0, it falls back to 360, 320, 410, 620, 440, 660, 345.', 'source' => $dashboardSampleDataMode ? 'Real or sample fallback' : 'Real'],
-            ['metric' => 'Orders Over Time total', 'value' => number_format($displayOrdersTotal), 'formula' => 'Same displayed total as the Orders card.', 'source' => $dashboardSampleDataMode ? 'Real + sample floor' : 'Real'],
-            ['metric' => 'Orders Over Time chart', 'value' => collect($ordersTrendValues)->implode(', '), 'formula' => '7 daily completed-case counts. If sample mode is on and the real sum is 0, it falls back to 820, 710, 960, 880, 835, 930, 948.', 'source' => $dashboardSampleDataMode ? 'Real or sample fallback' : 'Real'],
-            ['metric' => 'Sales by Channel total', 'value' => $currencyLabel . ' ' . number_format($displayRevenueTotal, 0), 'formula' => 'Same displayed total as the Total Revenue card, even though the donut below is actually workload data.', 'source' => $dashboardSampleDataMode ? 'Real + sample floor' : 'Real'],
-            ['metric' => 'Revenue sparkline', 'value' => collect($dashboardMetrics['kpiSparks']['revenue'])->implode(', '), 'formula' => '12-point mini series for the Total Revenue card. Uses last 12 payment totals, or sample values in sample mode.', 'source' => $dashboardSampleDataMode ? 'Real or sample series' : 'Real'],
-            ['metric' => 'Orders sparkline', 'value' => collect($dashboardMetrics['kpiSparks']['orders'])->implode(', '), 'formula' => '12-point mini series for the Orders card. Uses last 12 completed-case totals, or sample values in sample mode.', 'source' => $dashboardSampleDataMode ? 'Real or sample series' : 'Real'],
-            ['metric' => 'Customers sparkline', 'value' => collect($dashboardMetrics['kpiSparks']['clients'])->implode(', '), 'formula' => '12 points. In live mode it repeats the same newCustomers value 12 times. In sample mode it uses a sample series.', 'source' => $dashboardSampleDataMode ? 'Sample series' : 'Derived real'],
-            ['metric' => 'Conversion sparkline', 'value' => collect($dashboardMetrics['kpiSparks']['conversion'])->implode(', '), 'formula' => '12 points. In live mode it repeats the same conversionRate value 12 times. In sample mode it uses a sample series.', 'source' => $dashboardSampleDataMode ? 'Sample series' : 'Derived real'],
-            ['metric' => 'Workload mini bars', 'value' => collect($dashboardMetrics['kpiBars']['workload'])->implode(', '), 'formula' => 'In live mode: completedUnits7dTotal, activeUnits, waitingUnits, deliveriesTodayCount, paymentsCount. In sample mode it uses a sample 12-point bar series.', 'source' => $dashboardSampleDataMode ? 'Sample series' : 'Derived real'],
-        ];
-
-        foreach ($dashboardMetrics['workloadMix'] as $mix) {
-            $mixTotal = collect($dashboardMetrics['workloadMix'])->sum('value');
-            $dashboardMetricGuideRows[] = [
-                'metric' => 'Workload donut - ' . $mix['label'],
-                'value' => number_format($mix['value']) . ' (' . number_format(($mix['value'] / max(1, $mixTotal)) * 100, 1) . '%)',
-                'formula' => 'Donut value from the workloadMix array. Percent = item value / sum of all donut values * 100.',
-                'source' => $dashboardSampleDataMode ? 'Real or sample minimum' : 'Real',
-            ];
-        }
-
-        foreach ($productionLoadRows as $stageLoad) {
-            $dashboardMetricGuideRows[] = [
-                'metric' => 'Production Load - ' . $stageLoad['label'],
-                'value' => number_format($stageLoad['jobs']) . ' jobs | ' . number_format($stageLoad['active']) . ' active | ' . number_format($stageLoad['waiting']) . ' waiting | ' . number_format($stageLoad['utilization']) . '%',
-                'formula' => 'Reads productionLoadRows. No real controller calculation is passed to this view, so this comes from the view fallback rows.',
-                'source' => $dashboardSampleDataMode ? 'Sample fallback' : 'View fallback',
-            ];
-        }
-
-        foreach ($dashboardMetrics['clientCountries'] as $country) {
-            $dashboardMetricGuideRows[] = [
-                'metric' => 'Customer Overview - ' . $country['name'],
-                'value' => number_format($country['value']) . ' (' . $country['width'] . '% bar width)',
-                'formula' => 'Comes from the clientCountries array. In sample mode these are hardcoded floors driven by ordersTotal, deliveriesTodayCount, or paymentsCount.',
-                'source' => $dashboardSampleDataMode ? 'Sample fallback' : 'Real if provided',
-            ];
-        }
     @endphp
 
     <link href="{{ asset('assets/css/elegant-dashboard.css') }}" rel="stylesheet">
 
     <div class="solent-dash" data-dashboard-sample-mode="{{ $dashboardSampleDataMode ? 'on' : 'off' }}">
-        <button
-            type="button"
-            class="solent-dash-metrics-guide-toggle"
-            id="solentDashMetricsGuideToggle"
-            aria-label="Open dashboard metrics guide"
-            aria-controls="solentDashMetricsGuidePanel"
-            aria-expanded="false"
-        >!</button>
-        <section class="solent-dash-metrics-guide-panel" id="solentDashMetricsGuidePanel" hidden>
-            <div class="solent-dash-metrics-guide-head">
-                <div>
-                    <h3 class="solent-dash-metrics-guide-title">Dashboard Numbers Guide</h3>
-                    <p class="solent-dash-metrics-guide-meta">Each row shows the current number, how it is calculated, and whether it is real or sample-driven.</p>
-                </div>
-                <div>
-                    <span class="solent-dash-metrics-guide-badge">{{ $dashboardSampleDataMode ? 'Sample mode ON' : 'Sample mode OFF' }}</span>
-                    <button type="button" class="solent-dash-metrics-guide-close" id="solentDashMetricsGuideClose" aria-label="Close dashboard metrics guide">&times;</button>
-                </div>
-            </div>
-            <table class="solent-dash-metrics-guide-table">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Metric</th>
-                        <th>Current Value</th>
-                        <th>How It Is Calculated</th>
-                        <th>Source</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($dashboardMetricGuideRows as $index => $row)
-                        <tr>
-                            <td>{{ $index + 1 }}</td>
-                            <td>{{ $row['metric'] }}</td>
-                            <td>{{ $row['value'] }}</td>
-                            <td>{{ $row['formula'] }}</td>
-                            <td>{{ $row['source'] }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </section>
         <main class="solent-dash-shell">
             <section class="solent-dash-kpis" aria-label="Dashboard key metrics">
                 @foreach ($kpiCards as $card)
-                    <article class="solent-dash-kpi-card">
+                    <article class="solent-dash-kpi-card card-1">
                         <div class="solent-dash-kpi-head">
                             <div>
                                 <span class="solent-dash-label">{{ $card['label'] }}</span>
-                                <strong class="solent-dash-value">{{ $card['value'] }}</strong>
+                                <strong class="solent-dash-value" aria-label="{{ trim(($card['prefix'] ? $card['prefix'] . ' ' : '') . $card['number']) }}">
+                                    @if ($card['prefix'])
+                                        <span class="solent-dash-value-prefix">{{ $card['prefix'] }}</span>
+                                    @endif
+                                    <span class="solent-dash-value-number">{{ $card['number'] }}</span>
+                                </strong>
                             </div>
                         </div>
-                        <div class="solent-dash-mini-chart"><canvas id="{{ $card['canvas'] }}"></canvas></div>
-                        <span class="solent-dash-note">{{ $card['note'] }} <i class="fa-regular fa-circle-question"></i></span>
                     </article>
                 @endforeach
+                <article class="solent-dash-kpi-card solent-dash-sample-card card-1">
+                    <form class="solent-dash-sample-toggle" method="GET" action="{{ route('home') }}">
+                        <div>
+                            <span class="solent-dash-label">Demo Data</span>
+                            <strong class="solent-dash-sample-status">
+                                {{ $dashboardSampleDataMode ? 'On' : 'Off' }}
+                            </strong>
+                        </div>
+                        <button
+                            type="submit"
+                            class="solent-dash-switch {{ $dashboardSampleDataMode ? 'is-active' : '' }}"
+                            name="sample_data"
+                            value="{{ $dashboardSampleDataMode ? '0' : '1' }}"
+                            role="switch"
+                            aria-checked="{{ $dashboardSampleDataMode ? 'true' : 'false' }}"
+                            title="{{ $dashboardSampleDataMode ? 'Show real dashboard data' : 'Show demo dashboard data' }}"
+                        >
+                            <span class="sr-only">Show demo dashboard data</span>
+                            <span class="solent-dash-switch__track" aria-hidden="true"></span>
+                        </button>
+                    </form>
+                </article>
             </section>
 
             <section class="solent-dash-layout">
-                <article class="solent-dash-panel solent-dash-load-panel">
+                <article class="solent-dash-panel solent-dash-customer-panel card-2">
                     <div class="solent-dash-panel-head">
-                        <div>
-                            <span class="solent-dash-load-kicker">Production Load</span>
-                            <h2 class="solent-dash-panel-title">Stage Daily Utilization</h2>
+                        <div class="solent-dash-map-card-copy">
+                            <span class="solent-dash-map-card-kicker">{{ $dashboardUi['Geographic activity'] ?? 'Geographic activity' }}</span>
+                            <h2 class="solent-dash-panel-title">{{ $dashboardUi['Case Activity by Governorate'] ?? 'Case Activity by Governorate' }}</h2>
+                            <p class="solent-dash-map-card-summary">Explore how active cases are distributed across Jordan.</p>
                         </div>
-                        <button class="solent-dash-chip" type="button">Live mix</button>
+                        <button class="solent-dash-map-card-action" type="button" data-toggle="modal" data-target="#solentJordanMapModal" aria-label="Explore case activity by Jordan governorate">
+                            <i class="fa-solid fa-expand" aria-hidden="true"></i>
+                            <span>Explore</span>
+                        </button>
                     </div>
-                    <div class="solent-dash-load-body">
-                        <div>
-                            <div class="solent-dash-load-chart"><canvas id="solentDashProductionLoad"></canvas></div>
-                            <div class="solent-dash-load-legend" aria-hidden="true">
-                                <span><i class="solent-dash-load-swatch solent-dash-load-swatch-primary"></i>Utilization %</span>
-                                <span><i class="solent-dash-load-swatch solent-dash-load-swatch-secondary"></i>Jobs in stage</span>
-                            </div>
-                        </div>
-                        <div class="solent-dash-load-list">
-                            @foreach ($productionLoadHighlights as $stageLoad)
-                                <div class="solent-dash-load-item">
-                                    <div>
-                                        <strong>{{ $stageLoad['label'] }}</strong>
-                                        <span>{{ $stageLoad['active'] }} active | {{ $stageLoad['waiting'] }} waiting</span>
-                                    </div>
-                                    <span class="solent-dash-load-jobs">{{ number_format($stageLoad['jobs']) }} jobs</span>
-                                </div>
-                            @endforeach
+                    <div class="solent-dash-client-panel">
+                        <div class="solent-dash-map-stage" aria-hidden="true" inert>
+                            @include('partials.jordan-dashboard-map')
                         </div>
                     </div>
                 </article>
 
-                <article class="solent-dash-panel solent-dash-panel-large">
+                <article class="solent-dash-panel solent-dash-panel-large card-2">
                     <div class="solent-dash-panel-head">
                         <div>
                             <h2 class="solent-dash-panel-title">Revenue Overview</h2>
                             <p class="solent-dash-panel-value">{{ $currencyLabel }} {{ number_format($displayRevenueTotal, 0) }}</p>
                         </div>
-                        <button class="solent-dash-chip" type="button">Daily <i class="fa-solid fa-chevron-down"></i></button>
                     </div>
                     <div class="solent-dash-chart-tall"><canvas id="solentDashRevenueOverview"></canvas></div>
                 </article>
 
-                <article class="solent-dash-panel">
+                <article class="solent-dash-panel solent-dash-delivery-panel card-2" data-dashboard-delivery-card>
                     <div class="solent-dash-panel-head">
-                        <h2 class="solent-dash-panel-title">Sales by Channel</h2>
+                        <h2 class="solent-dash-panel-title">{{ $dashboardUi['Case delivery'] ?? 'Case delivery' }}</h2>
+                        <a class="solent-dash-delivery-link" href="{{ route('delivery-schedule') }}" aria-label="{{ $dashboardUi['View delivery schedule'] ?? 'View delivery schedule' }}">
+                            <i class="fa-regular fa-calendar" aria-hidden="true"></i>
+                            <span>{{ $dashboardUi['View delivery schedule'] ?? 'View delivery schedule' }}</span>
+                        </a>
                     </div>
-                    <div class="solent-dash-donut-total">
-                        <span>Total</span>
-                        <strong>{{ $currencyLabel }} {{ number_format($displayRevenueTotal, 0) }}</strong>
-                    </div>
-                    <div class="solent-dash-mix">
-                        <div class="solent-dash-donut">
-                            <canvas id="solentDashWorkloadMix"></canvas>
-                            <div class="solent-dash-donut-center" aria-hidden="true"></div>
-                        </div>
-                        <div class="solent-dash-legend">
-                            @foreach ($dashboardMetrics['workloadMix'] as $mix)
-                                @php $mixTotal = collect($dashboardMetrics['workloadMix'])->sum('value'); @endphp
-                                <div class="solent-dash-legend-item">
-                                    <i class="solent-dash-dot" style="background: {{ $mix['color'] }}"></i>
-                                    <strong>{{ $mix['label'] }}</strong>
-                                    <span class="solent-dash-amount">{{ number_format($mix['value']) }}</span>
-                                    <span class="solent-dash-percent">{{ number_format(($mix['value'] / max(1, $mixTotal)) * 100, 1) }}%</span>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                </article>
-            </section>
-
-            <section class="solent-dash-mid-layout">
-                <article class="solent-dash-panel">
-                    <div class="solent-dash-panel-head">
-                        <div>
-                            <h2 class="solent-dash-panel-title">Customer Overview</h2>
-                            <p class="solent-dash-panel-value">{{ number_format($displayNewCustomers) }}</p>
-                        </div>
-                    </div>
-                    <div class="solent-dash-client-panel">
-                        <button class="solent-dash-map-button" type="button" data-toggle="modal" data-target="#solentJordanMapModal" aria-label="Expand Jordan city activity map">
-                            @include('partials.jordan-dashboard-map')
-                        </button>
-                        <div class="solent-dash-country-list">
-                            @forelse ($dashboardMetrics['clientCountries'] as $country)
-                                <div class="solent-dash-country">
-                                    <div class="solent-dash-country-line">
-                                        <span>{{ $country['name'] }}</span>
-                                        <strong>{{ number_format($country['value']) }}</strong>
-                                    </div>
-                                    <div class="solent-dash-track"><span style="width: {{ $country['width'] }}%"></span></div>
-                                </div>
-                            @empty
-                                <div class="solent-dash-country">
-                                    <div class="solent-dash-country-line">
-                                        <span>No regional data</span>
-                                        <strong>0</strong>
-                                    </div>
-                                    <div class="solent-dash-track"><span style="width: 0%"></span></div>
-                                </div>
-                            @endforelse
-                        </div>
+                    <div class="solent-dash-delivery-case-list" data-dashboard-delivery-cases>
+                        @forelse ($deliveryCardCases as $deliveryCase)
+                            @php
+                                $rawDeliveryDate = method_exists($deliveryCase, 'getRawOriginal')
+                                    ? ($deliveryCase->getRawOriginal('initial_delivery_date') ?: $deliveryCase->initial_delivery_date)
+                                    : $deliveryCase->initial_delivery_date;
+                                $deliveryMoment = \Carbon\Carbon::parse(str_replace('T', ' ', (string) $rawDeliveryDate));
+                                $deliveryDoctor = $deliveryCase->client->name ?? ($dashboardUi['Doctor'] ?? 'Doctor');
+                                $deliveryPatient = $deliveryCase->patient_name ?? ($dashboardUi['Patient'] ?? 'Patient');
+                            @endphp
+                            <a class="solent-dash-delivery-case" href="{{ route('view-case', ['id' => $deliveryCase->id, 'stage' => -2]) }}">
+                                <span class="solent-dash-delivery-case-copy">
+                                    <span class="solent-dash-delivery-case-field">
+                                        <small>{{ $dashboardUi['Doctor'] ?? 'Doctor' }}</small>
+                                        <strong title="{{ $deliveryDoctor }}">{{ $deliveryDoctor }}</strong>
+                                    </span>
+                                    <span class="solent-dash-delivery-case-field">
+                                        <small>{{ $dashboardUi['Patient'] ?? 'Patient' }}</small>
+                                        <strong title="{{ $deliveryPatient }}">{{ $deliveryPatient }}</strong>
+                                    </span>
+                                </span>
+                                <time datetime="{{ $deliveryMoment->toIso8601String() }}" dir="ltr">
+                                    <small>{{ $dashboardUi['Delivery time'] ?? 'Delivery time' }}</small>
+                                    <strong>{{ $deliveryMoment->translatedFormat('d M') }} · {{ $deliveryMoment->format('H:i') }}</strong>
+                                </time>
+                            </a>
+                        @empty
+                            <div class="solent-dash-delivery-empty">
+                                <i class="fa-regular fa-circle-check" aria-hidden="true"></i>
+                                <span>{{ $dashboardUi['No cases scheduled'] ?? 'No cases scheduled' }}</span>
+                            </div>
+                        @endforelse
                     </div>
                 </article>
 
-                <article class="solent-dash-panel">
+                <article class="solent-dash-panel solent-dash-service-panel card-2">
+                    <div class="solent-dash-panel-head">
+                        <h2 class="solent-dash-panel-title">Revenue by Service Type</h2>
+                    </div>
+                    <div class="solent-dash-service-total">
+                        <span>This month</span>
+                        <strong>{{ $currencyLabel }} {{ number_format($serviceRevenueTotal, 0) }}</strong>
+                    </div>
+                    <div class="solent-dash-service-bars">
+                        @forelse ($serviceRevenueRows as $serviceRevenueRow)
+                            <div class="solent-dash-service-row">
+                                <div class="solent-dash-service-line">
+                                    <span>{{ $serviceRevenueRow['label'] }}</span>
+                                    <strong>{{ $currencyLabel }} {{ number_format($serviceRevenueRow['value'], 0) }}</strong>
+                                </div>
+                                <div class="solent-dash-service-track">
+                                    <span style="width: {{ $serviceRevenueRow['width'] }}%"></span>
+                                </div>
+                            </div>
+                        @empty
+                            <div class="solent-dash-service-empty">No service revenue this month</div>
+                        @endforelse
+                    </div>
+                </article>
+
+                <article class="solent-dash-panel solent-dash-orders-panel card-2">
                     <div class="solent-dash-panel-head">
                         <div>
                             <h2 class="solent-dash-panel-title">Orders Over Time</h2>
                             <p class="solent-dash-panel-value">{{ number_format($displayOrdersTotal) }}</p>
                         </div>
-                        <button class="solent-dash-chip" type="button">Daily <i class="fa-solid fa-chevron-down"></i></button>
                     </div>
                     <div class="solent-dash-chart-medium"><canvas id="solentDashOrdersOverTime"></canvas></div>
                 </article>
+            </section>
 
-                <article class="solent-dash-panel">
+            <section class="solent-dash-mid-layout solent-dash-hidden-section" hidden>
+                <article class="solent-dash-panel solent-dash-load-panel solent-dash-hidden-card card-2" hidden>
+                    <div class="solent-dash-panel-head">
+                        <div>
+                            <span class="solent-dash-load-kicker">Production Load</span>
+                            <h2 class="solent-dash-panel-title">Stage Daily Utilization</h2>
+                        </div>
+                        <button class="solent-dash-chip" type="button">Current cases</button>
+                    </div>
+                    <div class="solent-dash-load-body">
+                        <div>
+                            <div class="solent-dash-load-chart"><canvas id="solentDashProductionLoad"></canvas></div>
+                            <div class="solent-dash-load-legend" aria-hidden="true">
+                                <span><i class="solent-dash-load-swatch solent-dash-load-swatch-primary"></i>Active cases</span>
+                                <span><i class="solent-dash-load-swatch solent-dash-load-swatch-secondary"></i>Waiting cases</span>
+                            </div>
+                        </div>
+                        <div class="solent-dash-load-list">
+                            @foreach ($productionLoadHighlights as $stageLoad)
+                                <div class="solent-dash-load-item card-3">
+                                    <div>
+                                        <strong>{{ $stageLoad['label'] }}</strong>
+                                        <span>{{ number_format($stageLoad['active']) }} active cases</span>
+                                        <span>{{ number_format($stageLoad['waiting']) }} waiting cases</span>
+                                    </div>
+                                    <span class="solent-dash-load-jobs">{{ number_format($stageLoad['jobs']) }} total cases</span>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </article>
+
+                <article class="solent-dash-panel solent-dash-activity-panel solent-dash-hidden-card card-2" hidden>
                     <div class="solent-dash-panel-head">
                         <h2 class="solent-dash-panel-title">Recent Activity</h2>
                         <button class="solent-dash-chip" type="button">View all</button>
                     </div>
                     <div class="solent-dash-activity-list">
                         @forelse ($activityItems->take(5) as $activity)
-                            <a class="solent-dash-activity-item" href="{{ $activity['modal'] ?: '#' }}" @if($activity['modal']) data-toggle="modal" @endif>
-                                <span class="solent-dash-activity-icon" style="background: {{ $activity['color'] }}18; color: {{ $activity['color'] }}"><i class="fa-solid {{ $activity['icon'] }}"></i></span>
+                            <a class="solent-dash-activity-item card-3" href="{{ $activity['modal'] ?: '#' }}" @if($activity['modal']) data-toggle="modal" @endif>
+                                <span class="solent-dash-activity-icon tone-{{ $activity['tone'] }}"><i class="fa-solid {{ $activity['icon'] }}"></i></span>
                                 <span>
                                     <strong>{{ $activity['title'] }}</strong>
                                     <span>{{ $activity['meta'] }}</span>
@@ -539,11 +415,37 @@
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="solentJordanMapModalTitle">Jordan Clinic Activity</h5>
+                    <div class="solent-dash-map-modal-copy">
+                        <span class="solent-dash-map-modal-eyebrow">Regional overview</span>
+                        <h5 class="modal-title" id="solentJordanMapModalTitle">Case Activity Across Jordan</h5>
+                        <p class="solent-dash-map-modal-summary">Select a governorate to inspect its case activity in more detail.</p>
+                    </div>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-                    @include('partials.jordan-dashboard-map', ['expanded' => true])
+                    <div class="solent-dash-map-stage">
+                        @include('partials.jordan-dashboard-map', ['expanded' => true, 'drilldown' => true])
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade solent-dash-map-detail-modal" id="solentJordanGovernorateModal" tabindex="-1" role="dialog" aria-labelledby="solentJordanGovernorateModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="solent-dash-map-modal-copy">
+                        <span class="solent-dash-map-modal-eyebrow">Governorate detail</span>
+                        <h5 class="modal-title" id="solentJordanGovernorateModalTitle">Governorate Detail</h5>
+                        <p class="solent-dash-map-detail-meta" id="solentJordanGovernorateModalMeta">0 cases in this governorate</p>
+                    </div>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="solent-dash-map-stage">
+                        @include('partials.jordan-dashboard-map', ['expanded' => true, 'focusRegion' => ''])
+                    </div>
                 </div>
             </div>
         </div>
@@ -584,7 +486,7 @@
                             <a href="{{ route('receive-payment', $payment->id) }}"><button type="button" class="btn btn-danger">Receive</button></a>
                         @endif
                     </div>
-                    <small style="text-align:center;font-size: 60%;color: gray;">PAYMENT ID : {{ $payment->id }}</small>
+                    <small style="text-align:center;font-size: 60%;color: var(--text-2);">PAYMENT ID : {{ $payment->id }}</small>
                 </div>
             </div>
         </div>
@@ -615,7 +517,7 @@
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-danger">UPDATE</button>
                         </div>
-                        <small style="text-align:center;font-size: 60%;color: gray;">CASE ID : {{ $case->id }}</small>
+                        <small style="text-align:center;font-size: 60%;color: var(--text-2);">CASE ID : {{ $case->id }}</small>
                     </form>
                 </div>
             </div>
@@ -626,90 +528,106 @@
 @push('js')
     <script src="{{ asset('white') }}/js/plugins/chartjs.min.js"></script>
     <script>
-        const solentDashPalette = {
-            purple: '#6d5dfc',
-            blue: '#2f8fed',
-            teal: '#20b997',
-            orange: '#fb8c1f',
-            pink: '#ec5fa5',
-            grid: 'rgba(17, 24, 39, 0.08)'
+        const solentDashStyles = getComputedStyle(document.documentElement);
+        const solentDashCss = function (name) {
+            return solentDashStyles.getPropertyValue(name).trim();
         };
+        const solentDashPalette = {
+            accent: solentDashCss('--accent'),
+            accentLt: solentDashCss('--accent-lt'),
+            accentBg: solentDashCss('--accent-bg'),
+            success: solentDashCss('--success'),
+            warning: solentDashCss('--warning'),
+            danger: solentDashCss('--danger'),
+            text1: solentDashCss('--text-1'),
+            text2: solentDashCss('--text-2'),
+            surface: solentDashCss('--surface'),
+            grid: solentDashCss('--chart-grid')
+        };
+        solentDashPalette.stageAccent = '#6366f1';
 
         const solentDashData = {
-            kpiSparks: {!! json_encode($dashboardMetrics['kpiSparks']) !!},
-            kpiBars: {!! json_encode($dashboardMetrics['kpiBars']) !!},
             revenueLabels: {!! json_encode($revenueTrendLabels) !!},
             revenueValues: {!! json_encode($revenueTrendValues->values()->all()) !!},
-            mixLabels: {!! json_encode(collect($dashboardMetrics['workloadMix'])->pluck('label')->values()->all()) !!},
-            mixValues: {!! json_encode(collect($dashboardMetrics['workloadMix'])->pluck('value')->values()->all()) !!},
-            mixColors: {!! json_encode(collect($dashboardMetrics['workloadMix'])->pluck('color')->values()->all()) !!},
             orderLabels: {!! json_encode($ordersTrendLabels) !!},
             orderValues: {!! json_encode($ordersTrendValues->values()->all()) !!},
             productionLoad: {
                 labels: {!! json_encode($productionLoadRows->pluck('label')->values()->all()) !!},
-                utilization: {!! json_encode($productionLoadRows->pluck('utilization')->values()->all()) !!},
-                jobsScaled: {!! json_encode($productionLoadRows->pluck('jobsScaled')->values()->all()) !!},
-                jobs: {!! json_encode($productionLoadRows->pluck('jobs')->values()->all()) !!},
-                colors: {!! json_encode($productionLoadRows->pluck('color')->values()->all()) !!}
+                active: {!! json_encode($productionLoadRows->pluck('active')->values()->all()) !!},
+                waiting: {!! json_encode($productionLoadRows->pluck('waiting')->values()->all()) !!},
+                jobs: {!! json_encode($productionLoadRows->pluck('jobs')->values()->all()) !!}
             }
         };
 
         document.addEventListener('DOMContentLoaded', function () {
-            solentDashInitMetricsGuide();
-            solentDashInitSparklines();
+            solentDashInitJordanMapDrilldown();
             solentDashInitRevenue();
-            solentDashInitMix();
             solentDashInitOrders();
-            solentDashInitProductionLoad();
         });
 
-        function solentDashInitMetricsGuide() {
-            const toggle = document.getElementById('solentDashMetricsGuideToggle');
-            const panel = document.getElementById('solentDashMetricsGuidePanel');
-            const close = document.getElementById('solentDashMetricsGuideClose');
+        function solentDashInitJordanMapDrilldown() {
+            const sourceModal = document.getElementById('solentJordanMapModal');
+            const targetModal = document.getElementById('solentJordanGovernorateModal');
+            const targetTitle = document.getElementById('solentJordanGovernorateModalTitle');
+            const targetMeta = document.getElementById('solentJordanGovernorateModalMeta');
+            const targetMap = targetModal ? targetModal.querySelector('[data-solent-jordan-map]') : null;
 
-            if (!toggle || !panel || !close) return;
+            if (!sourceModal || !targetModal || !targetMap) return;
 
-            const setOpen = function (open) {
-                panel.hidden = !open;
-                toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-            };
+            function formatCaseCount(value) {
+                const caseCount = Number(value) || 0;
+                return caseCount.toLocaleString() + (caseCount === 1 ? ' case' : ' cases') + ' in this governorate';
+            }
 
-            setOpen(false);
+            document.addEventListener('solent:jordan-region-selected', function (event) {
+                if (!sourceModal.contains(event.target)) return;
 
-            toggle.addEventListener('click', function (event) {
-                event.preventDefault();
-                event.stopPropagation();
-                setOpen(panel.hidden);
-            });
+                const detail = event.detail || {};
+                targetMap.dataset.focusRegion = detail.normalizedName || '';
+                targetTitle.textContent = (detail.name || 'Governorate') + ' Governorate';
+                targetMeta.textContent = formatCaseCount(detail.cases);
 
-            close.addEventListener('click', function (event) {
-                event.preventDefault();
-                setOpen(false);
-            });
+                if (typeof window.solentJordanMapRerender === 'function') {
+                    window.solentJordanMapRerender(targetMap, false);
+                }
 
-            panel.addEventListener('click', function (event) {
-                event.stopPropagation();
-            });
-
-            document.addEventListener('click', function () {
-                if (!panel.hidden) {
-                    setOpen(false);
+                if (window.jQuery) {
+                    window.jQuery(targetModal).modal({ backdrop: false, keyboard: true, show: true });
                 }
             });
 
-            document.addEventListener('keydown', function (event) {
-                if (event.key === 'Escape') {
-                    setOpen(false);
-                }
-            });
+            if (window.jQuery) {
+                const $sourceModal = window.jQuery(sourceModal);
+                const $targetModal = window.jQuery(targetModal);
+
+                $targetModal
+                    .on('show.bs.modal', function () {
+                        sourceModal.setAttribute('aria-hidden', 'true');
+                    })
+                    .on('hidden.bs.modal', function () {
+                        if ($sourceModal.hasClass('show')) {
+                            document.body.classList.add('modal-open');
+                            sourceModal.setAttribute('aria-hidden', 'false');
+                            const sourceCloseButton = sourceModal.querySelector('.modal-header .close');
+                            if (sourceCloseButton) sourceCloseButton.focus();
+                        }
+                    });
+            }
         }
 
-        function solentDashGradient(ctx, color, height) {
+        function solentDashGradient(ctx, color, height, topOpacity) {
             const gradient = ctx.createLinearGradient(0, 0, 0, height);
-            gradient.addColorStop(0, color + '33');
-            gradient.addColorStop(1, color + '03');
+            gradient.addColorStop(0, Chart.helpers.color(color).alpha(topOpacity || 0.35).rgbString());
+            gradient.addColorStop(1, Chart.helpers.color(color).alpha(0).rgbString());
             return gradient;
+        }
+
+        function solentDashDateLabel(value) {
+            const date = new Date(value);
+            if (Number.isNaN(date.getTime())) {
+                return value;
+            }
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
         }
 
         function solentDashBaseOptions(extra) {
@@ -718,90 +636,60 @@
                 maintainAspectRatio: false,
                 legend: { display: false },
                 tooltips: {
-                    backgroundColor: '#101828',
-                    titleFontColor: '#ffffff',
-                    bodyFontColor: '#e5e7eb',
+                    backgroundColor: solentDashPalette.text1,
+                    titleFontColor: solentDashPalette.surface,
+                    bodyFontColor: solentDashPalette.surface,
                     displayColors: false
                 }
             }, extra || {});
         }
 
-        function solentDashSpark(canvasId, values, color) {
-            const canvas = document.getElementById(canvasId);
-            if (!canvas) return;
-            const ctx = canvas.getContext('2d');
-            new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: values.map(function (_, index) { return index + 1; }),
-                    datasets: [{
-                        data: values,
-                        borderColor: color,
-                        backgroundColor: solentDashGradient(ctx, color, 40),
-                        borderWidth: 2,
-                        pointRadius: 0,
-                        fill: true,
-                        lineTension: 0.4
-                    }]
-                },
-                options: solentDashBaseOptions({
-                    scales: {
-                        xAxes: [{ display: false }],
-                        yAxes: [{ display: false }]
-                    },
-                    tooltips: { enabled: false }
-                })
-            });
-        }
+        if (!window.solentDashOrderValueLabelsRegistered) {
+            Chart.plugins.register({
+                afterDatasetsDraw: function (chart) {
+                    if (chart.canvas.id !== 'solentDashOrdersOverTime') return;
 
-        function solentDashInitSparklines() {
-            solentDashSpark('solentDashSparkRevenue', solentDashData.kpiSparks.revenue, solentDashPalette.purple);
-            solentDashSpark('solentDashSparkOrders', solentDashData.kpiSparks.orders, solentDashPalette.teal);
-            solentDashSpark('solentDashSparkClients', solentDashData.kpiSparks.clients, solentDashPalette.blue);
-            solentDashSpark('solentDashSparkConversion', solentDashData.kpiSparks.conversion, solentDashPalette.purple);
-            solentDashMiniBars('solentDashSparkMix', solentDashData.kpiBars.workload, solentDashPalette.orange);
-        }
+                    const bars = chart.getDatasetMeta(0).data;
+                    const values = chart.data.datasets[0].data;
+                    const context = chart.ctx;
 
-        function solentDashMiniBars(canvasId, values, color) {
-            const canvas = document.getElementById(canvasId);
-            if (!canvas) return;
-            new Chart(canvas.getContext('2d'), {
-                type: 'bar',
-                data: {
-                    labels: values.map(function (_, index) { return index + 1; }),
-                    datasets: [{
-                        data: values,
-                        backgroundColor: color,
-                        borderWidth: 0,
-                        barThickness: 4,
-                        maxBarThickness: 5
-                    }]
-                },
-                options: solentDashBaseOptions({
-                    scales: {
-                        xAxes: [{ display: false }],
-                        yAxes: [{ display: false }]
-                    },
-                    tooltips: { enabled: false }
-                })
+                    context.save();
+                    context.fillStyle = '#312e81';
+                    context.font = '600 11px Inter, Arial, sans-serif';
+                    context.textAlign = 'center';
+                    context.textBaseline = 'bottom';
+
+                    bars.forEach(function (bar, index) {
+                        const value = Math.max(0, Math.round(Number(values[index]) || 0));
+                        const position = bar.tooltipPosition();
+                        context.fillText(value.toLocaleString(), position.x, position.y - 7);
+                    });
+
+                    context.restore();
+                }
             });
+            window.solentDashOrderValueLabelsRegistered = true;
         }
 
         function solentDashInitRevenue() {
             const canvas = document.getElementById('solentDashRevenueOverview');
             if (!canvas) return;
             const ctx = canvas.getContext('2d');
+            const revenueAccent = '#6366f1';
+            const revenueGradient = ctx.createLinearGradient(0, 0, 0, 240);
+            revenueGradient.addColorStop(0, 'rgba(99, 102, 241, 0.4)');
+            revenueGradient.addColorStop(1, 'rgba(99, 102, 241, 0)');
             new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: solentDashData.revenueLabels,
                     datasets: [{
                         data: solentDashData.revenueValues,
-                        borderColor: solentDashPalette.purple,
-                        backgroundColor: solentDashGradient(ctx, solentDashPalette.purple, 240),
-                        borderWidth: 3,
-                        pointBackgroundColor: solentDashPalette.purple,
-                        pointBorderColor: '#ffffff',
+                        borderColor: revenueAccent,
+                        backgroundColor: revenueGradient,
+                        borderWidth: 2.5,
+                        pointBackgroundColor: revenueAccent,
+                        pointBorderColor: solentDashPalette.surface,
                         pointBorderWidth: 2,
                         pointRadius: 3,
                         fill: true,
@@ -810,49 +698,109 @@
                 },
                 options: solentDashBaseOptions({
                     scales: {
-                        xAxes: [{ gridLines: { display: false }, ticks: { fontColor: '#79829a', fontSize: 11 } }],
-                        yAxes: [{ ticks: { beginAtZero: true, fontColor: '#79829a', fontSize: 11 }, gridLines: { color: solentDashPalette.grid, drawBorder: false } }]
+                        xAxes: [{ gridLines: { display: false }, ticks: { callback: solentDashDateLabel, fontColor: solentDashPalette.text2, fontSize: 11 } }],
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                callback: function (value) {
+                                    const roundedValue = Number(Number(value).toFixed(1));
+                                    return roundedValue === 0 ? '0' : roundedValue + 'K';
+                                },
+                                fontColor: solentDashPalette.text2,
+                                fontSize: 11
+                            },
+                            gridLines: { color: solentDashPalette.grid, drawBorder: false }
+                        }]
+                    },
+                    tooltips: {
+                        callbacks: {
+                            label: function (tooltipItem) {
+                                return 'JOD ' + Number(tooltipItem.yLabel || 0).toLocaleString();
+                            }
+                        }
                     }
                 })
-            });
-        }
-
-        function solentDashInitMix() {
-            const canvas = document.getElementById('solentDashWorkloadMix');
-            if (!canvas) return;
-            new Chart(canvas.getContext('2d'), {
-                type: 'doughnut',
-                data: {
-                    labels: solentDashData.mixLabels,
-                    datasets: [{
-                        data: solentDashData.mixValues,
-                        backgroundColor: solentDashData.mixColors,
-                        borderColor: '#ffffff',
-                        borderWidth: 3
-                    }]
-                },
-                options: solentDashBaseOptions({ cutoutPercentage: 62 })
             });
         }
 
         function solentDashInitOrders() {
             const canvas = document.getElementById('solentDashOrdersOverTime');
             if (!canvas) return;
-            new Chart(canvas.getContext('2d'), {
+            const ctx = canvas.getContext('2d');
+            const orderValues = solentDashData.orderValues.map(function (value) {
+                return Math.max(0, Math.round(Number(value) || 0));
+            });
+            const orderAxisMax = Math.max.apply(null, orderValues.concat([0]));
+            const orderTickStep = orderAxisMax >= 500 ? 200 : (orderAxisMax >= 100 ? 50 : (orderAxisMax >= 20 ? 10 : 1));
+            const orderGradient = ctx.createLinearGradient(0, 0, 0, 280);
+            orderGradient.addColorStop(0, 'rgba(99, 102, 241, 0.92)');
+            orderGradient.addColorStop(0.62, 'rgba(129, 140, 248, 0.56)');
+            orderGradient.addColorStop(1, 'rgba(199, 210, 254, 0.22)');
+            new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels: solentDashData.orderLabels,
-                    datasets: [{
-                        data: solentDashData.orderValues,
-                        backgroundColor: '#20b997',
-                        borderWidth: 0,
-                        barThickness: 22
-                    }]
+                    datasets: [
+                        {
+                            label: 'Orders',
+                            data: orderValues,
+                            backgroundColor: orderGradient,
+                            hoverBackgroundColor: '#4f46e5',
+                            borderColor: 'rgba(99, 102, 241, 0.7)',
+                            borderWidth: 1,
+                            barPercentage: 0.56,
+                            categoryPercentage: 0.72,
+                            maxBarThickness: 30
+                        },
+                        {
+                            type: 'line',
+                            label: 'Order trend',
+                            data: orderValues,
+                            borderColor: '#312e81',
+                            backgroundColor: 'transparent',
+                            borderWidth: 2,
+                            pointBackgroundColor: '#ffffff',
+                            pointBorderColor: '#4f46e5',
+                            pointBorderWidth: 2,
+                            pointRadius: 2.5,
+                            pointHoverRadius: 4,
+                            fill: false,
+                            lineTension: 0.34,
+                            orderTrend: true
+                        }
+                    ]
                 },
                 options: solentDashBaseOptions({
+                    layout: { padding: { top: 18 } },
+                    hover: { mode: 'index', intersect: false },
                     scales: {
-                        xAxes: [{ gridLines: { display: false }, ticks: { fontColor: '#79829a', fontSize: 11 } }],
-                        yAxes: [{ ticks: { beginAtZero: true, fontColor: '#79829a', fontSize: 11 }, gridLines: { color: solentDashPalette.grid, drawBorder: false } }]
+                        xAxes: [{ gridLines: { display: false }, ticks: { callback: solentDashDateLabel, fontColor: solentDashPalette.text2, fontSize: 11 } }],
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                precision: 0,
+                                stepSize: orderTickStep,
+                                suggestedMax: orderAxisMax >= 500 ? Math.ceil(orderAxisMax / 200) * 200 : undefined,
+                                fontColor: solentDashPalette.text2,
+                                fontSize: 11,
+                                callback: function (value) {
+                                    return Number.isInteger(value) ? value.toLocaleString() : '';
+                                }
+                            },
+                            gridLines: { color: solentDashPalette.grid, drawBorder: false }
+                        }]
+                    },
+                    tooltips: {
+                        mode: 'index',
+                        intersect: false,
+                        filter: function (tooltipItem, chartData) {
+                            return !chartData.datasets[tooltipItem.datasetIndex].orderTrend;
+                        },
+                        callbacks: {
+                            label: function (tooltipItem) {
+                                return Number(tooltipItem.yLabel || 0).toLocaleString() + ' orders';
+                            }
+                        }
                     }
                 })
             });
@@ -862,51 +810,58 @@
             const canvas = document.getElementById('solentDashProductionLoad');
             if (!canvas) return;
             new Chart(canvas.getContext('2d'), {
-                type: 'horizontalBar',
+                type: 'bar',
                 data: {
                     labels: solentDashData.productionLoad.labels,
                     datasets: [
                         {
-                            label: 'Utilization %',
-                            data: solentDashData.productionLoad.utilization,
-                            backgroundColor: solentDashData.productionLoad.colors,
+                            label: @json(trans('ui.dom')['Active cases'] ?? 'Active cases'),
+                            data: solentDashData.productionLoad.active,
+                            backgroundColor: solentDashPalette.stageAccent,
+                            hoverBackgroundColor: solentDashPalette.stageAccent,
+                            borderColor: solentDashPalette.stageAccent,
                             borderWidth: 0,
-                            barThickness: 8,
-                            maxBarThickness: 8
+                            barThickness: 14,
+                            maxBarThickness: 18
                         },
                         {
-                            label: 'Jobs in stage',
-                            data: solentDashData.productionLoad.jobsScaled,
-                            backgroundColor: 'rgba(149, 157, 185, 0.26)',
+                            label: @json(trans('ui.dom')['Waiting cases'] ?? 'Waiting cases'),
+                            data: solentDashData.productionLoad.waiting,
+                            backgroundColor: solentDashPalette.accentBg,
                             borderWidth: 0,
-                            barThickness: 8,
-                            maxBarThickness: 8
+                            barThickness: 14,
+                            maxBarThickness: 18
                         }
                     ]
                 },
                 options: solentDashBaseOptions({
                     scales: {
                         xAxes: [{
-                            ticks: { beginAtZero: true, max: 100, fontColor: '#98a2b3', fontSize: 10, stepSize: 20 },
-                            gridLines: { color: 'rgba(17, 24, 39, 0.06)', drawBorder: false }
+                            ticks: { fontColor: solentDashPalette.text1, fontSize: 10, fontStyle: '600' },
+                            gridLines: { display: false }
                         }],
                         yAxes: [{
-                            ticks: { fontColor: '#344054', fontSize: 10, fontStyle: '600' },
-                            gridLines: { display: false }
+                            ticks: {
+                                beginAtZero: true,
+                                precision: 0,
+                                fontColor: solentDashPalette.text2,
+                                fontSize: 10,
+                                callback: function (value) {
+                                    return Number.isInteger(value) ? value.toLocaleString() : '';
+                                }
+                            },
+                            gridLines: { color: solentDashPalette.grid, drawBorder: false }
                         }]
                     },
                     tooltips: {
-                        backgroundColor: '#101828',
-                        titleFontColor: '#ffffff',
-                        bodyFontColor: '#e5e7eb',
+                        backgroundColor: solentDashPalette.text1,
+                        titleFontColor: solentDashPalette.surface,
+                        bodyFontColor: solentDashPalette.surface,
                         callbacks: {
                             label: function (tooltipItem, data) {
-                                if (tooltipItem.datasetIndex === 0) {
-                                    return data.datasets[tooltipItem.datasetIndex].label + ': ' + tooltipItem.xLabel + '%';
-                                }
-
-                                const jobs = solentDashData.productionLoad.jobs[tooltipItem.index];
-                                return data.datasets[tooltipItem.datasetIndex].label + ': ' + jobs + ' jobs';
+                                const dataset = data.datasets[tooltipItem.datasetIndex];
+                                const cases = dataset.data[tooltipItem.index] || 0;
+                                return dataset.label + ': ' + Number(cases).toLocaleString() + ' cases';
                             }
                         }
                     }

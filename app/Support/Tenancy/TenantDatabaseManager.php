@@ -8,7 +8,9 @@ class TenantDatabaseManager
 {
     public function connect(TenantContext $context, bool $reconnect = true): void
     {
-        if (!$context->isResolved() || !$context->isActive() || $context->isLocal()) {
+        $canConnect = $context->isActive() || $context->status === 'provisioning';
+
+        if (!$context->isResolved() || !$canConnect || $context->isLocal()) {
             return;
         }
 

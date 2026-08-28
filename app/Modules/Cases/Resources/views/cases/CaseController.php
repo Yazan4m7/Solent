@@ -218,7 +218,7 @@ class CaseController extends Controller
 
                 } catch (\Exception $e) {
                     $request->flash();
-                    return back()->with('error', "Something went Wrong :( ");
+                    return back()->with('error', " Demo version does not allow this operation ");
 
                 }
                 if (isset($newJob))
@@ -482,7 +482,7 @@ class CaseController extends Controller
             }
             return back()->with('success', 'Case has been updated successfully ');
         } else {
-            return back()->with('error', 'Something went wrong');
+            return back()->with('error', ' Demo version does not allow this operation');
         }
     }
 
@@ -1484,7 +1484,7 @@ class CaseController extends Controller
         if ($transaction) {
             return back()->with('success', 'Case delivery date has been updated');
         } else {
-            return back()->with('error', 'Something went wrong');
+            return back()->with('error', ' Demo version does not allow this operation');
         }
 
     }

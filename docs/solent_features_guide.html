@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="ar" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <title>Solent - الميزات المتقدمة وتخصيص مسارات الإنتاج</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@700;800;900&family=JetBrains+Mono:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: #94a3b8;
+      color: #0f172a;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+      line-height: 1.5;
+    }
+
+    .page {
+      width: 210mm;
+      height: 297mm;
+      min-height: 297mm;
+      max-height: 297mm;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 16mm 18mm 14mm 18mm;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      page-break-after: always;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    }
+
+    @media print {
+      body {
+        background: none;
+      }
+      .page {
+        box-shadow: none;
+        margin: 0;
+        width: 210mm;
+        height: 297mm;
+        max-height: 297mm;
+        padding: 16mm 18mm 14mm 18mm;
+      }
+    }
+
+    /* Top Accent Line */
+    .page::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, #0d9488 0%, #14b8a6 45%, #c89b3c 100%);
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 12px;
+      border-bottom: 1.5px solid #e2e8f0;
+    }
+
+    .brand-corp {
+      font-family: 'Plus Jakarta Sans', 'Cairo', sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      color: #475569;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-corp-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #0d9488;
+    }
+
+    .brand-solent {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-logo-text {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      color: #0f172a;
+    }
+
+    .brand-logo-text span {
+      color: #0d9488;
+    }
+
+    .brand-badge {
+      background: #0f172a;
+      color: #c89b3c;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 10.5px;
+      padding: 3px 9px;
+      border-radius: 5px;
+      letter-spacing: 0.5px;
+    }
+
+    /* Main Content Container (fills vertical space) */
+    .content-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 14px 0 10px 0;
+      gap: 12px;
+    }
+
+    /* Titles Area */
+    .hero-title-area {
+      text-align: right;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #f0fdfa;
+      border: 1px solid #ccfbf1;
+      color: #0f766e;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 6px;
+    }
+
+    .page-title {
+      font-size: 24px;
+      font-weight: 900;
+      color: #0f172a;
+      letter-spacing: -0.4px;
+      line-height: 1.25;
+      text-align: right;
+    }
+
+    .page-subtitle {
+      font-size: 13px;
+      font-weight: 600;
+      color: #64748b;
+      margin-top: 3px;
+      text-align: right;
+    }
+
+    /* Highlight Banner */
+    .highlight-banner {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: #ffffff;
+      border-radius: 10px;
+      padding: 14px 18px;
+      border-right: 5px solid #0d9488;
+      text-align: right;
+    }
+
+    .highlight-banner h3 {
+      font-size: 14px;
+      font-weight: 800;
+      color: #c89b3c;
+      margin-bottom: 4px;
+    }
+
+    .highlight-banner p {
+      font-size: 12px;
+      color: #e2e8f0;
+      line-height: 1.6;
+      font-weight: 500;
+    }
+
+    /* Section Headings */
+    .section-head {
+      font-size: 14.5px;
+      font-weight: 800;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      text-align: right;
+      direction: rtl;
+    }
+
+    .section-head::after {
+      content: "";
+      flex: 1;
+      height: 1.5px;
+      background: #e2e8f0;
+    }
+
+    /* Card Base */
+    .card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 14px 16px;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.03);
+      position: relative;
+      text-align: right;
+    }
+
+    .card.teal-top { border-top: 4px solid #0d9488; }
+    .card.gold-top { border-top: 4px solid #c89b3c; }
+    .card.blue-top { border-top: 4px solid #3b82f6; }
+    .card.purple-top { border-top: 4px solid #8b5cf6; }
+
+    .card-header-flex {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      direction: rtl;
+    }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    .card-desc {
+      font-size: 12px;
+      color: #475569;
+      line-height: 1.55;
+      font-weight: 500;
+      text-align: right;
+    }
+
+    /* Tags */
+    .tag {
+      font-size: 9.5px;
+      font-weight: 800;
+      font-family: 'JetBrains Mono', 'Cairo', monospace;
+      padding: 2.5px 8px;
+      border-radius: 4px;
+      display: inline-block;
+    }
+
+    .tag-teal { background: #ccfbf1; color: #0f766e; }
+    .tag-gold { background: #fef3c7; color: #92400e; }
+    .tag-blue { background: #dbeafe; color: #1e40af; }
+    .tag-gray { background: #f1f5f9; color: #334155; }
+    .tag-red  { background: #fee2e2; color: #991b1b; }
+    .tag-purple { background: #f3e8ff; color: #6b21a8; }
+
+    /* Tables */
+    .flow-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      overflow: hidden;
+      font-size: 11.5px;
+      text-align: right;
+      direction: rtl;
+    }
+
+    .flow-table th {
+      background: #0f172a;
+      color: #ffffff;
+      padding: 10px 14px;
+      font-weight: 800;
+      text-align: right;
+      font-size: 11.5px;
+    }
+
+    .flow-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid #f1f5f9;
+      color: #334155;
+      background: #ffffff;
+      vertical-align: middle;
+    }
+
+    .flow-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .flow-table tr:nth-child(even) td {
+      background: #f8fafc;
+    }
+
+    .route-pill-container {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-wrap: wrap;
+      direction: ltr;
+      justify-content: flex-end;
+    }
+
+    .route-step {
+      font-size: 10px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: #e2e8f0;
+      color: #1e293b;
+      font-family: 'JetBrains Mono', 'Cairo', monospace;
+    }
+
+    .route-step.active {
+      background: #0d9488;
+      color: #ffffff;
+    }
+
+    .route-arrow {
+      font-size: 11px;
+      color: #94a3b8;
+      font-weight: 900;
+    }
+
+    /* Grids */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    /* Delivery Stages (4 Column Pipeline) */
+    .delivery-stages {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      direction: rtl;
+    }
+
+    .del-step {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 12px 10px;
+      text-align: center;
+      position: relative;
+    }
+
+    .del-step.active {
+      border-top: 4px solid #0d9488;
+      background: #f0fdfa;
+    }
+
+    .del-step-num {
+      font-size: 10px;
+      font-weight: 800;
+      color: #0d9488;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .del-step-title {
+      font-size: 12.5px;
+      font-weight: 800;
+      color: #0f172a;
+      margin-top: 4px;
+    }
+
+    .del-step-desc {
+      font-size: 10.5px;
+      color: #64748b;
+      line-height: 1.4;
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    /* Exception Box */
+    .exception-box {
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 14px 16px;
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 6px;
+      text-align: right;
+    }
+
+    .exception-badge {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 13.5px;
+      font-weight: 800;
+      direction: rtl;
+    }
+
+    /* Footer */
+    .page-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 10px;
+      border-top: 1.5px solid #f1f5f9;
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #94a3b8;
+    }
+
+    .footer-brand {
+      font-family: 'Plus Jakarta Sans', 'Cairo', sans-serif;
+      color: #64748b;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== PAGE 1: DYNAMIC MATERIAL ROUTING ==================== -->
+  <div class="page">
+    
+    <!-- Header -->
+    <div class="header">
+      <div class="brand-corp">
+        <span class="brand-corp-dot"></span>
+        <span>Korvion Technologies</span>
+      </div>
+      <div class="brand-solent">
+        <div class="brand-logo-text">SOLENT<span>.</span></div>
+        <div class="brand-badge">ROUTING ENGINE</div>
+      </div>
+    </div>
+
+    <!-- Content Body -->
+    <div class="content-body">
+
+      <!-- Title Area -->
+      <div class="hero-title-area">
+        <div class="eyebrow">
+          <span>⚙️</span>
+          <span>محرك التوجيه الديناميكي للمواد</span>
+        </div>
+        <h1 class="page-title">التحكم الذكي بمسارات المواد في خط الإنتاج</h1>
+        <p class="page-subtitle">تخصيص كامل لرحلة كل مادة بين الأقسام والأجهزة بدون تدخل يدوي أو أخطاء توجيه</p>
+      </div>
+
+      <!-- Highlight Banner -->
+      <div class="highlight-banner">
+        <h3>💡 كيف يعالج Solent المشكلة الأكبر في برامج المختبرات التقليدية؟</h3>
+        <p>
+          البرامج العادية تجبر كافة الحالات على نفس المسار الثابت. في <strong>Solent</strong>، يتم ضبط خصائص كل مادة في النظام لتسير فقط في المحطات التي تحتاجها، وتتجاوز تلقائياً أي مرحلة غير مطلوبة (مثل تجاوز الأفران للموديلات ثلاثية الأبعاد، أو توجيه الزيركون للأفران المخصصة له).
+        </p>
+      </div>
+
+      <!-- Section Title -->
+      <div class="section-head">أمثلة عملية لتخصيص مسار المواد (Material Routing Matrix)</div>
+
+      <!-- Flow Table -->
+      <table class="flow-table">
+        <thead>
+          <tr>
+            <th style="width: 26%;">نوع المادة / التركيبة</th>
+            <th style="width: 54%;">مسار الإنتاج الفعلي على النظام</th>
+            <th style="width: 20%;">المراحل المتجاوزة</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>زيركون كامل (Monolithic Zirconia)</strong><br><span style="font-size:10px; color:#64748b;">Crown / Bridge</span></td>
+            <td>
+              <div class="route-pill-container">
+                <span class="route-step active">CAD</span>
+                <span class="route-arrow">➔</span>
+                <span class="route-step active">Milling</span>
+                <span class="route-arrow">➔</span>
+                <span class="route-step active">Sintering</span>
+                <span class="route-arrow">➔</span>
+                <span class="route-step active">Finish</span>
+                <span class="route-arrow">➔</span>
+                <span class="route-step active">QC</span>
+              </div>
+            </td>
+            <td><span class="tag tag-gray">يتجاوز 3D &amp; Press</span></td>
+          </tr>
+          <tr>
+            <td><strong>خزف مضغوط (e.max Press)</strong><br><span style="font-size:10px; color:#64748b;">Veneer / Inlay / Onlay</span></td>
+            <td>
+              <div class="route-pill-container">
+                <span class="route-step active">CAD</span>
+                <span class="route-arrow">➔</span>
+                <span class="route-step active">3D Wax Print</span>
+                <span class="route-arrow">➔</span>
+                <span class="route-step active">Pressing Furnace</span>
+                <span class="route-arrow">➔</span>
+                <span class="route-step active">Stain &amp; Glaze</span>
+                <span class="route-arrow">➔</span>
+                <span class="route-step active">QC</span>
+              </div>
+            </td>
+            <td><span class="tag tag-gray">يتجاوز Sintering</span></td>
+          </tr>
+          <tr>
+            <td><strong>نماذج دراسة / أدلة جراحية (3D Models)</strong><br><span style="font-size:10px; color:#64748b;">Resin Surgical Guides</span></td>
+            <td>
+              <div class="route-pill-container">
+                <span class="route-step active">CAD</span>
+                <span class="route-arrow">➔</span>
+                <span class="route-step active">3D Printing</span>
+                <span class="route-arrow">➔</span>
+                <span class="route-step active">Wash &amp; UV Cure</span>
+                <span class="route-arrow">➔</span>
+                <span class="route-step active">QC Inspection</span>
+              </div>
+            </td>
+            <td><span class="tag tag-gray">يتجاوز كافة الأفران</span></td>
+          </tr>
+          <tr>
+            <td><strong>هياكل معدنية وزراعة (Custom Metal)</strong><br><span style="font-size:10px; color:#64748b;">Titanium / CrCo Frames</span></td>
+            <td>
+              <div class="route-pill-container">
+                <span class="route-step active">CAD</span>
+                <span class="route-arrow">➔</span>
+                <span class="route-step active">Milling / Cast</span>
+                <span class="route-arrow">➔</span>
+                <span class="route-step active">Metal Work (Stage 9)</span>
+                <span class="route-arrow">➔</span>
+                <span class="route-step active">Ceramic Layering</span>
+              </div>
+            </td>
+            <td><span class="tag tag-gray">مسار معدني خاص</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- 2 Columns Features -->
+      <div class="grid-2">
+        <div class="card teal-top">
+          <div class="card-header-flex">
+            <div class="card-title">توجيه آلي وحساب المرحلة التالية</div>
+            <span class="tag tag-teal">Auto Next-Stage</span>
+          </div>
+          <p class="card-desc">
+            بمجرد انتهاء الفني من خطوته واعتمادها، يقوم النظام ذاتياً بحساب الخطوة التالية المستحقة للمادة وينقلها فوراً إلى قائمة انتظار القسم التالي دون أي تدخل يدوي أو تأخير.
+          </p>
+        </div>
+
+        <div class="card gold-top">
+          <div class="card-header-flex">
+            <div class="card-title">تخصيص كامل للأجهزة والفنيين</div>
+            <span class="tag tag-gold">Skill &amp; Machine Mapping</span>
+          </div>
+          <p class="card-desc">
+            ربط المواد بأجهزة تفريز أو طابعات ثلاثية أبعاد محددة، مع حصر إسناد المراحل المتقدمة للفنيين المؤهلين فقط لضمان أعلى معايير الجودة والإنتاجية.
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="page-footer">
+      <div class="footer-brand">Solent &bull; Korvion Technologies</div>
+      <div>صفحة 1 من 4 &bull; التحكم بمسارات المواد</div>
+    </div>
+  </div>
+
+  <!-- ==================== PAGE 2: DELIVERIES & LOGISTICS MONITOR ==================== -->
+  <div class="page">
+    
+    <!-- Header -->
+    <div class="header">
+      <div class="brand-corp">
+        <span class="brand-corp-dot"></span>
+        <span>Korvion Technologies</span>
+      </div>
+      <div class="brand-solent">
+        <div class="brand-logo-text">SOLENT<span>.</span></div>
+        <div class="brand-badge">LOGISTICS</div>
+      </div>
+    </div>
+
+    <!-- Content Body -->
+    <div class="content-body">
+
+      <!-- Title Area -->
+      <div class="hero-title-area">
+        <div class="eyebrow">
+          <span>🚚</span>
+          <span>شاشة التوصيل واللوجستيات الذكية</span>
+        </div>
+        <h1 class="page-title">مراقبة التسليم، السائقين وسندات الاستلام</h1>
+        <p class="page-subtitle">إدارة كاملة لحركة المندوبين وتأكيد استلام العيادات وربطها التلقائي بالحسابات المالية</p>
+      </div>
+
+      <!-- Delivery Flow Steps -->
+      <div class="delivery-stages">
+        <div class="del-step active">
+          <div class="del-step-num">01. QC PASS</div>
+          <div class="del-step-title">اعتماد الجودة</div>
+          <div class="del-step-desc">انتقال الحالة تلقائياً لقائمة الحالات الجاهزة للتسليم</div>
+        </div>
+        <div class="del-step active">
+          <div class="del-step-num">02. DISPATCH</div>
+          <div class="del-step-title">إسناد السائق</div>
+          <div class="del-step-desc">توزيع الحالات على خطوط سير المندوبين حسب المنطقة</div>
+        </div>
+        <div class="del-step active">
+          <div class="del-step-num">03. RUN</div>
+          <div class="del-step-title">قبول وانطلاق</div>
+          <div class="del-step-desc">قبول السائق للحالات عبر واجهته وبدء الجولة للعيادات</div>
+        </div>
+        <div class="del-step active">
+          <div class="del-step-num">04. HANDOFF</div>
+          <div class="del-step-title">تأكيد التسليم</div>
+          <div class="del-step-desc">توثيق كود السند وتسليم العيادة وتحديث كشف الحساب</div>
+        </div>
+      </div>
+
+      <!-- Section Title -->
+      <div class="section-head">مزايا شاشة مراقبة التسليم (Deliveries Monitor)</div>
+
+      <!-- 4 Columns Grid (2x2) -->
+      <div class="grid-2">
+        <div class="card teal-top">
+          <div class="card-header-flex">
+            <div class="card-title">تتبع الحالات مع السائقين لحظياً</div>
+            <span class="tag tag-teal">Live Courier Status</span>
+          </div>
+          <p class="card-desc">
+            رؤية واضحة للحالات التي استلمها المندوب، الحالات المعلقة في الطريق، ومواعيد الوصول المتوقعة لكل عيادة بدون الحاجة للاتصال المستمر بالسائقين.
+          </p>
+        </div>
+
+        <div class="card blue-top">
+          <div class="card-header-flex">
+            <div class="card-title">توثيق رقمي وسندات استلام مؤكدة</div>
+            <span class="tag tag-blue">Voucher Verification</span>
+          </div>
+          <p class="card-desc">
+            إصدار كود سند استلام رقمي (Voucher Code) لكل تسليم، مع تسجيل اسم مستلم الحالة وتوقيت التسليم الفعلي لقطع الشك باليقين ومنع ضياع الحالات.
+          </p>
+        </div>
+
+        <div class="card gold-top">
+          <div class="card-header-flex">
+            <div class="card-title">ربط مباشر وفوري بالحسابات</div>
+            <span class="tag tag-gold">Financial Sync</span>
+          </div>
+          <p class="card-desc">
+            بمجرد توثيق التسليم الفعلي، تتحول الحالة إلى "مكتملة" وتُرحل الرسوم تلقائياً إلى كشف حساب الطبيب وتحديث الرصيد دون تأخير محاسبي.
+          </p>
+        </div>
+
+        <div class="card purple-top">
+          <div class="card-header-flex">
+            <div class="card-title">تحصيل الدفعات وسندات القبض</div>
+            <span class="tag tag-purple">Cash Collection</span>
+          </div>
+          <p class="card-desc">
+            تمكين السائقين من تحصيل الدفعات النقدية أو الشيكات من العيادات مع تسجيل سند قبض فوري يظهر مباشرة للمحاسب والإدارة.
+          </p>
+        </div>
+      </div>
+
+      <!-- Callout Box -->
+      <div class="card" style="background:#f8fafc; border-right: 5px solid #0f172a;">
+        <div class="card-title" style="margin-bottom:4px; font-size:13.5px;">
+          🎯 النتيجة المباشرة للمختبر:
+        </div>
+        <p class="card-desc" style="color:#1e293b; font-weight:700; font-size:12.5px;">
+          القضاء التام على مشكلة "أين الحالة الآن؟" بين العيادة والمختبر، وامتلاك سجل قانوني وتشغيلي دقيق يحمي حقوق المختبر وسائقيه وعملائه.
+        </p>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="page-footer">
+      <div class="footer-brand">Solent &bull; Korvion Technologies</div>
+      <div>صفحة 2 من 4 &bull; مراقبة التوصيل واللوجستيات</div>
+    </div>
+  </div>
+
+  <!-- ==================== PAGE 3: EXCEPTIONS, REDO, REPEAT, REJECTION ==================== -->
+  <div class="page">
+    
+    <!-- Header -->
+    <div class="header">
+      <div class="brand-corp">
+        <span class="brand-corp-dot"></span>
+        <span>Korvion Technologies</span>
+      </div>
+      <div class="brand-solent">
+        <div class="brand-logo-text">SOLENT<span>.</span></div>
+        <div class="brand-badge">QUALITY ENGINE</div>
+      </div>
+    </div>
+
+    <!-- Content Body -->
+    <div class="content-body">
+
+      <!-- Title Area -->
+      <div class="hero-title-area">
+        <div class="eyebrow">
+          <span>🛡️</span>
+          <span>إدارة الجودة والاستثناءات التشغيلية</span>
+        </div>
+        <h1 class="page-title">إدارة الأخطاء، الإعادات والرفض بدقة متناهية</h1>
+        <p class="page-subtitle">توثيق أسباب التعديل والإعادة، ومحاسبة الأقسام وتتبع التكلفة والهدر في المواد</p>
+      </div>
+
+      <!-- Section Title -->
+      <div class="section-head">تصنيفات الاستثناءات الأربعة في نظام Solent</div>
+
+      <!-- 4 Exceptions Grid -->
+      <div class="grid-2">
+        
+        <!-- Redo -->
+        <div class="exception-box" style="border-right: 4px solid #dc2626;">
+          <div class="exception-badge">
+            <span style="color: #991b1b;">إعادة كاملة (Redo) 🔄</span>
+            <span class="tag tag-red">إعادة تصنيع كاملة</span>
+          </div>
+          <p class="card-desc">
+            إلغاء العمل السابق وبدء إنتاج الحالة من نقطة الصفر بسبب خطأ فني جوهري أو تلف المادة أثناء مراحل الحرق والكبس مع حساب تكلفة الهدر المالي.
+          </p>
+        </div>
+
+        <!-- Repeat -->
+        <div class="exception-box" style="border-right: 4px solid #f59e0b;">
+          <div class="exception-badge">
+            <span style="color: #92400e;">تكرار العمل (Repeat) 📋</span>
+            <span class="tag tag-gold">نفس المواصفات</span>
+          </div>
+          <p class="card-desc">
+            طلب نسخة مطابقة إضافية أو إعادة إنتاج بناءً على طلب الطبيب مع الحفاظ على نفس مواصفات وتصميم الحالة الأصلية وربطها بالسجل السابق.
+          </p>
+        </div>
+
+        <!-- Modification -->
+        <div class="exception-box" style="border-right: 4px solid #3b82f6;">
+          <div class="exception-badge">
+            <span style="color: #1e40af;">تعديل تشغيلي (Modification) ✏️</span>
+            <span class="tag tag-blue">إرجاع لمرحلة التشطيب</span>
+          </div>
+          <p class="card-desc">
+            إرجاع الحالة لمحطة محددة لإجراء تعديل بسيط (مثل تعديل اللون Shade، الإطباق Occlusion، أو نقاط التماس Contact) دون هدر المادة الأساسية.
+          </p>
+        </div>
+
+        <!-- Rejection -->
+        <div class="exception-box" style="border-right: 4px solid #6b7280;">
+          <div class="exception-badge">
+            <span style="color: #374151;">رفض الحالة (Rejection) 🚫</span>
+            <span class="tag tag-gray">توثيق السبب الطبي</span>
+          </div>
+          <p class="card-desc">
+            رفض الطبعة من المختبر لعدم وضوح المعالم، أو رفض الطبيب للعمل مع توثيق السبب الجذري والمسؤول عن الرفض في تقرير رسمي.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Section Title -->
+      <div class="section-head">العائد الإداري والمالي من تسجيل الاستثناءات</div>
+
+      <!-- 2 Columns Grid -->
+      <div class="grid-2">
+        <div class="card teal-top">
+          <div class="card-header-flex">
+            <div class="card-title">تحليل الأسباب الجذرية (Root Cause)</div>
+            <span class="tag tag-teal">Failure Logs</span>
+          </div>
+          <p class="card-desc">
+            تسجيل سبب كل خطأ (خطأ طبيب، خطأ تصميم، مشكلة في جهاز التفريز، أو عيب في المادة) لتحسين كفاءة الفريق وتحديد التدريب اللازم للفنيين لمنع تكرار الأخطاء.
+          </p>
+        </div>
+
+        <div class="card gold-top">
+          <div class="card-header-flex">
+            <div class="card-title">سجل تدقيق كامل وحماية الأرباح</div>
+            <span class="tag tag-gold">Cost Audit</span>
+          </div>
+          <p class="card-desc">
+            حساب تكلفة المواد المهدورة وساعات عمل الفنيين في الإعادات، لتحديد أسباب تسرب الأرباح ومعرفة الأطباء والعيادات الأكثر طلباً للإعادات غير المبررة.
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="page-footer">
+      <div class="footer-brand">Solent &bull; Korvion Technologies</div>
+      <div>صفحة 3 من 4 &bull; إدارة الاستثناءات والأخطاء</div>
+    </div>
+  </div>
+
+  <!-- ==================== PAGE 4: REPORTS, ANALYTICS & CUSTOMIZABILITY ==================== -->
+  <div class="page">
+    
+    <!-- Header -->
+    <div class="header">
+      <div class="brand-corp">
+        <span class="brand-corp-dot"></span>
+        <span>Korvion Technologies</span>
+      </div>
+      <div class="brand-solent">
+        <div class="brand-logo-text">SOLENT<span>.</span></div>
+        <div class="brand-badge">ANALYTICS &amp; ADMIN</div>
+      </div>
+    </div>
+
+    <!-- Content Body -->
+    <div class="content-body">
+
+      <!-- Title Area -->
+      <div class="hero-title-area">
+        <div class="eyebrow">
+          <span>📊</span>
+          <span>لوحات التقارير والرقابة الإدارية والتخصيص</span>
+        </div>
+        <h1 class="page-title">تقارير تنفيذية دقيقة ومرونة مطلقة في التخصيص</h1>
+        <p class="page-subtitle">بيانات حية تقود قرارات الإدارة مع إمكانية تفصيل وتخصيص كل جزئية في المختبر</p>
+      </div>
+
+      <!-- 4 Key Report Pillars -->
+      <div class="section-head">أهم أعمدة التقارير في نظام Solent</div>
+
+      <div class="grid-2">
+        <div class="card teal-top">
+          <div class="card-header-flex">
+            <div class="card-title">تقرير الإنتاجية وعدد الوحدات</div>
+            <span class="tag tag-teal">Units Report</span>
+          </div>
+          <p class="card-desc">
+            إحصاءات يومية وشهرية لعدد الوحدات المصنعة حسب الفني، الجهاز، نوع العمل والمادة لتقييم الإنتاجية الفردية وحساب الحوافز بدقة.
+          </p>
+        </div>
+
+        <div class="card gold-top">
+          <div class="card-header-flex">
+            <div class="card-title">تقرير الجودة ونسب الإعادة (QC)</div>
+            <span class="tag tag-gold">Quality Metrics</span>
+          </div>
+          <p class="card-desc">
+            مؤشرات دقيقة لنسب النجاح من المرة الأولى (First-Pass Yield)، ومعدلات الإعادة والأخطاء لكل قسم وفني لمعالجة أي خلل.
+          </p>
+        </div>
+
+        <div class="card blue-top">
+          <div class="card-header-flex">
+            <div class="card-title">تقرير الزراعة والأجزاء (Implants)</div>
+            <span class="tag tag-blue">Implants Inventory</span>
+          </div>
+          <p class="card-desc">
+            تتبع واستهلاك الدعامات والزرعات والمقاسات المستخدمة لكل طبيب وعيادة وتوثيق أرقام التشغيلات (Lot Numbers) بدقة.
+          </p>
+        </div>
+
+        <div class="card purple-top">
+          <div class="card-header-flex">
+            <div class="card-title">التقارير المالية وحسابات الأطباء</div>
+            <span class="tag tag-purple">Financial Statements</span>
+          </div>
+          <p class="card-desc">
+            كشوفات حساب تفصيلية، الأرصدة القائمة، الذمم المدينة، وحركات التحصيل مع تقارير مبيعات الأطباء المباشرة ومقارنة الفترات.
+          </p>
+        </div>
+      </div>
+
+      <!-- Section Title -->
+      <div class="section-head">تخصيص شامل لكل تفاصيل المختبر (Total Customizability)</div>
+
+      <!-- Customizability Features List -->
+      <div class="grid-2">
+        <div class="card" style="background:#f8fafc; border-right: 4px solid #0d9488;">
+          <div class="card-header-flex">
+            <div class="card-title">قوائم أسعار مخصصة لكل طبيب</div>
+            <span class="tag tag-gray">Custom Doctor Pricing</span>
+          </div>
+          <p class="card-desc">
+            إمكانية تخصيص أسعار وخصومات خاصة لكل عيادة وطبيب لكل مادة ونوع عمل تلقائياً دون الحاجة لتعديل الفواتير يدوياً.
+          </p>
+        </div>
+
+        <div class="card" style="background:#f8fafc; border-right: 4px solid #c89b3c;">
+          <div class="card-header-flex">
+            <div class="card-title">صلاحيات وأدوار تشغيلية محددة</div>
+            <span class="tag tag-gray">Granular Permissions</span>
+          </div>
+          <p class="card-desc">
+            منح كل موظف (فني، محاسب، مدخل بيانات، سائق، مدير جودة) واجهة وصلاحيات مخصصة لدوره دون الاطلاع على أسرار الإدارة.
+          </p>
+        </div>
+      </div>
+
+      <!-- Executive Callout Box -->
+      <div class="highlight-banner">
+        <h3 style="color:#c89b3c;">✨ تجربة رقمية مصممة خصيصاً لهوية مختبركم (White-Label)</h3>
+        <p>
+          معمارية Solent تتيح تشغيل النظام باسم وشعار وألوان مختبركم الخاص مع استضافة سحابية فائقة السرعة وأعلى معايير أمان البيانات.
+        </p>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="page-footer">
+      <div class="footer-brand">Solent &bull; Korvion Technologies</div>
+      <div>صفحة 4 من 4 &bull; التقارير والتخصيص الشامل</div>
+    </div>
+  </div>
+
+</body>
+</html>

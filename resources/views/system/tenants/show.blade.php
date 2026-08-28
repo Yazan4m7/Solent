@@ -1,4 +1,4 @@
-@extends('layouts.app', ['pageSlug' => 'Tenant Details'])
+@extends('layouts.app', ['pageSlug' => 'Tenant Details', 'platformAdminPage' => true])
 
 @section('content')
     <div class="container-fluid py-3">
@@ -7,7 +7,21 @@
                 <h1 class="h3 mb-1">{{ $tenant->name }}</h1>
                 <div class="text-muted">{{ $tenant->slug }} · {{ $tenant->uuid }}</div>
             </div>
-            <a href="{{ route('system.tenants.index') }}" class="btn btn-outline-secondary">Back</a>
+            <div class="d-flex flex-wrap" style="gap:8px;">
+                <a href="{{ route('system.tenants.logo.edit', $tenant) }}" class="btn btn-outline-primary">Edit logos</a>
+                @if($tenant->status === 'active')
+                    <form method="POST" action="{{ route('system.tenants.disable', $tenant) }}" onsubmit="return confirm('Disable access to this tenant?');">
+                        @csrf
+                        <button type="submit" class="btn btn-outline-danger">Disable tenant</button>
+                    </form>
+                @elseif($tenant->status === 'disabled')
+                    <form method="POST" action="{{ route('system.tenants.enable', $tenant) }}">
+                        @csrf
+                        <button type="submit" class="btn btn-outline-success">Enable tenant</button>
+                    </form>
+                @endif
+                <a href="{{ route('system.tenants.index') }}" class="btn btn-outline-secondary">Back</a>
+            </div>
         </div>
 
         <div class="card p-3 mb-3">
@@ -27,6 +41,18 @@
                 <div class="col-md-3">
                     <div class="text-muted">Activated</div>
                     <strong>{{ optional($tenant->activated_at)->format('Y-m-d H:i') ?? '-' }}</strong>
+                </div>
+                <div class="col-md-3 mt-3">
+                    <div class="text-muted">Last sign-in</div>
+                    <strong>{{ optional($tenant->last_login_at)->format('Y-m-d H:i') ?? 'Never' }}</strong>
+                </div>
+                <div class="col-md-3 mt-3">
+                    <div class="text-muted">Last sign-in host</div>
+                    <strong>{{ $tenant->last_login_host ?: '-' }}</strong>
+                </div>
+                <div class="col-md-3 mt-3">
+                    <div class="text-muted">Last sign-in user</div>
+                    <strong>{{ $tenant->last_login_username ?: '-' }}</strong>
                 </div>
             </div>
         </div>

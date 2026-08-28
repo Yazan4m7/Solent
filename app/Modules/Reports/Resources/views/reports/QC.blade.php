@@ -2,10 +2,10 @@
 
 @section('content')
     <link href="{{asset('assets/css/picker.css')}}" rel="stylesheet">
-    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <!-- styles to carry on while printing -->
     <div id="style">
         <style>
+            @media print {
             footer{display:none}
             .KorvexPanel {
                 padding-bottom:10px;
@@ -83,27 +83,37 @@
             .doctorName{
                 font-weight: bold;
             }
+            }
         </style>
     </div>
 
-    <form class="kt-form filtersPanel bd-callout bd-callout-info KorvexPanel" method="GET" action="{{route('QC-report')}}" style="/*height:30%*/">
+    @include('reports.partials.report-ui')
 
+    <div class="solent-report-page">
+    @include('reports.partials.report-header', [
+        'title' => 'QC Summary',
+        'description' => 'Track quality incidents, affected cases, units, failure types, and causes.',
+        'icon' => 'fas fa-shield-alt',
+    ])
 
-        <!-- FILTERS -->
-        <div class="container">
-            <div class="row " style="padding-left: 0;padding-top: 0;padding-bottom: 0px">
-                <div class="col-lg-3 col-md-3 col-6 mb-2">
-                    <div class="kt-subheader__search" style="">
-                        <label>Date Range:</label>
+    <form class="kt-form filtersPanel KorvexPanel report-filters" method="GET" action="{{route('QC-report')}}">
+        @include('reports.partials.report-section-heading', [
+            'title' => 'Filters',
+            'description' => 'Choose the period, causes, doctors, and failure types.',
+            'icon' => 'fas fa-sliders-h',
+        ])
+        <div class="report-filter-grid">
+            <div class="report-filter">
+                <div class="kt-subheader__search">
+                        <label class="report-filter-label"><i class="far fa-calendar" aria-hidden="true"></i><span>Date Range:</span></label>
                         <input class="form-control dateRange" name="dateRange" autocomplete="off" readonly
-                               value="{{$dateRangeValue ?? "Select Period"}}" style="cursor: pointer;">
-                    </div>
+                               value="{{$dateRangeValue ?? "Select Period"}}">
                 </div>
-                <div class="col-lg-3 col-md-3 col-6 mb-2">
-
-                    <div class="dropdown">
-                        <label>Failure Cause:</label>
-                        <select style="width:100%" class="selectpicker clearOnAll" multiple name="causesInput[]"
+            </div>
+            <div class="report-filter">
+                <div class="dropdown">
+                    <label class="report-filter-label"><i class="fas fa-exclamation-circle" aria-hidden="true"></i><span>Failure Cause:</span></label>
+                    <select class="selectpicker clearOnAll" multiple name="causesInput[]"
                                 id="causesInput" data-live-search="true" title="All" data-hide-disabled="true">
 
 
@@ -121,15 +131,14 @@
                                     @endforeach
                                 @endif
 
-                        </select>
-                    </div>
-
+                    </select>
                 </div>
-                <div class="col-lg-3 col-md-3 col-6 mb-2">
-                    @if(isset($clients))
-                        <div class="dropdown">
-                            <label>Doctor:</label>
-                            <select style="width:100%" class="selectpicker clearOnAll" multiple name="doctor[]"
+            </div>
+            <div class="report-filter">
+                @if(isset($clients))
+                    <div class="dropdown">
+                        <label class="report-filter-label"><i class="fas fa-user-md" aria-hidden="true"></i><span>Doctor:</span></label>
+                        <select class="selectpicker clearOnAll" multiple name="doctor[]"
                                     id="doctor" data-live-search="true" title="All" data-hide-disabled="true">
 
                                     <option value="all" {{(isset($selectedClients) && $selectedClients== 'all') ? 'selected' : ''}}>
@@ -139,15 +148,14 @@
                                         <option value="{{$d->id}}" {{(isset($selectedClients) && in_array($d->id ,$selectedClients)) ? 'selected' : ''}}>{{$d->name}}</option>
                                     @endforeach
 
-                            </select>
-                        </div>
-                    @endif
-                </div>
-                <div class="col-lg-3 col-md-3 col-6 mb-2">
-
-                    <div class="dropdown">
-                        <label>Type of failure:</label>
-                        <select style="width:100%" class="selectpicker clearOnAll" multiple name="failureTypeInput[]"
+                        </select>
+                    </div>
+                @endif
+            </div>
+            <div class="report-filter">
+                <div class="dropdown">
+                    <label class="report-filter-label"><i class="fas fa-exclamation-triangle" aria-hidden="true"></i><span>Type of failure:</span></label>
+                    <select class="selectpicker clearOnAll" multiple name="failureTypeInput[]"
                                 id="failureTypeInput" data-live-search="true" title="All" data-hide-disabled="true">
 
                                 <option value="all" {{in_array("all" , $typesSelected) ? 'selected' : ''}}>All</option>
@@ -156,163 +164,74 @@
                                 <option value="2" {{in_array(2 , $typesSelected) ? 'selected' : ''}} >Modification</option>
                                 <option value="3" {{in_array(3 , $typesSelected) ? 'selected' : ''}} >Redo</option>
 
-                        </select>
-                    </div>
-
+                    </select>
                 </div>
             </div>
-            <div class="row actionButtonsRow" style="padding-left: 10px;padding-top: 0;padding-bottom: 0px;    padding-right: 0;">
-
-                <div class="col-lg-3 col-md-3 col-3" style="padding-left: 0;">
-                    <div class="kt-subheader__search">
-
-                        <div class="kt-form__actions">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-3 " >
-                    <div class="kt-subheader__search">
-
-                        <div class="kt-form__actions">
-                            <button  class="btn btn-secondary printBtn">PRINT</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        </div>
+        <div class="report-filter-actions">
+            <button type="submit" class="btn btn-primary"><i class="fas fa-filter" aria-hidden="true"></i><span>Apply Filters</span></button>
+            <button type="button" class="btn btn-secondary printBtn"><i class="fas fa-print" aria-hidden="true"></i><span>Print</span></button>
         </div>
     </form>
 
 
-    <div class="KorvexPanel" style="">
-        <div class="row" >
-            <div class="col-lg-12 col-sm-12  row" style="flex-direction: row;padding-bottom:0px">
-                {{--<div class="col-lg-3 col-md-3 col-3 mb-3">--}}
-                    {{--<div class= "vertical">--}}
-                        {{--<span style="font-weight: bold;font-size:15px;">Total Failures:</span><br>--}}
-                        {{--<span style="font-weight:bold;font-size:19px; color:#3b8b45">{{array_sum(array_map("count", $failureLogs));}}</span>--}}
-                        {{--<span style="font-size:13px;color:#3b8b45">Incidents</span>--}}
-                    {{--</div>--}}
-                {{--</div>--}}
-                <div class="col-lg-3 col-md-3 col-3 mb-3">
-                    <div class= "vertical">
-                        <span style="font-weight: bold;font-size:15px;">Total cases:</span><br>
-                        <span style="font-weight:bold;font-size:19px; color:#3b8b45">{{array_sum($amountOfCases) }}</span>
-                        <span style="font-size:13px;color:#3b8b45">Cases</span>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-3 mb-3">
-                    <div class= "vertical">
-                        <span style="font-weight: bold;font-size:15px;">Total units:</span><br>
+    @php
+        $failuresDesc = [0 => 'Rejection', 1 => 'Repeat', 2 => 'Modification', 3 => 'Redo'];
+        $counterTest = $failureLogs->sum(function ($failLog) {
+            return $failLog->case
+                ? $failLog->case->failedUnitsAmount($failLog->failure_type)
+                : 0;
+        });
+    @endphp
 
-                        <!-- Filled via Jquery because of the calculation is after the display(below span) -->
-                        <span id="numOfUnitsFailed" style="font-weight: bold;font-size:19px;color:red"> </span>
-
-                        <span style="font-size:13px;color:red">Units</span>
-                    </div>
-                </div>
+    <div class="KorvexPanel report-results" data-report-consolidated="true">
+        @include('reports.partials.report-section-heading', [
+            'title' => 'Quality incidents',
+            'description' => 'Detailed failure records matching the selected filters.',
+            'icon' => 'fas fa-clipboard-check',
+            'count' => $failureLogs->count(),
+            'countLabel' => 'incidents',
+        ])
+        @include('reports.partials.report-range')
+        <div class="report-summary-grid">
+            <article class="report-summary-card">
+                <span class="report-summary-icon" aria-hidden="true"><i class="fas fa-clipboard-list"></i></span>
+                <div><span class="report-summary-label">Incidents</span><strong class="report-summary-value">{{ number_format($failureLogs->count()) }}</strong></div>
+            </article>
+            <article class="report-summary-card">
+                <span class="report-summary-icon" aria-hidden="true"><i class="fas fa-folder-open"></i></span>
+                <div><span class="report-summary-label">Affected cases</span><strong class="report-summary-value">{{ number_format($amountOfCases) }}</strong></div>
+            </article>
+            <article class="report-summary-card">
+                <span class="report-summary-icon" aria-hidden="true"><i class="fas fa-tooth"></i></span>
+                <div><span class="report-summary-label">Affected units</span><strong id="numOfUnitsFailed" class="report-summary-value">{{ number_format($counterTest) }}</strong></div>
+            </article>
         </div>
-        <div class="col-lg-12 col-sm-12">
-
-            <div class=" ">
-                <div class="">
-                    <p class="text-muted"></p>
-                    <div class="" style="overflow-x:auto;">
-                        @php
-
-                        $failuresDesc = [0 => "Rejection",1 => "Repeat", 2 => "Modification" , 3=> "Redo"];
-                        $counterTest = 0;
-                        $monthHasNoFailures = false;
-                        @endphp
-
-                        @foreach($selectedMonths as $month)
-                            {{$monthHasNoFailures = false;}}
-                            @php if ($amountOfCases[$month] == 0)
-                            $monthHasNoFailures = true;
-                            @endphp
-                            <table border="1" class="xl649957 printable sunriseTable" style="border-collapse:collapse;">
-                                <thead>
-                                <tr class="bottom-Border subHeaderRow" style="mso-height-source:userset;">
-                                    <th class="" style="background-color: transparent !important;">Month:</th>
-                                    <th colspan="5"
-                                        style="height:21.95pt;border-top:none">{{$month}} {{$amountOfCases != 0 ? '('.$amountOfCases[$month] . ") Cases" : ""}}</th>
-
+        <div class="report-table-scroll">
+                        <table border="1" class="xl649957 printable sunriseTable report-table" style="border-collapse:collapse;">
+                            <thead>
+                                <tr class="tableHeaderRow">
+                                    <th>Dr Name</th>
+                                    <th>Patient</th>
+                                    <th>Status</th>
+                                    <th>Causes</th>
+                                    <th># of Units</th>
+                                    <th>Date Failure Registered</th>
                                 </tr>
-                                </thead>
-
-
-                                <tbody>
-                                <!-- The Months row -->
-
-                                @if($monthHasNoFailures)
-                                    <tr  style="text-align: center;color:forestgreen"> <td colspan="2" class="xl639957" style="height:21.95pt;border-top:none">No Incidents</td></tr>
-                                    @continue
-
-                                @endif
-
-                                <!--The MAIN row -->
-                                <tr class=" border-bottom tableHeaderRow">
-                                    <td class="xl639957" style="height:21.95pt;border-top:none">Dr Name</td>
-                                    <td class="xl639957" style="">Patient</td>
-                                    <td class="xl639957" style="">Status</td>
-                                    <td class="xl639957" style="">Causes</td>
-                                    <td class="xl639957" style=""># of Units</td>
-                                    <td class="xl639957" style="">Date Failure Registered</td>
-                                </tr>
-                                <!-- Client ROWS -->
-
-                                @foreach($failureLogs[$month] as $failLog )
-                                    @if(!in_array('all' ,$selectedClients))
-                                        @if(isset($selectedClients) && !in_array($failLog->case->client->id ,$selectedClients))
-                                            @continue;
-                                        @endif
-                                    @endif
-
-                                    <!-- if all is selected, dont check if client is selected or not, otherwise check each one by id -->
-                                    {{--@if(!in_array('all' ,$selectedClients))--}}
-                                    {{--@if(isset($selectedClients) && !in_array($client->id ,$selectedClients))--}}
-                                    {{--@continue;--}}
-                                    {{--@endif--}}
-                                    {{--@endif--}}
-
-                                    <tr class="dataRow" style="">
-                                        <td class="xl669957 doctorName">{{$failLog->case->client->name ?? "Case Not found"}}</td>
-                                        <td class="xl669957">{{$failLog->case->patient_name ?? "Case Not found"}}</td>
-                                        <td class="xl669957">{{$failuresDesc[$failLog->failure_type]}}</td>
-                                        <td class="xl669957">{{$failLog->causeObject->text}}</td>
-
-                                        <td class="xl669957">
-                                            @php
-                                             if(isset($failLog->case) ){
-                                                $numOfUnits= $failLog->case->failedUnitsAmount($failLog->failure_type);
-                                                $counterTest= $counterTest + $failLog->case->failedUnitsAmount($failLog->failure_type);}
-                                            else
-                                                $numOfUnits = "Case Not found";
-
-                                            @endphp
-
-                                                {{$numOfUnits}}
-                                        </td>
-                                        <td class="xl669957">{{substr($failLog->created_at,0,-3)}}</td>
+                            </thead>
+                            <tbody>
+                                @foreach($failureLogs as $failLog)
+                                    <tr class="dataRow">
+                                        <td class="doctorName">{{ optional(optional($failLog->case)->client)->name ?? 'Case Not found' }}</td>
+                                        <td>{{ optional($failLog->case)->patient_name ?? 'Case Not found' }}</td>
+                                        <td>{{ $failuresDesc[$failLog->failure_type] ?? 'Unknown' }}</td>
+                                        <td>{{ optional($failLog->causeObject)->text ?? '-' }}</td>
+                                        <td>{{ $failLog->case ? $failLog->case->failedUnitsAmount($failLog->failure_type) : '-' }}</td>
+                                        <td>{{ optional($failLog->created_at)->format('Y-m-d H:i') ?? '-' }}</td>
                                     </tr>
                                 @endforeach
-
-
-                                <!-- Totals for whole lab Row -->
-                                {{--<tr style="">--}}
-                                    {{--<td class="xl669957">Totals</td>--}}
-
-                                    {{--@foreach($labLevelTotal[$month] as $total)--}}
-                                        {{--<td class="totalsRow" style="">{{$total}}</td>--}}
-                                    {{--@endforeach--}}
-                                    {{--<td class="totalsRow" style="">{{array_sum($labLevelTotal[$month])}}</td>--}}
-                                {{--</tr>--}}
-                                </tbody>
-                            </table>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
+                            </tbody>
+                        </table>
         </div>
     </div>
     </div>
@@ -327,10 +246,9 @@
         $(".toggle-group > *").addClass("unstyled");
         $(".toggle").addClass("unstyled");
         $(".toggle-group > label").addClass("toggleInnerBtns");
-        $("#numOfUnitsFailed").html({!! $counterTest !!});
         $('.dateRange').rangePicker(
             {
-                RTL: false,
+                RTL: {{ trans('ui.direction') === 'rtl' ? 'true' : 'false' }},
                 closeOnSelect: true,
                 presets: [{
                     buttonText: 'Last Month',
@@ -360,8 +278,6 @@
                 console.log(result);
             });
 
-        console.log("Amount of units : " );
-            console.log({!! $counterTest !!});
     });
 
     function printData()

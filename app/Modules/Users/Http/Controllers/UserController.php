@@ -56,6 +56,7 @@ return view('users.index')->with('users', $users)->with('status',$status)->with(
             'password_confirmation' => 'required',
             'permission' => 'required_if:is_admin,null',
             'permission.*' => 'exists:permissions,id',
+            'status' => 'nullable',
             'photo' => 'nullable|image|mimes:png|max:5120',
             'driver_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
@@ -73,6 +74,9 @@ return view('users.index')->with('users', $users)->with('status',$status)->with(
                 'phone' => null,
                 'username' => $request->username,
                 'is_admin' => $admin,
+                'status' => $request->has('status_control_present')
+                    ? ($request->status == 'on' ? 1 : 0)
+                    : 1,
                 'name_initials' => $request->name_initials,
                 'has_photo' => $hasPhoto
             ];
@@ -147,7 +151,8 @@ return view('users.index')->with('users', $users)->with('status',$status)->with(
             'permission' => 'required_if:is_admin,null',
             'permission.*' => 'exists:permissions,id',
             'status' => 'nullable',
-            'password_confirmation' => 'min:1|max:200|nullable',
+            'password' => 'nullable|confirmed|min:1|max:200|required_with:password_confirmation',
+            'password_confirmation' => 'nullable|min:1|max:200|required_with:password',
             'driver_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
         $transaction = DB::transaction(function ()  use ($request, $user) {
@@ -226,11 +231,8 @@ return view('users.index')->with('users', $users)->with('status',$status)->with(
                     Cache::forever('user'.$user->id,$permissions);
                 }
             }
-            $new_password      = $request->get('password_confirmation');
-            if ($new_password) {
-                User::where('id', $request->id)->update([
-                    'password' => Hash::make($new_password)
-                ]);
+            if ($request->filled('password')) {
+                $user->password = Hash::make($request->password);
             }
             $user->status = $request->status == 'on' ? 1 : 0;
             if ($request->is_admin) {

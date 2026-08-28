@@ -182,121 +182,178 @@
         text-align: center;
     }
 
-    /* Print Styles - A6 Portrait */
+    /* Print Styles - A4 Portrait */
     @media  print {
-        body {
-            background: white !important;
-            margin: 0;
-            padding: 0;
+        @page {
+            size: A4 portrait;
+            margin: 12mm;
         }
 
-        /* Hide all layout elements */
-        .sidebar,
+        html,
+        body {
+            background: white !important;
+            width: auto !important;
+            min-height: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        /* The application shell must never be part of the printed voucher. */
+        html body.white-content .wrapper > .sidebar,
+        html body .wrapper > .sidebar,
+        body.white-content .solent-floating-topbar,
+        body.white-content .solent-quick-nav,
+        .solent-floating-topbar,
+        .solent-quick-nav,
         .main-panel > .navbar,
         .main-panel > footer,
+        .sidebar,
         .print-button-container,
         .btn-print,
         nav,
         .navbar,
         .footer,
-        .main-panel > .content > .container-fluid > .row > .col-md-12 > *:not(.receipt-container) {
+        .overlay,
+        #overlay {
             display: none !important;
         }
 
-        /* Hide everything except receipt-container */
-        body > *:not(.wrapper) {
-            display: none !important;
+        .wrapper {
+            display: block !important;
+            min-height: 0 !important;
+            overflow: visible !important;
         }
 
-        .wrapper,
+        html body.white-content .wrapper > .main-panel,
+        html body .wrapper > .main-panel,
         .main-panel,
-        .content,
-        .container-fluid,
-        .row,
-        .col-md-12 {
+        .container-fluid {
+            float: none !important;
             width: 100% !important;
+            min-height: 0 !important;
             margin: 0 !important;
             padding: 0 !important;
             max-width: 100% !important;
+            transform: none !important;
+            overflow: visible !important;
+        }
+
+        html body.white-content .wrapper > .main-panel > .content,
+        html body .wrapper > .main-panel > .content,
+        .main-panel > .content,
+        .content {
+            width: 100% !important;
+            min-height: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            max-width: 100% !important;
+            transform: none !important;
+            overflow: visible !important;
+        }
+
+        .voucher-page,
+        .voucher-page > .col-md-12 {
+            display: block !important;
+            float: none !important;
+            flex: none !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
         }
 
         .receipt-container {
-            width: 100%;
-            max-width: 100%;
-            margin: 0;
-            padding: 5mm;
-            border: none;
-            box-shadow: none;
-            transform: none;
-            font-size: 8px;
+            box-sizing: border-box !important;
+            width: 100% !important;
+            max-width: none !important;
+            min-height: 0 !important;
+            margin: 0 !important;
+            padding: 8mm !important;
+            border: none !important;
+            box-shadow: none !important;
+            transform: none !important;
+            overflow: visible !important;
+            font-size: 9pt;
         }
 
         .header {
-            margin-bottom: 5px;
-            padding-bottom: 5px;
+            margin-bottom: 4mm;
+            padding-bottom: 3mm;
         }
 
         .header img {
-            max-width: 50px;
+            max-width: 26mm;
+            max-height: 24mm;
         }
 
         .header h1 {
-            font-size: 12px;
-            margin: 2px 0;
+            font-size: 15pt;
+            margin: 1mm 0;
         }
 
         .header p {
-            font-size: 7px;
-            margin: 1px 0;
+            font-size: 8pt !important;
+            margin: 1mm 0 !important;
         }
 
         .voucher-title {
-            font-size: 10px;
-            margin-bottom: 5px;
-            padding: 3px;
+            font-size: 12pt;
+            margin-bottom: 4mm;
+            padding: 2.5mm;
         }
 
         .info-row {
-            font-size: 7px;
-            margin-bottom: 3px;
+            font-size: 9pt;
+            margin-bottom: 2mm;
         }
 
         .table-container {
-            margin-top: 5px;
-            margin-bottom: 10px;
+            margin-top: 4mm;
+            margin-bottom: 6mm;
+            overflow: visible !important;
         }
 
         table {
-            font-size: 7px;
+            width: 100% !important;
+            table-layout: fixed;
+            font-size: 8.5pt;
         }
 
         th, td {
-            padding: 2px 3px;
+            padding: 2.2mm;
+            overflow-wrap: anywhere;
         }
 
+        thead {
+            display: table-header-group;
+        }
+
+        tr,
+        .header,
+        .voucher-title,
+        .info-section,
         .signature-section {
-            margin-top: 15px;
-            padding-top: 5px;
+            break-inside: avoid;
             page-break-inside: avoid;
         }
 
+        .signature-section {
+            margin-top: 12mm;
+            padding-top: 4mm;
+        }
+
         .signature-row {
-            font-size: 7px;
-            margin-bottom: 5px;
+            font-size: 9pt;
+            margin-bottom: 3mm;
         }
 
         .signature-line {
-            min-width: 50px;
+            min-width: 35mm;
         }
 
         .footer-note {
-            font-size: 6px;
-            margin-top: 5px;
-        }
-
-        @page {
-            size: A6 portrait;
-            margin: 5mm;
+            font-size: 7.5pt;
+            margin-top: 3mm;
         }
 
         * {
@@ -306,7 +363,12 @@
     }
 </style>
 
-<div class="row">
+<div class="row voucher-page">
+    <?php
+        $voucherBrandName = $brandingName ?? config('branding.defaults.name', 'Solent');
+        $voucherBrandLogo = asset($brandingLogoPath ?? config('branding.defaults.logo_path'));
+        $voucherContact = data_get($brandingSettings ?? null, 'copy.contact');
+    ?>
     <div class="col-md-12">
         <div class="print-button-container">
             <button class="btn-print" onclick="window.print()">
@@ -318,12 +380,12 @@
         <div class="receipt-container">
             <!-- Header -->
             <div class="header">
-                <img src="<?php echo e(asset('assets/images/hikaro-logo.png')); ?>" alt="Hikaro Tech Logo">
-                <h1>alsolent Dental Laboratory</h1>
+                <img src="<?php echo e($voucherBrandLogo); ?>" alt="<?php echo e($voucherBrandName); ?> Dental Laboratory Logo">
+                <h1><?php echo e($voucherBrandName); ?> Dental Laboratory</h1>
 
-                <p style="font-size: 11px; margin-top: 5px;">
-                    📞 1100 726 02 | 1100 726 079 | 📧 alsolentdentallab@gmail.com
-                </p>
+                <?php if($voucherContact): ?>
+                    <p style="font-size: 11px; margin-top: 5px;"><?php echo e($voucherContact); ?></p>
+                <?php endif; ?>
             </div>
 
             <!-- Voucher Title -->
@@ -395,7 +457,7 @@
                 </div>
 
                 <div class="footer-note">
-                    Thank you for choosing alsolent Dental Lab
+                    Thank you for choosing <?php echo e($voucherBrandName); ?> Dental Lab
                 </div>
             </div>
         </div>

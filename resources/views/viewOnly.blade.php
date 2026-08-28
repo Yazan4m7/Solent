@@ -620,5 +620,5 @@
         });
         window.casePrintData = @json($printLabelData);
     </script>
-    <script src="{{ asset('assets/js/case-printing.js') }}"></script>
+    @include('cases.partials.case-printing')
 @endpush

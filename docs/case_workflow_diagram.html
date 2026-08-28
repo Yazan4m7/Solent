@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Solent Dental Lab - Case Workflow Diagram</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <style>
+    @page {
+      size: A4 landscape;
+      margin: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f8fafc;
+      color: #0f172a;
+      width: 297mm;
+      height: 210mm;
+      padding: 10mm 12mm;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 8px;
+      border-bottom: 1.5px solid #e2e8f0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-badge {
+      background: #0f172a;
+      color: #c89b3c;
+      font-weight: 800;
+      font-size: 13px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      letter-spacing: 0.5px;
+    }
+
+    .brand-info h1 {
+      font-size: 17px;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.3px;
+    }
+
+    .brand-info p {
+      font-size: 10.5px;
+      color: #64748b;
+      margin-top: 1px;
+    }
+
+    .meta-tag {
+      font-size: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      background: #e2e8f0;
+      color: #334155;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    /* Main Grid */
+    .workflow-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
+      margin-top: 8px;
+      margin-bottom: 6px;
+      flex-grow: 1;
+    }
+
+    .col {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .step-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 7px;
+      padding: 8px 9px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .step-card.primary {
+      border-top: 3px solid #c89b3c;
+    }
+
+    .step-card.branch {
+      border-left: 3px solid #3b82f6;
+      background: #f8fafc;
+    }
+
+    .step-card.success {
+      border-top: 3px solid #10b981;
+      background: #f0fdf4;
+    }
+
+    .step-card.warning {
+      border-top: 3px solid #f59e0b;
+    }
+
+    .step-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .step-num {
+      font-size: 8.5px;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+      color: #64748b;
+      background: #f1f5f9;
+      padding: 2px 4px;
+      border-radius: 3px;
+    }
+
+    .step-title {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .step-desc {
+      font-size: 9px;
+      color: #475569;
+      line-height: 1.35;
+    }
+
+    .step-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3px;
+      margin-top: 2px;
+    }
+
+    .tag {
+      font-size: 8px;
+      font-weight: 600;
+      padding: 1.5px 4px;
+      border-radius: 3px;
+      background: #f1f5f9;
+      color: #334155;
+    }
+
+    .tag.gold {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .tag.blue {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .tag.green {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    .tag.red {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    /* Column Headers */
+    .col-header {
+      font-size: 9.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: #64748b;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding-bottom: 1px;
+    }
+
+    .col-header-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #c89b3c;
+    }
+
+    /* Decision Branch */
+    .decision-box {
+      border: 1px dashed #cbd5e1;
+      border-radius: 5px;
+      padding: 4px 6px;
+      background: #ffffff;
+      margin-top: 2px;
+    }
+
+    .decision-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 8.5px;
+      margin-top: 2px;
+    }
+
+    .connector-arrow {
+      text-align: center;
+      color: #94a3b8;
+      font-size: 9.5px;
+      line-height: 1;
+      margin: -2px 0;
+      font-weight: 600;
+    }
+
+    /* Legend / Footer */
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 6px;
+      border-top: 1.5px solid #e2e8f0;
+      font-size: 9px;
+      color: #64748b;
+    }
+
+    .legend {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .legend-indicator {
+      width: 7px;
+      height: 7px;
+      border-radius: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="brand">
+      <div class="brand-badge">SOLENT</div>
+      <div class="brand-info">
+        <h1>Dental Case Workflow & Lifecycle</h1>
+        <p>System Architecture & Stage Progression Flow</p>
+      </div>
+    </div>
+    <div class="meta-tag">
+      STAGES (1 → 8, -1)
+    </div>
+  </div>
+
+  <!-- Main Workflow Grid -->
+  <div class="workflow-grid">
+
+    <!-- Step 1: Intake -->
+    <div class="col">
+      <div class="col-header"><span class="col-header-dot"></span>01. Intake</div>
+      <div class="step-card primary" style="flex: 1;">
+        <div class="step-header">
+          <span class="step-title">Case Intake</span>
+          <span class="step-num">NEW</span>
+        </div>
+        <p class="step-desc">Doctor creates case with patient info, teeth chart, job types & target delivery date.</p>
+        <div class="step-tags">
+          <span class="tag gold">Doctor Portal</span>
+          <span class="tag">Teeth Selection</span>
+          <span class="tag">Physical / Digital</span>
+          <span class="tag">Implant Data</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2: CAD Design -->
+    <div class="col">
+      <div class="col-header"><span class="col-header-dot"></span>02. Design</div>
+      <div class="step-card primary" style="flex: 1;">
+        <div class="step-header">
+          <span class="step-title">CAD Design</span>
+          <span class="step-num">STAGE 1</span>
+        </div>
+        <p class="step-desc">Assigned technician digitally designs crowns, bridges, abutments, or 3D models.</p>
+        <div class="step-tags">
+          <span class="tag blue">CAD CAM</span>
+          <span class="tag">STL Files</span>
+          <span class="tag">Design Validation</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3: Manufacturing -->
+    <div class="col">
+      <div class="col-header"><span class="col-header-dot"></span>03. Fabrication</div>
+      
+      <div class="step-card branch">
+        <div class="step-header">
+          <span class="step-title">Milling</span>
+          <span class="step-num">STAGE 2</span>
+        </div>
+        <p class="step-desc">CAM disc nesting, block milling (Zirconia / PMMA / Wax).</p>
+        <div class="step-tags">
+          <span class="tag">Set → Start → Done</span>
+        </div>
+      </div>
+
+      <div class="connector-arrow">OR</div>
+
+      <div class="step-card branch">
+        <div class="step-header">
+          <span class="step-title">3D Printing</span>
+          <span class="step-num">STAGE 3</span>
+        </div>
+        <p class="step-desc">Resin printing for models, guides, try-ins & splints.</p>
+        <div class="step-tags">
+          <span class="tag">Wash & UV Cure</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 4: Thermal & Metal Processing -->
+    <div class="col">
+      <div class="col-header"><span class="col-header-dot"></span>04. Processing</div>
+
+      <div class="step-card branch">
+        <div class="step-header">
+          <span class="step-title">Sintering Furnace</span>
+          <span class="step-num">STAGE 4</span>
+        </div>
+        <p class="step-desc">High-temp sintering for milled Zirconia.</p>
+      </div>
+
+      <div class="step-card branch">
+        <div class="step-header">
+          <span class="step-title">Pressing Furnace</span>
+          <span class="step-num">STAGE 5</span>
+        </div>
+        <p class="step-desc">Ingot pressing for e.Max / Disilicate.</p>
+      </div>
+
+      <div class="step-card branch">
+        <div class="step-header">
+          <span class="step-title">Metal Work</span>
+          <span class="step-num">STAGE 9</span>
+        </div>
+        <p class="step-desc">Castings & metal structures.</p>
+      </div>
+    </div>
+
+    <!-- Step 5: Finish & QC -->
+    <div class="col">
+      <div class="col-header"><span class="col-header-dot"></span>05. Finish & QC</div>
+
+      <div class="step-card primary">
+        <div class="step-header">
+          <span class="step-title">Finish & Build-up</span>
+          <span class="step-num">STAGE 6</span>
+        </div>
+        <p class="step-desc">Ceramic layering, stain & glaze, contouring, fit & margin polish.</p>
+      </div>
+
+      <div class="step-card warning">
+        <div class="step-header">
+          <span class="step-title">Quality Control</span>
+          <span class="step-num">STAGE 7</span>
+        </div>
+        <p class="step-desc">Inspection against doctor prescription, fit & shade.</p>
+        
+        <div class="decision-box">
+          <div class="decision-item">
+            <span style="color:#065f46; font-weight:700;">✓ Pass</span>
+            <span class="tag green">→ Delivery</span>
+          </div>
+          <div class="decision-item">
+            <span style="color:#991b1b; font-weight:700;">✗ Rework</span>
+            <span class="tag red">↺ Reset Stage</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 6: Delivery & Complete -->
+    <div class="col">
+      <div class="col-header"><span class="col-header-dot"></span>06. Delivery</div>
+
+      <div class="step-card primary">
+        <div class="step-header">
+          <span class="step-title">Driver Delivery</span>
+          <span class="step-num">STAGE 8</span>
+        </div>
+        <p class="step-desc">Assigned to courier ➔ Accepted ➔ Out for delivery to clinic.</p>
+        <div class="step-tags">
+          <span class="tag">Driver App</span>
+          <span class="tag">Voucher Code</span>
+        </div>
+      </div>
+
+      <div class="step-card success">
+        <div class="step-header">
+          <span class="step-title">Case Completed</span>
+          <span class="step-num">STAGE -1</span>
+        </div>
+        <p class="step-desc">Delivered to clinic, signed voucher verified, added to statement & invoiced.</p>
+        <div class="step-tags">
+          <span class="tag green">Delivered & Invoiced</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer / Legend -->
+  <div class="footer">
+    <div class="legend">
+      <div class="legend-item">
+        <div class="legend-indicator" style="background: #c89b3c;"></div>
+        <span>Main Workflow Step</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-indicator" style="background: #3b82f6;"></div>
+        <span>Material Route Branch</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-indicator" style="background: #f59e0b;"></div>
+        <span>Quality Control (QC)</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-indicator" style="background: #10b981;"></div>
+        <span>Completed</span>
+      </div>
+    </div>
+    <div>Solent Lab Platform &bull; Standard Lifecycle Diagram</div>
+  </div>
+
+</body>
+</html>

@@ -5,37 +5,216 @@
     <link rel="stylesheet" href="{{ asset('assets/css/elegant-dashboard.css') }}" />
     <style>
         .create-shell {
-
-            padding: 24px 0 32px;
+            --cc-accent: #6366f1;
+            --cc-accent-dark: #4f46e5;
+            --cc-accent-soft: #eef2ff;
+            --cc-border: #dfe4ec;
+            --cc-muted: #64748b;
+            --cc-text: #0f172a;
+            --cc-surface: #ffffff;
+            --cc-surface-soft: #f8fafc;
+            max-width: 1500px;
+            margin: 0 auto;
+            padding: 20px 0 40px;
         }
 
-        .create-shell .ed-header-bar {
-            margin-bottom: 14px;
+        .cc-page-intro {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            align-items: center;
+            gap: 24px;
+            margin-bottom: 18px;
+            padding: 24px 26px;
+            color: #ffffff;
+            background:
+                radial-gradient(circle at 88% 12%, rgba(99, 102, 241, 0.34), transparent 30%),
+                linear-gradient(135deg, #0f172a 0%, #172033 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 18px;
+            box-shadow: 0 16px 38px rgba(15, 23, 42, 0.16);
+        }
+
+        .cc-page-intro__eyebrow,
+        .cc-section-kicker {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--cc-accent);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .cc-page-intro__eyebrow {
+            color: #c7d2fe;
+        }
+
+        body.white-content .cc-page-intro h1 {
+            margin: 0;
+            color: #ffffff !important;
+            font-size: clamp(24px, 3vw, 34px);
+            font-weight: 800;
+            letter-spacing: -0.035em;
+            line-height: 1.12;
+        }
+
+        .cc-page-intro p {
+            max-width: 680px;
+            margin: 8px 0 0;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            line-height: 1.55;
+        }
+
+        .cc-case-reference {
+            display: grid;
+            min-width: 190px;
+            gap: 2px;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.09);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 14px;
+        }
+
+        .cc-page-intro__meta {
+            display: grid;
+            gap: 10px;
+            min-width: 230px;
+        }
+
+        .cc-page-actions {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 8px;
+        }
+
+        .cc-page-actions .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            min-height: 42px;
+            margin: 0;
+            padding: 9px 14px;
+            border-radius: 11px;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .cc-page-actions .btn-light {
+            color: #ffffff !important;
+            background: rgba(255, 255, 255, 0.08) !important;
+            border-color: rgba(255, 255, 255, 0.18) !important;
+        }
+
+        .cc-page-actions .btn-light:hover {
+            background: rgba(255, 255, 255, 0.16) !important;
+        }
+
+        .cc-case-reference span,
+        .cc-case-reference small {
+            color: rgba(255, 255, 255, 0.62);
+            font-size: 11px;
+        }
+
+        .cc-case-reference strong {
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: 0.02em;
+        }
+
+        .cc-workspace {
+            display: grid;
+            grid-template-columns: minmax(0, 1.8fr) minmax(300px, 0.72fr);
+            align-items: start;
+            gap: 18px;
+        }
+
+        .cc-primary-column,
+        .cc-secondary-column {
+            display: grid;
+            min-width: 0;
+            gap: 18px;
+        }
+
+        .cc-secondary-column {
+            position: sticky;
+            top: 82px;
         }
 
         .cc-card {
-            background: #ffffff;
-            border: 1px solid rgba(17, 21, 30, 0.08);
-            border-radius: 14px;
-            box-shadow: 0 8px 18px rgba(17, 21, 30, 0.06);
-            padding: 18px;
-            margin-bottom: 16px;
+            min-width: 0;
+            margin: 0;
+            padding: 0;
+            background: var(--cc-surface);
+            border: 1px solid var(--cc-border);
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
             overflow: visible;
         }
 
-        .cc-card .ed-card-header {
-            margin-bottom: 12px;
+        .cc-section-header {
+            display: grid;
+            grid-template-columns: auto minmax(0, 1fr) auto;
+            align-items: start;
+            gap: 13px;
+            padding: 18px 20px;
+            background: linear-gradient(180deg, #ffffff 0%, #fbfcfe 100%);
+            border-bottom: 1px solid var(--cc-border);
+            border-radius: 16px 16px 0 0;
         }
 
-        .cc-top-grid,
-        .cc-bottom-grid {
-            gap: 16px;
+        .cc-section-header--compact {
+            grid-template-columns: auto minmax(0, 1fr);
+            padding: 16px 18px;
         }
 
-        .modal-body {
-            position: relative;
-            flex: 1 1 auto;
-            padding: 0px 0px 65px 24px !important;
+        .cc-section-header h2 {
+            margin: 0;
+            color: var(--cc-text);
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.25;
+        }
+
+        .cc-section-header p {
+            margin: 5px 0 0;
+            color: var(--cc-muted);
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .cc-step-number,
+        .cc-section-icon {
+            display: inline-grid;
+            width: 34px;
+            height: 34px;
+            place-items: center;
+            color: var(--cc-accent-dark);
+            font-size: 12px;
+            font-weight: 800;
+            background: var(--cc-accent-soft);
+            border: 1px solid #d9ddff;
+            border-radius: 10px;
+        }
+
+        .cc-required-badge {
+            display: inline-flex;
+            align-items: center;
+            min-height: 28px;
+            padding: 5px 9px;
+            color: #166534;
+            font-size: 11px;
+            font-weight: 800;
+            background: #dcfce7;
+            border: 1px solid #bbf7d0;
+            border-radius: 999px;
+        }
+
+        .cc-card-body {
+            padding: 20px;
         }
 
         #unitsDialog .modal-dialog {
@@ -50,7 +229,7 @@
         #unitsDialog .modal-content {
 
             overflow: hidden;
-            background: linear-gradient(145deg, #33899a80 0%, #fbfcff 100%);
+            background: linear-gradient(145deg, #ffffff 0%, #fbfcff 100%);
             border: 1px solid rgba(255, 255, 255, 0.94);
             border-radius: 14px;
             box-shadow: 0 18px 44px rgba(17, 21, 30, 0.18);
@@ -85,114 +264,111 @@
 
         .cc-field-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 14px 18px;
+            gap: 16px;
+        }
+
+        .cc-field-grid--details {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
         }
 
         .cc-field {
-            min-width: 0;
             display: flex;
+            min-width: 0;
             flex-direction: column;
+        }
+
+        .cc-field--wide {
+            grid-column: 1 / -1;
         }
 
         .cc-label,
         .cc-field label {
             display: block;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            font-size: 11px;
-            color: var(--ed-muted);
             margin-bottom: 6px;
+            color: #475569;
+            font-size: 11px;
             font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .cc-label span {
+            color: #dc2626;
+            display: inline-block;
+            font-size: 2em;
+            line-height: 0.5;
+            vertical-align: -0.08em;
+        }
+
+        .cc-field-help {
+            margin-top: 6px;
+            color: var(--cc-muted);
+            font-size: 11px;
+            line-height: 1.4;
         }
 
         .cc-input {
-            background: #f7f9fb;
-            border-radius: 12px;
-            border: 1px solid rgba(17, 21, 30, 0.1);
-            padding: 11px 12px;
-            box-shadow: inset 0 1px 1px rgba(17, 21, 30, 0.04);
             width: 100%;
             margin: 0;
+            padding: 10px 12px;
+            color: var(--cc-text);
+            background: var(--cc-surface);
+            border: 1px solid #cfd6e1;
+            border-radius: 10px;
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
         }
 
         .cc-input:focus,
         .cc-input:active,
         .cc-input:focus-visible {
-            border-color: var(--ed-primary);
-            box-shadow: 0 0 0 3px rgba(179, 135, 45, 0.18);
+            border-color: var(--cc-accent);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.16);
             outline: none;
         }
 
-        .cc-case-id {
-            display: grid;
-            gap: 8px;
-            align-items: center;
-        }
-
-        .cc-id-prefix {
-            display: inline-flex;
-            align-items: center;
-            padding: 8px 12px;
-            background: rgba(179, 135, 45, 0.12);
-            color: var(--ed-dark);
-            border-radius: 10px;
-            font-weight: 700;
-            border: 1px solid rgba(179, 135, 45, 0.25);
-            width: fit-content;
-        }
-
-        .cc-id-inputs {
-            display: inline-flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .cc-id-inputs input {
-            width: 62px;
-            text-align: center;
-        }
-
-        .cc-id-inputs input:last-child {
-            width: 84px;
-        }
-
-        .mandatorySmallTag {
-            color: #c0392b;
-            font-weight: 600;
-        }
-
         .slctUnitsBtn {
-            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             width: 100%;
-            height: 100%;
-            display: block;
-            padding: 12px 10px !important;
-            white-space: break-spaces !important;
+            height: 44px !important;
+            min-height: 44px;
+            margin: 0;
+            padding: 10px 12px !important;
+            overflow: hidden;
+            line-height: 1.2;
+            white-space: nowrap !important;
+        }
+
+        .slctUnitsBtn:focus,
+        .slctUnitsBtn:focus-visible {
+            outline: none !important;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.18) !important;
         }
 
         .cc-ghost-btn {
-            background: #f7f9fb !important;
-            color: var(--ed-dark) !important;
-            border: 1px dashed rgba(17, 21, 30, 0.2) !important;
-            border-radius: 12px;
+            color: var(--cc-accent-dark) !important;
+            background: var(--cc-accent-soft) !important;
+            border: 1px dashed #a5b4fc !important;
+            border-radius: 10px;
         }
 
         .cc-ghost-btn:hover {
-            border-color: var(--ed-primary) !important;
-            color: var(--ed-primary) !important;
+            color: #ffffff !important;
+            background: var(--cc-accent-dark) !important;
+            border-color: var(--cc-accent-dark) !important;
         }
 
         .create-shell .bootstrap-select>.dropdown-toggle,
         .create-shell .bootstrap-select>.dropdown-toggle:focus,
         .create-shell .bootstrap-select>.dropdown-toggle:active {
-            background: #fff;
-            border-radius: 12px;
-            border: 1px solid rgba(17, 21, 30, 0.15);
             height: 44px;
             padding: 10px 12px;
-            box-shadow: inset 0 1px 1px rgba(17, 21, 30, 0.04);
-            color: var(--ed-dark);
+            color: var(--cc-text);
+            background: var(--cc-surface);
+            border: 1px solid #cfd6e1;
+            border-radius: 10px;
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
             outline: none !important;
         }
 
@@ -209,9 +385,9 @@
 
         .create-shell .bootstrap-select.show>.dropdown-toggle,
         .create-shell .bootstrap-select>.dropdown-toggle:focus-visible {
-            border-color: var(--ed-primary);
-            box-shadow: 0 0 0 3px rgba(179, 135, 45, 0.18);
-            background: #fff;
+            background: var(--cc-surface);
+            border-color: var(--cc-accent);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.16);
         }
 
         .create-shell .bootstrap-select .filter-option-inner-inner {
@@ -224,120 +400,667 @@
             height: 44px;
         }
 
-        .cc-jobs-card .cc-job-list {
+        .cc-card-body--jobs {
+            padding: 18px;
+            background: var(--cc-surface-soft);
+            border-radius: 0 0 16px 16px;
+        }
+
+        .cc-job-list {
             display: flex;
+            counter-reset: cc-job;
             flex-direction: column;
             gap: 12px;
         }
 
         .cc-job-block {
-            background: #ffffff;
-            border: 1px solid rgba(17, 21, 30, 0.08);
-            border-radius: 16px;
-            padding: 14px 14px 10px;
-            box-shadow: 0 6px 16px rgba(17, 21, 30, 0.06);
+            display: grid !important;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            align-items: end;
+            gap: 12px;
             position: relative;
-            overflow: hidden;
-            margin-bottom: 8px;
+            width: 100%;
+            margin: 0 !important;
+            padding: 42px 16px 16px;
+            background: var(--cc-surface);
+            border: 1px solid var(--cc-border);
+            border-radius: 14px;
+            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+            counter-increment: cc-job;
+            overflow: visible;
         }
 
-        .cc-job-grid {
+        .cc-job-block::before {
+            position: absolute;
+            top: 14px;
+            left: 16px;
+            color: var(--cc-text);
+            font-size: 12px;
+            font-weight: 800;
+            content: "Job " counter(cc-job);
+        }
+
+        .cc-job-grid,
+        .cc-job-field {
             width: 100%;
+            min-width: 0;
         }
 
         .cc-job-grid .col-md-2,
         .cc-job-grid .col-md-3,
-        .cc-job-grid .col-md-12 {
-            padding-top: 6px;
-            padding-bottom: 6px;
+        .cc-job-grid .col-md-12,
+        .cc-abutment-row [class*="col-md-"] {
+            width: auto;
+            max-width: none;
+            padding: 0;
+            flex: none;
         }
 
-        .cc-job-grid label {
-            font-size: 12px;
-            text-transform: uppercase;
+        /* Adapted from Uiverse.io by reglobby for the existing Single/Bridge contract. */
+        .cc-style-toggle.toggle-container {
+            position: relative;
+            display: flex;
+            width: min(150px, 100%);
+            flex-direction: column;
+            align-items: center;
+            perspective: 800px;
+            z-index: 5;
+        }
+
+        .cc-style-toggle .toggle-wrap {
+            position: relative;
+            width: 100%;
+            height: 52px;
+            margin: 0;
+            transform-style: preserve-3d;
+        }
+
+        .cc-style-toggle .toggle-input {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            opacity: 0;
+        }
+
+        .cc-style-toggle .toggle-track {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            cursor: pointer;
+            background: rgba(30, 64, 175, 0.09);
+            border: 1px solid rgba(79, 70, 229, 0.32);
+            border-radius: 999px;
+            box-shadow: inset 0 0 10px rgba(15, 23, 42, 0.08), 0 4px 12px rgba(79, 70, 229, 0.08);
+            transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .cc-style-toggle .toggle-track::after {
+            position: absolute;
+            top: 2px;
+            right: 8px;
+            left: 8px;
+            height: 7px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, rgba(99, 102, 241, 0.18), rgba(56, 189, 248, 0.08));
+            content: "";
+            filter: blur(1px);
+        }
+
+        .cc-style-toggle .track-lines {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            overflow: hidden;
+            transform: translateY(-50%);
+        }
+
+        .cc-style-toggle .track-line {
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(90deg, rgba(99, 102, 241, 0.2) 0 5px, transparent 5px 15px);
+            animation: cc-track-line-move 3s linear infinite;
+        }
+
+        @keyframes cc-track-line-move {
+            to { transform: translateX(20px); }
+        }
+
+        .cc-style-toggle .toggle-thumb,
+        .cc-style-toggle .energy-rings {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            transition: left 0.38s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .cc-style-toggle .toggle-thumb {
+            z-index: 2;
+            overflow: hidden;
+            background: radial-gradient(circle, #818cf8 0%, #4f46e5 72%);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.28), inset 0 0 10px rgba(255, 255, 255, 0.28);
+        }
+
+        .cc-style-toggle .thumb-core,
+        .cc-style-toggle .thumb-inner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .cc-style-toggle .thumb-core {
+            width: 31px;
+            height: 31px;
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 14px rgba(129, 140, 248, 0.72);
+        }
+
+        .cc-style-toggle .thumb-inner {
+            width: 18px;
+            height: 18px;
+            background: rgba(255, 255, 255, 0.82);
+            box-shadow: 0 0 9px rgba(255, 255, 255, 0.7);
+            animation: cc-toggle-pulse 2s infinite alternate;
+        }
+
+        @keyframes cc-toggle-pulse {
+            from { transform: translate(-50%, -50%) scale(0.9); opacity: 0.68; }
+            to { transform: translate(-50%, -50%) scale(1.08); opacity: 1; }
+        }
+
+        .cc-style-toggle .thumb-scan {
+            position: absolute;
+            top: -4px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.72);
+            filter: blur(1px);
+            animation: cc-thumb-scan 2s linear infinite;
+        }
+
+        @keyframes cc-thumb-scan {
+            to { top: 48px; opacity: 0; }
+        }
+
+        .cc-style-toggle .toggle-data {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            font-size: 10px;
+            font-weight: 800;
             letter-spacing: 0.04em;
-            color: var(--ed-muted);
-            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .cc-style-toggle .data-text {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: opacity 0.25s ease;
+        }
+
+        .cc-style-toggle .data-text.off { right: 13px; color: #4338ca; }
+        .cc-style-toggle .data-text.on { left: 13px; color: #047857; opacity: 0; }
+
+        .cc-style-toggle .status-indicator {
+            position: absolute;
+            top: 22px;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #6366f1;
+            box-shadow: 0 0 8px rgba(99, 102, 241, 0.65);
+        }
+
+        .cc-style-toggle .status-indicator.off { right: 8px; }
+        .cc-style-toggle .status-indicator.on { left: 8px; background: #10b981; opacity: 0; }
+
+        .cc-style-toggle .energy-rings { pointer-events: none; z-index: 1; }
+        .cc-style-toggle .energy-ring {
+            position: absolute;
+            inset: 4px;
+            border: 1px solid transparent;
+            border-top-color: rgba(255, 255, 255, 0.55);
+            border-radius: 50%;
+            animation: cc-toggle-spin 2.5s linear infinite;
+        }
+        .cc-style-toggle .energy-ring:nth-child(2) { inset: 9px; animation-direction: reverse; }
+        .cc-style-toggle .energy-ring:nth-child(3) { inset: 14px; animation-duration: 1.4s; }
+
+        @keyframes cc-toggle-spin { to { transform: rotate(360deg); } }
+
+        .cc-style-toggle .toggle-reflection,
+        .cc-style-toggle .holo-glow {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            border-radius: 999px;
+        }
+
+        .cc-style-toggle .toggle-reflection {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.18), transparent 42%);
+        }
+
+        .cc-style-toggle .holo-glow {
+            background: radial-gradient(ellipse at center, rgba(99, 102, 241, 0.12), transparent 70%);
+            filter: blur(8px);
+        }
+
+        .cc-style-toggle .toggle-input:focus-visible + .toggle-track {
+            outline: 3px solid rgba(99, 102, 241, 0.24);
+            outline-offset: 2px;
+        }
+
+        .cc-style-toggle .toggle-input:checked + .toggle-track {
+            background: rgba(16, 185, 129, 0.09);
+            border-color: rgba(5, 150, 105, 0.35);
+            box-shadow: inset 0 0 10px rgba(15, 23, 42, 0.08), 0 4px 12px rgba(16, 185, 129, 0.1);
+        }
+
+        .cc-style-toggle .toggle-input:checked + .toggle-track .toggle-thumb,
+        .cc-style-toggle .toggle-input:checked + .toggle-track .energy-rings {
+            left: calc(100% - 48px);
+        }
+
+        .cc-style-toggle .toggle-input:checked + .toggle-track .toggle-thumb {
+            background: radial-gradient(circle, #34d399 0%, #059669 72%);
+            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.28), inset 0 0 10px rgba(255, 255, 255, 0.28);
+        }
+
+        .cc-style-toggle .toggle-input:checked + .toggle-track .data-text.off,
+        .cc-style-toggle .toggle-input:checked + .toggle-track .status-indicator.off { opacity: 0; }
+        .cc-style-toggle .toggle-input:checked + .toggle-track .data-text.on,
+        .cc-style-toggle .toggle-input:checked + .toggle-track .status-indicator.on { opacity: 1; }
+
+        .cc-style-toggle .thumb-particles,
+        .cc-style-toggle .interface-lines {
+            display: none;
+        }
+
+        /* The original animated switch was visually oversized while its labels were only 10px. */
+        .cc-style-toggle.toggle-container {
+            width: min(136px, 100%);
+            direction: ltr;
+            perspective: none;
+        }
+
+        .cc-style-toggle .toggle-wrap {
+            height: 44px;
+            transform-style: flat;
+        }
+
+        .cc-style-toggle .toggle-track {
+            background: #eef2f7;
+            border-color: #d8dee9;
+            border-radius: 12px;
+            box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.05);
+        }
+
+        .cc-style-toggle .toggle-track::after,
+        .cc-style-toggle .track-lines,
+        .cc-style-toggle .energy-rings,
+        .cc-style-toggle .status-indicator,
+        .cc-style-toggle .toggle-reflection,
+        .cc-style-toggle .holo-glow,
+        .cc-style-toggle .thumb-core,
+        .cc-style-toggle .thumb-inner,
+        .cc-style-toggle .thumb-scan {
+            display: none;
+        }
+
+        .cc-style-toggle .toggle-thumb {
+            top: 3px;
+            bottom: 3px;
+            left: 3px;
+            width: calc(50% - 3px);
+            height: auto;
+            background: var(--cc-accent-dark);
+            border: 0;
+            border-radius: 9px;
+            box-shadow: 0 3px 8px rgba(79, 70, 229, 0.24);
+            transition: left 0.22s ease, background 0.22s ease, box-shadow 0.22s ease;
+        }
+
+        .cc-style-toggle .toggle-data {
+            z-index: 3;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            align-items: center;
+            pointer-events: none;
+            font-size: 13px;
+            letter-spacing: 0;
+            text-transform: none;
+        }
+
+        .cc-style-toggle .data-text {
+            position: static;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            transform: none;
+            opacity: 1;
+            transition: color 0.2s ease;
+        }
+
+        .cc-style-toggle .data-text.off {
+            color: #ffffff;
+        }
+
+        .cc-style-toggle .data-text.on {
+            color: #64748b;
+        }
+
+        .cc-style-toggle .toggle-input:checked + .toggle-track {
+            background: #eef2f7;
+            border-color: #cfd8e3;
+            box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.05);
+        }
+
+        .cc-style-toggle .toggle-input:checked + .toggle-track .toggle-thumb {
+            left: 50%;
+            background: #059669;
+            box-shadow: 0 3px 8px rgba(5, 150, 105, 0.24);
+        }
+
+        .cc-style-toggle .toggle-input:checked + .toggle-track .data-text.off {
+            color: #64748b;
+            opacity: 1;
+        }
+
+        .cc-style-toggle .toggle-input:checked + .toggle-track .data-text.on {
+            color: #ffffff;
+            opacity: 1;
         }
 
         .cc-job-actions {
             display: flex;
-            justify-content: flex-end;
             align-items: center;
-            gap: 6px;
+            justify-content: center;
+            min-width: 0;
+            max-width: 100%;
+            min-height: 44px;
+        }
+
+        .cc-delete-job,
+        .deleteBtn2 {
+            display: inline-grid;
+            width: 40px;
+            height: 40px;
+            place-items: center;
+            margin: 0 !important;
+            padding: 0 !important;
+            color: #b91c1c !important;
+            background: #fff1f2 !important;
+            border: 1px solid #fecdd3 !important;
+            border-radius: 10px !important;
+            box-sizing: border-box;
+            flex: 0 0 40px;
+        }
+
+        .cc-delete-job:hover,
+        .deleteBtn2:hover {
+            color: #ffffff !important;
+            background: #b91c1c !important;
+            border-color: #b91c1c !important;
+        }
+
+        .cc-delete-job .fa,
+        .deleteBtn2 .fa {
+            color: inherit !important;
         }
 
         .cc-add-btn {
-            border-radius: 999px;
-            box-shadow: 0 8px 18px rgba(51, 137, 154, 0.25);
-            border: none;
-            padding: 8px 14px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            min-height: 38px;
+            padding: 8px 13px;
+            border: 0;
+            border-radius: 10px;
+            box-shadow: none;
         }
 
         .cc-abutment-card {
-            margin-top: 8px;
-            border: 1px solid rgba(225, 78, 202, 0.3);
+            grid-column: 1 / -1;
+            margin-top: 2px;
+            padding: 14px !important;
+            background: #fafaff;
+            border: 1px solid #d9ddff;
             border-radius: 12px;
-            padding: 12px 10px;
-            background: #f9f4ff;
+        }
+
+        .cc-subsection-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .cc-subsection-heading strong,
+        .cc-subsection-heading span {
+            display: block;
+        }
+
+        .cc-subsection-heading strong {
+            color: var(--cc-text);
+            font-size: 13px;
+        }
+
+        .cc-subsection-heading span {
+            margin-top: 2px;
+            color: var(--cc-muted);
+            font-size: 11px;
         }
 
         .cc-abutment-row {
-            align-items: flex-end;
-            margin: 10px 0;
-            border: 1px solid #e14eca;
-            border-radius: 0.5rem;
-            padding: 10px 10px;
+            display: grid;
+            grid-template-columns: minmax(130px, 1fr) repeat(2, minmax(130px, 1fr)) minmax(110px, 0.7fr) 40px;
+            align-items: end;
+            gap: 10px;
+            margin: 0 0 10px !important;
+            padding: 12px !important;
+            background: #ffffff;
+            border: 1px solid #e0e4ff;
+            border-radius: 10px;
+        }
+
+        .purpleBorder {
+            width: 100%;
+            min-height: 42px;
+            color: var(--cc-text);
+            background: #ffffff;
+            border: 1px solid #cfd6e1 !important;
+            border-radius: 9px;
         }
 
         .cc-note-area textarea {
-            min-height: 140px;
-            border-radius: 12px;
+            min-height: 150px;
             padding: 12px 14px;
             resize: vertical;
         }
 
         .cc-upload {
-            padding: 12px;
-            border: 1px dashed rgba(17, 21, 30, 0.15);
+            display: grid;
+            gap: 12px;
+            min-height: 0;
+            padding: 14px;
+            background: var(--cc-surface-soft);
+            border: 1px dashed #b8c1cf;
             border-radius: 12px;
-            background: #f7f9fb;
-            min-height: 80px;
+        }
+
+        .cc-upload__intro {
             display: flex;
             align-items: center;
+            gap: 10px;
+            color: var(--cc-text);
         }
 
-        .cc-upload label {
-            cursor: pointer;
-            color: var(--ed-dark);
-        }
-
-        .cc-upload input[type="file"] {
-            height: 44px;
-            padding: 10px 12px;
-            background: #fff;
+        .cc-upload__intro>i {
+            display: inline-grid;
+            width: 38px;
+            height: 38px;
+            flex: 0 0 38px;
+            place-items: center;
+            color: var(--cc-accent-dark);
+            background: var(--cc-accent-soft);
             border-radius: 10px;
         }
 
-        .cc-submit-card .cc-submit-actions {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
+        .cc-upload__intro strong,
+        .cc-upload__intro span {
+            display: block;
         }
 
-        .cc-submit-card p {
+        .cc-upload__intro strong {
+            font-size: 13px;
+        }
+
+        .cc-upload__intro span {
+            margin-top: 2px;
+            color: var(--cc-muted);
+            font-size: 11px;
+        }
+
+        .cc-upload input[type="file"] {
+            height: auto !important;
+            padding: 10px 12px;
+            background: #ffffff;
+        }
+
+        .cc-upload__status {
             margin: 0;
-            color: var(--ed-muted);
+            color: var(--cc-muted);
+            font-size: 12px;
+        }
+
+        .cc-file-preview {
+            min-width: 0;
+            padding-top: 2px;
+        }
+
+        .cc-file-preview__list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr));
+            gap: 12px;
+            min-width: 0;
+        }
+
+        .cc-file-preview__entry {
+            min-width: 0;
+        }
+
+        .cc-file-preview .file-preview-item {
+            position: relative;
+            min-width: 0;
+            height: 100%;
+            padding: 10px;
+            overflow: hidden;
+            border: 1px solid var(--cc-border) !important;
+            border-radius: 9px !important;
+            background: #ffffff !important;
+            box-shadow: none !important;
+        }
+
+        .cc-file-preview .file-preview-item>img {
+            display: block;
+            width: 100%;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .cc-file-preview .file-info {
+            min-width: 0;
+            margin-top: 7px;
+            padding-inline-end: 32px;
+            font-size: 11px;
+        }
+
+        .cc-file-preview .file-info>div:first-child {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .cc-file-preview .remove-file {
+            position: absolute;
+            top: 7px;
+            inset-inline-end: 7px;
+            display: inline-grid;
+            width: 30px;
+            min-width: 30px;
+            height: 30px;
+            min-height: 30px;
+            margin: 0;
+            padding: 0 !important;
+            place-items: center;
+            border-radius: 8px;
+        }
+
+        .cc-toggle-row {
+            display: flex !important;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            margin: 0 !important;
+            padding: 12px;
+            color: var(--cc-text) !important;
+            background: var(--cc-surface-soft);
+            border: 1px solid var(--cc-border);
+            border-radius: 11px;
+            cursor: pointer;
+            text-transform: none !important;
+            letter-spacing: 0 !important;
+        }
+
+        .cc-toggle-row strong,
+        .cc-toggle-row small {
+            display: block;
+        }
+
+        .cc-toggle-row strong {
+            font-size: 13px;
+        }
+
+        .cc-toggle-row small {
+            margin-top: 2px;
+            color: var(--cc-muted);
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .cc-toggle-row input {
+            width: 20px;
+            height: 20px;
+            flex: 0 0 20px;
+            accent-color: var(--cc-accent);
+        }
+
+        .cc-discount-fields {
+            display: grid;
+            grid-template-columns: minmax(110px, 0.65fr) minmax(0, 1.35fr);
+            gap: 12px;
+            margin-top: 12px;
         }
 
         .cc-testing-helper {
-            background: linear-gradient(120deg, rgba(214, 67, 67, 0.1), rgba(214, 67, 67, 0.05));
-            border: 1px solid rgba(214, 67, 67, 0.3);
-            border-radius: 12px;
-            padding: 10px;
-            margin-top: 10px;
+            margin-top: 12px;
+            padding: 12px;
+            background: #fff7ed;
+            border: 1px solid #fed7aa;
+            border-radius: 11px;
         }
 
         .checked {
@@ -348,18 +1071,9 @@
             display: none;
         }
 
-        .fa,
-        .fas {
-            color: var(--ed-dark);
-        }
-
-        .modal.show .modal-dialog {
+        #unitsDialog.modal.show .modal-dialog {
             -webkit-transform: translate(0, 0%);
             transform: translate(0, 0%);
-        }
-
-        .row {
-            padding: 0;
         }
 
         .xdsoft_time_box {
@@ -371,32 +1085,159 @@
         }
 
         #addJobBtn2 {
-            background-color: var(--ed-primary);
-            border-color: var(--ed-primary-dark);
+            background-color: var(--cc-accent);
+            border-color: var(--cc-accent-dark);
         }
 
-        .purpleBorder {
-            border: 1px solid #e14eca !important;
-            border-radius: 0.5rem;
-            background-color: #f8f9fa;
+        #unitsDialog img {
+            max-width: none;
         }
 
-        img {
-            max-width: unset;
+        @media (min-width: 1500px) {
+            .cc-job-block {
+                grid-template-columns: minmax(112px, 0.8fr) minmax(150px, 1fr) minmax(150px, 1fr) minmax(96px, 0.62fr) minmax(148px, 0.9fr) 42px;
+            }
         }
 
-        @media screen and (max-width: 991px) {
-            .modal-content .modal-footer button {
+        @media (max-width: 1199.98px) {
+            .cc-workspace {
+                grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.72fr);
+            }
+
+            .cc-job-block {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .cc-job-actions {
+                position: absolute;
+                top: 10px;
+                right: auto;
+                inset-inline-end: 12px;
+                min-height: 0;
+                z-index: 6;
+            }
+        }
+
+        @media screen and (max-width: 991.98px) {
+            .cc-workspace {
+                grid-template-columns: 1fr;
+            }
+
+            .cc-secondary-column {
+                position: static;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            #unitsDialog .modal-content .modal-footer button {
                 margin: 0;
                 width: auto;
                 white-space: break-spaces;
             }
         }
 
-        @media (min-width: 576px) {
-            .modal-dialog {
-                max-width: 480px;
-                margin: 1.75rem auto;
+        @media (max-width: 575.98px) {
+            .create-shell {
+                padding: 10px 0 28px;
+            }
+
+            .cc-page-intro {
+                grid-template-columns: 1fr;
+                gap: 16px;
+                margin-bottom: 12px;
+                padding: 20px 18px;
+                border-radius: 14px;
+            }
+
+            body.white-content .cc-page-intro h1 {
+                font-size: 25px;
+            }
+
+            .cc-case-reference {
+                min-width: 0;
+                width: 100%;
+            }
+
+            .cc-page-intro__meta {
+                min-width: 0;
+                width: 100%;
+            }
+
+            .cc-page-actions {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .cc-workspace,
+            .cc-primary-column,
+            .cc-secondary-column {
+                gap: 12px;
+            }
+
+            .cc-secondary-column {
+                grid-template-columns: 1fr;
+            }
+
+            .cc-card,
+            .cc-section-header {
+                border-radius: 13px;
+            }
+
+            .cc-section-header {
+                grid-template-columns: auto minmax(0, 1fr);
+                padding: 15px 14px;
+            }
+
+            .cc-section-header .cc-required-badge,
+            .cc-jobs-header .cc-add-btn {
+                grid-column: 2;
+                justify-self: start;
+            }
+
+            .cc-card-body,
+            .cc-card-body--jobs {
+                padding: 14px;
+            }
+
+            .cc-field-grid--details,
+            .cc-discount-fields {
+                grid-template-columns: 1fr;
+            }
+
+            .cc-field--wide {
+                grid-column: auto;
+            }
+
+            .cc-job-block {
+                grid-template-columns: 1fr;
+                gap: 13px;
+                padding: 44px 13px 13px;
+            }
+
+            .cc-style-options {
+                max-width: none;
+            }
+
+            .cc-job-actions {
+                top: 10px;
+                right: auto;
+                inset-inline-end: 10px;
+            }
+
+            .cc-subsection-heading {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .cc-abutment-row {
+                grid-template-columns: 1fr;
+            }
+
+            .cc-abutment-actions {
+                justify-self: end;
+            }
+
+            .cc-page-actions .btn {
+                min-width: 0;
+                padding-inline: 10px;
             }
         }
     </style>
@@ -417,347 +1258,406 @@
                     action="{{ route('new-case-post') }}">
         @endif
         @csrf
-        <div class="ed-grid cc-top-grid">
-            <div class="ed-card cc-card">
-                <div class="ed-card-header">
-                    <div>
-                        <div class="ed-card-kicker">Case</div>
-                        <h4 class="ed-card-title">Patient & Doctor</h4>
-                    </div>
-                    <span class="ed-badge ed-badge-primary">Required</span>
+        <input type="hidden" name="temp_case_id" value="{{ $tempCaseId }}">
+
+        <header class="cc-page-intro">
+            <div class="cc-page-intro__copy">
+                <span class="cc-page-intro__eyebrow">New laboratory case</span>
+                <h1>Create a production-ready case</h1>
+                <p>Capture the patient, delivery plan, and laboratory work in one clear workflow.</p>
+            </div>
+            <div class="cc-page-intro__meta">
+                <div class="cc-case-reference" aria-label="Auto-generated case reference">
+                    <span>Case reference</span>
+                    <strong>{{ $tempCaseId }}</strong>
+                    <small>Generated automatically</small>
                 </div>
-                <div class="cc-field-grid">
-                    <div class="cc-field">
-                        <label class="cc-label">Doctor</label>
-                        <select class="selectpicker cc-input" name="doctor" data-live-search="true" required
-                            title="Select a doctor" data-tap-disabled="true">
-                            @foreach ($doctors as $doctor)
-                                <option value="{{ $doctor->id }}">{{ $doctor->name }}</option>
-                            @endforeach
-                        </select>
-                        <small class="mandatorySmallTag">* Mandatory</small>
-                    </div>
-                    <div class="cc-field">
-                        <label class="cc-label">Patient name</label>
-                        <input class="form-control cc-input" type="text" name="patient_name" required />
-                        <small class="mandatorySmallTag">* Mandatory</small>
-                    </div>
-                    <div class="cc-field cc-field--id">
-                        <label class="cc-label">Case ID</label>
-                        <div class="cc-case-id">
-                            <div class="cc-id-prefix">{{ $tempCaseId }}</div>
-                            <input type="hidden" name="temp_case_id" value="{{ $tempCaseId }}">
-                        </div>
-                        <small class="mandatorySmallTag">* Auto-generated</small>
-                    </div>
+                <div class="cc-page-actions" aria-label="Case form actions">
+                    <button type="submit" class="btn btn-primary extraPadding">
+                        <i class="fa-solid fa-check" aria-hidden="true"></i>
+                        Create case
+                    </button>
+                    <a class="btn btn-light" href="{{ route('cases-index') }}">Cancel</a>
                 </div>
             </div>
-            <div class="ed-card cc-card">
-                <div class="ed-card-header">
-                    <div>
-                        <div class="ed-card-kicker">Timeline</div>
-                        <h4 class="ed-card-title">Delivery & Tags</h4>
+        </header>
+
+        <div class="cc-workspace">
+            <main class="cc-primary-column">
+                <section class="cc-card cc-card--details" aria-labelledby="cc-case-details-title">
+                    <div class="cc-section-header">
+                        <span class="cc-step-number">01</span>
+                        <div>
+                            <span class="cc-section-kicker">Case setup</span>
+                            <h2 id="cc-case-details-title">Patient and delivery details</h2>
+                            <p>Start with the information production needs to identify and schedule the case.</p>
+                        </div>
+                        <span class="cc-required-badge">Required</span>
                     </div>
-                    <span class="ed-badge ed-badge-soft"><i class="fa-regular fa-clock"></i>&nbsp;Schedule</span>
-                </div>
-                <div class="cc-field-grid">
-                    <div class="cc-field">
-                        <label class="cc-label">Impression Type</label>
-                        <select class="form-control cc-input" name="impression_type" type="text" data-container="body"
-                            data-live-search="true" title="Select impression" data-hide-disabled="true">
-                            @foreach ($impressionTypes as $impression)
-                                <option value="{{ $impression->id }}">
-                                    {{ $impression->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="cc-field">
-                        <label class="cc-label">Delivery Date</label>
+
+                    <div class="cc-card-body">
                         @php
                             $time = new DateTime('tomorrow 13:00');
                             $time = $time->format('d M, Y h:i a');
                         @endphp
+                        <div class="cc-field-grid cc-field-grid--details">
+                            <div class="cc-field cc-field--patient">
+                                <label class="cc-label" for="cc-patient-name">Patient name <span aria-hidden="true">*</span></label>
+                                <input class="form-control cc-input" id="cc-patient-name" type="text"
+                                    name="patient_name" value="{{ old('patient_name') }}" placeholder="Enter patient name"
+                                    autocomplete="off" required />
+                            </div>
 
-                        <input class="form-control SDTP cc-input" name="delivery_date" type="text"
-                            value="{{ $time }}" required readonly />
-                        <small class="mandatorySmallTag">* Mandatory</small>
+                            <div class="cc-field cc-field--doctor">
+                                <label class="cc-label" for="cc-doctor">Doctor <span aria-hidden="true">*</span></label>
+                                <select class="selectpicker cc-input" id="cc-doctor" name="doctor" data-live-search="true"
+                                    required title="Select a doctor" data-tap-disabled="true">
+                                    @foreach ($doctors as $doctor)
+                                        <option value="{{ $doctor->id }}"
+                                            {{ (string) old('doctor') === (string) $doctor->id ? 'selected' : '' }}>
+                                            {{ $doctor->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="cc-field">
+                                <label class="cc-label" for="cc-delivery-date">Delivery date <span aria-hidden="true">*</span></label>
+                                <input class="form-control SDTP cc-input" id="cc-delivery-date" name="delivery_date"
+                                    type="text" value="{{ old('delivery_date', $time) }}" required readonly />
+                                <small class="cc-field-help">Tap to adjust the production deadline.</small>
+                            </div>
+
+                            <div class="cc-field">
+                                <label class="cc-label" for="cc-impression-type">Impression type</label>
+                                <select class="form-control cc-input" id="cc-impression-type" name="impression_type"
+                                    data-container="body" data-live-search="true" title="Select impression"
+                                    data-hide-disabled="true">
+                                    @foreach ($impressionTypes as $impression)
+                                        <option value="{{ $impression->id }}"
+                                            {{ (string) old('impression_type') === (string) $impression->id ? 'selected' : '' }}>
+                                            {{ $impression->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="cc-field cc-field--wide">
+                                <label class="cc-label" for="cc-tags">Tags</label>
+                                <select class="select selectpicker cc-input" id="cc-tags" name="tags[]" multiple
+                                    data-mdb-placeholder="Tags">
+                                    @php
+                                        $selectedTags = array_map('strval', (array) old('tags', []));
+                                    @endphp
+                                    @foreach ($tags as $tag)
+                                        <option style="color:{{ $tag->color }}" value="{{ $tag->id }}"
+                                            {{ in_array((string) $tag->id, $selectedTags, true) ? 'selected' : '' }}>
+                                            {{ $tag->text }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <small class="cc-field-help">Add only tags that help the production team act quickly.</small>
+                            </div>
+                        </div>
                     </div>
-                    <div class="cc-field">
-                        <label class="cc-label">Tags</label>
-                        <select class="select selectpicker cc-input" name="tags[]" multiple data-mdb-placeholder="Tags">
-                            @foreach ($tags as $tag)
-                                <option style="color:{{ $tag->color }}" value="{{ $tag->id }}">{{ $tag->text }}
-                                </option>
-                            @endforeach
-                        </select>
+                </section>
 
-                    </div>
-                </div>
-            </div>
-        </div>
+                <section class="cc-card cc-jobs-card" aria-labelledby="cc-jobs-title">
+                    <div class="repeater jobsRepeater">
+                        <div class="cc-section-header cc-jobs-header">
+                            <span class="cc-step-number">02</span>
+                            <div>
+                                <span class="cc-section-kicker">Production plan</span>
+                                <h2 id="cc-jobs-title">Laboratory jobs</h2>
+                                <p>Group units that share the same restoration, material, shade, and style.</p>
+                            </div>
+                            <a href="javascript:" data-repeater-create="" class="btn btn-primary cc-add-btn"
+                                id="addJobBtn">
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                <span>Add job</span>
+                            </a>
+                        </div>
 
-        <div class="ed-card cc-card cc-jobs-card">
-            <div class="repeater jobsRepeater">
-                <div class="ed-card-header cc-jobs-header">
-                    <div>
-                        <div class="ed-card-kicker">Production</div>
-                        <h4 class="ed-card-title">Jobs information</h4>
-                    </div>
-                    <div class="ed-card-actions">
-                        <a href="javascript:" data-repeater-create="" class="btn btn-primary cc-add-btn" id="addJobBtn">
-                            <i class="fa fa-plus-square"></i> Add job
-                        </a>
-                    </div>
-                </div>
-                <div data-repeater-list="repeat" class="cc-job-list">
-                    <div data-repeater-item class="jobRow">
-                        <div class="form-group form-group">
-                            <div data-repeater-list="repeat" class="cc-job-inner">
-                                <div data-repeater-item
-                                    class="form-group row align-items-start row-item cc-job-block cc-job-grid">
-                                    <div class="col-md-2">
-                                        <label class="cc-label">Units</label>
-                                        <input type="hidden" name="units" id="units" class="hiddenUnitsInput"
-                                            required>
-                                        <button type="button" class="btn btn-secondary slctUnitsBtn cc-ghost-btn"
-                                            data-toggle="modal" data-target="#unitsDialog" name="openDialogBtn"
-                                            onclick="preOpenDialog(this)">Select Units</button>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <label class="cc-label">Job type</label>
-                                        <select class="form-control cc-input" id="jobType" name="jobType"
-                                            onchange="jobTypeChanged(this)">
-                                            @foreach ($types as $type)
-                                                <option value="{{ $type->id }}">{{ $type->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <label class="cc-label">Material</label>
-                                        <select class="form-control cc-input" id="material_id" name="material_id">
-                                            @foreach ($materials as $m)
-                                                <option value="{{ $m->id }}">
-                                                    {{ $m->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <label class="cc-label">Color</label>
-                                        <select class="form-control cc-input" id="color" name="color">
-                                            <option value="0" selected>None</option>
-                                            <option value="A1">A1</option>
-                                            <option value="A2">A2</option>
-                                            <option value="A3">A3</option>
-                                            <option value="A3.5">A3.5</option>
-                                            <option value="A4">A4</option>
-                                            <option value="B1">B1</option>
-                                            <option value="B2">B2</option>
-                                            <option value="B3">B3</option>
-                                            <option value="B4">B4</option>
-                                            <option value="C1">C1</option>
-                                            <option value="C2">C2</option>
-                                            <option value="C3">C3</option>
-                                            <option value="C4">C4</option>
-                                            <option value="D2">D2</option>
-                                            <option value="D3">D3</option>
-                                            <option value="D4">D4</option>
-                                            <option value="BL1">BL1</option>
-                                            <option value="BL2">BL2</option>
-                                            <option value="BL3">BL3</option>
-                                            <option value="BL4">BL4</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <label class="cc-label">Style</label>
-                                        <div class="kt-radio-inline">
-                                            <label class="kt-radio">
-                                                <input type="radio" class="single" checked="checked" name="style"
-                                                    value="Single"> Single
-                                                <span></span>
-                                            </label>
-                                            <label class="kt-radio">
-                                                <input type="radio" class="bridge" name="style" value="Bridge">
-                                                Bridge
-                                                <span></span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2 cc-job-actions">
-                                        <button data-repeater-delete class="btn deleteBtn btn-sm" type="button"
-                                            value="Delete"><i class="fa fa-trash" style="color:white"></i>
-                                        </button>
-                                    </div>
-                                    <div class="col-md-12 abutment abutmentsArea cc-abutment-card" style="display:none;">
-
-                                        <div class="abutments-repeater abutmentsRepeater">
-                                            <div data-repeater-list="abutments" class="dataRepeaterList">
-                                                <div data-repeater-item class="abutmentsRow">
-                                                    <div class="row cc-abutment-row">
-                                                        <div class="col-md-3">
-                                                            <label class="kt-label m-label--single">Abt./Implant
-                                                                Units:</label>
-                                                            <select class="select abutmentsUnitsPicker greyBG purpleBorder"
-                                                                name="abutmentUnits[]" multiple
-                                                                data-mdb-placeholder="Tags">
-
-                                                            </select>
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                            <label class="kt-label m-label--single">Implant
-                                                                type:</label>
-                                                            <select class="form-control purpleBorder" id="implant"
-                                                                name="implant">
-                                                                <option value="0" selected>None
-                                                                </option>
-                                                                @foreach ($implants as $implant)
-                                                                    <option value="{{ $implant->id }}">
-                                                                        {{ $implant->name }}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                            <label class="kt-label m-label--single">Abutment
-                                                                type:</label>
-                                                            <select class="form-control purpleBorder" id="abutment"
-                                                                name="abutment">
-                                                                <option value="0" selected>None</option>
-                                                                @foreach ($abutments as $abutment)
-                                                                    <option value="{{ $abutment->id }}">
-                                                                        {{ $abutment->name }}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-
-                                                        <div class="col-md-2">
-                                                            <label class="kt-label m-label--single">Code:</label>
-
-                                                            <input type="text" name="abutmentCode"
-                                                                class="form-control purpleBorder">
-
-                                                        </div>
-                                                        <div class="col-md-1">
-                                                            <button data-repeater-delete class="btn deleteBtn2 btn-sm"
-                                                                type="button" value="Delete"><i
-                                                                    class="fa fa-trash"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-
+                        <div class="cc-card-body cc-card-body--jobs">
+                            <div data-repeater-list="repeat" class="cc-job-list">
+                                <div data-repeater-item class="jobRow">
+                                    <div class="form-group mb-0">
+                                        <div data-repeater-list="repeat" class="cc-job-inner">
+                                            <div data-repeater-item
+                                                class="form-group row align-items-start row-item cc-job-block cc-job-grid">
+                                                <div class="col-md-2 cc-job-field cc-job-field--units">
+                                                    <label class="cc-label">Units</label>
+                                                    <input type="hidden" name="units" id="units"
+                                                        class="hiddenUnitsInput" required>
+                                                    <button type="button"
+                                                        class="btn btn-secondary slctUnitsBtn cc-ghost-btn"
+                                                        data-toggle="modal" data-target="#unitsDialog"
+                                                        name="openDialogBtn" onclick="preOpenDialog(this)">
+                                                        Select units
+                                                    </button>
                                                 </div>
 
+                                                <div class="col-md-2 cc-job-field">
+                                                    <label class="cc-label">Job type</label>
+                                                    <select class="form-control cc-input" id="jobType" name="jobType"
+                                                        onchange="jobTypeChanged(this)">
+                                                        @foreach ($types as $type)
+                                                            <option value="{{ $type->id }}">{{ $type->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-2 cc-job-field">
+                                                    <label class="cc-label">Material</label>
+                                                    <select class="form-control cc-input" id="material_id"
+                                                        name="material_id">
+                                                        @foreach ($materials as $m)
+                                                            <option value="{{ $m->id }}">{{ $m->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-2 cc-job-field cc-job-field--shade">
+                                                    <label class="cc-label">Shade</label>
+                                                    <select class="form-control cc-input" id="color" name="color">
+                                                        <option value="0" selected>None</option>
+                                                        <option value="A1">A1</option>
+                                                        <option value="A2">A2</option>
+                                                        <option value="A3">A3</option>
+                                                        <option value="A3.5">A3.5</option>
+                                                        <option value="A4">A4</option>
+                                                        <option value="B1">B1</option>
+                                                        <option value="B2">B2</option>
+                                                        <option value="B3">B3</option>
+                                                        <option value="B4">B4</option>
+                                                        <option value="C1">C1</option>
+                                                        <option value="C2">C2</option>
+                                                        <option value="C3">C3</option>
+                                                        <option value="C4">C4</option>
+                                                        <option value="D2">D2</option>
+                                                        <option value="D3">D3</option>
+                                                        <option value="D4">D4</option>
+                                                        <option value="BL1">BL1</option>
+                                                        <option value="BL2">BL2</option>
+                                                        <option value="BL3">BL3</option>
+                                                        <option value="BL4">BL4</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-2 cc-job-field cc-job-field--style">
+                                                    <label class="cc-label">Style</label>
+                                                    <div class="toggle-container cc-style-toggle">
+                                                        <input type="hidden" class="cc-style-value" name="style" value="Single">
+                                                        <label class="toggle-wrap">
+                                                            <input class="toggle-input cc-style-toggle-input" type="checkbox"
+                                                                aria-label="Single or Bridge" aria-checked="false">
+                                                            <span class="toggle-track">
+                                                                <span class="track-lines"><span class="track-line"></span></span>
+                                                                <span class="toggle-thumb">
+                                                                    <span class="thumb-core"></span>
+                                                                    <span class="thumb-inner"></span>
+                                                                    <span class="thumb-scan"></span>
+                                                                    <span class="thumb-particles" aria-hidden="true"></span>
+                                                                </span>
+                                                                <span class="toggle-data" aria-hidden="true">
+                                                                    <span class="data-text off">Single</span>
+                                                                    <span class="data-text on">Bridge</span>
+                                                                    <span class="status-indicator off"></span>
+                                                                    <span class="status-indicator on"></span>
+                                                                </span>
+                                                                <span class="energy-rings" aria-hidden="true">
+                                                                    <span class="energy-ring"></span>
+                                                                    <span class="energy-ring"></span>
+                                                                    <span class="energy-ring"></span>
+                                                                </span>
+                                                                <span class="interface-lines" aria-hidden="true"></span>
+                                                                <span class="toggle-reflection"></span>
+                                                                <span class="holo-glow"></span>
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-2 cc-job-actions">
+                                                    <button data-repeater-delete
+                                                        class="btn deleteBtn btn-sm cc-delete-job" type="button"
+                                                        value="Delete" aria-label="Delete job">
+                                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                                    </button>
+                                                </div>
+
+                                                <div class="col-md-12 abutment abutmentsArea cc-abutment-card"
+                                                    style="display:none;">
+                                                    <div class="abutments-repeater abutmentsRepeater">
+                                                        <div class="cc-subsection-heading">
+                                                            <div>
+                                                                <strong>Implant components</strong>
+                                                                <span>Assign component details to the selected units.</span>
+                                                            </div>
+                                                            <a href="javascript:" data-repeater-create=""
+                                                                class="btn btn-success btn-sm" id="addJobBtn2"
+                                                                onClick="addAbutmentJob(this)">
+                                                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                                                Add component
+                                                            </a>
+                                                        </div>
+                                                        <div data-repeater-list="abutments" class="dataRepeaterList">
+                                                            <div data-repeater-item class="abutmentsRow">
+                                                                <div class="row cc-abutment-row">
+                                                                    <div class="col-md-3 cc-abutment-field">
+                                                                        <label class="cc-label">Units</label>
+                                                                        <select
+                                                                            class="select abutmentsUnitsPicker greyBG purpleBorder"
+                                                                            name="abutmentUnits[]" multiple
+                                                                            data-mdb-placeholder="Units">
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="col-md-2 cc-abutment-field">
+                                                                        <label class="cc-label">Implant type</label>
+                                                                        <select class="form-control purpleBorder"
+                                                                            id="implant" name="implant">
+                                                                            <option value="0" selected>None</option>
+                                                                            @foreach ($implants as $implant)
+                                                                                <option value="{{ $implant->id }}">
+                                                                                    {{ $implant->name }}
+                                                                                </option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="col-md-2 cc-abutment-field">
+                                                                        <label class="cc-label">Abutment type</label>
+                                                                        <select class="form-control purpleBorder"
+                                                                            id="abutment" name="abutment">
+                                                                            <option value="0" selected>None</option>
+                                                                            @foreach ($abutments as $abutment)
+                                                                                <option value="{{ $abutment->id }}">
+                                                                                    {{ $abutment->name }}
+                                                                                </option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="col-md-2 cc-abutment-field">
+                                                                        <label class="cc-label">Code</label>
+                                                                        <input type="text" name="abutmentCode"
+                                                                            class="form-control purpleBorder">
+                                                                    </div>
+                                                                    <div class="col-md-1 cc-abutment-actions">
+                                                                        <button data-repeater-delete
+                                                                            class="btn deleteBtn2 btn-sm" type="button"
+                                                                            value="Delete"
+                                                                            aria-label="Delete component">
+                                                                            <i class="fa fa-trash"
+                                                                                aria-hidden="true"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <a href="javascript:" data-repeater-create="" class="btn btn-success btn-sm"
-                                                id="addJobBtn2" onClick = "addAbutmentJob(this)">
-                                                <i class="fa fa-plus-square" style="color:white"></i> Add Abutment
-                                            </a>
-
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </section>
+            </main>
 
-                </div>
-            </div>
-        </div>
-
-        @if (Auth()->user()->is_admin || ($permissions && $permissions->contains('permission_id', 114)))
-            <div class="ed-card cc-card">
-                <div class="ed-card-header">
-                    <div>
-                        <div class="ed-card-kicker">Finance</div>
-                        <h4 class="ed-card-title">
-                            Discount
-                        </h4>
+            <aside class="cc-secondary-column" aria-label="Case supporting information and submission">
+                <section class="cc-card cc-note-area" aria-labelledby="cc-notes-title">
+                    <div class="cc-section-header cc-section-header--compact">
+                        <span class="cc-step-number">03</span>
+                        <div>
+                            <span class="cc-section-kicker">Clinical context</span>
+                            <h2 id="cc-notes-title">Notes</h2>
+                            <p>Add instructions that cannot be expressed by the job fields.</p>
+                        </div>
                     </div>
-                </div>
-                <label style="cursor: pointer" class="cc-label">
-                    <input type="checkbox" class="discountCB" name="discountCB" onclick='toggleDiscountPortion(this)' />
-                    Make a Discount
-                </label>
-                <div class="form-group form-group row discountPortion" style="display:none">
-                    <div class="col-md-3 col-xs-6">
-                        <input class="form-control" type="number" name="discount_amount" placeholder="Amount ({{ $currencyLabel }})" />
-                        <small>{{ $currencyLabel }}</small>
+                    <div class="cc-card-body">
+                        <label class="cc-label" for="exampleTextarea">Case notes</label>
+                        <textarea class="form-control cc-input" name="note" id="exampleTextarea" rows="5"
+                            placeholder="Special instructions, contacts, or clinical considerations">{{ old('note') }}</textarea>
                     </div>
-                    <div class="col-md-6 col-xs-6">
-                        <input class="form-control" type="text" name="discount_reason"
-                            placeholder="Explanation of discount">
+                </section>
+
+                <section class="cc-card" aria-labelledby="cc-attachments-title">
+                    <div class="cc-section-header cc-section-header--compact">
+                        <span class="cc-section-icon"><i class="fa-regular fa-image" aria-hidden="true"></i></span>
+                        <div>
+                            <span class="cc-section-kicker">Files</span>
+                            <h2 id="cc-attachments-title">Attachments</h2>
+                            <p>Add photos, scans, or supporting documents.</p>
+                        </div>
                     </div>
-                </div>
-            </div>
-        @endif
+                    <div class="cc-card-body">
+                        <div class="form-group form-group-last mb-0 cc-upload">
+                            <div class="cc-upload__intro">
+                                <i class="fa-solid fa-cloud-arrow-up" aria-hidden="true"></i>
+                                <div>
+                                    <strong>Choose case files</strong>
+                                    <span>You can select multiple files.</span>
+                                </div>
+                            </div>
+                            <input type="file" id="images" class="form-control cc-input" name="images[]" multiple>
+                            <p id="file-selection-status" class="cc-upload__status" role="status" aria-live="polite">No files selected.</p>
+                            <div id="file-preview-container" class="cc-file-preview" style="display: none;">
+                                <div id="file-preview-list" class="cc-file-preview__list"></div>
+                            </div>
+                        </div>
 
-        <div class="ed-grid cc-bottom-grid">
-            <div class="ed-card cc-card cc-note-area">
-                <div class="ed-card-header">
-                    <div>
-                        <div class="ed-card-kicker">Notes</div>
-                        <h4 class="ed-card-title">
-                            Additional information
-                        </h4>
-                    </div>
-                </div>
-
-                <div class="form-group form-group-last mb-0">
-                    <textarea class="form-control cc-input" name="note" id="exampleTextarea" rows="3">{{ old('note') }}</textarea>
-                </div>
-            </div>
-            <div class="ed-card cc-card">
-                <div class="ed-card-header">
-                    <div>
-                        <div class="ed-card-kicker">Assets</div>
-                        <h4 class="ed-card-title">
-                            Attachments
-                        </h4>
-                    </div>
-                </div>
-                <div class="form-group form-group-last mb-0 cc-upload">
-                    <label for="images">
-                        <h4><i class="fa-solid fa-circle-plus"></i>
-                        </h4>
-                    </label>
-                    <input type="file" id="images" class="form-control cc-input" name="images[]"
-                        placeholder="address" multiple>
-                </div>
-
-                @if (config('site_vars.environment') == 'testing')
-                    <div class="cc-testing-helper">
-                        <div class="kt-form__actions"><label for="sendTo">Testing helpers:</label><br>
-                            <div class="btn-group show" role="group">
-                                <select class="form-control" id="stageToSendTo" name="stageToSendTo">
-
+                        @if (config('site_vars.environment') == 'testing')
+                            <div class="cc-testing-helper">
+                                <label class="cc-label" for="stageToSendTo">Testing destination</label>
+                                <select class="form-control cc-input" id="stageToSendTo" name="stageToSendTo">
                                     <option value="1">Design</option>
                                     <option value="6">Finishing</option>
                                     <option value="7">QC</option>
                                     <option value="8">Delivery</option>
-                                    <option value="10" style="color:green">Completed</option>
+                                    <option value="10">Completed</option>
                                 </select>
+                            </div>
+                        @endif
+                    </div>
+                </section>
 
+                @if (Auth()->user()->is_admin || ($permissions && $permissions->contains('permission_id', 114)))
+                    <section class="cc-card cc-discount-card" aria-labelledby="cc-discount-title">
+                        <div class="cc-section-header cc-section-header--compact">
+                            <span class="cc-section-icon"><i class="fa-solid fa-tag" aria-hidden="true"></i></span>
+                            <div>
+                                <span class="cc-section-kicker">Optional</span>
+                                <h2 id="cc-discount-title">Discount</h2>
+                                <p>Apply a documented case-level adjustment.</p>
                             </div>
                         </div>
-                    </div>
+                        <div class="cc-card-body">
+                            <label class="cc-toggle-row">
+                                <span>
+                                    <strong>Apply discount</strong>
+                                    <small>Requires an amount and reason.</small>
+                                </span>
+                                <input type="checkbox" class="discountCB" name="discountCB"
+                                    onclick="toggleDiscountPortion(this)" />
+                            </label>
+                            <div class="discountPortion cc-discount-fields" style="display:none">
+                                <div class="cc-field">
+                                    <label class="cc-label" for="cc-discount-amount">Amount ({{ $currencyLabel }})</label>
+                                    <input class="form-control cc-input" id="cc-discount-amount" type="number"
+                                        min="0" step="0.01" name="discount_amount" placeholder="0.00" />
+                                </div>
+                                <div class="cc-field">
+                                    <label class="cc-label" for="cc-discount-reason">Reason</label>
+                                    <input class="form-control cc-input" id="cc-discount-reason" type="text"
+                                        name="discount_reason" placeholder="Why is this discount applied?">
+                                </div>
+                            </div>
+                        </div>
+                    </section>
                 @endif
-            </div>
-        </div>
 
-        <div class="ed-card cc-card cc-submit-card">
-            <div class="ed-card-header">
-                <div>
-                    <div class="ed-card-kicker">Finalize</div>
-                    <h4 class="ed-card-title">
-                        Submit case
-                    </h4>
-                </div>
-            </div>
-            <div class="cc-submit-actions">
-                <button type="submit" class="btn btn-primary extraPadding">Submit</button>
-                <p>Files, units, and timeline are saved together for the team.</p>
-            </div>
+            </aside>
         </div>
         </form>
     </div>
@@ -1016,51 +1916,84 @@
 
         var teethSelected = [];
         var lstSelectedJobUNName = "";
-        var repeaterName = ""; // should be something like 'repeat[xx]'
+        var currentJobBlock = null;
+
+        function getJobBlock(element) {
+            var jobRow = $(element).closest('.cc-job-block');
+            if (!jobRow.length && currentJobBlock && currentJobBlock.length) {
+                jobRow = currentJobBlock;
+            }
+            return jobRow;
+        }
+
+        function getSelectInJob(row, fieldName) {
+            return $(row).find("select[name$='[" + fieldName + "]'], select[name='" + fieldName + "']").first();
+        }
+
+        function getInputInJob(row, fieldName) {
+            return $(row).find("input[name$='[" + fieldName + "]'], input[name='" + fieldName + "']").first();
+        }
+
+        function getButtonInJob(row, fieldName) {
+            return $(row).find("button[name$='[" + fieldName + "]'], button[name='" + fieldName + "']").first();
+        }
+
+        function getSelectedUnitsForJob(row) {
+            var unitsValue = getInputInJob(row, 'units').val() || '';
+            return unitsValue.split(',').filter(function(value) {
+                return value !== '';
+            });
+        }
+
+        function replaceSelectOptions(selectBox, rows, valueKey, textKey) {
+            selectBox.empty();
+            $.each(rows, function(key, value) {
+                selectBox.append($("<option></option>")
+                    .attr("value", value[valueKey])
+                    .text(value[textKey]));
+            });
+            selectBox.val(selectBox.find('option:first').val());
+        }
 
         function setJobDefaults(row) {
             var jobRow = $(row);
-            var jobTypeBox = jobRow.find("select[name$='[jobType]']");
-            var materialBox = jobRow.find("select[name$='[material_id]']");
-            var colorBox = jobRow.find("select[name$='[color]']");
+            var jobTypeBox = getSelectInJob(jobRow, 'jobType');
+            var materialBox = getSelectInJob(jobRow, 'material_id');
+            var colorBox = getSelectInJob(jobRow, 'color');
 
             jobTypeBox.val(jobTypeBox.find('option:first').val());
             materialBox.val(materialBox.find('option:first').val());
             colorBox.val(colorBox.find('option:first').val());
-            jobRow.find("input[name$='[style]'][value='Single']").prop("checked", true).trigger('click');
+            setStyleValue(jobRow, 'Single');
         }
 
+        function setStyleValue(row, value) {
+            var jobRow = $(row);
+            var styleValue = jobRow.find("input.cc-style-value[name$='[style]']");
+            var styleToggle = jobRow.find('.cc-style-toggle-input');
+            var isBridge = value === 'Bridge';
+
+            styleValue.val(value);
+            styleToggle.prop('checked', isBridge).attr('aria-checked', isBridge ? 'true' : 'false');
+        }
+
+        $(document).on('change', '.cc-style-toggle-input', function() {
+            setStyleValue($(this).closest('.cc-job-block'), this.checked ? 'Bridge' : 'Single');
+        });
+
         function jobTypeChanged(jobTypeDD) {
-            var thisRowRepeaterName = $(jobTypeDD).attr("name").replace('[jobType]', '');
-            console.log($(jobTypeDD).val());
-            var jobTypes = {!! json_encode($types->toArray()) !!};
+            var jobTypeBox = $(jobTypeDD).first();
+            var jobRow = getJobBlock(jobTypeBox);
+            if (!jobRow.length) return;
+
             var materials = {!! json_encode($materials->toArray()) !!};
             var materialJobTypeRelations = {!! json_encode($jobTypeMaterials->toArray()) !!};
-            var repeaterNumber = thisRowRepeaterName.replace('repeat[', '').replace(']', '');
 
-            var colorsDDName = repeaterName + "[color]";
-            if ($(jobTypeDD).val() == 14) {
-                $("[name='" + colorsDDName + "']").closest('.col-md-2').show();
-            }
-
-            if (repeaterNumber > 1) {
-                var implantBox = $("[name='repeat[" + (repeaterNumber - 1) + "][abutments][0][implant]']");
-                var abutmentBox = $("[name='repeat[" + (repeaterNumber - 1) + "][abutments][0][abutment]']");
-                var abutUnitsBox = $("[name='repeat[" + (repeaterNumber - 1) + "][abutments][0][abutmentUnits][]']");
-
-                //  console.log("selector : " +"[name='repeat[" + (repeaterNumber -1) + "][abutments][0][abutmentUnits][]']");
-            } else {
-                var implantBox = $("[name='" + thisRowRepeaterName + "[abutments][0][implant]']");
-                var abutmentBox = $("[name='" + thisRowRepeaterName + "[abutments][0][abutment]']");
-                var abutUnitsBox = $("[name='" + thisRowRepeaterName + "[abutments][0][abutmentUnits][]']");
-                //  console.log("selector : " + "[name='" + thisRowRepeaterName + "[abutments][0][abutmentUnits][]']");
-            }
-
-            var teethSelectedAsArr = $("[name='" + lstSelectedJobUNName + "']").val().split(',');
-
-            var materialBox = $("[name='" + repeaterName + "[material_id]']");
-            var openDialogBtn = $("[name='" + repeaterName + "[openDialogBtn]']");
-            var jobTypeSelectedId = $(jobTypeDD).val();
+            var materialBox = getSelectInJob(jobRow, 'material_id');
+            var openDialogBtn = getButtonInJob(jobRow, 'openDialogBtn');
+            var implantBox = jobRow.find("select[name$='[implant]'], select[name='implant']").first();
+            var abutmentBox = jobRow.find("select[name$='[abutment]'], select[name='abutment']").first();
+            var jobTypeSelectedId = jobTypeBox.val();
             var jobTypeMaterials = materialJobTypeRelations.filter(element => element.jobtype_id == jobTypeSelectedId);
 
             materialBox.empty();
@@ -1075,11 +2008,10 @@
 
             materialBox.append(options);
             materialBox.val(materialBox.find('option:first').val());
-            var abutmentsArea = $(jobTypeDD).parent().parent().parent().parent().parent().find(".abutmentsArea");
+            var abutmentsArea = jobRow.find(".abutmentsArea").first();
             var abutmentUnitsBox = $(abutmentsArea).find(".abutmentsUnitsPicker");
-            var currentlySelectedUnits = $(jobTypeDD).parent().parent().parent().parent().parent().find(".hiddenUnitsInput")
-                .val().split(',');
-            if ($(jobTypeDD).find(":selected").val() == 6) {
+            var currentlySelectedUnits = getSelectedUnitsForJob(jobRow);
+            if (jobTypeBox.find(":selected").val() == 6) {
 
                 // get to parent of the main repeater and find abutment units box
 
@@ -1087,7 +2019,7 @@
                 $(implantBox).attr('required', '');
 
                 $(abutmentsArea).css("display", "block");
-                // $(".abutmentsUnitsPicker").find('option').html('');
+                abutmentUnitsBox.empty();
                 // show the 6th parent of the box which has display none property
                 // $(found).parent().parent().parent().parent().parent().parent().css("display","block");
 
@@ -1097,13 +2029,17 @@
                         .text(value));
                 });
                 abutmentUnitsBox.selectpicker();
-                $(jobTypeDD).attr("readonly", "true");
+                abutmentUnitsBox.selectpicker('refresh');
+                jobTypeBox.attr("readonly", "true");
                 $(openDialogBtn).attr("disabled", "true");
             } else {
                 $(abutmentBox).removeAttr('required');
                 $(implantBox).removeAttr('required');
                 $(abutmentsArea).css("display", "none");
                 abutmentUnitsBox.val(0);
+                if (abutmentUnitsBox.hasClass('selectpicker')) {
+                    abutmentUnitsBox.selectpicker('refresh');
+                }
                 //            implantBox.val(0);
                 // $(found).parent().parent().parent().parent().parent().parent().css("display","none");
             }
@@ -1111,7 +2047,7 @@
 
         function addAbutmentJob(ele) {
             // get units selected originally in the job
-            var teethSelectedAsArr = $("[name='" + lstSelectedJobUNName + "']").val().split(',');
+            var teethSelectedAsArr = getSelectedUnitsForJob(getJobBlock(ele));
             // wait for new repeater row to populate then add unit selected to abutment units box
             setTimeout(function() {
                 var lastAbutmentUnitsBox = $("select[name$='[abutmentUnits][]']").last();
@@ -1129,49 +2065,35 @@
 
         $("#submitDialog").click(function() {
 
-            var teethSelectedAsArr = $("[name='" + lstSelectedJobUNName + "']").val().split(',');
-            var jobTypeBoxName = repeaterName + "[jobType]";
-            var selectBtnName = repeaterName + "[openDialogBtn]";
+            var jobRow = currentJobBlock && currentJobBlock.length
+                ? currentJobBlock
+                : $("[name='" + lstSelectedJobUNName + "']").closest('.cc-job-block');
 
-            var jobTypeBox = $("[name='" + jobTypeBoxName + "']");
+            if (!jobRow.length) return;
+
+            var teethSelectedAsArr = getSelectedUnitsForJob(jobRow);
+            var jobTypeBox = getSelectInJob(jobRow, 'jobType');
             var jobTypes = {!! json_encode($types->toArray()) !!};
-            var colorsDDName = repeaterName + "[color]";
-            var styleOptionsName = repeaterName + "[style]";
+            var colorBox = getSelectInJob(jobRow, 'color');
+            var selectBtn = getButtonInJob(jobRow, 'openDialogBtn');
             /* Updating dropdowns according to teeth selection
              * First if is for jaws, second is for teeth
              * @Yazan -
              */
             if (jQuery.inArray("lower", teethSelectedAsArr) !== -1 || jQuery.inArray("upper",
                 teethSelectedAsArr) !== -1) {
-                // clear all options
-                jobTypeBox.empty();
                 // filter all job types to only jaws.
                 var jawOnlyTypes = jobTypes.filter(element => element.teeth_or_jaw == 1);
                 // fill up the options with the array above.
-                $.each(jawOnlyTypes, function(key, value) {
-                    jobTypeBox.append($("<option></option>")
-                        .attr("value", value.id)
-                        .text(value.name));
-                });
+                replaceSelectOptions(jobTypeBox, jawOnlyTypes, 'id', 'name');
                 // Notify Job type changed function to update materials with which box changed
                 jobTypeChanged(jobTypeBox);
 
                 // Hide style/color columns for this row only (jaw selections)
-                $("[name='" + colorsDDName + "']").closest('.col-md-2').hide();
+                colorBox.closest('.col-md-2').hide();
 
-                var styleInputs = $("[name='" + styleOptionsName + "']");
-                var styleCol = styleInputs.closest('.col-md-2').first();
-                // Prevent the radios from submitting "Single/Bridge" for jaw selections and submit a safe "None" instead.
-                styleInputs.prop('disabled', true);
-                var styleOverride = styleCol.find('input.cc-style-override');
-                if (!styleOverride.length) {
-                    styleOverride = $("<input>", {
-                        type: "hidden",
-                        class: "cc-style-override"
-                    });
-                    styleCol.append(styleOverride);
-                }
-                styleOverride.attr("name", styleOptionsName).val("None");
+                var styleCol = getInputInJob(jobRow, 'style').closest('.col-md-2').first();
+                setStyleValue(jobRow, 'None');
                 styleCol.hide();
 
             }
@@ -1179,25 +2101,14 @@
             // No jaws selected
             else {
                 // Restore style/color inputs for teeth selections (jaw selection may have hidden/disabled them)
-                $("[name='" + colorsDDName + "']").closest('.col-md-2').show();
+                colorBox.closest('.col-md-2').show();
 
-                var styleInputs = $("[name='" + styleOptionsName + "']");
-                var styleCol = styleInputs.closest('.col-md-2').first();
-                styleCol.find('input.cc-style-override').remove();
-                styleInputs.prop('disabled', false);
+                var styleCol = getInputInJob(jobRow, 'style').closest('.col-md-2').first();
                 styleCol.show();
 
-                jobTypeBox.empty();
                 const jawOnlyTypes = jobTypes.filter(element => element.teeth_or_jaw == 0);
-                $.each(jawOnlyTypes, function(key, value) {
-                    jobTypeBox.append($("<option></option>")
-                        .attr("value", value.id)
-                        .text(value.name));
-                });
-                if (teethSelectedAsArr.length > 1)
-                    $("[name='" + styleOptionsName + "'][value='Bridge']").prop("checked", true);
-                else
-                    $("[name='" + styleOptionsName + "'][value='Single']").prop("checked", true);
+                replaceSelectOptions(jobTypeBox, jawOnlyTypes, 'id', 'name');
+                setStyleValue(jobRow, teethSelectedAsArr.length > 1 ? 'Bridge' : 'Single');
                 // Notify Job type changed function to update materials with which box changed
                 jobTypeChanged(jobTypeBox);
 
@@ -1205,12 +2116,12 @@
 
             // Change button label with selected teeth
             if (teethSelectedAsArr.length > 0)
-                $("[name='" + selectBtnName + "']").html(teethSelectedAsArr.join(","));
+                selectBtn.html(teethSelectedAsArr.join(","));
             else
-                $("[name='" + selectBtnName + "']").html("Select Units");
+                selectBtn.html("Select Units");
 
 
-            $("[name='" + colorsDDName + "']").val($("[name='" + colorsDDName + "'] option:first").val());
+            colorBox.val(colorBox.find('option:first').val());
 
             // close dialog
             $(".modal").modal('hide');
@@ -1255,7 +2166,10 @@
 
             //console.log("Updating units input : "  + teethSelected);
 
-            $("[name='" + lstSelectedJobUNName + "']").val(teethSelected);
+            var activeUnitsInput = currentJobBlock && currentJobBlock.length
+                ? getInputInJob(currentJobBlock, 'units')
+                : $("[name='" + lstSelectedJobUNName + "']");
+            activeUnitsInput.val(teethSelected);
         });
         $(".jaw").click(function() {
 
@@ -1282,20 +2196,16 @@
                 }
             }
 
-            $("[name='" + lstSelectedJobUNName + "']").val(teethSelected);
+            var activeUnitsInput = currentJobBlock && currentJobBlock.length
+                ? getInputInJob(currentJobBlock, 'units')
+                : $("[name='" + lstSelectedJobUNName + "']");
+            activeUnitsInput.val(teethSelected);
         });
 
         function preOpenDialog(element) {
-            // if repeater reached 2 digit or not
-            if (element.name.length == 24) {
-                lstSelectedJobUNName = element.name.substr(0, 9) + "[units]";
-                repeaterName = element.name.substr(0, 9);
-            } else {
-                repeaterName = element.name.substr(0, 10);
-                lstSelectedJobUNName = element.name.substr(0, 10) + "[units]";
-            }
-            var currentJobUnits = $("[name='" + lstSelectedJobUNName + "']");
-            // console.log("Current job units box name :" + element.name.substr(0,9) +  "[units]");
+            currentJobBlock = getJobBlock(element);
+            var currentJobUnits = getInputInJob(currentJobBlock, 'units');
+            lstSelectedJobUNName = currentJobUnits.attr('name') || '';
             if (typeof currentJobUnits !== "undefined" && currentJobUnits.val()) {
                 teethSelected = currentJobUnits.val().split(',');
                 // console.log("is defined and its now : " + teethSelected);
@@ -1346,6 +2256,7 @@
 
                 if (files.length > 0) {
                     previewContainer.show();
+                    $('#file-selection-status').text(files.length === 1 ? '1 file selected.' : files.length + ' files selected.');
 
                     Array.from(files).forEach(function(file, index) {
                         const fileName = file.name.length > 15 ? file.name.substring(0, 15) +
@@ -1353,21 +2264,18 @@
                         const fileSize = (file.size / 1024 / 1024).toFixed(2) + ' MB';
                         const isImage = file.type.startsWith('image/');
 
-                        let previewHtml = '';
-
                         if (isImage) {
                             const reader = new FileReader();
                             reader.onload = function(e) {
                                 const imagePreview = `
-                            <div class="col-md-3 col-sm-4 mb-3">
-                                <div class="file-preview-item" style="border: 1px solid #ddd; padding: 10px; border-radius: 5px; position: relative; background: #f8f9fa;">
-                                    <img src="${e.target.result}" style="width: 100%; height: 80px; object-fit: cover; border-radius: 3px;">
-                                    <div class="file-info" style="margin-top: 5px; font-size: 11px;">
+                            <div class="cc-file-preview__entry">
+                                <div class="file-preview-item">
+                                    <img src="${e.target.result}" alt="">
+                                    <div class="file-info">
                                         <div title="${file.name}">${fileName}</div>
                                         <div class="text-muted">${fileSize}</div>
                                     </div>
-                                    <button type="button" class="btn btn-danger btn-sm remove-file" data-index="${index}"
-                                            style="position: absolute; top: 5px; right: 5px; padding: 2px 6px; font-size: 10px;">
+                                    <button type="button" class="btn btn-danger btn-sm remove-file" data-index="${index}" aria-label="Remove file">
                                         <i class="fa fa-times"></i>
                                     </button>
                                 </div>
@@ -1378,15 +2286,14 @@
                             reader.readAsDataURL(file);
                         } else {
                             const filePreview = `
-                        <div class="col-md-3 col-sm-4 mb-3">
-                            <div class="file-preview-item" style="border: 1px solid #ddd; padding: 10px; border-radius: 5px; position: relative; background: #f8f9fa; text-align: center;">
+                        <div class="cc-file-preview__entry">
+                            <div class="file-preview-item" style="text-align: center;">
                                 <i class="fa fa-file" style="font-size: 40px; color: #6c757d;"></i>
-                                <div class="file-info" style="margin-top: 5px; font-size: 11px;">
+                                <div class="file-info">
                                     <div title="${file.name}">${fileName}</div>
                                     <div class="text-muted">${fileSize}</div>
                                 </div>
-                                <button type="button" class="btn btn-danger btn-sm remove-file" data-index="${index}"
-                                        style="position: absolute; top: 5px; right: 5px; padding: 2px 6px; font-size: 10px;">
+                                <button type="button" class="btn btn-danger btn-sm remove-file" data-index="${index}" aria-label="Remove file">
                                     <i class="fa fa-times"></i>
                                 </button>
                             </div>
@@ -1397,6 +2304,7 @@
                     });
                 } else {
                     previewContainer.hide();
+                    $('#file-selection-status').text('No files selected.');
                 }
             });
 

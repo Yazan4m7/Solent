@@ -377,12 +377,12 @@ Log::info("-----------Dialog has Active Jobs -------: ".$hasActiveJobs);
     }
 
     .alsolent-animated-submit-button.start-mode {
-        background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+        background: linear-gradient(135deg, #22B8A5 0%, #178d80 100%);
         color: white;
     }
 
     .alsolent-animated-submit-button.complete-mode {
-        background: linear-gradient(135deg, #4CAF50 0%, #388E3C 100%);
+        background: linear-gradient(135deg, #6366F1 0%, #4f46e5 100%);
         color: white;
     }
 

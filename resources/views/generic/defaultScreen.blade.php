@@ -9,7 +9,9 @@
 <meta http-equiv="refresh" content="10">
 <style>
     .body-content{
+    box-sizing: border-box;
     padding : 10px !important;
+    width: 100%;
     }
     .page-head,.dataTables_info , .dataTables_paginate , .paging_simple_numbers{
         display:none;
@@ -42,7 +44,7 @@
         visibility: hidden;
         display:none;
         /* width: 120px;*/
-        background-color: #e8e8e8;
+        background-color: var(--color-card, #FFFFFF);
         color: #fff;
         text-align: center;
         border-radius: 6px;
@@ -160,7 +162,7 @@
                                                 <th>Patient</th>
                                                 <th style="width:6%;text-align:center">Deliv. Date</th>
                                                 <th style="width:3%;text-align:center">#</th>
-                                                <th>Status</th>
+                                    <th class="solent-case-status-column">Status</th>
                                                <!--  <th>Actions</th> -->
                                             </tr>
                                             </thead>
@@ -189,7 +191,7 @@
                                                             @endif</p></td>
                                                     <td  style="width:6%;text-align:center;padding:0px"><p class="">{{date_format(date_create($case->initDeliveryDate()),"d-M") }}</p></td>
                                                     <td><p class="" style="text-align:center">{{$case->unitsAmount($stage)}}</p></td>
-                                                    <td>
+                                        <td class="solent-case-status-column">
 
                                                         @if(str_contains($case->statusAt($stage), "In-Progress") || str_contains($case->statusAt($stage), "Active") )
                                                             @php
@@ -201,19 +203,19 @@
                                                             else
                                                             $employee= null;
                                                             @endphp
-                                                            <span style="width:auto; margin: auto; text-align: center" class="badge badge-primary">
+                                                        <span class="badge badge-primary solent-case-status-badge">
                                                                <span> {{$employee != null ? $employee->name_initials : "N/A"}}
                                                                </span></span>
                                                         @elseif(str_contains($case->statusAt($stage), "Assigned"))
                                                             <span style="width:auto; margin: auto; text-align: center"
-                                                                  class="badge badge-warning">
+                                                                  class="badge badge-warning solent-case-status-badge">
                                                         Assigned</span>
 
                                                         @elseif(str_contains($case->statusAt($stage), "Waiting"))
-                                                            <span style="width:auto; margin: auto; text-align: center" class="badge badge-danger">
+                                                        <span class="badge badge-danger solent-case-status-badge">
                                                         {{$case->statusAt($stage)}}</span>
                                                         @else
-                                                            <span style="width:auto; margin: auto; text-align: center" class="badge badge-info">
+                                                        <span class="badge badge-info solent-case-status-badge">
                                                              {{$case->statusAt($stage)}} </span>
 
                                                         @endif

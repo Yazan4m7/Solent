@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Solent - Production Control Draft</title>
+    <style>
+        * { box-sizing: border-box; }
+
+        :root {
+            font-family: Arial, sans-serif;
+            color: #1f2937;
+            background: #f4f5f7;
+        }
+
+        body { margin: 0; }
+        button, input, select { font: inherit; }
+        button { cursor: pointer; }
+
+        .page {
+            width: min(1500px, 100%);
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        .page-header,
+        .section-header,
+        .toolbar,
+        .case-card__top,
+        .detail-header,
+        .detail-actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        h1, h2, h3, p { margin-top: 0; }
+        h1 { margin-bottom: 6px; font-size: 28px; }
+        h2 { margin-bottom: 0; font-size: 19px; }
+        h3 { margin-bottom: 6px; font-size: 16px; }
+
+        .muted { color: #6b7280; }
+        .small { font-size: 13px; }
+
+        .admin-label,
+        .status,
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            border: 1px solid #d1d5db;
+            border-radius: 999px;
+            padding: 4px 9px;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        .stage-strip {
+            display: flex;
+            gap: 8px;
+            margin: 22px 0 16px;
+            padding-bottom: 5px;
+            overflow-x: auto;
+        }
+
+        .stage-button {
+            min-width: 118px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            background: #fff;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .stage-button[aria-pressed="true"] {
+            border-color: #2563eb;
+            outline: 2px solid #dbeafe;
+        }
+
+        .stage-button strong { display: block; margin-bottom: 7px; }
+        .stage-counts { display: flex; justify-content: space-between; color: #6b7280; font-size: 12px; }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .summary-card,
+        .panel {
+            border: 1px solid #d9dde4;
+            border-radius: 10px;
+            background: #fff;
+        }
+
+        .summary-card { padding: 14px; }
+        .summary-card span { display: block; color: #6b7280; font-size: 13px; }
+        .summary-card strong { display: block; margin-top: 5px; font-size: 24px; }
+
+        .toolbar {
+            margin-bottom: 16px;
+            padding: 12px;
+            border: 1px solid #d9dde4;
+            border-radius: 10px;
+            background: #fff;
+            flex-wrap: wrap;
+        }
+
+        .toolbar__filters { display: flex; gap: 8px; flex-wrap: wrap; }
+        .toolbar input { min-width: 260px; }
+
+        input, select, .button {
+            min-height: 42px;
+            border: 1px solid #cbd0d8;
+            border-radius: 7px;
+            background: #fff;
+            padding: 8px 11px;
+        }
+
+        .button--primary { border-color: #2563eb; background: #2563eb; color: #fff; }
+        .button--quiet { background: #f8fafc; }
+
+        .workspace {
+            display: grid;
+            grid-template-columns: minmax(0, 1.35fr) minmax(340px, .85fr);
+            gap: 16px;
+            align-items: start;
+        }
+
+        .panel { overflow: hidden; }
+        .section-header { padding: 16px; border-bottom: 1px solid #e5e7eb; }
+
+        .queue-switcher {
+            display: flex;
+            gap: 5px;
+            padding: 10px 16px;
+            border-bottom: 1px solid #e5e7eb;
+            overflow-x: auto;
+        }
+
+        .queue-switcher button {
+            border: 1px solid transparent;
+            border-radius: 7px;
+            background: transparent;
+            padding: 8px 11px;
+            white-space: nowrap;
+        }
+
+        .queue-switcher button[aria-pressed="true"] {
+            border-color: #cbd5e1;
+            background: #f1f5f9;
+        }
+
+        .case-list { display: grid; gap: 8px; padding: 12px; }
+
+        .case-card {
+            width: 100%;
+            border: 1px solid #d7dce3;
+            border-radius: 8px;
+            background: #fff;
+            padding: 13px;
+            color: inherit;
+            text-align: left;
+        }
+
+        .case-card:hover,
+        .case-card[aria-current="true"] { border-color: #2563eb; background: #f8fbff; }
+
+        .case-card__meta,
+        .case-card__footer {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 14px;
+            margin-top: 10px;
+            color: #4b5563;
+            font-size: 13px;
+        }
+
+        .case-card__footer { align-items: center; justify-content: space-between; }
+
+        .detail-panel { position: sticky; top: 16px; }
+        .detail-header { padding: 16px; border-bottom: 1px solid #e5e7eb; }
+        .detail-body { display: grid; gap: 16px; padding: 16px; }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .detail-grid div,
+        .detail-section {
+            border: 1px solid #e2e5ea;
+            border-radius: 8px;
+            padding: 11px;
+        }
+
+        .detail-grid span { display: block; margin-bottom: 4px; color: #6b7280; font-size: 12px; }
+        .detail-section ul { margin: 8px 0 0; padding-left: 20px; }
+        .detail-section li + li { margin-top: 6px; }
+
+        .detail-actions {
+            justify-content: flex-end;
+            padding: 14px 16px;
+            border-top: 1px solid #e5e7eb;
+            flex-wrap: wrap;
+        }
+
+        .draft-note {
+            margin-top: 16px;
+            color: #6b7280;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        @media (max-width: 900px) {
+            .page { padding: 14px; }
+            .page-header { align-items: flex-start; }
+            .summary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .workspace { grid-template-columns: 1fr; }
+            .detail-panel { position: static; }
+            .toolbar input { width: 100%; min-width: 0; }
+            .toolbar__filters { width: 100%; }
+        }
+
+        @media (max-width: 520px) {
+            h1 { font-size: 23px; }
+            .page-header { display: block; }
+            .admin-label { margin-top: 8px; }
+            .summary-grid { grid-template-columns: 1fr 1fr; }
+            .summary-card strong { font-size: 20px; }
+            .detail-grid { grid-template-columns: 1fr; }
+            .detail-actions .button { flex: 1; }
+        }
+    </style>
+</head>
+<body>
+<main class="page">
+    <header class="page-header">
+        <div>
+            <h1>Production Control</h1>
+            <p class="muted">Admin view for monitoring queues, assigning work and handling exceptions.</p>
+        </div>
+        <span class="admin-label">Admin workspace</span>
+    </header>
+
+    <nav class="stage-strip" aria-label="Production stages">
+        <button class="stage-button" type="button" data-stage="Design" data-ready="8" data-progress="6" aria-pressed="true">
+            <strong>Design</strong><span class="stage-counts"><span>Ready 8</span><span>Active 6</span></span>
+        </button>
+        <button class="stage-button" type="button" data-stage="Printing" data-ready="10" data-progress="0" aria-pressed="false">
+            <strong>Printing</strong><span class="stage-counts"><span>Ready 10</span><span>Active 0</span></span>
+        </button>
+        <button class="stage-button" type="button" data-stage="Milling" data-ready="3" data-progress="5" aria-pressed="false">
+            <strong>Milling</strong><span class="stage-counts"><span>Ready 3</span><span>Active 5</span></span>
+        </button>
+        <button class="stage-button" type="button" data-stage="Sintering" data-ready="4" data-progress="1" aria-pressed="false">
+            <strong>Sintering</strong><span class="stage-counts"><span>Ready 4</span><span>Active 1</span></span>
+        </button>
+        <button class="stage-button" type="button" data-stage="Pressing" data-ready="0" data-progress="0" aria-pressed="false">
+            <strong>Pressing</strong><span class="stage-counts"><span>Ready 0</span><span>Active 0</span></span>
+        </button>
+        <button class="stage-button" type="button" data-stage="Metal Work" data-ready="0" data-progress="1" aria-pressed="false">
+            <strong>Metal Work</strong><span class="stage-counts"><span>Ready 0</span><span>Active 1</span></span>
+        </button>
+        <button class="stage-button" type="button" data-stage="Finishing" data-ready="2" data-progress="3" aria-pressed="false">
+            <strong>Finishing</strong><span class="stage-counts"><span>Ready 2</span><span>Active 3</span></span>
+        </button>
+        <button class="stage-button" type="button" data-stage="QC" data-ready="0" data-progress="0" aria-pressed="false">
+            <strong>QC</strong><span class="stage-counts"><span>Ready 0</span><span>Active 0</span></span>
+        </button>
+        <button class="stage-button" type="button" data-stage="Delivery" data-ready="5" data-progress="0" aria-pressed="false">
+            <strong>Delivery</strong><span class="stage-counts"><span>Ready 5</span><span>Active 0</span></span>
+        </button>
+    </nav>
+
+    <section class="summary-grid" aria-label="Selected stage summary">
+        <article class="summary-card"><span>Ready</span><strong id="ready-total">8</strong></article>
+        <article class="summary-card"><span>In progress</span><strong id="progress-total">6</strong></article>
+        <article class="summary-card"><span>Due today</span><strong>3</strong></article>
+        <article class="summary-card"><span>Needs attention</span><strong>2</strong></article>
+    </section>
+
+    <section class="toolbar" aria-label="Queue filters">
+        <input id="case-search" type="search" placeholder="Search case, patient or doctor">
+        <div class="toolbar__filters">
+            <select aria-label="Assignment filter">
+                <option>All assignments</option>
+                <option>Unassigned</option>
+                <option>Assigned to me</option>
+            </select>
+            <select aria-label="Due date filter">
+                <option>Any delivery date</option>
+                <option>Due today</option>
+                <option>Overdue</option>
+            </select>
+            <button class="button button--quiet" type="button">More filters</button>
+        </div>
+    </section>
+
+    <section class="workspace">
+        <section class="panel" aria-labelledby="queue-title">
+            <header class="section-header">
+                <div>
+                    <h2 id="queue-title">Design queue</h2>
+                    <span class="muted small">Select a case to inspect and manage it.</span>
+                </div>
+                <button class="button button--quiet" type="button">Select cases</button>
+            </header>
+
+            <div class="queue-switcher" aria-label="Queue status">
+                <button type="button" data-filter="all" aria-pressed="true">All</button>
+                <button type="button" data-filter="ready" aria-pressed="false">Ready</button>
+                <button type="button" data-filter="progress" aria-pressed="false">In progress</button>
+                <button type="button" data-filter="attention" aria-pressed="false">Needs attention</button>
+            </div>
+
+            <div class="case-list" id="case-list">
+                <button class="case-card" type="button" data-state="ready" data-case="SL-19611" data-patient="Lina Haddad" data-doctor="Demo Dental Clinic 05" data-due="Today, 4:00 PM" data-units="2 units" data-assignee="Unassigned" aria-current="true">
+                    <div class="case-card__top"><strong>SL-19611 · Lina Haddad</strong><span class="status">Ready</span></div>
+                    <div class="case-card__meta"><span>Demo Dental Clinic 05</span><span>Due today</span><span>2 units</span></div>
+                    <div class="case-card__footer"><span>Unassigned</span><span class="tag">Priority</span></div>
+                </button>
+
+                <button class="case-card" type="button" data-state="progress" data-case="SL-19656" data-patient="Omar Salem" data-doctor="Demo Dental Clinic 08" data-due="Tomorrow" data-units="3 units" data-assignee="YA">
+                    <div class="case-card__top"><strong>SL-19656 · Omar Salem</strong><span class="status">In progress</span></div>
+                    <div class="case-card__meta"><span>Demo Dental Clinic 08</span><span>Due tomorrow</span><span>3 units</span></div>
+                    <div class="case-card__footer"><span>Assigned to YA</span><span class="tag">Zirconia</span></div>
+                </button>
+
+                <button class="case-card" type="button" data-state="attention" data-case="SL-19615" data-patient="Maya Khalil" data-doctor="Demo Dental Clinic 13" data-due="Overdue by 1 day" data-units="1 unit" data-assignee="MK">
+                    <div class="case-card__top"><strong>SL-19615 · Maya Khalil</strong><span class="status">Attention</span></div>
+                    <div class="case-card__meta"><span>Demo Dental Clinic 13</span><span>Overdue</span><span>1 unit</span></div>
+                    <div class="case-card__footer"><span>Assigned to MK</span><span class="tag">Missing scan</span></div>
+                </button>
+
+                <button class="case-card" type="button" data-state="ready" data-case="SL-19622" data-patient="Adam Nasser" data-doctor="Demo Dental Clinic 03" data-due="18 Aug" data-units="4 units" data-assignee="Unassigned">
+                    <div class="case-card__top"><strong>SL-19622 · Adam Nasser</strong><span class="status">Ready</span></div>
+                    <div class="case-card__meta"><span>Demo Dental Clinic 03</span><span>Due 18 Aug</span><span>4 units</span></div>
+                    <div class="case-card__footer"><span>Unassigned</span><span class="tag">Implant</span></div>
+                </button>
+            </div>
+        </section>
+
+        <aside class="panel detail-panel" aria-labelledby="case-title">
+            <header class="detail-header">
+                <div>
+                    <span class="muted small">Selected case</span>
+                    <h2 id="case-title">SL-19611</h2>
+                </div>
+                <button class="button button--quiet" type="button">Open full case</button>
+            </header>
+
+            <div class="detail-body">
+                <div class="detail-grid">
+                    <div><span>Patient</span><strong id="detail-patient">Lina Haddad</strong></div>
+                    <div><span>Doctor</span><strong id="detail-doctor">Demo Dental Clinic 05</strong></div>
+                    <div><span>Delivery</span><strong id="detail-due">Today, 4:00 PM</strong></div>
+                    <div><span>Assigned to</span><strong id="detail-assignee">Unassigned</strong></div>
+                </div>
+
+                <section class="detail-section">
+                    <h3>Jobs</h3>
+                    <ul>
+                        <li>Monolithic crown · <span id="detail-units">2 units</span></li>
+                        <li>Material: Zirconia</li>
+                    </ul>
+                </section>
+
+                <section class="detail-section">
+                    <h3>Readiness</h3>
+                    <ul>
+                        <li>Scan attached</li>
+                        <li>Material selected</li>
+                        <li>Delivery date confirmed</li>
+                    </ul>
+                </section>
+
+                <section class="detail-section">
+                    <h3>Stage controls</h3>
+                    <p class="muted small">This area changes by stage: machine compatibility, furnace selection, external milling, QC or delivery actions.</p>
+                </section>
+            </div>
+
+            <footer class="detail-actions">
+                <button class="button button--quiet" type="button">More</button>
+                <button class="button" type="button">Assign</button>
+                <button class="button button--primary" type="button">Start work</button>
+            </footer>
+        </aside>
+    </section>
+
+    <p class="draft-note">Static structure draft only. Buttons do not perform production actions.</p>
+</main>
+
+<script>
+    const stageButtons = document.querySelectorAll('.stage-button');
+    const filterButtons = document.querySelectorAll('.queue-switcher button');
+    const caseCards = document.querySelectorAll('.case-card');
+    const search = document.querySelector('#case-search');
+    let queueFilter = 'all';
+
+    function applyCaseFilters() {
+        const term = search.value.trim().toLowerCase();
+
+        caseCards.forEach((card) => {
+            const matchesQueue = queueFilter === 'all' || card.dataset.state === queueFilter;
+            const matchesSearch = !term || card.innerText.toLowerCase().includes(term);
+            card.hidden = !(matchesQueue && matchesSearch);
+        });
+    }
+
+    stageButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            stageButtons.forEach((item) => item.setAttribute('aria-pressed', 'false'));
+            button.setAttribute('aria-pressed', 'true');
+            document.querySelector('#queue-title').textContent = `${button.dataset.stage} queue`;
+            document.querySelector('#ready-total').textContent = button.dataset.ready;
+            document.querySelector('#progress-total').textContent = button.dataset.progress;
+        });
+    });
+
+    filterButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            filterButtons.forEach((item) => item.setAttribute('aria-pressed', 'false'));
+            button.setAttribute('aria-pressed', 'true');
+            queueFilter = button.dataset.filter;
+            applyCaseFilters();
+        });
+    });
+
+    caseCards.forEach((card) => {
+        card.addEventListener('click', () => {
+            caseCards.forEach((item) => item.removeAttribute('aria-current'));
+            card.setAttribute('aria-current', 'true');
+            document.querySelector('#case-title').textContent = card.dataset.case;
+            document.querySelector('#detail-patient').textContent = card.dataset.patient;
+            document.querySelector('#detail-doctor').textContent = card.dataset.doctor;
+            document.querySelector('#detail-due').textContent = card.dataset.due;
+            document.querySelector('#detail-assignee').textContent = card.dataset.assignee;
+            document.querySelector('#detail-units').textContent = card.dataset.units;
+        });
+    });
+
+    search.addEventListener('input', applyCaseFilters);
+</script>
+</body>
+</html>

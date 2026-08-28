@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="{{ app()->getLocale() }}" dir="{{ trans('ui.direction') }}">
+<head>
+    @php($ui = trans('ui.dom'))
+    @php($loginHost = strtolower(request()->getHost()))
+    @php($isOrvaLogin = in_array(preg_replace('/^www\./', '', $loginHost), ['orva.korviongroup.com'], true))
+    @php($brandName = $isOrvaLogin ? 'Orva' : ($brandingName ?? 'Solent'))
+    @php($brandLogo = asset('images/brands/solent/solent_h_white.svg'))
+    @php($loginBgUrl = asset('images/auth/login-bg.png'))
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ $brandName }} | {{ $ui['Sign in'] ?? 'Sign in' }}</title>
+    <link rel="icon" href="{{ asset($brandingFaviconPath ?? config('branding.defaults.favicon_path')) }}?v=20260614-login">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="{{ asset('assets/css/rtl.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/site-typography.css') }}" rel="stylesheet">
+    @brandStyles
+    <style>
+        :root {
+            --login-bg: #0a0d17;
+            --login-card: rgba(18, 23, 36, 0.47);
+            --login-input: #0f1320;
+            --login-text: #ffffff;
+            --login-muted: #8e96aa;
+            --login-faint: #5c6476;
+            --login-accent: #00d4c8;
+            --login-accent-dark: #00b8a8;
+            --login-gold: #c9a25f;
+            --login-border: rgba(255, 255, 255, 0.10);
+            --login-danger: #f87171;
+        }
+
+        body.login-page *,
+        body.login-page *::before,
+        body.login-page *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            min-height: 100%;
+            background: var(--login-bg);
+        }
+
+        body.login-page {
+            align-items: center;
+            background-color: var(--login-bg);
+            background-image: url('{{ $loginBgUrl }}');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            color: var(--login-text);
+            display: flex;
+            font-family: 'Cairo', sans-serif;
+            justify-content: center;
+            margin: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding: 32px;
+        }
+
+        body.login-page .login-card {
+            backdrop-filter: blur(42px);
+            -webkit-backdrop-filter: blur(42px);
+            background: var(--login-card);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 22px;
+            box-shadow:
+                0 28px 75px -18px rgba(0, 0, 0, 0.58),
+                0 12px 35px -12px rgba(0, 0, 0, 0.32),
+                inset 0 1px 0 rgba(255, 255, 255, 0.14),
+                inset 1px 0 0 rgba(255, 255, 255, 0.06);
+            display: flex;
+            max-width: 94vw;
+            min-height: 520px;
+            overflow: hidden;
+            position: relative;
+            width: 920px;
+            z-index: 2;
+        }
+
+        body.login-page .login-language {
+            position: fixed;
+            top: 18px;
+            right: 18px;
+            z-index: 4;
+        }
+
+        html[dir="rtl"] body.login-page .login-language {
+            right: auto;
+            left: 18px;
+        }
+
+        html[dir="rtl"] body.login-page .login-form-panel,
+        html[dir="rtl"] body.login-page .login-brand {
+            text-align: right;
+        }
+
+        html[dir="rtl"] body.login-page .input-wrapper > svg {
+            right: 15px;
+            left: auto;
+        }
+
+        html[dir="rtl"] body.login-page .input-wrapper input {
+            padding: 0 46px 0 16px;
+        }
+
+        html[dir="rtl"] body.login-page .input-wrapper input[type="password"],
+        html[dir="rtl"] body.login-page .input-wrapper input[type="text"].password-input {
+            padding-left: 48px;
+        }
+
+        html[dir="rtl"] body.login-page .eye-toggle {
+            right: auto;
+            left: 8px;
+        }
+
+        body.login-page .login-brand {
+            display: flex;
+            flex: 0 0 42%;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 52px 42px 46px;
+            position: relative;
+        }
+
+        body.login-page .brand-logo {
+            display: block;
+            height: auto;
+            max-width: 235px;
+            width: 100%;
+        }
+
+        body.login-page .brand-text {
+            color: var(--login-text);
+            font-size: 40px;
+            font-weight: 700;
+            letter-spacing: -0.6px;
+            line-height: 1;
+        }
+
+        body.login-page .logo-underline {
+            background: var(--login-gold);
+            border-radius: 2px;
+            height: 2px;
+            margin-top: 14px;
+            width: 62px;
+        }
+
+        body.login-page .tagline {
+            color: var(--login-muted);
+            font-size: 14.5px;
+            line-height: 1.42;
+            margin: 14px 0 0;
+            max-width: 220px;
+        }
+
+        body.login-page .secure {
+            align-items: center;
+            color: var(--login-faint);
+            display: flex;
+            font-size: 12.5px;
+            gap: 8px;
+        }
+
+        body.login-page .secure svg {
+            flex-shrink: 0;
+            height: 15px;
+            width: 15px;
+        }
+
+        body.login-page .divider {
+            align-self: stretch;
+            background: linear-gradient(
+                to bottom,
+                transparent 10%,
+                var(--login-gold) 24%,
+                var(--login-gold) 76%,
+                transparent 90%
+            );
+            margin: 38px 0;
+            opacity: 0.82;
+            width: 1px;
+        }
+
+        body.login-page .login-form-panel {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            padding: 52px 50px 44px;
+        }
+
+        body.login-page .welcome {
+            font-size: 26px;
+            font-weight: 600;
+            letter-spacing: -0.2px;
+            margin: 0 0 4px;
+        }
+
+        body.login-page .subtitle {
+            color: var(--login-muted);
+            font-size: 14.5px;
+            margin: 0 0 28px;
+        }
+
+        body.login-page .alert {
+            border-radius: 10px;
+            color: #fecaca;
+            font-size: 13px;
+            margin: 0 0 18px;
+            padding: 10px 12px;
+            background: rgba(239, 68, 68, 0.14);
+            border: 1px solid rgba(248, 113, 113, 0.24);
+        }
+
+        body.login-page .field {
+            margin-bottom: 18px;
+        }
+
+        body.login-page label {
+            color: var(--login-muted);
+            display: block;
+            font-size: 13.5px;
+            font-weight: 500;
+            margin-bottom: 7px;
+        }
+
+        body.login-page .input-wrapper {
+            align-items: center;
+            display: flex;
+            position: relative;
+        }
+
+        body.login-page .input-wrapper > svg {
+            color: #6f7688;
+            height: 18px;
+            left: 15px;
+            pointer-events: none;
+            position: absolute;
+            width: 18px;
+        }
+
+        body.login-page .input-wrapper input {
+            background: var(--login-input);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            color: var(--login-text);
+            font-size: 15px;
+            height: 48px;
+            outline: none;
+            padding: 0 16px 0 46px;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+            width: 100%;
+        }
+
+        body.login-page .input-wrapper input[type="password"],
+        body.login-page .input-wrapper input[type="text"].password-input {
+            padding-right: 48px;
+        }
+
+        body.login-page .input-wrapper input::placeholder {
+            color: #5a6170;
+        }
+
+        body.login-page .input-wrapper input:focus {
+            border-color: rgba(0, 212, 200, 0.45);
+            box-shadow: 0 0 0 3px rgba(0, 212, 200, 0.08);
+        }
+
+        body.login-page .input-wrapper input.is-invalid {
+            border-color: rgba(248, 113, 113, 0.78);
+        }
+
+        body.login-page .invalid-feedback {
+            color: var(--login-danger);
+            display: block;
+            font-size: 12.5px;
+            margin-top: 6px;
+        }
+
+        body.login-page .eye-toggle {
+            align-items: center;
+            background: none;
+            border: none;
+            color: #6f7688;
+            cursor: pointer;
+            display: flex;
+            height: 36px;
+            justify-content: center;
+            padding: 0;
+            position: absolute;
+            right: 8px;
+            transition: color 0.15s ease;
+            width: 36px;
+        }
+
+        body.login-page .eye-toggle:hover,
+        body.login-page .eye-toggle:focus-visible {
+            color: #aeb6c8;
+        }
+
+        body.login-page .eye-toggle svg {
+            height: 19px;
+            width: 19px;
+        }
+
+        body.login-page .eye-toggle .eye-off-icon,
+        body.login-page .eye-toggle.is-visible .eye-icon {
+            display: none;
+        }
+
+        body.login-page .eye-toggle.is-visible .eye-off-icon {
+            display: block;
+        }
+
+        body.login-page .options {
+            align-items: center;
+            display: flex;
+            font-size: 13.5px;
+            justify-content: space-between;
+            margin-bottom: 26px;
+        }
+
+        body.login-page .remember {
+            align-items: center;
+            color: var(--login-muted);
+            cursor: pointer;
+            display: flex;
+            gap: 9px;
+            margin: 0;
+            user-select: none;
+        }
+
+        body.login-page .remember input {
+            height: 0;
+            opacity: 0;
+            position: absolute;
+            width: 0;
+        }
+
+        body.login-page .remember .check {
+            align-items: center;
+            background: transparent;
+            border: 1.5px solid #5a6170;
+            border-radius: 4px;
+            display: flex;
+            height: 17px;
+            justify-content: center;
+            transition: all 0.15s ease;
+            width: 17px;
+        }
+
+        body.login-page .remember input:checked + .check {
+            background: var(--login-accent);
+            border-color: var(--login-accent);
+        }
+
+        body.login-page .remember .check svg {
+            color: #0a0d17;
+            height: 11px;
+            opacity: 0;
+            transition: opacity 0.1s ease;
+            width: 11px;
+        }
+
+        body.login-page .remember input:checked + .check svg {
+            opacity: 1;
+        }
+
+        body.login-page .forgot {
+            color: var(--login-accent);
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.15s ease;
+        }
+
+        body.login-page .forgot:hover,
+        body.login-page .forgot:focus-visible {
+            color: #00e8db;
+            text-decoration: underline;
+        }
+
+        body.login-page .signin-btn {
+            background: var(--login-accent);
+            border: none;
+            border-radius: 10px;
+            color: #0a0d17;
+            cursor: pointer;
+            font-size: 15.5px;
+            font-weight: 700;
+            height: 48px;
+            margin-bottom: 28px;
+            transition: background 0.15s ease, transform 0.1s ease;
+            width: 100%;
+        }
+
+        body.login-page .signin-btn:hover,
+        body.login-page .signin-btn:focus-visible {
+            background: var(--login-accent-dark);
+        }
+
+        body.login-page .signin-btn:active {
+            transform: translateY(1px);
+        }
+
+        body.login-page .signin-btn:disabled {
+            cursor: default;
+            opacity: 0.7;
+        }
+
+        body.login-page .no-account {
+            color: var(--login-faint);
+            font-size: 13px;
+            margin: 0;
+            text-align: center;
+        }
+
+        body.login-page .no-account span {
+            color: var(--login-muted);
+        }
+
+        @media (max-width: 860px) {
+            body.login-page {
+                align-items: flex-start;
+                padding: 22px;
+            }
+
+            body.login-page .login-card {
+                flex-direction: column;
+                min-height: auto;
+                width: min(520px, 100%);
+            }
+
+            body.login-page .login-brand {
+                gap: 28px;
+                padding: 34px 30px 24px;
+            }
+
+            body.login-page .brand-logo {
+                max-width: 190px;
+            }
+
+            body.login-page .divider {
+                height: 1px;
+                margin: 0 30px;
+                width: auto;
+                background: linear-gradient(to right, transparent, var(--login-gold), transparent);
+            }
+
+            body.login-page .login-form-panel {
+                padding: 28px 30px 34px;
+            }
+        }
+
+        @media (max-width: 430px) {
+            body.login-page {
+                padding: 14px;
+            }
+
+            body.login-page .login-brand,
+            body.login-page .login-form-panel {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+
+            body.login-page .options {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 14px;
+            }
+
+            body.login-page .welcome {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body class="login-page{{ $isOrvaLogin ? ' is-orva' : '' }}">
+    <x-language-switcher class="login-language" />
+    <main class="login-card" role="main">
+        <section class="login-brand" aria-label="{{ $brandName }} branding">
+            <div>
+                @unless($isOrvaLogin)
+                    <img class="brand-logo" src="{{ $brandLogo }}" alt="{{ $brandName }} logo">
+                @else
+                    <div class="brand-text">{{ $brandName }}</div>
+                @endunless
+                <div class="logo-underline"></div>
+                <p class="tagline">{{ $ui['The smart platform for dental labs that deliver excellence.'] ?? 'The smart platform for dental labs that deliver excellence.' }}</p>
+            </div>
+
+            <div class="secure">
+                <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M8 2L13 4.5V8.5C13 11.5 10.8 14 8 14C5.2 14 3 11.5 3 8.5V4.5L8 2Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+                    <path d="M6.5 8.2L7.4 9.1L9.6 6.9" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>{{ $ui['Secure. Reliable. Built for dental professionals.'] ?? 'Secure. Reliable. Built for dental professionals.' }}</span>
+            </div>
+        </section>
+
+        <div class="divider" aria-hidden="true"></div>
+
+        <section class="login-form-panel" aria-label="{{ $ui['Sign in'] ?? 'Sign in' }}">
+            <h1 class="welcome">{{ $ui['Welcome back'] ?? 'Welcome back' }}</h1>
+            <p class="subtitle">{{ app()->isLocale('ar') ? 'سجّل الدخول إلى حسابك في' : 'Sign in to your' }} <bdi>{{ $brandName }}</bdi>{{ app()->isLocale('ar') ? '' : ' account' }}</p>
+
+            @if (session('status'))
+                <div class="alert" role="alert">{{ session('status') }}</div>
+            @endif
+
+            @if(session('unauthorized'))
+                <div class="alert" role="alert">{{ $ui['Unauthorized to access admin panel'] ?? 'Unauthorized to access admin panel' }}</div>
+            @endif
+
+            <form id="loginForm" method="POST" action="{{ route('login') }}" autocomplete="on" novalidate>
+                @csrf
+
+                <div class="field">
+                    <label for="username">{{ $ui['Username'] ?? 'Username' }}</label>
+                    <div class="input-wrapper">
+                        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M14.5 15.5V14.25C14.5 12.7312 13.2688 11.5 11.75 11.5H8.25C6.73122 11.5 5.5 12.7312 5.5 14.25V15.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                            <circle cx="10" cy="7" r="2.75" stroke="currentColor" stroke-width="1.6"/>
+                        </svg>
+                        <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            value="{{ old('username') }}"
+                            class="@error('username') is-invalid @enderror"
+                            placeholder="{{ $ui['Enter your username'] ?? 'Enter your username' }}"
+                            required
+                            autofocus
+                            autocomplete="username"
+                        >
+                    </div>
+                    @error('username')
+                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                    @enderror
+                </div>
+
+                <div class="field">
+                    <label for="password">{{ $ui['Password'] ?? 'Password' }}</label>
+                    <div class="input-wrapper">
+                        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <rect x="4.5" y="8.25" width="11" height="8" rx="1.8" stroke="currentColor" stroke-width="1.55"/>
+                            <path d="M7 8.25V5.75C7 4.23122 8.23122 3 9.75 3H10.25C11.7688 3 13 4.23122 13 5.75V8.25" stroke="currentColor" stroke-width="1.55" stroke-linecap="round"/>
+                        </svg>
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            class="password-input @error('password') is-invalid @enderror"
+                            placeholder="{{ $ui['Enter your password'] ?? 'Enter your password' }}"
+                            required
+                            autocomplete="current-password"
+                        >
+                        <button type="button" class="eye-toggle" id="togglePassword" aria-label="{{ $ui['Show password'] ?? 'Show password' }}" aria-controls="password" aria-pressed="false">
+                            <svg class="eye-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path d="M2 10C2 10 4.5 5 10 5C15.5 5 18 10 18 10C18 10 15.5 15 10 15C4.5 15 2 10 2 10Z" stroke="currentColor" stroke-width="1.6"/>
+                                <circle cx="10" cy="10" r="2.75" stroke="currentColor" stroke-width="1.6"/>
+                            </svg>
+                            <svg class="eye-off-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path d="M2 10C2 10 4.5 5 10 5C15.5 5 18 10 18 10" stroke="currentColor" stroke-width="1.6"/>
+                                <path d="M3.5 3.5L16.5 16.5" stroke="currentColor" stroke-width="1.65" stroke-linecap="round"/>
+                                <path d="M6.8 13.8C7.6 14.3 8.75 14.75 10 14.75C15.5 14.75 18 10 18 10C18 10 16.8 7.8 14.6 6.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                    @error('password')
+                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                    @enderror
+                </div>
+
+                <div class="options">
+                    <label class="remember">
+                        <input type="checkbox" id="remember" name="remember" {{ old('remember') ? 'checked' : '' }}>
+                        <span class="check">
+                            <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path d="M2.5 6.1L4.7 8.3L9.5 3.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </span>
+                        <span>{{ $ui['Remember me'] ?? 'Remember me' }}</span>
+                    </label>
+
+                    @if (Route::has('password.request'))
+                        <a href="{{ route('password.request') }}" class="forgot">{{ $ui['Forgot password?'] ?? 'Forgot password?' }}</a>
+                    @endif
+                </div>
+
+                <button type="submit" class="signin-btn" id="signInBtn">{{ $ui['Sign in'] ?? 'Sign in' }}</button>
+            </form>
+
+            <p class="no-account">{{ $ui["Don't have an account?"] ?? "Don't have an account?" }} <span>{{ $ui['Contact your administrator'] ?? 'Contact your administrator' }}</span></p>
+        </section>
+    </main>
+
+    <script>
+        (function () {
+            const passwordInput = document.getElementById('password');
+            const toggleBtn = document.getElementById('togglePassword');
+            const form = document.getElementById('loginForm');
+            const signInBtn = document.getElementById('signInBtn');
+
+            if (passwordInput && toggleBtn) {
+                toggleBtn.addEventListener('click', function () {
+                    const shouldShow = passwordInput.type === 'password';
+                    passwordInput.type = shouldShow ? 'text' : 'password';
+                    toggleBtn.classList.toggle('is-visible', shouldShow);
+                    toggleBtn.setAttribute('aria-pressed', shouldShow ? 'true' : 'false');
+                    toggleBtn.setAttribute('aria-label', shouldShow
+                        ? @json($ui['Hide password'] ?? 'Hide password')
+                        : @json($ui['Show password'] ?? 'Show password'));
+                });
+            }
+
+            if (form && signInBtn) {
+                form.addEventListener('submit', function () {
+                    signInBtn.disabled = true;
+                    signInBtn.textContent = @json($ui['Signing in...'] ?? 'Signing in...');
+                });
+            }
+        })();
+    </script>
+</body>
+</html>

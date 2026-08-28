@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}" dir="{{ trans('ui.direction') }}">
 <head>
+    @include('components.i18n-assets')
     @include('layout.partials.head')
     @yield("head")
     @include('layout.partials.header')
@@ -30,13 +31,15 @@
                     @if(session('success'))
                         <div class="alert alert-success" role="alert">
                             <div class="alert-icon"><i class="flaticon-success"></i></div>
-                            <div class="alert-text">{{session("success")}}</div>
+                            @php($flashSuccess = trim((string) session('success')))
+                            <div class="alert-text">{{ trans('ui.dom')[$flashSuccess] ?? session('success') }}</div>
                         </div>
                     @endif
                     @if(session('error'))
                         <div class="alert alert-danger" role="alert">
                             <div class="alert-icon"><i class="flaticon-danger"></i></div>
-                            <div class="alert-text">{{session("error")}}</div>
+                            @php($flashError = trim((string) session('error')))
+                            <div class="alert-text">{{ trans('ui.dom')[$flashError] ?? session('error') }}</div>
                         </div>
                     @endif
                     @if (count($errors) > 0)

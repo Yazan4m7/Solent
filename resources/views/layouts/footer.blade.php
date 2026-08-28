@@ -47,8 +47,13 @@
     <!-- DataTables Core & Extensions (keep together) -->
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js" integrity="sha512-a9NgEEK7tsCvABL7KqtUTQjl69z7091EVPpw5KxPlZ93T141ffe1woLtbXTX+r2/8TtTvRX/v4zTL2UlMUPgwg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.colVis.min.js"></script>
 
     <!-- Font Awesome (Kit disabled - 403 error, using CDN versions loaded in pages) -->
     {{-- <script src="https://kit.fontawesome.com/b0187a4476.js" crossorigin="anonymous"></script> --}}
@@ -56,9 +61,6 @@
 
     <!-- Third-party Utilities -->
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js" integrity="sha512-a9NgEEK7tsCvABL7KqtUTQjl69z7091EVPpw5KxPlZ93T141ffe1woLtbXTX+r2/8TtTvRX/v4zTL2UlMUPgwg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/vfs_fonts.js"></script>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="{{ asset('assets') }}/js/ysh-custom-js/v3scripts.js" defer></script>
     <!-- UI Components & Features -->
@@ -72,6 +74,26 @@
     <script src="{{ asset('white') }}/js/white-dashboard.min.js?v=1.0.0"></script>
     <script src="{{ asset('white') }}/js/theme.js"></script>
     <script src="{{ asset('assets') }}/js/ysh-custom-js/ysh-fuzzy-tools.js"></script>
+    <script>
+        window.solentDataTableButtons = function (withColumns) {
+            if (!window.jQuery || !jQuery.fn.dataTable || !jQuery.fn.dataTable.Buttons) {
+                return [];
+            }
+
+            var buttons = [
+                { extend: 'copyHtml5', text: window.SolentI18n?.messages?.Copy || 'Copy' },
+                { extend: 'csvHtml5', text: 'CSV' },
+                { extend: 'excelHtml5', text: 'Excel' },
+                { extend: 'print', text: window.SolentI18n?.messages?.Print || 'Print' }
+            ];
+
+            if (withColumns) {
+                buttons.push({ extend: 'colvis', text: window.SolentI18n?.messages?.Columns || 'Columns' });
+            }
+
+            return buttons;
+        };
+    </script>
     <script>
         $(document).ready(function () {
             $().ready(function () {
@@ -393,61 +415,76 @@
         // });
     </script>
     <script>
-        const navbarToggle = document.querySelector('.navbar-toggle');
+        const navbarToggle = document.querySelector('.solent-mobile-sidebar-toggle');
+        const sidebarClose = document.querySelector('.solent-sidebar-close');
         const overlay = document.getElementById('overlay');
+
+        const setSidebarOpen = function (isOpen) {
+            document.documentElement.classList.toggle('nav-open', isOpen);
+            document.body.classList.toggle('no-scroll', isOpen);
+
+            if (navbarToggle) {
+                navbarToggle.classList.toggle('toggled', isOpen);
+                navbarToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                navbarToggle.setAttribute('aria-label', isOpen
+                    ? (window.SolentI18n?.messages?.['Close menu'] || 'Close menu')
+                    : (window.SolentI18n?.messages?.['Open menu'] || 'Open menu'));
+            }
+
+            if (overlay) {
+                overlay.classList.toggle('active', isOpen);
+            }
+        };
+
         if (navbarToggle) {
+            navbarToggle.setAttribute('aria-expanded', 'false');
             navbarToggle.addEventListener('click', function () {
-                const isOpen = navbarToggle.classList.toggle('toggled');
-
-                document.documentElement.classList.toggle('nav-open', isOpen);
-
-                if (overlay) {
-                    overlay.classList.toggle('active', isOpen);
-                }
+                setSidebarOpen(!document.documentElement.classList.contains('nav-open'));
             });
         }
 
+        if (overlay) {
+            overlay.addEventListener('click', function () {
+                setSidebarOpen(false);
+            });
+        }
 
-        // // Close overlay and remove "toggled" class when overlay is clicked
-        // overlay.addEventListener('click', function () {
-        //     console.log("overlay clicked");
-        //     // $('.bodyClick').remove();
-        //     document.documentElement.classList.remove('nav-open');
-        //     navbarToggle.classList.remove('toggled'); // Remove "toggled" class
-        //     overlay.classList.remove('active'); // Hide overlay
-        // });
+        if (sidebarClose) {
+            sidebarClose.addEventListener('click', function () {
+                setSidebarOpen(false);
+                navbarToggle?.focus();
+            });
+        }
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape' && document.documentElement.classList.contains('nav-open')) {
+                setSidebarOpen(false);
+                navbarToggle?.focus();
+            }
+        });
+
+        window.addEventListener('resize', function () {
+            if (window.innerWidth > 991 && document.documentElement.classList.contains('nav-open')) {
+                setSidebarOpen(false);
+            }
+        });
     </script>
 
-    <ul class="nav">
-        <small id="live-time" style="font-size: 12px;"></small>
-
-    </ul>
-
     <div class="copyright">
+        <span class="solent-app-release" dir="ltr" style="margin-inline-end: 12px; color: #8a8f98; font-size: 11px; white-space: nowrap;">
+            Version 1.1 &middot; Updated Aug 2026
+        </span>
         {{ now()->year }}
         <a target="_blank">©  <b style="color: var(--brand-primary, #c89b3c)"> Korvion </b></a>
 
     </div>
-    <script>
-        function updateTime() {
-            const now = new Date();
-            const timeStr = now.toLocaleTimeString('en-GB', {
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-            });
-            document.getElementById('live-time').textContent = timeStr;
-        }
-
-        updateTime(); // initial
-        setInterval(updateTime, 1000); // update every second
-    </script>
     <script>
         if (typeof $.fn.dataTable === 'undefined' && typeof jQuery.fn.dataTable !== 'undefined') {
             $.fn.dataTable = jQuery.fn.dataTable;
             $.fn.DataTable = jQuery.fn.DataTable;
         }
     </script>
+    <script src="{{ asset('assets/js/solent-i18n.js') }}"></script>
     {{--/////////////////////////////////////////////////////////////////////--}}
     @stack('js'){{--  //////////////////  JAVASCRIPT STACK ///////////////--}}
     {{--/////////////////////////////////////////////////////////////////////--}}

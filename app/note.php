@@ -16,6 +16,6 @@ class note extends Model
         parent::__construct($attributes);
     }
     public function writtenBy(){
-        return $this->belongsTo('App\User', 'written_by', 'id');
+        return $this->belongsTo('App\User', 'written_by', 'id')->withTrashed();
     }
 }

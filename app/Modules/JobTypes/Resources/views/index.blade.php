@@ -6,8 +6,7 @@
             <div class=" m-b-30">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-6"></div>
-                        <div class="col-md-6" style="text-align: right">  <a href="{{route('new-job-type-view')}}" ><button type="button"  class="btn btn-secondary"><i class="fa fa-plus-circle"></i> Add Job Type</button></a>   </div>
+                        <div class="col-12 solent-config-create-row">  <a href="{{route('new-job-type-view')}}" ><button type="button"  class="btn btn-secondary"><i class="fa fa-plus-circle"></i> Add Job Type</button></a>   </div>
                     </div>
 
                     <p class="text-muted"></p>

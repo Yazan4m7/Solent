@@ -13,6 +13,7 @@ class Tenant extends Model
         'branding' => 'array',
         'activated_at' => 'datetime',
         'failed_at' => 'datetime',
+        'last_login_at' => 'datetime',
     ];
 
     public function getConnectionName()

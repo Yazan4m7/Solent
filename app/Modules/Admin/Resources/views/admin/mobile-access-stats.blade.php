@@ -26,7 +26,7 @@
             <div class="row">
 
                 <div class="col-4">
-                    <label>Doctor:</label>
+                    <label class="solent-filter-label"><i class="fa-solid fa-user-doctor" aria-hidden="true"></i><span>Doctor:</span></label>
                     <select style="width:100%" class="selectpicker form-control clearOnAll" multiple
                             name="doctor[]" id="doctor"  data-live-search="true"
                             title="All" data-hide-disabled="true">

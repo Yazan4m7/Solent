@@ -1,0 +1,198 @@
+- generic [ref=f1e1]:
+  - generic [ref=f1e2]:
+    - generic [ref=f1e3]:
+      - generic [ref=f1e4]:
+        - link "Solent home" [ref=f1e5] [cursor=pointer]:
+          - /url: http://solent.test/main-dashboard
+          - img "Solent sidebar logo" [ref=f1e6]
+        - button "إغلاق القائمة" [ref=f1e7] [cursor=pointer]
+      - generic [ref=f1e10]:
+        - link "إنشاء حالة جديدة بدء طلب إنتاج" [ref=f1e12] [cursor=pointer]:
+          - /url: http://solent.test/new-case
+          - generic [ref=f1e17]:
+            - strong [ref=f1e18]: إنشاء حالة جديدة
+            - generic [ref=f1e19]: بدء طلب إنتاج
+        - list [ref=f1e20]:
+          - listitem [ref=f1e21]: نظرة عامة
+          - listitem [ref=f1e22]:
+            - link "الرئيسية ملخص الأعمال" [ref=f1e23] [cursor=pointer]:
+              - /url: http://solent.test/main-dashboard
+              - generic [ref=f1e28]:
+                - generic [ref=f1e29]: الرئيسية
+                - generic [ref=f1e30]: ملخص الأعمال
+          - listitem [ref=f1e31]:
+            - link "العمليات نظرة مباشرة على الإنتاج" [ref=f1e32] [cursor=pointer]:
+              - /url: http://solent.test/operations-dashboard
+              - generic [ref=f1e39]:
+                - generic [ref=f1e40]: العمليات
+                - generic [ref=f1e41]: نظرة مباشرة على الإنتاج
+          - separator [ref=f1e42]
+          - listitem [ref=f1e43]: مساحة العمل
+          - listitem [ref=f1e44]:
+            - link "الحالات البحث في الطلبات وإدارتها" [ref=f1e45] [cursor=pointer]:
+              - /url: http://solent.test/cases
+              - generic [ref=f1e50]:
+                - generic [ref=f1e51]: الحالات
+                - generic [ref=f1e52]: البحث في الطلبات وإدارتها
+          - listitem [ref=f1e53]:
+            - link "المراقبة المباشرة متابعة سير العمل النشط" [ref=f1e54] [cursor=pointer]:
+              - /url: http://solent.test/cases-monitor
+              - generic [ref=f1e59]:
+                - generic [ref=f1e60]: المراقبة المباشرة
+                - generic [ref=f1e61]: متابعة سير العمل النشط
+          - listitem [ref=f1e62]:
+            - link "التسليمات الجدولة والإرسال" [ref=f1e63] [cursor=pointer]:
+              - /url: http://solent.test/delivery-schedule
+              - generic [ref=f1e68]:
+                - generic [ref=f1e69]: التسليمات
+                - generic [ref=f1e70]: الجدولة والإرسال
+          - listitem [ref=f1e71]:
+            - link "العملاء الأطباء والعيادات" [ref=f1e72] [cursor=pointer]:
+              - /url: http://solent.test/doctors/index
+              - generic [ref=f1e78]:
+                - generic [ref=f1e79]: العملاء
+                - generic [ref=f1e80]: الأطباء والعيادات
+          - separator [ref=f1e81]
+          - listitem [ref=f1e82]: الإدارة
+          - listitem [ref=f1e83]:
+            - link "التقارير مؤشرات الأداء" [ref=f1e84] [cursor=pointer]:
+              - /url: "#sidebarReports"
+              - generic [ref=f1e88]:
+                - generic [ref=f1e89]: التقارير
+                - generic [ref=f1e90]: مؤشرات الأداء
+          - listitem [ref=f1e92]:
+            - link "الفوترة الفواتير والمدفوعات" [ref=f1e93] [cursor=pointer]:
+              - /url: "#sidebarBilling"
+              - generic [ref=f1e98]:
+                - generic [ref=f1e99]: الفوترة
+                - generic [ref=f1e100]: الفواتير والمدفوعات
+          - listitem [ref=f1e102]:
+            - link "الإعدادات إعداد المختبر والصلاحيات" [ref=f1e103] [cursor=pointer]:
+              - /url: "#sidebarSettings"
+              - generic [ref=f1e108]:
+                - generic [ref=f1e109]: الإعدادات
+                - generic [ref=f1e110]: إعداد المختبر والصلاحيات
+      - link "Operator User 02 مسؤول النظام" [ref=f1e114] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f1e115]: OP
+        - generic [ref=f1e116]:
+          - generic [ref=f1e117]: Operator User 02
+          - generic [ref=f1e118]: مسؤول النظام
+    - generic [ref=f1e119]:
+      - generic "إجراءات مساحة العمل":
+        - button "إغلاق القائمة" [expanded] [active] [ref=f1e286] [cursor=pointer]
+        - textbox "ابحث في الحالات والأطباء..." [ref=f1e127]
+      - generic [ref=f1e128]:
+        - navigation "التنقل السريع" [ref=f1e129]:
+          - link "الرئيسية" [ref=f1e130] [cursor=pointer]:
+            - /url: http://solent.test/main-dashboard
+          - link "العمليات" [ref=f1e136] [cursor=pointer]:
+            - /url: http://solent.test/operations-dashboard
+          - link "الحالات" [ref=f1e144] [cursor=pointer]:
+            - /url: http://solent.test/cases
+          - link "المراقبة المباشرة" [ref=f1e150] [cursor=pointer]:
+            - /url: http://solent.test/cases-monitor
+          - link "التسليمات" [ref=f1e156] [cursor=pointer]:
+            - /url: http://solent.test/delivery-schedule
+        - main [ref=f1e163]:
+          - region "Dashboard key metrics" [ref=f1e164]:
+            - article [ref=f1e165]:
+              - generic [ref=f1e167]:
+                - generic [ref=f1e168]: إجمالي الإيرادات
+                - strong [ref=f1e169]:
+                  - generic [ref=f1e170]: JOD
+                  - generic [ref=f1e171]: "0"
+            - article [ref=f1e172]:
+              - generic [ref=f1e174]:
+                - generic [ref=f1e175]: الطلبات
+                - strong [ref=f1e176]:
+                  - generic [ref=f1e177]: "0"
+            - article [ref=f1e178]:
+              - generic [ref=f1e180]:
+                - generic [ref=f1e181]: العملاء
+                - strong [ref=f1e182]:
+                  - generic [ref=f1e183]: "0"
+            - article [ref=f1e184]:
+              - generic [ref=f1e186]:
+                - generic [ref=f1e187]: توزيع عبء العمل
+                - strong [ref=f1e188]:
+                  - generic [ref=f1e189]: "80"
+            - article [ref=f1e190]:
+              - generic [ref=f1e191]:
+                - generic [ref=f1e192]:
+                  - generic [ref=f1e193]: Demo Data
+                  - strong [ref=f1e194]: "Off"
+                - switch "Show demo dashboard data" [ref=f1e195] [cursor=pointer]
+          - generic [ref=f1e198]:
+            - article [ref=f1e199]:
+              - generic [ref=f1e200]:
+                - generic [ref=f1e201]:
+                  - generic [ref=f1e202]: النشاط الجغرافي
+                  - heading "نشاط الحالات حسب المحافظة" [level=2] [ref=f1e203]
+                - button "قريباً" [disabled] [ref=f1e204]:
+                  - img [ref=f1e205]: 
+              - generic [ref=f1e208]:
+                - generic:
+                  - status:
+                    - strong: قريباً
+                    - generic: خريطة الأردن قيد التجهيز وستتوفر قريباً.
+            - article [ref=f1e209]:
+              - generic [ref=f1e211]:
+                - heading "نظرة عامة على الإيرادات" [level=2] [ref=f1e212]
+                - paragraph [ref=f1e213]: JOD 0
+            - article [ref=f1e216]:
+              - generic [ref=f1e217]:
+                - heading "تسليم الحالات" [level=2] [ref=f1e218]
+                - link "عرض جدول التسليم" [ref=f1e219] [cursor=pointer]:
+                  - /url: http://solent.test/delivery-schedule
+                  - img [ref=f1e220]: 
+              - generic [ref=f1e223]: لا توجد حالات مجدولة
+            - article [ref=f1e228]:
+              - heading "الإيرادات حسب نوع الخدمة" [level=2] [ref=f1e230]
+              - generic [ref=f1e231]:
+                - generic [ref=f1e232]: هذا الشهر
+                - strong [ref=f1e233]: JOD 0
+              - generic [ref=f1e234]: لا توجد إيرادات خدمات هذا الشهر
+            - article [ref=f1e236]:
+              - generic [ref=f1e238]:
+                - heading "الطلبات عبر الزمن" [level=2] [ref=f1e239]
+                - paragraph [ref=f1e240]: "0"
+  - generic [ref=f1e243]:
+    - generic [ref=f1e245]:
+      - generic [ref=f1e246] [cursor=pointer]
+      - generic [ref=f1e247]:
+        - generic [ref=f1e248] [cursor=pointer]: 
+        - generic [ref=f1e250] [cursor=pointer]: 
+        - generic [ref=f1e252] [cursor=pointer]: 
+        - generic [ref=f1e254] [cursor=pointer]:
+          - generic [ref=f1e255]: 
+          - generic [ref=f1e256]: "28"
+        - generic [ref=f1e257] [cursor=pointer]: 
+        - generic [ref=f1e259] [cursor=pointer]:
+          - generic [ref=f1e260]: 
+          - generic [ref=f1e261]: "143"
+        - generic [ref=f1e262] [cursor=pointer]:
+          - generic [ref=f1e263]: 
+          - generic [ref=f1e264]: "137"
+        - generic [ref=f1e265] [cursor=pointer]: 
+        - generic [ref=f1e267] [cursor=pointer]: 
+        - generic [ref=f1e269] [cursor=pointer]: 
+        - generic [ref=f1e271] [cursor=pointer]: 
+      - generic [ref=f1e273]:
+        - generic [ref=f1e274] [cursor=pointer]
+        - generic [ref=f1e275] [cursor=pointer]
+        - generic [ref=f1e276] [cursor=pointer]
+        - generic [ref=f1e277]:
+          - generic [ref=f1e278]: 
+          - generic: 8.4.16
+        - generic [ref=f1e279]:
+          - generic [ref=f1e280]: 
+          - generic: 5.03s
+        - generic [ref=f1e281]:
+          - generic [ref=f1e282]: 
+          - generic: 5MB
+        - generic [ref=f1e283]:
+          - generic [ref=f1e284]: 
+          - generic: GET home
+    - text:                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+  - text:  DEMO

@@ -1,0 +1,237 @@
+- generic [active] [ref=f2e1]:
+  - generic [ref=f2e2]:
+    - generic [ref=f2e3]:
+      - generic [ref=f2e4]:
+        - link "Solent home" [ref=f2e5] [cursor=pointer]:
+          - /url: http://127.0.0.1:8765/main-dashboard
+          - img "Solent sidebar logo" [ref=f2e6]
+        - button "Close menu" [ref=f2e7] [cursor=pointer]
+      - generic [ref=f2e10]:
+        - link "Create new case Start a production order" [ref=f2e12] [cursor=pointer]:
+          - /url: http://127.0.0.1:8765/new-case
+          - generic [ref=f2e17]:
+            - strong [ref=f2e18]: Create new case
+            - generic [ref=f2e19]: Start a production order
+        - list [ref=f2e20]:
+          - listitem [ref=f2e21]: Overview
+          - listitem [ref=f2e22]:
+            - link "Home Business snapshot" [ref=f2e23] [cursor=pointer]:
+              - /url: http://127.0.0.1:8765/main-dashboard
+              - generic [ref=f2e28]:
+                - generic [ref=f2e29]: Home
+                - generic [ref=f2e30]: Business snapshot
+          - listitem [ref=f2e31]:
+            - link "Operations Live production overview" [ref=f2e32] [cursor=pointer]:
+              - /url: http://127.0.0.1:8765/operations-dashboard
+              - generic [ref=f2e39]:
+                - generic [ref=f2e40]: Operations
+                - generic [ref=f2e41]: Live production overview
+          - separator [ref=f2e42]
+          - listitem [ref=f2e43]: Workspace
+          - listitem [ref=f2e44]:
+            - link "Cases Search and manage orders" [ref=f2e45] [cursor=pointer]:
+              - /url: http://127.0.0.1:8765/cases
+              - generic [ref=f2e50]:
+                - generic [ref=f2e51]: Cases
+                - generic [ref=f2e52]: Search and manage orders
+          - listitem [ref=f2e53]:
+            - link "Live monitor Track active workflow" [ref=f2e54] [cursor=pointer]:
+              - /url: http://127.0.0.1:8765/cases-monitor
+              - generic [ref=f2e59]:
+                - generic [ref=f2e60]: Live monitor
+                - generic [ref=f2e61]: Track active workflow
+          - listitem [ref=f2e62]:
+            - link "Deliveries Schedule and dispatch" [ref=f2e63] [cursor=pointer]:
+              - /url: http://127.0.0.1:8765/delivery-schedule
+              - generic [ref=f2e68]:
+                - generic [ref=f2e69]: Deliveries
+                - generic [ref=f2e70]: Schedule and dispatch
+          - listitem [ref=f2e71]:
+            - link "Clients Doctors and clinics" [ref=f2e72] [cursor=pointer]:
+              - /url: http://127.0.0.1:8765/doctors/index
+              - generic [ref=f2e78]:
+                - generic [ref=f2e79]: Clients
+                - generic [ref=f2e80]: Doctors and clinics
+          - separator [ref=f2e81]
+          - listitem [ref=f2e82]: Management
+          - listitem [ref=f2e83]:
+            - link "Reports Performance insights" [ref=f2e84] [cursor=pointer]:
+              - /url: "#sidebarReports"
+              - generic [ref=f2e88]:
+                - generic [ref=f2e89]: Reports
+                - generic [ref=f2e90]: Performance insights
+          - listitem [ref=f2e92]:
+            - link "Billing Invoices and payments" [ref=f2e93] [cursor=pointer]:
+              - /url: "#sidebarBilling"
+              - generic [ref=f2e98]:
+                - generic [ref=f2e99]: Billing
+                - generic [ref=f2e100]: Invoices and payments
+          - listitem [ref=f2e102]:
+            - link "Configuration Lab setup and access" [ref=f2e103] [cursor=pointer]:
+              - /url: "#sidebarSettings"
+              - generic [ref=f2e108]:
+                - generic [ref=f2e109]: Configuration
+                - generic [ref=f2e110]: Lab setup and access
+      - link "Operator User 18 Administrator" [ref=f2e114] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=f2e115]: OP
+        - generic [ref=f2e116]:
+          - generic [ref=f2e117]: Operator User 18
+          - generic [ref=f2e118]: Administrator
+    - generic [ref=f2e119]:
+      - generic "Workspace actions":
+        - button "Open menu" [ref=f2e120] [cursor=pointer]
+        - textbox "Search cases, doctors..." [ref=f2e127]
+      - generic [ref=f2e128]:
+        - navigation "Quick navigation" [ref=f2e129]:
+          - link "Home" [ref=f2e130] [cursor=pointer]:
+            - /url: http://127.0.0.1:8765/main-dashboard
+          - link "Operations" [ref=f2e136] [cursor=pointer]:
+            - /url: http://127.0.0.1:8765/operations-dashboard
+          - link "Cases" [ref=f2e144] [cursor=pointer]:
+            - /url: http://127.0.0.1:8765/cases
+          - link "Live monitor" [ref=f2e150] [cursor=pointer]:
+            - /url: http://127.0.0.1:8765/cases-monitor
+          - link "Deliveries" [ref=f2e156] [cursor=pointer]:
+            - /url: http://127.0.0.1:8765/delivery-schedule
+        - generic [ref=f2e163]:
+          - generic [ref=f2e164]:
+            - generic [ref=f2e166]:
+              - generic [ref=f2e167]:
+                - img [ref=f2e168]: 
+                - generic [ref=f2e170]: "From (Start of):"
+              - textbox [ref=f2e171]: 2026-08-01
+            - generic [ref=f2e173]:
+              - generic [ref=f2e174]:
+                - img [ref=f2e175]: 
+                - generic [ref=f2e177]: "To (End of):"
+              - textbox [ref=f2e178]: 2026-08-22
+            - generic [ref=f2e180]:
+              - generic [ref=f2e181]:
+                - img [ref=f2e182]: 
+                - generic [ref=f2e184]: "Filter Date By:"
+              - combobox [ref=f2e185]:
+                - option "Initial Delivery Date" [selected]
+                - option "Actual Delivery Date"
+                - option "Date Created"
+            - generic [ref=f2e187]:
+              - generic [ref=f2e188]: "Doctor:"
+              - generic [ref=f2e192]:
+                - listbox [ref=f2e193]:
+                  - option "All" [ref=f2e194]
+                  - option "Demo Dental Clinic 01" [ref=f2e195]
+                  - option "Demo Dental Clinic 02" [ref=f2e196]
+                  - option "Demo Dental Clinic 03" [ref=f2e197]
+                  - option "Demo Dental Clinic 04" [ref=f2e198]
+                  - option "Demo Dental Clinic 05" [ref=f2e199]
+                  - option "Demo Dental Clinic 06" [ref=f2e200]
+                  - option "Demo Dental Clinic 07" [ref=f2e201]
+                  - option "Demo Dental Clinic 08" [ref=f2e202]
+                  - option "Demo Dental Clinic 09" [ref=f2e203]
+                  - option "Demo Dental Clinic 10" [ref=f2e204]
+                  - option "Demo Dental Clinic 11" [ref=f2e205]
+                  - option "Demo Dental Clinic 12" [ref=f2e206]
+                  - option "Demo Dental Clinic 13" [ref=f2e207]
+                  - option "Demo Dental Clinic 14" [ref=f2e208]
+                  - option "Demo Dental Clinic 15" [ref=f2e209]
+                  - option "Demo Dental Clinic 16" [ref=f2e210]
+                  - option "Demo Dental Clinic 17" [ref=f2e211]
+                  - option "Demo Dental Clinic 18" [ref=f2e212]
+                  - option "Demo Dental Clinic 19" [ref=f2e213]
+                  - option "Demo Dental Clinic 20" [ref=f2e214]
+                  - option "Demo Dental Clinic 21" [ref=f2e215]
+                  - option "Demo Dental Clinic 22" [ref=f2e216]
+                  - option "Demo Dental Clinic 23" [ref=f2e217]
+                  - option "Demo Dental Clinic 24" [ref=f2e218]
+                  - option "Demo Dental Clinic 25" [ref=f2e219]
+                  - option "Demo Dental Clinic 26" [ref=f2e220]
+                  - option "Demo Dental Clinic 27" [ref=f2e221]
+                  - option "Demo Dental Clinic 28" [ref=f2e222]
+                  - option "Demo Dental Clinic 29" [ref=f2e223]
+                  - option "Demo Dental Clinic 30" [ref=f2e224]
+                  - option "Demo Dental Clinic 31" [ref=f2e225]
+                  - option "Demo Dental Clinic 32" [ref=f2e226]
+                  - option "Demo Dental Clinic 33" [ref=f2e227]
+                  - option "Demo Dental Clinic 34" [ref=f2e228]
+                - combobox "Nothing selected" [ref=f2e229] [cursor=pointer]
+          - generic [ref=f2e233]:
+            - button "Apply Filters" [ref=f2e235] [cursor=pointer]
+            - generic [ref=f2e238]:
+              - group "Table actions" [ref=f2e239]:
+                - group [ref=f2e240]:
+                  - button "Columns" [ref=f2e241] [cursor=pointer]
+              - link "Deleted" [ref=f2e244] [cursor=pointer]:
+                - /url: http://127.0.0.1:8765/cases/trashed-cases
+        - generic [ref=f2e250]:
+          - generic [ref=f2e252]:
+            - text: Show
+            - combobox "Show entries" [ref=f2e253]:
+              - option "10"
+              - option "25" [selected]
+              - option "50"
+              - option "100"
+            - text: entries
+          - generic [ref=f2e255]:
+            - text: "Search:"
+            - searchbox "Search:" [ref=f2e256]
+          - grid [ref=f2e257]:
+            - rowgroup [ref=f2e258]:
+              - row [ref=f2e259]:
+                - 'columnheader "ID : activate to sort column ascending" [ref=f2e260] [cursor=pointer]': ID
+                - 'columnheader "Doctor : activate to sort column ascending" [ref=f2e261] [cursor=pointer]': Doctor
+                - 'columnheader "Patient: activate to sort column ascending" [ref=f2e262] [cursor=pointer]': Patient
+                - 'columnheader "Initial Deli. Date: activate to sort column ascending" [ref=f2e263] [cursor=pointer]': Initial Deli. Date
+                - 'columnheader "Date Delivered: activate to sort column ascending" [ref=f2e264] [cursor=pointer]': Date Delivered
+                - 'columnheader "Status: activate to sort column ascending" [ref=f2e265] [cursor=pointer]': Status
+                - 'columnheader "Tags: activate to sort column ascending" [ref=f2e266] [cursor=pointer]': Tags
+            - rowgroup [ref=f2e267]:
+              - row [ref=f2e268]:
+                - gridcell "No data available in table" [ref=f2e269]
+          - status [ref=f2e270]: Showing 0 to 0 of 0 entries
+          - generic [ref=f2e271]:
+            - generic [ref=f2e272]: Previous
+            - generic [ref=f2e273]: Next
+  - generic [ref=f2e274]:
+    - generic [ref=f2e276]:
+      - generic [ref=f2e277] [cursor=pointer]
+      - generic [ref=f2e278]:
+        - generic [ref=f2e279] [cursor=pointer]: 
+        - generic [ref=f2e281] [cursor=pointer]: 
+        - generic [ref=f2e283] [cursor=pointer]: 
+        - generic [ref=f2e285] [cursor=pointer]:
+          - generic [ref=f2e286]: 
+          - generic [ref=f2e287]: "28"
+        - generic [ref=f2e288] [cursor=pointer]: 
+        - generic [ref=f2e290] [cursor=pointer]:
+          - generic [ref=f2e291]: 
+          - generic [ref=f2e292]: "3"
+        - generic [ref=f2e293] [cursor=pointer]:
+          - generic [ref=f2e294]: 
+          - generic [ref=f2e295]: "35"
+        - generic [ref=f2e296] [cursor=pointer]: 
+        - generic [ref=f2e298] [cursor=pointer]: 
+        - generic [ref=f2e300] [cursor=pointer]: 
+        - generic [ref=f2e302] [cursor=pointer]: 
+      - generic [ref=f2e304]:
+        - generic [ref=f2e305] [cursor=pointer]
+        - generic [ref=f2e306] [cursor=pointer]
+        - generic [ref=f2e307] [cursor=pointer]
+        - generic [ref=f2e308]:
+          - generic [ref=f2e309]: 
+          - generic: 8.2.28
+        - generic [ref=f2e310]:
+          - generic [ref=f2e311]: 
+          - generic: 307ms
+        - generic [ref=f2e312]:
+          - generic [ref=f2e313]: 
+          - generic: 23MB
+        - generic [ref=f2e314]:
+          - generic [ref=f2e315]: 
+          - generic: GET cases
+    - text:                                                                           
+  - text: 
+  - contentinfo [ref=f2e316]:
+    - generic [ref=f2e317]:
+      - text: Version 1.1 · Updated Aug 2026 2026
+      - generic [ref=f2e318]: © Korvion
+  - text: DEMO

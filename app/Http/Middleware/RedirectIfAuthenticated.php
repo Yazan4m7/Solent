@@ -23,6 +23,12 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
+                $requestHost = preg_replace('/^www\./', '', strtolower($request->getHost()));
+                $adminHost = preg_replace('/^www\./', '', strtolower((string) config('tenancy.platform_admin_host')));
+                if ($requestHost === $adminHost) {
+                    return redirect()->route('system.tenants.index');
+                }
+
                 return redirect(RouteServiceProvider::HOME);
             }
         }

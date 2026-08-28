@@ -63,8 +63,33 @@ function YSH_findSlideOverlay(caseId, stageType = '', panelScope = '') {
     return null;
 }
 
+function YSH_findCaseActionsModal(caseId, stageType = '', panelScope = '') {
+    const candidateIds = [
+        panelScope && stageType ? 'caseActionsModal-' + panelScope + '-' + stageType + '-' + caseId : null,
+        stageType ? 'caseActionsModal-' + stageType + '-' + caseId : null,
+        'caseActionsModal-' + caseId,
+        'caseActionsModal' + caseId
+    ].filter(Boolean);
+
+    for (const id of candidateIds) {
+        const modal = document.getElementById(id);
+        if (modal) {
+            return modal;
+        }
+    }
+
+    return null;
+}
+
 function YSH_openSlidePanel(caseId, stageType = '', panelScope = '') {
     console.log('Opening slide panel for case ID:', caseId, 'stage:', stageType, 'scope:', panelScope);
+    const caseActionsModal = YSH_findCaseActionsModal(caseId, stageType, panelScope);
+
+    if (caseActionsModal && window.jQuery && typeof window.jQuery(caseActionsModal).modal === 'function') {
+        window.jQuery(caseActionsModal).modal('show');
+        return;
+    }
+
     const overlay = YSH_findSlideOverlay(caseId, stageType, panelScope);
 
     if (overlay) {
@@ -413,9 +438,12 @@ function initSunriseTable($table) {
     }
     try {
         const dt = $table.DataTable({
-            searching: false,
-            lengthChange: false,
-            autoWidth: false
+            autoWidth: false,
+            buttons: window.solentDataTableButtons ? window.solentDataTableButtons(true) : [],
+            dom: "<'solent-datatable-toolbar'Bfl>rtip",
+            lengthChange: true,
+            pageLength: 10,
+            searching: true
         });
         $table.addClass("nowrap hover compact stripe");
         $table.data('dt-init', true);

@@ -9,28 +9,28 @@
 
 
         @if(isset($tag))
-        <form  class="kt-form" method="GET" action="{{route('receivable-payments-index')}}">
+        <form  class="kt-form list-filter-shell" method="GET" action="{{route('receivable-payments-index')}}">
         @elseif(!isset($clients))
-       <form  class="kt-form" method="GET" action="{{route('dentist-payments',['id' =>$id])}}">
+       <form  class="kt-form list-filter-shell" method="GET" action="{{route('dentist-payments',['id' =>$id])}}">
        <input type="hidden" class="form-control" name="id" value="{{$id}}">
        @else
-       <form  class="kt-form" method="GET" action="{{route('payments-index')}}">
+       <form  class="kt-form list-filter-shell" method="GET" action="{{route('payments-index')}}">
       @endif
 
 
 
-                <div class="row" style="padding-left: 10px;padding-top: 10px">
+                <div class="row">
 
                     <div class="col-lg-3 col-md-3 mb-3">
                         <div class="kt-subheader__search" style="">
-                            <label>From:</label>
+                            <label class="solent-filter-label"><i class="fa-regular fa-calendar" aria-hidden="true"></i><span>From:</span></label>
 
                             <input class="form-control SDTP" name="from"  type="text"   value="{{$from ?? ''}}" required readonly/>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-3 mb-3">
                         <div class="kt-subheader__search" style="">
-                            <label>To:</label>
+                            <label class="solent-filter-label"><i class="fa-regular fa-calendar" aria-hidden="true"></i><span>To:</span></label>
                             <input class="form-control SDTP" name="to"  type="text"   value="{{$to ?? ''}}" required readonly/>
 
                         </div>
@@ -40,7 +40,7 @@
 
                         @if(isset($clients))
                         <div class="kt-subheader__search" style="width:100%">
-                            <label>Doctor:</label>
+                            <label class="solent-filter-label"><i class="fa-solid fa-user-doctor" aria-hidden="true"></i><span>Doctor:</span></label>
                             <select style="width:100%"  class="selectpicker form-control clearOnAll" multiple name="doctor[]" id="doctor"  data-live-search="true" title="All" data-hide-disabled="true">
 
                                 <option value="all" {{(isset($selectedClients) && $selectedClients== 'all') ? 'selected' : ''}}>All</option>
@@ -66,6 +66,7 @@
                     </div>
 
 
+                </div>
         </form>
         <div class="col-lg-12 col-sm-12">
             <div class=" m-b-30">
@@ -74,7 +75,6 @@
                     <h2 style=""><span style="font-weight: bold;color:#a13030">{{ number_format($paymentsTotal, 2) }}</span> <span style="font-weight: bold;font-size:18px;">{{ $currencyLabel }}</span></h2>
                     <p class="text-muted"></p>
                     <div class="table-odd">
-                        <div id="datatable_wrapper" class=""><div class="row"><div class="col-sm-12">
  <table id="datatable" class="table sunriseTable order-column  display nowrap compact cell-border dataTable no-footer" role="grid" aria-describedby="datatable_info">
                                         <thead>
                                         <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 50.93px;">ID</th>
@@ -182,8 +182,6 @@
                                         @endforeach
                                         </tbody>
                                     </table>
-                                </div>
-
                     </div>
                 </div>
             </div>
@@ -194,18 +192,21 @@
 
 @push('js')
 
-    <!-- Responsive and datatable js -->
-    <script src="//cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
-
-
     <script type="text/javascript">
         $(document).ready(function() {
+            if ($.fn.DataTable.isDataTable('#datatable')) {
+                return;
+            }
+
             $('#datatable').DataTable(
                 {
+                    "buttons": window.solentDataTableButtons ? window.solentDataTableButtons(true) : [],
                     "pageLength": 25,
-                    "searching": false,
-                    "lengthChange": false,
+                    "searching": true,
+                    "lengthChange": true,
                     "order": [[ 4, "desc" ]],
+                    "responsive": true,
+                    "dom": "<'solent-datatable-toolbar'Bfl>rtip"
                 }
             );
         } );

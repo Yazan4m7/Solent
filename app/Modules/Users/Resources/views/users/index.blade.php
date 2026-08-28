@@ -13,8 +13,7 @@
                 <div class="">
                     <div class="row">
                         <!-- Add User Button on the right -->
-                        <div class="col-md-6"></div>
-                        <div class="col-md-6 text-right">
+                        <div class="col-12 solent-config-create-row">
                             <a href="{{ route('new-user-view') }}">
                                 <button type="button" class="btn btn-secondary">
                                     <i class="fa fa-plus-circle"></i> Add User
@@ -35,7 +34,7 @@
                     <!-- Sorting Form -->
                         <div class = "col-6">
                     <form class="kt-margin-s-1 " id="kt_subheader "  method="GET" action="{{ route('users-index') }}">
-                        <strong style="color:black;">Show:</strong>
+                        <strong class="solent-filter-label"><i class="fa-solid fa-sliders" aria-hidden="true"></i><span>Show:</span></strong>
 
                         <div class="kt-subheader__search mt-2">
 
@@ -150,6 +149,3 @@
         </div>
     </div>
 @endsection
-
-
-

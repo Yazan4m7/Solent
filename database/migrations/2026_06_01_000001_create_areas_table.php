@@ -10,6 +10,10 @@ return new class extends Migration
     {
         $connection = config('tenancy.landlord_connection', 'landlord');
 
+        if (Schema::connection($connection)->hasTable('areas')) {
+            return;
+        }
+
         Schema::connection($connection)->create('areas', function (Blueprint $table): void {
             $table->id();
             $table->string('name', 100);
@@ -22,8 +26,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        $connection = config('tenancy.landlord_connection', 'landlord');
-
-        Schema::connection($connection)->dropIfExists('areas');
+        // Shared landlord tables must not be dropped by a tenant rollback.
     }
 };

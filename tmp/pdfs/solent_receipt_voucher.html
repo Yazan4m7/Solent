@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <title>سند قبض - Korvion</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 13mm;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: #151922;
+      background: #fff;
+      font-family: "Arial", "Tahoma", sans-serif;
+      font-size: 13.5px;
+      line-height: 1.5;
+    }
+
+    .sheet {
+      min-height: calc(297mm - 26mm);
+      padding: 8mm 9mm 7mm;
+      position: relative;
+      border: 1px solid #eceff3;
+    }
+
+    .accent {
+      height: 3px;
+      background: #111;
+      margin-bottom: 10mm;
+    }
+
+    .header {
+      display: grid;
+      grid-template-columns: 56mm 1fr;
+      gap: 15mm;
+      direction: ltr;
+      align-items: start;
+    }
+
+    .logo {
+      width: 55mm;
+      display: block;
+      margin: 0 0 4mm;
+    }
+
+    .brand-note {
+      color: #7a8190;
+      font-size: 11.5px;
+      letter-spacing: .4px;
+      text-transform: uppercase;
+    }
+
+    .doc-title {
+      direction: rtl;
+      text-align: right;
+      align-self: start;
+    }
+
+    .doc-title h1 {
+      margin: -1mm 0 2mm;
+      font-size: 31px;
+      line-height: 1.15;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    .doc-title p {
+      margin: 0;
+      color: #6b7280;
+      font-size: 12px;
+    }
+
+    .chips {
+      margin-top: 11mm;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4mm;
+      direction: rtl;
+    }
+
+    .chip {
+      min-height: 19mm;
+      border: 1px solid #d7dde6;
+      padding: 3.5mm 4mm;
+      display: grid;
+      align-content: space-between;
+    }
+
+    .chip span {
+      color: #687285;
+      font-size: 11.5px;
+      font-weight: 700;
+    }
+
+    .chip b {
+      display: block;
+      border-bottom: 1px solid #9da8b7;
+      height: 7mm;
+    }
+
+    .section {
+      margin-top: 12mm;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 43mm 1fr;
+      gap: 6mm;
+      align-items: end;
+      min-height: 15mm;
+      margin-bottom: 3.5mm;
+    }
+
+    .row.amount {
+      grid-template-columns: 43mm 1fr 17mm 42mm;
+    }
+
+    .label {
+      color: #404858;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .line {
+      border-bottom: 1px solid #a8b2c0;
+      min-height: 8mm;
+    }
+
+    .payment {
+      margin: 9mm 0 0;
+      display: flex;
+      gap: 4mm;
+      flex-wrap: wrap;
+    }
+
+    .payment-option {
+      min-width: 35mm;
+      flex: 1;
+      border-bottom: 1px solid #a8b2c0;
+      padding: 0 0 2.5mm;
+      color: #303746;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 5mm;
+    }
+
+    .square {
+      width: 4.8mm;
+      height: 4.8mm;
+      border: 1.5px solid #111;
+      flex: 0 0 auto;
+    }
+
+    .muted-box {
+      margin-top: 11mm;
+      padding: 4mm 5mm;
+      border-inline-start: 3px solid #111;
+      background: #fafafa;
+      color: #515b6c;
+      font-size: 11.5px;
+    }
+
+    .signatures {
+      margin-top: 21mm;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22mm;
+    }
+
+    .signature {
+      min-height: 24mm;
+      display: grid;
+      align-content: end;
+      gap: 8mm;
+    }
+
+    .signature .line {
+      min-height: 1px;
+    }
+
+    .footer {
+      position: absolute;
+      left: 9mm;
+      right: 9mm;
+      bottom: 6mm;
+      padding-top: 3mm;
+      border-top: 1px solid #e3e7ed;
+      color: #7a8190;
+      font-size: 10.5px;
+      display: flex;
+      justify-content: space-between;
+      gap: 8mm;
+      direction: rtl;
+    }
+
+    @media print {
+      .sheet {
+        border-color: transparent;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="sheet">
+    <div class="accent"></div>
+
+    <header class="header">
+      <div>
+        <img class="logo" src="file:///C:/Users/Yazan/Desktop/Projects/Korvion/logo/png.png" alt="Korvion">
+        <div class="brand-note">Software services</div>
+      </div>
+
+      <div class="doc-title">
+        <h1>سند قبض</h1>
+        <p>إثبات استلام مبلغ مقابل خدمات برمجية</p>
+      </div>
+    </header>
+
+    <section class="chips">
+      <div class="chip">
+        <span>رقم السند</span>
+        <b></b>
+      </div>
+      <div class="chip">
+        <span>التاريخ</span>
+        <b></b>
+      </div>
+      <div class="chip">
+        <span>العملة</span>
+        <b></b>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="row">
+        <div class="label">اسم المزود القانوني</div>
+        <div class="line"></div>
+      </div>
+
+      <div class="row">
+        <div class="label">استلمنا من</div>
+        <div class="line"></div>
+      </div>
+
+      <div class="row amount">
+        <div class="label">مبلغ وقدره</div>
+        <div class="line"></div>
+        <div class="label">رقماً</div>
+        <div class="line"></div>
+      </div>
+
+      <div class="row">
+        <div class="label">وذلك عن</div>
+        <div class="line"></div>
+      </div>
+
+      <div class="payment">
+        <div class="payment-option"><span>نقداً</span><span class="square"></span></div>
+        <div class="payment-option"><span>تحويل بنكي</span><span class="square"></span></div>
+        <div class="payment-option"><span>شيك</span><span class="square"></span></div>
+        <div class="payment-option"><span>محفظة / غير ذلك</span><span class="square"></span></div>
+      </div>
+
+      <div class="row" style="margin-top: 8mm;">
+        <div class="label">ملاحظات</div>
+        <div class="line"></div>
+      </div>
+    </section>
+
+    <section class="muted-box">
+      Korvion اسم تجاري/براند للخدمات البرمجية. يتم تعبئة اسم المزود القانوني حسب الاسم الشخصي أو السجل التجاري المعتمد عند إصدار السند.
+    </section>
+
+    <section class="signatures">
+      <div class="signature">
+        <div class="label">اسم وتوقيع المستلم</div>
+        <div class="line"></div>
+      </div>
+      <div class="signature">
+        <div class="label">توقيع الدافع / العميل</div>
+        <div class="line"></div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span>Korvion Software Services</span>
+      <span>هذا السند لا يعتبر فاتورة ضريبية إلا إذا أرفق بالمستندات القانونية المطلوبة.</span>
+    </footer>
+  </main>
+</body>
+</html>

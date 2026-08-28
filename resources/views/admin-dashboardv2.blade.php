@@ -30,14 +30,14 @@
     <link href="{{ asset('assets') }}/css/ysh-custom-css/OperationsDashboardStyling.css" rel="stylesheet">
     <style>
         :root {
-            --ops-primary: var(--color-accent-gold, #B3872D);
-            --ops-secondary: var(--color-surface-soft, #A6D8D4);
-            --ops-surface: var(--color-surface, #D7DAE5);
-            --ops-surface-alt: var(--color-surface-alt, #B9CDDA);
-            --ops-panel: var(--color-surface, #D7DAE5);
-            --ops-border: rgba(17, 21, 30, 0.12);
-            --ops-text: #11151E;
-            --ops-muted: #4b5563;
+            --ops-primary: var(--color-primary-teal, #22B8A5);
+            --ops-secondary: var(--color-secondary-purple, #6366F1);
+            --ops-surface: var(--color-main-bg, #F3F4F7);
+            --ops-surface-alt: #E9EEF4;
+            --ops-panel: var(--color-card, #FFFFFF);
+            --ops-border: var(--color-card-border, #D8DCE3);
+            --ops-text: var(--color-text, #111827);
+            --ops-muted: var(--color-muted, #64748B);
         }
 
         body.white-content {
@@ -240,16 +240,16 @@
 <style>
     /* Korvex-inspired reskin for Operations dashboard */
     :root {
-        --Korvex-navy: #0b1220;
-        --Korvex-panel: #111b2d;
-        --Korvex-panel-2: #16243a;
-        --Korvex-gold: #c49a3c;
-        --Korvex-gold-soft: #e2c175;
-        --Korvex-ink: #dce2f0;
-        --Korvex-muted: #8d96ab;
-        --Korvex-border: #223047;
-        --Korvex-accent: #5f7db7;
-        --Korvex-glow: 0 14px 40px rgba(196, 154, 60, 0.22);
+        --Korvex-navy: var(--color-main-bg, #F3F4F7);
+        --Korvex-panel: var(--color-card, #FFFFFF);
+        --Korvex-panel-2: var(--color-card, #FFFFFF);
+        --Korvex-gold: var(--color-brand-gold, #DBC373);
+        --Korvex-gold-soft: #eadb9a;
+        --Korvex-ink: var(--color-text, #111827);
+        --Korvex-muted: var(--color-muted, #64748B);
+        --Korvex-border: var(--color-card-border, #D8DCE3);
+        --Korvex-accent: var(--color-primary-teal, #22B8A5);
+        --Korvex-glow: 0 14px 34px rgba(17, 24, 39, 0.08);
     }
 
     body.white-content {
@@ -379,14 +379,14 @@
 
     .stageSidebar .activeBadge {
         background: #eaf5ff;
-        color: #2f7fd9;
-        border-color: #bddcff;
+        color: #0f766e;
+        border-color: rgba(34, 184, 165, 0.34);
     }
 
     .stageSidebar .waitingBadge {
         background: #fff0f0;
-        color: #eb5757;
-        border-color: #ffc7c7;
+        color: #b45309;
+        border-color: rgba(255, 138, 31, 0.34);
     }
 
     .modal {
@@ -470,7 +470,7 @@
 
     .nav-tabs .nav-link.active {
         background: linear-gradient(135deg, var(--Korvex-gold), var(--Korvex-gold-soft));
-        color: #0b1220;
+        color: #111827;
         border-color: var(--Korvex-gold);
     }
 
@@ -494,14 +494,14 @@
     .badge-primary {
         background: linear-gradient(135deg, var(--Korvex-gold), var(--Korvex-gold-soft));
         border-color: var(--Korvex-gold);
-        color: #0b1220;
+        color: #111827;
         box-shadow: var(--Korvex-glow);
     }
 
     .btn-info,
     .badge-info {
         background: rgba(95, 125, 183, 0.25);
-        border-color: #5f7db7;
+        border-color: var(--color-secondary-purple, #6366F1);
         color: var(--Korvex-ink);
     }
 
@@ -574,6 +574,196 @@
         .ops-hero {
             grid-template-columns: 1fr;
         }
+    }
+
+    body.white-content {
+        background: var(--color-main-bg, #F3F4F7) !important;
+        color: var(--color-text, #111827) !important;
+    }
+
+    .header .navbar,
+    .navbar.navbar-transparent {
+        background: var(--color-topbar, #151C27) !important;
+        border-bottom: 1px solid rgba(216, 220, 227, 0.14) !important;
+    }
+
+    .card,
+    .card .card-body,
+    .modal-content,
+    .ops-chip,
+    .ops-hero {
+        background: var(--color-card, #FFFFFF) !important;
+        border-color: var(--color-card-border, #D8DCE3) !important;
+        color: var(--color-text, #111827) !important;
+        box-shadow: 0 14px 34px rgba(17, 24, 39, 0.08) !important;
+    }
+
+    .card .card-header,
+    .modal-header,
+    .modal-footer {
+        background: #F8FAFC !important;
+        border-color: var(--color-card-border, #D8DCE3) !important;
+        color: var(--color-text, #111827) !important;
+    }
+
+    .macaw-tabs .stageSidebar {
+        background: var(--color-card, #FFFFFF) !important;
+        border-color: var(--color-card-border, #D8DCE3) !important;
+    }
+
+    .stageSidebar button,
+    .nav-tabs .nav-link,
+    .macaw-tabs .macaw-silk-tabs > [role="tablist"] {
+        background: var(--color-card, #FFFFFF) !important;
+        border-color: var(--color-card-border, #D8DCE3) !important;
+        color: var(--color-text, #111827) !important;
+    }
+
+    .stageSidebar button:hover,
+    .stageSidebar button[aria-selected="true"],
+    .nav-tabs .nav-link.active {
+        background: var(--color-primary-teal, #22B8A5) !important;
+        border-color: var(--color-primary-teal, #22B8A5) !important;
+        color: #061313 !important;
+    }
+
+    .stageSidebar .activeBadge {
+        background: rgba(34, 184, 165, 0.14) !important;
+        border-color: rgba(34, 184, 165, 0.34) !important;
+        color: #0f766e !important;
+    }
+
+    .stageSidebar .waitingBadge {
+        background: rgba(255, 138, 31, 0.16) !important;
+        border-color: rgba(255, 138, 31, 0.34) !important;
+        color: #b45309 !important;
+    }
+
+    table.dataTable thead th,
+    .dataTables_wrapper .dataTables_scrollHead th {
+        background: #F8FAFC !important;
+        color: var(--color-text, #111827) !important;
+        border-color: var(--color-card-border, #D8DCE3) !important;
+    }
+
+    table.dataTable tbody tr,
+    table.dataTable tbody tr:nth-child(even) {
+        background: var(--color-card, #FFFFFF) !important;
+        color: var(--color-text, #111827) !important;
+    }
+
+    .btn-primary,
+    .badge-primary {
+        background: var(--color-primary-teal, #22B8A5) !important;
+        border-color: var(--color-primary-teal, #22B8A5) !important;
+        color: #061313 !important;
+    }
+
+    .btn-info,
+    .badge-info {
+        background: var(--color-secondary-purple, #6366F1) !important;
+        border-color: var(--color-secondary-purple, #6366F1) !important;
+        color: #ffffff !important;
+    }
+
+    .ops-hero p,
+    .ops-chip .label {
+        color: var(--color-muted, #64748B) !important;
+    }
+
+    .ops-chip .pill {
+        background: rgba(219, 195, 115, 0.18) !important;
+        border-color: rgba(219, 195, 115, 0.42) !important;
+        color: var(--color-text, #111827) !important;
+    }
+
+    .stageSidebar .badge,
+    .macaw-tabs.macaw-silk-tabs .innerBtn .badge {
+        align-items: center !important;
+        border-radius: 999px !important;
+        display: inline-flex !important;
+        font-size: 11px !important;
+        font-weight: 800 !important;
+        height: 20px !important;
+        justify-content: center !important;
+        line-height: 20px !important;
+        margin: 0 4px 0 0 !important;
+        min-height: 20px !important;
+        min-width: 20px !important;
+        padding: 0 6px !important;
+        width: auto !important;
+    }
+
+    .macaw-tabs.macaw-aurora-tabs > .stageSidebar > button {
+        justify-content: flex-start !important;
+        min-height: 104px !important;
+        padding: 14px 8px 32px !important;
+        position: relative !important;
+    }
+
+    .macaw-tabs.macaw-aurora-tabs > .stageSidebar > button .stageSidebar__counts {
+        bottom: 8px !important;
+        display: flex !important;
+        gap: 6px !important;
+        justify-content: center !important;
+        left: 50% !important;
+        margin: 0 !important;
+        position: absolute !important;
+        transform: translateX(-50%) !important;
+        width: auto !important;
+    }
+
+    .macaw-tabs.macaw-aurora-tabs > .stageSidebar > button .stageSidebar__counts .badge {
+        font-size: 11px !important;
+        height: 22px !important;
+        line-height: 22px !important;
+        margin: 0 !important;
+        min-height: 22px !important;
+        min-width: 26px !important;
+        padding: 0 7px !important;
+    }
+
+    .macaw-tabs.macaw-aurora-tabs > .stageSidebar > button .stageSidebar__icon {
+        flex: 0 0 auto !important;
+        min-height: 24px !important;
+    }
+
+    .macaw-tabs.macaw-aurora-tabs > .stageSidebar > button .stageSidebar__name {
+        flex: 0 0 auto !important;
+    }
+
+    .macaw-tabs.macaw-silk-tabs > [role="tablist"] {
+        box-sizing: border-box !important;
+        display: flex !important;
+        gap: 8px !important;
+        margin-left: 0 !important;
+        max-width: 100% !important;
+        overflow: hidden !important;
+        padding: 8px !important;
+        width: 100% !important;
+    }
+
+    .macaw-tabs.macaw-silk-tabs > [role="tablist"] > .innerBtn {
+        align-items: center !important;
+        box-sizing: border-box !important;
+        display: inline-flex !important;
+        flex: 1 1 0 !important;
+        justify-content: center !important;
+        margin: 0 !important;
+        max-width: none !important;
+        min-width: 0 !important;
+        padding: 6px 8px !important;
+        transform: none !important;
+        white-space: nowrap !important;
+    }
+
+    .macaw-tabs.macaw-silk-tabs > [role="tablist"] > .innerBtn[aria-selected="true"] {
+        transform: none !important;
+    }
+
+    body.white-content,
+    body.white-content *:not(i):not(.fa):not(.fas):not(.far):not(.fab):not([class*="fa-"]):not(.material-icons):not(.material-symbols-outlined) {
+        font-family: 'Cairo', sans-serif !important;
     }
 </style>
 
@@ -1185,7 +1375,7 @@
                                                                         <button type="submit" class="btn btn-success"
                                                                                 style="width:100%"><i
                                                                                 class="fas fa-user-plus"></i>
-                                                                            {{ $key == 'delivery' ? 'Take' : 'Assign To Me' }}
+                                                                            {{ $key == 'delivery' ? (trans('ui.dom')['Take'] ?? 'Take') : (trans('ui.dom')['Assign To Me'] ?? 'Assign To Me') }}
                                                                         </button>
                                                                     </div>
                                                                 @endif

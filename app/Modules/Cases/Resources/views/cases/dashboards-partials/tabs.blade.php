@@ -1,4 +1,4 @@
-<div role="tablist" aria-label="Fashion Trends" style="margin-left: 1%;">
+<div role="tablist" aria-label="Fashion Trends">
     <button href="{{$stage['numericStage']}}" role="tab" class="innerActiveBtn innerBtn"
             aria-selected="false" aria-controls="{{'active-'.$key}}"
             id="{{'active-'.$key .'label'}}"

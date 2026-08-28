@@ -43,7 +43,7 @@ class job extends Model
     }
     public function assignedTo()
     {
-        return $this->belongsTo('App\User', 'assignee', 'id');
+        return $this->belongsTo('App\User', 'assignee', 'id')->withTrashed();
     }
     public function originalJob()
     {

@@ -9,7 +9,7 @@
                 </button>
             </div>
             <a class="navbar-brand" href="/home">
-                <img class ="logo" src="{{ asset('images/tooth_only_logo.png') }}" style="max-height: 100px; width: auto; filter: brightness(70%);" alt="{{ $brandingName ?? 'Brand' }}" />
+                <img class ="logo" src="{{ asset($brandingSidebarMarkPath ?? config('branding.defaults.sidebar_mark_path')) }}" style="max-height: 100px; width: auto; filter: brightness(70%);" alt="{{ $brandingName ?? 'Brand' }}" />
             </a>
             <a class="navbar-brand" href="#">{{ $page ?? '' }}</a></a>
         </div>

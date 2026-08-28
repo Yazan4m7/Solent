@@ -13,7 +13,7 @@ class PortalController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:clients')->only('dashboard');
+        $this->middleware(\App\Http\Middleware\AuthenticateClient::class)->only('dashboard');
     }
 
     public function showLoginForm()

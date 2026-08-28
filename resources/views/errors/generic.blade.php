@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}" dir="{{ trans('ui.direction') }}">
 <head>
+    @include('components.i18n-assets')
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Something Went Wrong</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
+            font-family: Cairo, Arial, sans-serif;
             background: #f5f7fb;
             color: #212529;
         }
@@ -77,15 +79,15 @@
 <div class="wrapper">
     <div class="card">
         <p class="status">{{ $statusCode ?? 500 }}</p>
-        <h1 class="title">Something went wrong</h1>
-        <p class="msg">The page cannot be displayed right now. Please try again, or return to the home page.</p>
+        <h1 class="title">Sorry</h1>
+        <p class="msg">
+            {{ !empty($isDemoRequest)
+                ? 'The feature/page is not available in the demo version.'
+                : 'Something went wrong. Please try again or return to the previous page.' }}
+        </p>
         @if(!empty($developerMessage))
             <p class="dev-hint"><strong>What went wrong:</strong> {{ $developerMessage }}</p>
         @endif
-        <div class="actions">3cPff37KChh4
-            <a class="btn primary" href="{{ url('/') }}">Home</a>
-            <a class="btn" href="javascript:history.back()">Go Back</a>
-        </div>
     </div>
 </div>
 </body>

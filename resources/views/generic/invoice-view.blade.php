@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    @php($brandLogo = asset('images/v_logo_eng.png'))
-    @php($brandTitle = $brandingName ?? config('branding.defaults.name'))
-    @php($currencyLabel = (string) ($currencyContext['display'] ?? $currencyContext['code'] ?? 'JOD'))
-    @php($currencyUnitAr = (string) ($currencyContext['unit_ar'] ?? 'دينار'))
-    @php($currencyNameAr = (string) ($currencyContext['name_ar'] ?? 'دينار أردني'))
-    @php($currencyPhraseAr = $currencyNameAr . ' لا غير')
+    @php
+        $brandLogo = asset($brandingLogoPath ?? config('branding.defaults.logo_path'));
+        $brandTitle = $brandingName ?? config('branding.defaults.name');
+        $currencyLabel = (string) ($currencyContext['display'] ?? $currencyContext['code'] ?? 'JOD');
+        $currencyUnitAr = (string) ($currencyContext['unit_ar'] ?? 'دينار');
+        $currencyNameAr = (string) ($currencyContext['name_ar'] ?? 'دينار أردني');
+        $currencyPhraseAr = $currencyNameAr . ' لا غير';
+        $totalInvoiceAmount = 0;
+        $rowCount = 0;
+    @endphp
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $brandTitle }} | Invoice</title>
@@ -330,74 +334,146 @@
         }
 
         @media print {
+            @page {
+                size: A4 portrait;
+                margin: 12mm;
+            }
+
             .edit-icon {
                 display: none !important;
             }
-            body, html {
+
+            html,
+            body {
+                width: auto;
+                min-height: 0;
                 margin: 0;
                 padding: 0;
                 background: #fff;
-                -webkit-print-color-adjust: exact;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
             }
+
             .print-button {
-                display: none;
+                display: none !important;
             }
+
             .invoice-box {
+                box-sizing: border-box;
+                position: relative;
+                width: 100%;
+                max-width: none;
+                min-height: 0;
+                height: auto;
+                margin: 0;
+                padding: 8mm;
+                overflow: visible;
                 box-shadow: none;
                 border: 0;
-                margin: 0;
-                padding: 5px;
+                font-size: 9pt;
+            }
+
+            .invoice-box .top-bar {
+                height: 3mm;
+            }
+
+            .invoice-box header {
+                margin-top: 3mm;
+                padding-bottom: 4mm;
+            }
+
+            .invoice-box .logo {
+                width: 24mm;
+                height: 24mm;
+            }
+
+            .invoice-box .serial-number {
+                margin-top: 1.5mm;
+                font-size: 10pt;
+            }
+
+            .invoice-box header .title h1 {
+                font-size: 19pt;
+            }
+
+            .invoice-box header .title h2 {
+                font-size: 12pt;
+            }
+
+            .invoice-box header .title .address,
+            .invoice-box header .contact-info {
+                font-size: 8pt;
+            }
+
+            .invoice-box .meta-info {
+                padding: 3mm 0;
+                font-size: 9pt;
+            }
+
+            .invoice-box .table-container {
+                margin-top: 2mm;
+            }
+
+            .invoice-box table {
                 width: 100%;
-                height: 100%;
-                max-width: 100%;
-                position: absolute;
-                top: 0;
-                left: 0;
-                font-size: 9px;
+                table-layout: fixed;
             }
-            .invoice-box, .invoice-box table, .invoice-box th, .invoice-box td {
-                font-size: 9px;
+
+            .invoice-box th,
+            .invoice-box td {
+                padding: 2.2mm;
+                font-size: 8.5pt;
+                overflow-wrap: anywhere;
             }
-            .invoice-box th, .invoice-box td {
-                padding: 4px;
+
+            .invoice-box thead {
+                display: table-header-group;
             }
-            .top-bar, header, footer, .meta-info, .table-container {
+
+            .invoice-box tbody tr {
+                height: 10mm;
+            }
+
+            .invoice-box tr,
+            .invoice-box header,
+            .invoice-box .meta-info,
+            .invoice-box footer {
+                break-inside: avoid;
                 page-break-inside: avoid;
             }
-            body > *:not(.invoice-box) {
-                display: none;
-            }
-            @page {
-                size: A6 portrait;
-                margin: 0;
+
+            .invoice-box footer {
+                margin-top: 4mm;
+                padding-top: 3mm;
+                font-size: 8pt;
             }
         }
     </style>
 </head>
 <body>
 
-    <button class="print-button" onclick="window.print()">?????</button>
+    <button class="print-button" onclick="window.print()">Print</button>
 
     <div class="invoice-box">
         <div class="top-bar"></div>
 
         <header>
             <div class="logo-area">
-                <img src="{{ $brandLogo }}" alt="{{ $brandingName ?? 'Brand' }} Logo" class="logo">
                 <div class="serial-number">
                     № {{ $case->id }}
                 </div>
             </div>
 
             <div class="title">
-                <h1>??????</h1>
+                <img src="{{ $brandLogo }}" alt="{{ $brandingName ?? 'Brand' }} Logo" class="logo">
+
                 <h2>{{ $brandTitle }}</h2>
-                <div class="address">Digital dental laboratory - High-precision restorations</div>
+                <div class="address">Digital dental laboratory</div>
             </div>
 
             <div class="contact-info">
                 <div class="phones" style="text-align: left">
-                    <span>Solent Digital Dental Lab</span>
+                    <span>{{ $brandTitle }} Digital Dental Lab</span>
                     <span>Precision - Reliability - Speed</span>
                 </div>
             </div>
@@ -428,11 +504,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @php
-                        $totalInvoiceAmount = 0;
-                        $rowCount = 0;
-                    @endphp
-
                     @foreach($case->jobs as $job)
                         @php
                             if($job->is_modification) continue;
@@ -442,11 +513,11 @@
                             if (isset($job->unit_price) && $job->unit_price > 0)
                                 $totalJobPrice = $unitsAmount * $job->unit_price;
                             else
-                                $totalJobPrice = $unitsAmount * $job->material->price;
+                                $totalJobPrice = $unitsAmount * ($job->material?->price ?? 0);
 
                             $totalInvoiceAmount += $totalJobPrice;
 
-                            $details = $job->jobType->name . ' - ' . $job->material->name;
+                            $details = ($job->jobType?->name ?? 'No job type') . ' - ' . ($job->material?->name ?? 'No material');
                             if ($job->style) {
                                 $details .= ' - ' . $job->style;
                             }

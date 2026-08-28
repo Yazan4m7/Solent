@@ -1,12 +1,12 @@
-@extends('layouts.app' ,[ 'pageSlug' => isset($perUnitTrigger) ? "Repeats Report (Per Unit)" :"Repeats Report (Per Case)" ])
+@extends('layouts.app' ,[ 'pageSlug' => 'Remakes Report' ])
 
 
 @section('content')
     <link href="{{asset('assets/css/picker.css')}}" rel="stylesheet">
-    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <!-- styles to carry on while printing -->
     <div id="style">
         <style>
+            @media print {
             .KorvexPanel {
                 padding-bottom:10px;
                 padding-top:10px;
@@ -82,26 +82,37 @@
             .doctorName{
                 font-weight: bold;
             }
+            }
         </style>
     </div>
 
-    <form class="kt-form filtersPanel bd-callout bd-callout-info KorvexPanel" method="GET" action="{{route('repeats-report')}}" style="/*height:30%*/">
+    @include('reports.partials.report-ui')
 
-        <!-- FILTERS -->
-        <div class="container">
-            <div class="row " style="padding-left: 0;padding-top: 0;padding-bottom: 0px">
-                <div class="col-lg-2 col-md-3 col-6 mb-2">
-                    <div class="kt-subheader__search" style="">
-                        <label>Date Range:</label>
+    <div class="solent-report-page">
+    @include('reports.partials.report-header', [
+        'title' => 'Remakes',
+        'description' => 'Compare rejected, repeated, modified, redone, and successful work by doctor.',
+        'icon' => 'fas fa-redo-alt',
+    ])
+
+    <form class="kt-form filtersPanel KorvexPanel report-filters" method="GET" action="{{route('repeats-report')}}">
+        @include('reports.partials.report-section-heading', [
+            'title' => 'Filters',
+            'description' => 'Choose the period, outcomes, doctors, measurement, and display mode.',
+            'icon' => 'fas fa-sliders-h',
+        ])
+        <div class="report-filter-grid">
+            <div class="report-filter">
+                <div class="kt-subheader__search">
+                        <label class="report-filter-label"><i class="far fa-calendar" aria-hidden="true"></i><span>Date Range:</span></label>
                         <input class="form-control dateRange" name="dateRange" autocomplete="off" readonly
-                               value="{{$dateRangeValue ?? "Select Period"}}" style="cursor: pointer;">
-                    </div>
+                               value="{{$dateRangeValue ?? "Select Period"}}">
                 </div>
-                <div class="col-lg-2 col-md-3 col-6 mb-2">
-
-                    <div class="dropdown">
-                        <label>Repeat:</label>
-                        <select style="width:100%" class="selectpicker clearOnAll" multiple name="failureTypeInput[]"
+            </div>
+            <div class="report-filter">
+                <div class="dropdown">
+                    <label class="report-filter-label"><i class="fas fa-redo" aria-hidden="true"></i><span>Repeat:</span></label>
+                    <select class="selectpicker clearOnAll" multiple name="failureTypeInput[]"
                                 id="failureTypeInput" data-live-search="true" title="All" data-hide-disabled="true">
 
                                 @php
@@ -119,23 +130,22 @@
                                 @else
 
                                     <option value="all">All</option>
-                                    <option value="0" {{in_array(0 , $selectedFailureTypes) ? 'selected' : ''}} >Reject</option>
-                                    <option value="1" {{in_array(1 , $selectedFailureTypes) ? 'selected' : ''}} >Repeat</option>
-                                    <option value="2" {{in_array(2 , $selectedFailureTypes) ? 'selected' : ''}} >Modification</option>
-                                    <option value="3" {{in_array(3 , $selectedFailureTypes) ? 'selected' : ''}} >Redo</option>
-                                    <option value="4" {{in_array(4 , $selectedFailureTypes) ? 'selected' : ''}} >Successful</option>
+                                    <option value="0" {{array_key_exists(0, $selectedFailureTypes) ? 'selected' : ''}} >Reject</option>
+                                    <option value="1" {{array_key_exists(1, $selectedFailureTypes) ? 'selected' : ''}} >Repeat</option>
+                                    <option value="2" {{array_key_exists(2, $selectedFailureTypes) ? 'selected' : ''}} >Modification</option>
+                                    <option value="3" {{array_key_exists(3, $selectedFailureTypes) ? 'selected' : ''}} >Redo</option>
+                                    <option value="4" {{array_key_exists(4, $selectedFailureTypes) ? 'selected' : ''}} >Successful</option>
 
                                 @endif
 
-                        </select>
-                    </div>
-
+                    </select>
                 </div>
-                <div class="col-lg-3 col-md-3 col-6 mb-2">
-                    @if(isset($clients))
-                        <div class="dropdown">
-                            <label>Doctor:</label>
-                            <select style="width:100%" class="selectpicker clearOnAll" multiple name="doctor[]"
+            </div>
+            <div class="report-filter">
+                @if(isset($clients))
+                    <div class="dropdown">
+                        <label class="report-filter-label"><i class="fas fa-user-md" aria-hidden="true"></i><span>Doctor:</span></label>
+                        <select class="selectpicker clearOnAll" multiple name="doctor[]"
                                     id="doctor" data-live-search="true" title="All" data-hide-disabled="true">
 
                                     <option value="all" {{(isset($selectedClients) && $selectedClients== 'all') ? 'selected' : ''}}>
@@ -145,195 +155,122 @@
                                         <option value="{{$d->id}}" {{(isset($selectedClients) && in_array($d->id ,$selectedClients)) ? 'selected' : ''}}>{{$d->name}}</option>
                                     @endforeach
 
-                            </select>
-                        </div>
-                    @endif
-                </div>
-                <div class="col-lg-2 col-md-3 col-3 mb-2">
-                    <div class="kt-subheader__search">
-                        <label> Per :</label>
-                        <div class="kt-form__actions">
-                            <input name="perToggle" {{$perUnitTrigger =="on" ?  "checked" : ""}} class="unstyled" id="toggle" type="checkbox"  data-toggle="toggle" data-on="UNITS" data-off="CASES" data-onstyle="success" data-offstyle="info" data-width="100%">
-                        </div>
+                        </select>
                     </div>
-                </div>
-                <div class="col-lg-2 col-md-3 col-3 mb-2">
-                    <div class="kt-subheader__search">
-                        <label> Per :</label>
-                        <div class="kt-form__actions">
-                            <input name="countOrPercentageToggle" {{$countOrPercentage ? "" : "checked"}} class="unstyled" id="toggle" type="checkbox"  data-toggle="toggle" data-on="COUNT" data-off="PERCENTAGE" data-onstyle="success" data-offstyle="info" data-width="100%">
-                        </div>
-                    </div>
-                </div>
+                @endif
             </div>
-
-            <div class="row actionButtonsRow" style="padding-left: 10px;padding-top: 0;padding-bottom: 0px;    padding-right: 0;">
-                <div class="col-lg-3 col-md-3 col-3" style="padding-left: 0;">
-                    <div class="kt-subheader__search">
-
-                        <div class="kt-form__actions">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-3 " >
-                    <div class="kt-subheader__search">
-
-                        <div class="kt-form__actions">
-                            <button  class="btn btn-secondary printBtn">PRINT</button>
-                        </div>
-                    </div>
-                </div>
+            <div class="report-filter report-toggle">
+                <label class="report-filter-label" for="repeatsPerToggle"><i class="fas fa-chart-bar" aria-hidden="true"></i><span>Measure by</span></label>
+                <label class="report-switch" for="repeatsPerToggle">
+                    <input name="perToggle" {{ $perUnitTrigger ? 'checked' : '' }}
+                        id="repeatsPerToggle" type="checkbox">
+                    <span class="report-switch__track">
+                        <span class="report-switch__option report-switch__option--unchecked">Cases</span>
+                        <span class="report-switch__option report-switch__option--checked">Units</span>
+                    </span>
+                </label>
             </div>
+            <div class="report-filter report-toggle">
+                <label class="report-filter-label" for="repeatsDisplayToggle"><i class="fas fa-percentage" aria-hidden="true"></i><span>Show as</span></label>
+                <label class="report-switch" for="repeatsDisplayToggle">
+                    <input name="countOrPercentageToggle" {{ $showPercentage ? 'checked' : '' }}
+                        id="repeatsDisplayToggle" type="checkbox">
+                    <span class="report-switch__track">
+                        <span class="report-switch__option report-switch__option--unchecked">Count</span>
+                        <span class="report-switch__option report-switch__option--checked">Percentage</span>
+                    </span>
+                </label>
+            </div>
+        </div>
+        <div class="report-filter-actions">
+            <button type="submit" class="btn btn-primary"><i class="fas fa-filter" aria-hidden="true"></i><span>Apply Filters</span></button>
+            <button type="button" class="btn btn-secondary printBtn"><i class="fas fa-print" aria-hidden="true"></i><span>Print</span></button>
         </div>
     </form>
 
 
-    <div class="KorvexPanel" style="">
-        <div class="col-lg-12 col-sm-12">
-            <div class=" ">
-                <div class="">
-                    <p class="text-muted"></p>
-                    <div class="" style="overflow-x:auto;">
-                        <div id="totalsTableHolder"> </div>
-                        @foreach($selectedMonths as $month)
-                            @php
-                              $labLevelTotal[$month]= array_fill_keys(array(0, 1, 2, 3, 4), 0);
-                              $clientLevelTotal[$month]= array_fill_keys(array(0, 1, 2, 3, 4), 0);
-
-                            @endphp
-                            <table border="1" class="xl649957 printable sunriseTable" style="border-collapse:collapse;">
-                                <thead>
-                                <!-- The Months row -->
-                                <tr class="bottom-Border subHeaderRow" style="mso-height-source:userset;">
-                                    <th class="" style="background-color: transparent !important;">Month:</th>
-                                    <th colspan="{{count($selectedFailureTypes)+1}}"
-                                        style="height:21.95pt;border-top:none">{{$month}}</th>
-
-                                </tr>
-                                </thead>
-
-
-                                <tbody>
-
-
-
-                                <!--The MAIN row -->
-                                <tr class=" border-bottom tableHeaderRow">
-                                    <td class="xl639957" style="height:21.95pt;border-top:none">Dr Name</td>
-
-                                    @if($allFailureTypesSelected)
-                                        <td class="xl639957">Reject</td>
-                                        <td class="xl639957">Repeat</td>
-                                        <td class="xl639957">Modification</td>
-                                        <td class="xl639957">Redo</td>
-                                        <td class="xl639957">Successful</td>
-                                        @if(!$countOrPercentage)
-                                        <td class="xl639957">All</td>
-                                        @endif
-                                    @else
-                                       @if(in_array(0 , $selectedFailureTypes))
-                                            <td class="xl639957">Reject</td>
-                                        @endif
-                                       @if(in_array(1 , $selectedFailureTypes))
-                                        <td class="xl639957">Repeat</td>
-                                        @endif
-                                       @if(in_array(2 , $selectedFailureTypes))
-                                       <td class="xl639957">Modification</td>
-                                       @endif
-                                       @if(in_array(3 , $selectedFailureTypes))
-                                       <td class="xl639957">Redo</td>
-                                       @endif
-                                       @if(in_array(4 , $selectedFailureTypes))
-                                       <td class="xl639957">Successful</td>
-                                       @endif
-                                       @if(!$countOrPercentage)
-                                       <td class="xl639957">All</td>
-                                       @endif
-                                    @endif
-                                </tr>
-
-
-
-                                @php
-                                    if(!in_array('all' ,$selectedClients))
-                                     $filteredClients = $clients->filter(function ($value, $key) use ($selectedClients) {
-                                    return in_array($key ,$selectedClients);
-                                       });
-                                    else
-                                    $filteredClients = $clients;
-
-
-                                @endphp
-                                <!-- Client ROWS -->
-
-                                @foreach($filteredClients as $client )
-
-
-                                    <!-- if all is selected, dont check if client is selected or not, otherwise check each one by id -->
-                                    {{--@if(!in_array('all' ,$selectedClients))--}}
-                                    {{--@if(isset($selectedClients) && !in_array($client->id ,$selectedClients))--}}
-                                    {{--@continue;--}}
-                                    {{--@endif--}}
-                                    {{--@endif--}}
-
-                                    <tr class="dataRow" style="">
-                                        <td class="xl669957 doctorName">{{$client->name}}</td>
-                                        @php
-                                            $docTotalUnits = 0;
-                                            $currentTotal = 0;
-                                        @endphp
-
-                                        @foreach($selectedFailureTypes as $failureTypeId => $failureDescription)
-                                            @php
-                                                // Count by Units
-                                                if (!$countOrPercentage){
-                                                $currentTotal= isset($perUnitTrigger) ? $client->getFailedUnitsCount($month,$failureTypeId):$client->getFailedCasesCount($month,$failureTypeId);
-                                                $clientLevelTotal[$month][$failureTypeId] += $currentTotal;
-                                                $labLevelTotal[$month][$failureTypeId] += $currentTotal;
-                                                $docTotalUnits += $currentTotal;}
-                                                // Count by Percentages
-                                                else
-                                                {$currentTotal= isset($perUnitTrigger) ? $client->getFailedUnitsPercentage($month,$failureTypeId) .'%':$client->getFailedCasesPercentage($month,$failureTypeId).'%';
-                                                }
-                                            @endphp
-
-                                            <td class="xl649957">{{$currentTotal}}</td>
-
-                                        @endforeach
-                                        @if(!$countOrPercentage)
-                                        <td style="" class="totalsCol"><b>{{$docTotalUnits}}</b></td>
-                                        @endif
-                                    </tr>
-                                @endforeach
-
-                                @if(!$countOrPercentage)
-                                <!-- Totals for whole lab Row -->
-                                <tr style="">
-                                    <td class="xl669957">Totals</td>
-
-                                    <!-- if Not all types selected, then check if type exists in selected types array if so print it -->
-                                    @foreach($labLevelTotal[$month] as $key=> $total)
-                                        @if(!$allFailureTypesSelected)
-                                        @if(in_array($key,$selectedFailureTypes))
-                                        <td class="totalsRow" style="">{{$total}}</td>
-                                        @endif
-                                        @else
-                                        <td class="totalsRow" style="">{{$total}}</td>
-                                        @endif
-                                    @endforeach
-                                    <td class="totalsRow" style="">{{array_sum($labLevelTotal[$month])}}</td>
-                                </tr>
-                                @endif
-                                </tbody>
-
-                            </table>
+    <div class="KorvexPanel report-results" data-report-consolidated="true">
+        @php
+            $filteredClients = in_array('all', $selectedClients, true)
+                ? $clients
+                : $clients->whereIn('id', $selectedClients);
+            $reportTotals = array_fill_keys(array_keys($selectedFailureTypes), 0);
+        @endphp
+        @include('reports.partials.report-section-heading', [
+            'title' => 'Remake breakdown',
+            'description' => 'Outcome totals for each doctor in the selected range.',
+            'icon' => 'fas fa-table',
+            'count' => $filteredClients->count(),
+            'countLabel' => 'doctors',
+        ])
+        @include('reports.partials.report-range')
+        <div class="report-table-scroll">
+            <table border="1" class="xl649957 printable sunriseTable report-table" style="border-collapse:collapse;">
+                <thead>
+                    <tr class="tableHeaderRow">
+                        <th>Dr Name</th>
+                        @foreach($selectedFailureTypes as $failureDescription)
+                            <th>{{ $failureDescription }}</th>
                         @endforeach
-                        <div id="totalsTableTempHolder"></div>
-                    </div>
-                </div>
-            </div>
+                        @unless($showPercentage)
+                            <th class="totalsCol">All</th>
+                        @endunless
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($filteredClients as $client)
+                        @php
+                            $countsByFailureType = [];
+                            $typesToCount = $perUnitTrigger
+                                ? array_keys($allFailureTypes)
+                                : array_keys($selectedFailureTypes);
+                            foreach ($typesToCount as $failureTypeId) {
+                                $countsByFailureType[$failureTypeId] = collect($selectedMonths)->sum(function ($month) use ($client, $failureTypeId, $perUnitTrigger) {
+                                    return $perUnitTrigger
+                                        ? $client->getFailedUnitsCount($month, $failureTypeId)
+                                        : $client->getFailedCasesCount($month, $failureTypeId);
+                                });
+                            }
+                            $doctorTotal = collect($countsByFailureType)->only(array_keys($selectedFailureTypes))->sum();
+                            $denominator = $perUnitTrigger
+                                ? array_sum($countsByFailureType)
+                                : $client->cases()->whereBetween('actual_delivery_date', [
+                                    $rangeStart->format('Y-m-d H:i:s'),
+                                    $rangeEnd->format('Y-m-d H:i:s'),
+                                ])->count();
+                        @endphp
+                        <tr class="dataRow">
+                            <td class="doctorName">{{ $client->name }}</td>
+                            @foreach($selectedFailureTypes as $failureTypeId => $failureDescription)
+                                @php
+                                    $currentTotal = $countsByFailureType[$failureTypeId] ?? 0;
+                                    $reportTotals[$failureTypeId] += $currentTotal;
+                                    $displayTotal = $showPercentage
+                                        ? number_format($denominator > 0 ? ($currentTotal / $denominator) * 100 : 0, 2) . '%'
+                                        : $currentTotal;
+                                @endphp
+                                <td>{{ $displayTotal }}</td>
+                            @endforeach
+                            @unless($showPercentage)
+                                <td class="totalsCol"><b>{{ $doctorTotal }}</b></td>
+                            @endunless
+                        </tr>
+                    @endforeach
+                </tbody>
+                @unless($showPercentage)
+                    <tfoot>
+                        <tr>
+                            <th>Totals</th>
+                            @foreach($selectedFailureTypes as $failureTypeId => $failureDescription)
+                                <th>{{ $reportTotals[$failureTypeId] }}</th>
+                            @endforeach
+                            <th>{{ array_sum($reportTotals) }}</th>
+                        </tr>
+                    </tfoot>
+                @endunless
+            </table>
         </div>
+    </div>
     </div>
 
 @endsection
@@ -351,7 +288,7 @@
 
         $('.dateRange').rangePicker(
             {
-                RTL: false,
+                RTL: {{ trans('ui.direction') === 'rtl' ? 'true' : 'false' }},
                 closeOnSelect: true,
                 presets: [{
                     buttonText: 'Last Month',

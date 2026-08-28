@@ -10,14 +10,14 @@
 
                     <div class="col-lg-3 col-md-3 mb-3">
                         <div class="kt-subheader__search" style="">
-                            <label>From:</label>
+                            <label class="solent-filter-label"><i class="fa-regular fa-calendar" aria-hidden="true"></i><span>From:</span></label>
 
                             <input class="form-control SDTP" name="from"  type="text"   value="{{$from ?? ''}}" required readonly/>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-3 mb-3">
                         <div class="kt-subheader__search" style="">
-                            <label>To:</label>
+                            <label class="solent-filter-label"><i class="fa-regular fa-calendar" aria-hidden="true"></i><span>To:</span></label>
                             <input class="form-control SDTP" name="to"  type="text"   value="{{$to ?? ''}}" required readonly/>
 
                         </div>
@@ -27,7 +27,7 @@
 
                         @if(isset($clients))
                         <div class="kt-subheader__search" style="width:100%">
-                            <label>Doctor:</label>
+                            <label class="solent-filter-label"><i class="fa-solid fa-user-doctor" aria-hidden="true"></i><span>Doctor:</span></label>
                             <select style="width:100%"  class="selectpicker form-control clearOnAll" multiple name="doctor[]" id="doctor"  data-live-search="true" title="All" data-hide-disabled="true">
 
                                 <option value="all" {{(isset($selectedClients) && $selectedClients== 'all') ? 'selected' : ''}}>All</option>
@@ -43,7 +43,7 @@
 
                         @if(isset($collectors))
                             <div class="kt-subheader__search" style="width:100%">
-                                <label>Collector:</label>
+                                <label class="solent-filter-label"><i class="fa-regular fa-user" aria-hidden="true"></i><span>Collector:</span></label>
                                 <select style="width:100%"  class="selectpicker form-control clearOnAll" multiple name="collectors[]" id="collectors"  data-live-search="true" title="All" data-hide-disabled="true">
 
                                     <option value="all" {{(isset($selectedCollectors) && $selectedCollectors== 'all') ? 'selected' : ''}}>All</option>

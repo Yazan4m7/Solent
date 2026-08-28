@@ -1,0 +1,14 @@
+- main "Solent product booklet front cover" [ref=e2]:
+  - generic [ref=e3]:
+    - generic [ref=e4]: Product Booklet
+    - generic [ref=e5]: Product Overview · 2026
+  - generic [ref=e6]:
+    - img "Solent" [ref=e7]
+    - heading "Dental Laboratory Management Platform" [level=1] [ref=e8]: Dental LaboratoryManagement Platform
+    - paragraph [ref=e9]: A connected workspace for cases, production, delivery, inventory, and laboratory performance.
+    - paragraph [ref=e10]: منصة متكاملة لإدارة مختبرات الأسنان
+  - generic [ref=e12]:
+    - generic [ref=e13]:
+      - generic [ref=e14]: A product by
+      - generic [ref=e15]: Korvion Technologies
+    - generic [ref=e16]: Built for modern dental laboratories and their everyday workflow.

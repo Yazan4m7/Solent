@@ -31,6 +31,10 @@
             <circle cx="17" cy="10" r="2"/>
             <path d="M4 19c.5-3 2.2-4.5 5-4.5s4.5 1.5 5 4.5M15 15c2.8 0 4.3 1.3 4.8 3.5"/>
             @break
+        @case('database')
+            <ellipse cx="12" cy="5" rx="7.5" ry="3"/>
+            <path d="M4.5 5v7c0 1.7 3.4 3 7.5 3s7.5-1.3 7.5-3V5M4.5 12v7c0 1.7 3.4 3 7.5 3s7.5-1.3 7.5-3v-7"/>
+            @break
         @case('chart')
             <path d="M5 19V9M12 19V5M19 19v-7M3 19h18"/>
             @break

@@ -2,7 +2,6 @@
 
 @section('content')
     <link href="{{asset('assets/css/picker.css')}}" rel="stylesheet">
-    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <!-- styles to carry on while printing -->
     <div id="style">
         <style>
@@ -85,307 +84,154 @@
         </style>
     </div>
 
-    <form class="kt-form filtersPanel bd-callout bd-callout-info KorvexPanel" method="GET" action="{{route('implants-report')}}" style="/*height:30%*/">
+    @include('reports.partials.report-ui')
 
-        <!-- FILTERS -->
-        <div class="container">
-            <div class="row " style="padding-left: 0;padding-top: 0;padding-bottom: 0px">
-                <div class="col-lg-3 col-md-3 col-6 mb-2">
-                    <div class="kt-subheader__search" style="">
-                        <label>Date Range:</label>
-                        <input class="form-control dateRange" name="dateRange" autocomplete="off" readonly
-                               value="{{$dateRangeValue ?? "Select Period"}}" style="cursor: pointer;">
-                    </div>
+    <form class="kt-form filtersPanel KorvexPanel report-filters" method="GET" action="{{route('implants-report')}}">
+
+        <div class="report-filter-grid">
+            <div class="report-filter">
+                <div class="kt-subheader__search">
+                    <label class="report-filter-label"><i class="far fa-calendar" aria-hidden="true"></i><span>Date Range:</span></label>
+                    <input class="form-control dateRange" name="dateRange" autocomplete="off" readonly
+                           value="{{$dateRangeValue ?? "Select Period"}}" style="cursor: pointer;">
                 </div>
-                <div class="col-lg-3 col-md-3 col-6 mb-2">
+            </div>
+            <div class="report-filter">
+                <div class="dropdown">
+                    <label class="report-filter-label"><i class="fas fa-plus-circle" aria-hidden="true"></i><span>Implants:</span></label>
+                    <select class="selectpicker clearOnAll" multiple name="implantsInput[]"
+                            id="implantsInput" data-live-search="true" title="All" data-hide-disabled="true">
 
+                            @if ($allImplantsSelected)
+                                <option value="all" selected >All</option>
+                                @foreach($implants as $d)
+                                    <option value="{{$d->id}}" >{{$d->name}}</option>
+                                @endforeach
+
+                            @else
+                                @php $idsOfImplantsSelected = $selectedImplants->pluck('id')->toArray(); @endphp
+                                <option value="all">All</option>
+                                @foreach($implants as $d)
+                                    <option value="{{$d->id}}" {{(in_array($d->id ,$idsOfImplantsSelected)) ? 'selected' : ''}}>{{$d->name}}</option>
+                                @endforeach
+                            @endif
+
+                    </select>
+                </div>
+            </div>
+            <div class="report-filter">
+                <div class="dropdown">
+                    <label class="report-filter-label"><i class="fas fa-cog" aria-hidden="true"></i><span>Abutment:</span></label>
+                    <select class="selectpicker clearOnAll" multiple name="abutmentsInput[]"
+                            id="abutmentsInput" data-live-search="true" title="All" data-hide-disabled="true">
+
+                            @if ($allAbutmentsSelected)
+                                <option value="all" selected >All</option>
+                                @foreach($abutments as $d)
+                                    <option value="{{$d->id}}" >{{$d->name}}</option>
+                                @endforeach
+
+                            @else
+                                @php $idsOfAbutmentsSelected = $selectedAbutments->pluck('id')->toArray(); @endphp
+                                <option value="all">All</option>
+                                @foreach($abutments as $d)
+                                    <option value="{{$d->id}}" {{(in_array($d->id ,$idsOfAbutmentsSelected)) ? 'selected' : ''}}>{{$d->name}}</option>
+                                @endforeach
+                            @endif
+
+                    </select>
+                </div>
+            </div>
+            <div class="report-filter">
+                @if(isset($clients))
                     <div class="dropdown">
-                        <label>Implants:</label>
-                        <select style="width:100%" class="selectpicker clearOnAll" multiple name="implantsInput[]"
-                                id="implantsInput" data-live-search="true" title="All" data-hide-disabled="true">
+                        <label class="report-filter-label"><i class="fas fa-user-md" aria-hidden="true"></i><span>Doctor:</span></label>
+                        <select class="selectpicker clearOnAll" multiple name="doctor[]"
+                                id="doctor" data-live-search="true" title="All" data-hide-disabled="true">
 
-                                @php
-
-                                        @endphp
-                                @if ($allImplantsSelected)
-                                    <option value="all" selected >All</option>
-                                    @foreach($implants as $d)
-                                        <option value="{{$d->id}}" >{{$d->name}}</option>
-                                    @endforeach
-
-                                @else
-                                    @php $idsOfImplantsSelected = $selectedImplants->pluck('id')->toArray(); @endphp
-                                    <option value="all">All</option>
-                                    @foreach($implants as $d)
-                                        <option value="{{$d->id}}" {{(in_array($d->id ,$idsOfImplantsSelected)) ? 'selected' : ''}}>{{$d->name}}</option>
-                                    @endforeach
-                                @endif
+                                <option value="all" {{(isset($selectedClients) && $selectedClients== 'all') ? 'selected' : ''}}>
+                                    All
+                                </option>
+                                @foreach($clients as $d)
+                                    <option value="{{$d->id}}" {{(isset($selectedClients) && in_array($d->id ,$selectedClients)) ? 'selected' : ''}}>{{$d->name}}</option>
+                                @endforeach
 
                         </select>
                     </div>
-
-                </div>
-                <div class="col-lg-3 col-md-3 col-6 mb-2">
-
-                    <div class="dropdown">
-                        <label>Abutment:</label>
-                        <select style="width:100%" class="selectpicker clearOnAll" multiple name="abutmentsInput[]"
-                                id="abutmentsInput" data-live-search="true" title="All" data-hide-disabled="true">
-
-                                @php
-
-                                        @endphp
-                                @if ($allAbutmentsSelected)
-                                    <option value="all" selected >All</option>
-                                    @foreach($abutments as $d)
-                                        <option value="{{$d->id}}" >{{$d->name}}</option>
-                                    @endforeach
-
-                                @else
-                                    @php $idsOfAbutmentsSelected = $selectedAbutments->pluck('id')->toArray(); @endphp
-                                    <option value="all">All</option>
-                                    @foreach($abutments as $d)
-                                        <option value="{{$d->id}}" {{(in_array($d->id ,$idsOfAbutmentsSelected)) ? 'selected' : ''}}>{{$d->name}}</option>
-                                    @endforeach
-                                @endif
-
-                        </select>
-                    </div>
-
-                </div>
-                <div class="col-lg-3 col-md-3 col-6 mb-2">
-                    @if(isset($clients))
-                        <div class="dropdown">
-                            <label>Doctor:</label>
-                            <select style="width:100%" class="selectpicker clearOnAll" multiple name="doctor[]"
-                                    id="doctor" data-live-search="true" title="All" data-hide-disabled="true">
-
-                                    <option value="all" {{(isset($selectedClients) && $selectedClients== 'all') ? 'selected' : ''}}>
-                                        All
-                                    </option>
-                                    @foreach($clients as $d)
-                                        <option value="{{$d->id}}" {{(isset($selectedClients) && in_array($d->id ,$selectedClients)) ? 'selected' : ''}}>{{$d->name}}</option>
-                                    @endforeach
-
-                            </select>
-                        </div>
-                    @endif
-                </div>
-                <div class="col-lg-3 col-md-3 col-3 mb-2">
-                    <div class="kt-subheader__search">
-                        <label> Per :</label>
-                        <div class="kt-form__actions">
-                            <input name="perToggle" {{$perUnitTrigger ? "" : "checked"}} class="unstyled" id="toggle" type="checkbox"  data-toggle="toggle" data-on="UNITS" data-off="CASES" data-onstyle="success" data-offstyle="info" >
-                        </div>
-                    </div>
-                </div>
+                @endif
             </div>
-            <div class="row actionButtonsRow" style="padding-left: 10px;padding-top: 0;padding-bottom: 0px;    padding-right: 0;">
-                <div class="col-lg-3 col-md-3 col-3" style="padding-left: 0;">
-                    <div class="kt-subheader__search">
-
-                        <div class="kt-form__actions">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-3 " >
-                    <div class="kt-subheader__search">
-
-                        <div class="kt-form__actions">
-                            <button  class="btn btn-secondary printBtn">PRINT</button>
-                        </div>
-                    </div>
-                </div>
+            <div class="report-filter report-toggle">
+                <label class="report-filter-label" for="implantsPerToggle"><i class="fas fa-chart-bar" aria-hidden="true"></i><span>Measure by</span></label>
+                <label class="report-switch" for="implantsPerToggle">
+                    <input name="perToggle" {{ $perUnitTrigger ? 'checked' : '' }}
+                        id="implantsPerToggle" type="checkbox">
+                    <span class="report-switch__track">
+                        <span class="report-switch__option report-switch__option--unchecked">Units</span>
+                        <span class="report-switch__option report-switch__option--checked">Cases</span>
+                    </span>
+                </label>
             </div>
+        </div>
+        <div class="report-filter-actions">
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="button" class="btn btn-secondary printBtn">Print</button>
         </div>
     </form>
 
 
 
 
-    <div class="KorvexPanel" style="">
-        <div class="col-lg-12 col-sm-12">
-            <div class=" ">
-                <div class="">
-                    <p class="text-muted"></p>
-                    <div class="" style="overflow-x:auto;">
-                        <div id="totalsTableHolder"> </div>
-                        @foreach($selectedMonths as $month)
-                            <table border="1" class="xl649957 printable sunriseTable" style="border-collapse:collapse;">
-
-                                <thead>
-                                <!-- The Months row -->
-                                <tr class="bottom-Border subHeaderRow" style="mso-height-source:userset;">
-                                    <th class="" style="background-color: transparent !important;">Month:</th>
-                                    <th colspan="{{count($selectedAbutments)+1}}"
-                                        style="height:21.95pt;border-top:none">{{$month}}</th>
-
-                                </tr>
-                                </thead>
-
-
-                                <tbody>
-                                <!--The MAIN row -->
-                                <tr class=" border-bottom tableHeaderRow">
-                                    <td class="xl639957" style="height:21.95pt;border-top:none">Dr Name</td>
-                                    @foreach($selectedAbutments as $d)
-                                        <td class="xl639957" style="">{{$d->name}}</td>
-                                    @endforeach
-                                    <td class="totalsCol" style="">All</td>
-                                </tr>
-
-
-
-                                @php
-                                    if(!in_array('all' ,$selectedClients))
-                                     $filteredClients = $clients->filter(function ($value, $key) use ($selectedClients) {
-                                    return in_array($key ,$selectedClients);
-                                       });
-                                    else
-                                    $filteredClients = $clients;
-
-                                @endphp
-                                <!-- Client ROWS -->
-
-                                @foreach($filteredClients as $client )
-
-
-                                    <!-- if all is selected, dont check if client is selected or not, otherwise check each one by id -->
-                                    {{--@if(!in_array('all' ,$selectedClients))--}}
-                                    {{--@if(isset($selectedClients) && !in_array($client->id ,$selectedClients))--}}
-                                    {{--@continue;--}}
-                                    {{--@endif--}}
-                                    {{--@endif--}}
-
-                                    <tr class="dataRow" style="">
-                                        <td class="xl669957 doctorName">{{$client->name}}</td>
-
-                                        @php
-                                            $docTotalUnits = 0;
-                                            $currentTotal = 0;
-                                        $implantsIds = $selectedImplants->pluck("id")->toArray();
-                                        @endphp
-
-                                        @foreach($selectedAbutments as $abutment)
-                                            @php
-
-                                                $currentTotal= $perUnitTrigger ? $client->numOfCasesBy_abutment_implants($abutment->id,$implantsIds,$month) :  $client->numOfUnitsBy_abutment_implants($abutment->id,$implantsIds,$month) ;
-                                                $docTotalUnits += $currentTotal;
-                                                $clientLevelTotal[$month][$abutment->id] += $currentTotal;
-                                                $labLevelTotal[$month][$abutment->id] += $currentTotal;
-                                                $totals[$client->id][$abutment->id] +=$currentTotal;
-                                                $totals2[$abutment->id] +=$currentTotal;
-                                            @endphp
-                                            <td class="xl649957">{{$currentTotal}}</td>
-                                        @endforeach
-                                        <td style="" class="totalsCol"><b>{{$docTotalUnits}}</b></td>
-                                        @php  @endphp
-
-                                    </tr>
-                                @endforeach
-
-
-                                <!-- Totals for whole lab Row -->
-                                <tr style="">
-                                    <td class="xl669957">Totals</td>
-
-                                    @foreach($labLevelTotal[$month] as $total)
-                                        <td class="totalsRow" style="">{{$total}}</td>
-                                    @endforeach
-                                    <td class="totalsRow" style="">{{array_sum($labLevelTotal[$month])}}</td>
-                                </tr>
-                                </tbody>
-                            </table>
+    <div class="KorvexPanel report-results" data-report-consolidated="true">
+        @include('reports.partials.report-range')
+        @php
+            $filteredClients = in_array('all', $selectedClients, true)
+                ? $clients
+                : $clients->whereIn('id', $selectedClients);
+            $implantIds = $selectedImplants->pluck('id')->all();
+            $reportTotals = array_fill_keys($selectedAbutments->pluck('id')->all(), 0);
+        @endphp
+        <div class="report-table-scroll">
+            <table border="1" class="xl649957 printable sunriseTable report-table" style="border-collapse:collapse;">
+                <thead>
+                    <tr class="tableHeaderRow">
+                        <th>Dr Name</th>
+                        @foreach($selectedAbutments as $abutment)
+                            <th>{{ $abutment->name }}</th>
                         @endforeach
-                        <div id="totalsTableTempHolder">
-
-                            <table border="1" class="xl649957 printable sunriseTable" style="border-collapse:collapse;">
-
-                                <thead>
-                                <!-- The Months row -->
-                                <tr class="bottom-Border subHeaderRow" style="mso-height-source:userset;">
-                                    <th class="" style="background-color: transparent !important;">Month:</th>
-                                    <th colspan="{{count($selectedAbutments)+1}}"
-                                        style="height:21.95pt;border-top:none">All Time</th>
-
-                                </tr>
-                                </thead>
-
-
-                                <tbody>
-                                <!--The MAIN row -->
-                                <tr class=" border-bottom tableHeaderRow">
-                                    <td class="xl639957" style="height:21.95pt;border-top:none">Dr Name</td>
-                                    @foreach($selectedAbutments as $d)
-                                        <td class="xl639957" style="">{{$d->name}}</td>
-                                    @endforeach
-                                    <td class="totalsCol" style="">All</td>
-                                </tr>
-
-
-
+                        <th class="totalsCol">All</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($filteredClients as $client)
+                        @php $doctorTotal = 0; @endphp
+                        <tr class="dataRow">
+                            <td class="doctorName">{{ $client->name }}</td>
+                            @foreach($selectedAbutments as $abutment)
                                 @php
-                                    if(!in_array('all' ,$selectedClients))
-                                     $filteredClients = $clients->filter(function ($value, $key) use ($selectedClients) {
-                                    return in_array($key ,$selectedClients);
-                                       });
-                                    else
-                                    $filteredClients = $clients;
-
+                                    $currentTotal = collect($selectedMonths)->sum(function ($month) use ($client, $abutment, $implantIds, $perUnitTrigger) {
+                                        return $perUnitTrigger
+                                            ? $client->numOfCasesBy_abutment_implants($abutment->id, $implantIds, $month)
+                                            : $client->numOfUnitsBy_abutment_implants($abutment->id, $implantIds, $month);
+                                    });
+                                    $doctorTotal += $currentTotal;
+                                    $reportTotals[$abutment->id] += $currentTotal;
                                 @endphp
-                                <!-- Client ROWS -->
-
-                                @foreach($filteredClients as $client )
-
-
-                                    <!-- if all is selected, dont check if client is selected or not, otherwise check each one by id -->
-                                    {{--@if(!in_array('all' ,$selectedClients))--}}
-                                    {{--@if(isset($selectedClients) && !in_array($client->id ,$selectedClients))--}}
-                                    {{--@continue;--}}
-                                    {{--@endif--}}
-                                    {{--@endif--}}
-
-                                    <tr class="dataRow" style="">
-                                        <td class="xl669957 doctorName">{{$client->name}}</td>
-
-                                        @php
-                                            $docTotalUnits = 0;
-                                            $currentTotal = 0;
-                                        $implantsIds = $selectedImplants->pluck("id")->toArray();
-                                        @endphp
-
-                                        @foreach($selectedAbutments as $abutment)
-                                            @php
-
-                                                $currentTotal= $totals[$client->id][$abutment->id] ;
-                                                $docTotalUnits += $currentTotal;
-
-                                            @endphp
-                                            <td class="xl649957">{{$currentTotal}}</td>
-                                        @endforeach
-                                        <td style="" class="totalsCol"><b>{{$docTotalUnits}}</b></td>
-                                        @php  @endphp
-
-                                    </tr>
-                                @endforeach
-
-
-                                <!-- Totals for whole lab Row -->
-                                <tr style="">
-                                    <td class="xl669957">Totals</td>
-
-                                    @foreach($totals2 as $total)
-                                        <td class="totalsRow" style="">{{$total}}</td>
-                                    @endforeach
-                                    <td class="totalsRow" style="">{{array_sum($totals2)}}</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                                <td>{{ $currentTotal }}</td>
+                            @endforeach
+                            <td class="totalsCol"><b>{{ $doctorTotal }}</b></td>
+                        </tr>
+                    @endforeach
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Totals</th>
+                        @foreach($selectedAbutments as $abutment)
+                            <th>{{ $reportTotals[$abutment->id] }}</th>
+                        @endforeach
+                        <th>{{ array_sum($reportTotals) }}</th>
+                    </tr>
+                </tfoot>
+            </table>
         </div>
     </div>
 
@@ -397,10 +243,6 @@
 
 <script>
     $(document).ready(function () {
-        $(".toggle-group > *").addClass("unstyled");
-        $(".toggle").addClass("unstyled");
-        $(".toggle-group > label").addClass("toggleInnerBtns");
-
         $('.dateRange').rangePicker(
             {
                 RTL: false,
@@ -430,8 +272,6 @@
             .on('datePicker.done', function (e, result) {
                 console.log(result);
             });
-        $("#totalsTableHolder").html($("#totalsTableTempHolder").html());
-        $("#totalsTableTempHolder").html("");
     });
 
     function printData()
@@ -461,7 +301,7 @@
         var styling=document.getElementById("style");
         newWin= window.open("");
         newWin.document.write(styling.innerHTML);
-        newWin.document.write(' <h3 style="float:left">Clients Consumptions Report <span style="color:#2b2b2b"> - by Abutments & Implants, per '+'{{$perUnitTrigger ? "Unit" : "Case"}}'+'</span></h3> ' +
+        newWin.document.write(' <h3 style="float:left">Clients Consumptions Report <span style="color:#2b2b2b"> - by Abutments & Implants, per '+'{{$perUnitTrigger ? "Case" : "Unit"}}'+'</span></h3> ' +
             ' <h4 style="float:right"> Date Printed :{!! date("d") !!} - {!! date("M") !!} - {!! date("Y") !!} </h4>');
         $.each(tables, function(key, value) {
             newWin.document.write(value.outerHTML);

@@ -1,5 +1,9 @@
 <?php
 Route::get('/', function () {
+    if (preg_replace('/^www\./', '', strtolower(request()->getHost())) === strtolower(config('tenancy.platform_admin_host'))) {
+        return redirect()->route('system.tenants.index');
+    }
+
     return redirect('/home');
 
 });
@@ -23,14 +27,28 @@ Route::middleware(['web', 'auth'])->group(function (): void {
 
     Route::get('/oops', [App\Modules\System\Http\Controllers\SystemController::class, 'oopsScreen'])->name('oops-screen');
 
+    Route::domain(config('tenancy.platform_admin_host'))
+        ->get('/home', function () {
+            return redirect()->route('system.tenants.index');
+        });
+
     Route::get('/home', [App\Modules\Reports\Http\Controllers\ReportsController::class, 'homeScreen'])->name('homeScreen');
 
-    Route::middleware('platform.admin')->prefix('system')->name('system.')->group(function (): void {
-        Route::get('/tenants', [App\Modules\System\Http\Controllers\TenantController::class, 'index'])->name('tenants.index');
-        Route::get('/tenants/create', [App\Modules\System\Http\Controllers\TenantController::class, 'create'])->name('tenants.create');
-        Route::post('/tenants', [App\Modules\System\Http\Controllers\TenantController::class, 'store'])->name('tenants.store');
-        Route::get('/tenants/{tenant}', [App\Modules\System\Http\Controllers\TenantController::class, 'show'])->name('tenants.show');
-    });
+    Route::domain(config('tenancy.platform_admin_host'))
+        ->middleware('platform.admin')
+        ->prefix('system')
+        ->name('system.')
+        ->group(function (): void {
+            Route::get('/databases', [App\Modules\System\Http\Controllers\DatabaseController::class, 'index'])->name('databases.index');
+            Route::get('/tenants', [App\Modules\System\Http\Controllers\TenantController::class, 'index'])->name('tenants.index');
+            Route::get('/tenants/create', [App\Modules\System\Http\Controllers\TenantController::class, 'create'])->name('tenants.create');
+            Route::post('/tenants', [App\Modules\System\Http\Controllers\TenantController::class, 'store'])->name('tenants.store');
+            Route::get('/tenants/{tenant}/logo', [App\Modules\System\Http\Controllers\TenantController::class, 'editLogo'])->name('tenants.logo.edit');
+            Route::put('/tenants/{tenant}/logo', [App\Modules\System\Http\Controllers\TenantController::class, 'updateLogo'])->name('tenants.logo.update');
+            Route::post('/tenants/{tenant}/disable', [App\Modules\System\Http\Controllers\TenantController::class, 'disable'])->name('tenants.disable');
+            Route::post('/tenants/{tenant}/enable', [App\Modules\System\Http\Controllers\TenantController::class, 'enable'])->name('tenants.enable');
+            Route::get('/tenants/{tenant}', [App\Modules\System\Http\Controllers\TenantController::class, 'show'])->name('tenants.show');
+        });
 
     Route::get('/payments-with-collectors', [App\Modules\Accountant\Http\Controllers\AccountantController::class, 'paymentsWithCollectors'])->name('payments-with-collectors');
 
@@ -68,11 +86,11 @@ Route::middleware(['web', 'auth'])->group(function (): void {
     // });
     // Users Dashboards
     Route::middleware('Designer')->group(function (): void {
-        Route::get('/design/{id}', [App\Modules\Cases\Http\Controllers\CaseController::class, 'employeeDashboard'])->name('designer-cases-list');
+        Route::get('/design/{id}', [App\Modules\Cases\Http\Controllers\EmployeeProductionBoardController::class, 'show'])->name('designer-cases-list');
     });
 
     Route::middleware('Miller')->group(function (): void {
-        Route::get('/milling/{id}', [App\Modules\Cases\Http\Controllers\CaseController::class, 'employeeDashboard'])->name('Miller-cases-list');
+        Route::get('/milling/{id}', [App\Modules\Cases\Http\Controllers\EmployeeProductionBoardController::class, 'show'])->name('Miller-cases-list');
 
         Route::post('/case/milled-externally/', [App\Modules\Cases\Http\Controllers\CaseController::class, 'externallyMilled'])->name('externally-milled');
 
@@ -84,29 +102,29 @@ Route::middleware(['web', 'auth'])->group(function (): void {
     });
 
     Route::middleware('Print3D')->group(function (): void {
-        Route::get('/3d-printing/{id}', [App\Modules\Cases\Http\Controllers\CaseController::class, 'employeeDashboard'])->name('Print3D-cases-list');
+        Route::get('/3d-printing/{id}', [App\Modules\Cases\Http\Controllers\EmployeeProductionBoardController::class, 'show'])->name('Print3D-cases-list');
     });
 
     Route::middleware('SinterFurnace')->group(function (): void {
-        Route::get('/Sintering/{id}', [App\Modules\Cases\Http\Controllers\CaseController::class, 'employeeDashboard'])->name('SinterFurnace-cases-list');
+        Route::get('/Sintering/{id}', [App\Modules\Cases\Http\Controllers\EmployeeProductionBoardController::class, 'show'])->name('SinterFurnace-cases-list');
     });
 
     Route::middleware('PressFurnace')->group(function (): void {
-        Route::get('/Pressing/{id}', [App\Modules\Cases\Http\Controllers\CaseController::class, 'employeeDashboard'])->name('PressFurnace-cases-list');
+        Route::get('/Pressing/{id}', [App\Modules\Cases\Http\Controllers\EmployeeProductionBoardController::class, 'show'])->name('PressFurnace-cases-list');
     });
 
     Route::middleware('Finishing')->group(function (): void {
-        Route::get('/finishing/{id}', [App\Modules\Cases\Http\Controllers\CaseController::class, 'employeeDashboard'])->name('Finishing-cases-list');
+        Route::get('/finishing/{id}', [App\Modules\Cases\Http\Controllers\EmployeeProductionBoardController::class, 'show'])->name('Finishing-cases-list');
     });
 
     Route::middleware('QC')->group(function (): void {
-        Route::get('/QC/{id}', [App\Modules\Cases\Http\Controllers\CaseController::class, 'employeeDashboard'])->name('QC-cases-list');
+        Route::get('/QC/{id}', [App\Modules\Cases\Http\Controllers\EmployeeProductionBoardController::class, 'show'])->name('QC-cases-list');
 
 
     });
 
     Route::middleware('Delivery')->group(function (): void {
-        Route::get('/Delivery/{id}', [App\Modules\Cases\Http\Controllers\CaseController::class, 'employeeDashboard'])->name('Delivery-cases-list');
+        Route::get('/Delivery/{id}', [App\Modules\Cases\Http\Controllers\EmployeeProductionBoardController::class, 'show'])->name('Delivery-cases-list');
         Route::get('/delivery/accept/{id}', [App\Modules\Cases\Http\Controllers\CaseController::class, 'acceptCaseByDelivery'])->name('delivery-accept');
         // COMMENTED OUT: My Collections Feature - Can be reverted if needed
         // Route::get('/my-collections', [App\Modules\Delivery\Http\Controllers\DeliveryController::class, 'myCollections'])->name('my-collections');
@@ -346,6 +364,22 @@ Route::middleware(['web', 'auth'])->group(function (): void {
     Route::get('/case/delete{id}', [App\Modules\Cases\Http\Controllers\CaseController::class, 'deleteCase'])->name('delete-case');
 
     // CASE FLOW ROUTES
+    Route::get('/employee-production-board/cases/{caseId}/stages/{stage}/details', [App\Modules\Cases\Http\Controllers\EmployeeProductionBoardController::class, 'details'])
+        ->where(['caseId' => '[0-9]+', 'stage' => '(1|2|3|4|5|6|7|8|9)'])
+        ->name('employee-production-board-v2.details');
+    Route::post('/employee-production-board/cases/{caseId}/stages/{stage}/start', [App\Modules\Cases\Http\Controllers\EmployeeProductionBoardController::class, 'start'])
+        ->where(['caseId' => '[0-9]+', 'stage' => '(1|2|3|4|5|6|7|8|9)'])
+        ->name('employee-production-board-v2.start');
+    Route::post('/employee-production-board/cases/{caseId}/stages/{stage}/complete', [App\Modules\Cases\Http\Controllers\EmployeeProductionBoardController::class, 'complete'])
+        ->where(['caseId' => '[0-9]+', 'stage' => '(1|2|3|4|5|6|7|8|9)'])
+        ->name('employee-production-board-v2.complete');
+    Route::post('/employee-production-board/cases/{caseId}/stages/{stage}/notes', [App\Modules\Cases\Http\Controllers\EmployeeProductionBoardController::class, 'addNote'])
+        ->where(['caseId' => '[0-9]+', 'stage' => '(1|2|3|4|5|6|7|8|9)'])
+        ->name('employee-production-board-v2.notes.store');
+    Route::post('/operations-dashboard/cases/{caseId}/stages/{stage}/notes', [App\Modules\Cases\Http\Controllers\CaseController::class, 'addProductionControlNote'])
+        ->where(['caseId' => '[0-9]+', 'stage' => '(1|2|3|4|5|6|7|8|9)'])
+        ->name('production-control.notes.store');
+
     Route::get('/assign-case/{caseId}/{stage}', [App\Modules\Cases\Http\Controllers\CaseController::class, 'assignToMe'])->name('assign-to-me');
     Route::get('/finish-case/{caseId}/{stage}', [App\Modules\Cases\Http\Controllers\CaseController::class, 'finishCaseStage'])->name('finish-case');
     Route::get('/assign-and-finish-case/{caseId}/{stage}', [App\Modules\Cases\Http\Controllers\CaseController::class, 'assignAndFinish'])->name('assign-and-finish');
@@ -375,14 +409,14 @@ Route::middleware(['web', 'auth'])->group(function (): void {
     Route::get('/finish-case-completely/{caseId}', [App\Modules\Cases\Http\Controllers\CaseController::class, 'finishCaseCompletely'])->name('finish-case-completely');
 
 
-    Route::prefix('portal')->name('portal.')->group(function () {
-        Route::get('/login', [App\Modules\Portal\Http\Controllers\PortalController::class, 'showLoginForm'])->name('login');
-        Route::post('/login', [App\Modules\Portal\Http\Controllers\PortalController::class, 'login']);
-        Route::post('/logout', [App\Modules\Portal\Http\Controllers\PortalController::class, 'logout'])->name('logout');
-        Route::get('/dashboard', [App\Modules\Portal\Http\Controllers\PortalController::class, 'dashboard'])->name('dashboard')->middleware('auth:clients');
-    });
-
 Route::get('/create-invoice', [App\Modules\Cases\Http\Controllers\CaseController::class, 'createInvoice'])->name('create-invoice');
+});
+
+Route::prefix('portal')->name('portal.')->group(function () {
+    Route::get('/login', [App\Modules\Portal\Http\Controllers\PortalController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [App\Modules\Portal\Http\Controllers\PortalController::class, 'login']);
+    Route::post('/logout', [App\Modules\Portal\Http\Controllers\PortalController::class, 'logout'])->name('logout');
+    Route::get('/dashboard', [App\Modules\Portal\Http\Controllers\PortalController::class, 'dashboard'])->name('dashboard')->middleware(App\Http\Middleware\AuthenticateClient::class);
 });
 
 Route::fallback(function () {

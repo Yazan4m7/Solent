@@ -234,7 +234,7 @@
                                 @else
                                 <div class="col-md-6 col-sm-12 padding5px">
                                     <button type="submit" class="btn btn-success"
-                                        style="width:100%">{{$key == "delivery" ? 'Take' : 'Assign To Me'}}</button>
+                                        style="width:100%">{{ $key == 'delivery' ? (trans('ui.dom')['Take'] ?? 'Take') : (trans('ui.dom')['Assign To Me'] ?? 'Assign To Me') }}</button>
                                 </div>
                                 @endif
                                 <div class="col-md-3 col-sm-12 padding5px"><a

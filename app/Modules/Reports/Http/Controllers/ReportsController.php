@@ -30,7 +30,7 @@ class ReportsController extends Controller
         $clients = client::all();
         $selectedClients =  $request->doctor ?? ["all"];
         $clients= $clients->keyBy('id');
-        $perUnitTrigger= $request->perToggle ?  false : true;
+        $perUnitTrigger = $request->boolean('perToggle');
         $implants = implant::all();
         $allImplantsSelected=true;
 
@@ -68,28 +68,12 @@ class ReportsController extends Controller
             $dateRangeValue = $request->dateRange ?? "1m";
         }
 
-        foreach($selectedMonths as $month)
-            foreach($selectedAbutments as $abutment){
-                $clientLevelTotal[$month][$abutment->id] = 0;
-                $labLevelTotal[$month][$abutment->id] = 0;
-
-            }
-
-        foreach($clients as $client)
-        {
-            foreach($selectedAbutments as $abutment)
-                $totals[$client->id][$abutment->id] = 0;
-        }
-        foreach($selectedAbutments as $abutment)
-            $totals2[$abutment->id] = 0;
-
         $selectedMonths=array_reverse($selectedMonths);
 
-        return view('reports.implants',compact('totals','totals2','clients','selectedClients',
+        return view('reports.implants',compact('clients','selectedClients',
             'implants','selectedImplants','allImplantsSelected',
             'abutments', 'selectedAbutments', 'allAbutmentsSelected',
-            'selectedMonths','dateRangeValue','clientLevelTotal',
-            'perUnitTrigger','labLevelTotal'));
+            'selectedMonths','dateRangeValue','perUnitTrigger'));
 
 
     }
@@ -121,8 +105,9 @@ class ReportsController extends Controller
         $selectedMonths=array_reverse($selectedMonths);
 
 
-        // get failure logs
-        $failureLogs = array();
+        // Get failure logs for the complete user-selected range. The previous
+        // month-by-month query reversed the range bounds when more than one
+        // month was selected, which left multi-month reports empty.
         $query = failureLog::query();
 
         // Filter the logs by user inputs
@@ -139,33 +124,26 @@ class ReportsController extends Controller
             else
             $selectedFailureCauses = $allFailureCauses;
 
+        if (!in_array('all', $selectedClients, true)) {
+            $query->whereHas('case', function ($caseQuery) use ($selectedClients): void {
+                $caseQuery->whereIn('doctor_id', $selectedClients);
+            });
+        }
 
-            // Get the FILTERED RESULTS
-            $results = $query->whereBetween('created_at', [ end($selectedMonths)  . '-01 00:00:00',array_values($selectedMonths)[0] . '-31 23:59:59'])->get();
-             //dd($results);
-             // SEPARATE THEM BY MONTH
-            foreach($selectedMonths as $month){
-                $failureLogs[$month] = $results->whereBetween('created_at', [$month . '-01 00:00:00', $month . '-31 23:59:59']);
+        $chronologicalMonths = collect($selectedMonths)->sort()->values();
+        $rangeStart = $chronologicalMonths->first() . '-01 00:00:00';
+        $rangeEnd = \Carbon\Carbon::parse($chronologicalMonths->last() . '-01')->endOfMonth()->format('Y-m-d H:i:s');
 
-                // Total cases and units of every month
-                $amountOfCases[$month] = $failureLogs[$month]->groupBy("case_id")->pluck("case_id")->count();
-                //if(count($amountOfCases[$month])!= 0)
-                //dd($amountOfCases[$month]);
-                $amountOfUnits[$month] = 0;
-                $labLevelTotal[$month] = 0;
-            }
-
-
-            //Get Total Counts Of All failed Units
-                $amountOfUnitsFailed = 0;
-            $failedJobs = job::whereIn('case_id' , $results->pluck('case_id')->toArray())->where("is_rejection", 1)->orWhere("is_repeat",1)->orWhere("is_modification",1)->orWhere("is_redo",1)->get() ;
-            //dd($failedJobs);
-            foreach($failedJobs as $job)
-                $amountOfUnitsFailed+= count(explode(',',$job->unit_num));
+        $failureLogs = $query
+            ->with(['case.client', 'causeObject'])
+            ->whereBetween('created_at', [$rangeStart, $rangeEnd])
+            ->orderByDesc('created_at')
+            ->get();
+        $amountOfCases = $failureLogs->pluck('case_id')->filter()->unique()->count();
 
         return view('reports.QC',compact('clients',
             'failureLogs','selectedMonths','selectedClients','dateRangeValue', 'allCausesSelected',
-            'allFailureCauses','selectedFailureCauses','typesSelected','amountOfCases','labLevelTotal','amountOfUnitsFailed'));
+            'allFailureCauses','selectedFailureCauses','typesSelected','amountOfCases'));
     }
     public function jobTypeReport(Request $request)
     {
@@ -175,15 +153,18 @@ class ReportsController extends Controller
         $clients = client::all();
         $selectedClients =  $request->doctor ?? ["all"];
         $clients= $clients->keyBy('id');
-        $perUnitTrigger= $request->perToggle ?  false : true;
+        $perUnitTrigger = $request->boolean('perToggle');
         $jobTypes = JobType::all();
-        if ($request->jobTypesInput && !in_array("all" ,$request->jobTypesInput)){
-        $selectedJobTypes =  JobType::whereIn('id',$request->jobTypesInput)->get();
-            $allJobTypesSelected=false;
+        $requestedJobTypes = (array) $request->input('jobTypesInput', []);
+        if (in_array('all', $requestedJobTypes, true)) {
+            $selectedJobTypes = $jobTypes;
+        } elseif ($requestedJobTypes !== []) {
+            $selectedJobTypes = JobType::whereIn('id', $requestedJobTypes)->get();
+            $allJobTypesSelected = false;
+        } else {
+            $selectedJobTypes = JobType::whereIn('id', [1, 2, 3, 4])->get();
+            $allJobTypesSelected = false;
         }
-        else{
-        $selectedJobTypes =  JobType::whereIn('id',[1,2,3,4])->get();
-            $allJobTypesSelected=false;}
 
         $selectedMonths = $request->dateRange;
         if(str_contains($selectedMonths, 'Month')){
@@ -199,25 +180,10 @@ class ReportsController extends Controller
             $selectedMonths=$this->lastMonthsAsYYYYMM(1);
             $dateRangeValue = $request->dateRange ?? "1m";
         }
-        foreach($selectedMonths as $month)
-            foreach($selectedJobTypes as $jobType){
-            $clientLevelTotal[$month][$jobType->id] = 0;
-            $labLevelTotal[$month][$jobType->id] = 0;
-        }
-        foreach($clients as $client)
-        {
-            foreach($selectedJobTypes as $type)
-                $totals[$client->id][$type->id] = 0;
-        }
-        foreach($selectedJobTypes as $type)
-            $totals2[$type->id] = 0;
-        $totals2[99] = 0;
         $selectedMonths=array_reverse($selectedMonths);
 
-        return view('reports.jobTypes',compact('clients','totals','totals2',
-            'jobTypes','selectedJobTypes','allJobTypesSelected','labLevelTotal',
-         'selectedClients','selectedMonths','dateRangeValue','clientLevelTotal',
-            'allJobTypesSelected','perUnitTrigger'));
+        return view('reports.jobTypes',compact('clients','jobTypes','selectedJobTypes',
+            'selectedClients','selectedMonths','dateRangeValue','allJobTypesSelected','perUnitTrigger'));
 
     }
     public function numOfUnitsReport(Request $request)
@@ -226,7 +192,14 @@ class ReportsController extends Controller
         $clients = client::all();
         $materials = material::all();
         $selectedClients =  $request->doctor ?? ["all"];
-        $selectedMaterials =  $request->material ?? [1,2,3];//material::all()->pluck('id')->toArray();
+        $requestedMaterials = (array) $request->input('material', []);
+        if (in_array('all', $requestedMaterials, true)) {
+            $selectedMaterials = $materials->pluck('id')->all();
+        } elseif ($request->has('material')) {
+            $selectedMaterials = $materials->whereIn('id', $requestedMaterials)->pluck('id')->all();
+        } else {
+            $selectedMaterials = $materials->whereIn('id', [1, 2, 3])->pluck('id')->all();
+        }
         $selectedMonths = $request->dateRange;
 
         if(str_contains($selectedMonths, 'Month')){
@@ -242,47 +215,26 @@ class ReportsController extends Controller
         else{
         $selectedMonths=$this->lastMonthsAsYYYYMM(1);
         $dateRangeValue = $request->dateRange ?? "1m";}
-       // dd($selectedMonths);
-
-        /*
-         * SelectedMonths is yyyy-mm or an array of yyyyy-mm
-         */
-
-
-        foreach($selectedMonths as $month)
-            {
-                foreach($selectedMaterials as $matId)
-                $totalsArray[$month][$matId] = 0;
-
-            // for totals column
-            $totalsArray[$month][99] = 0;
-            }
-        foreach($clients as $client)
-        {
-            foreach($selectedMaterials as $matId)
-                $totals[$client->id][$matId] = 0;
-        }
-        foreach($selectedMaterials as $matId)
-            $totals2[$matId] = 0;
-        $totals2[99] = 0;
-
         $selectedMonths=array_reverse($selectedMonths);
 
-        return view('reports.numOfUnits',compact('clients','totals','totals2',
-            'materials','selectedMaterials','selectedClients','selectedMonths','dateRangeValue','totalsArray'));
+        return view('reports.numOfUnits',compact('clients','materials','selectedMaterials',
+            'selectedClients','selectedMonths','dateRangeValue'));
     }
     public function repeatsReport(Request $request)
     {
         $clients = client::all();
-        $materials = material::all();
         $selectedClients =  $request->doctor ?? ["all"];
         $allFailureTypes = [0 => "Rejection",1 => "Repeat", 2 => "Modification" , 3=> "Redo", 4=>"Successful"];
-        $selectedFailureTypes =  [0 => "Rejection",1 => "Repeat", 2 => "Modification" , 3=> "Redo", 4=>"Successful"];
+        $selectedFailureTypes = $allFailureTypes;
         $allFailureTypesSelected = true;
-        $clientsWithFailures = array();
 
         if(isset($request->failureTypeInput) && !in_array('all',$request->failureTypeInput)) {
-            $selectedFailureTypes=$request->failureTypeInput;
+            $selectedFailureTypeIds = collect($request->failureTypeInput)
+                ->map(fn ($failureType) => (int) $failureType)
+                ->filter(fn ($failureType) => array_key_exists($failureType, $allFailureTypes))
+                ->unique()
+                ->all();
+            $selectedFailureTypes = array_intersect_key($allFailureTypes, array_flip($selectedFailureTypeIds));
             $allFailureTypesSelected = false;
         }
         // Set the time range
@@ -300,14 +252,19 @@ class ReportsController extends Controller
             $dateRangeValue = $request->dateRange ?? "1m";
         }
 
+        $chronologicalMonths = collect($selectedMonths)->sort()->values();
+        $rangeStart = \Carbon\Carbon::parse($chronologicalMonths->first() . '-01')->startOfMonth();
+        $rangeEnd = \Carbon\Carbon::parse($chronologicalMonths->last() . '-01')->endOfMonth();
+
         // reverse array to make new to old
         $selectedMonths=array_reverse($selectedMonths);
         //dd($request->perToggle);
-        $perUnitTrigger = $request->perToggle ;
-        $countOrPercentage =$request->countOrPercentageToggle ?  false : true;;
+        $perUnitTrigger = $request->boolean('perToggle');
+        $showPercentage = $request->boolean('countOrPercentageToggle');
         return view('reports.repeats',compact('clients',
-            'materials','selectedMonths','selectedClients','dateRangeValue','selectedFailureTypes',
-            'clientsWithFailures','perUnitTrigger','countOrPercentage','allFailureTypesSelected','allFailureTypes'));
+            'selectedMonths','selectedClients','dateRangeValue','selectedFailureTypes',
+            'perUnitTrigger','showPercentage','allFailureTypesSelected','allFailureTypes',
+            'rangeStart','rangeEnd'));
     }
     public function homeScreen(){
 
@@ -324,7 +281,16 @@ class ReportsController extends Controller
     }
     public function adminHomeScreen(Request $request = null){
 
-        $dashboardSampleDataMode = (bool) config('features.dashboard.sample_data', true);
+        $request = $request ?: request();
+        if ($request->has('sample_data')) {
+            $dashboardSampleDataMode = $request->boolean('sample_data');
+            $request->session()->put('dashboard.sample_data', $dashboardSampleDataMode);
+        } else {
+            $dashboardSampleDataMode = (bool) $request->session()->get(
+                'dashboard.sample_data',
+                config('features.dashboard.sample_data', false)
+            );
+        }
 
         $dashboardData = app(TenantDataCache::class)->remember('dashboard.home', (int) config('tenancy.cache_ttls.dashboard', 60), function () {
 
@@ -380,10 +346,34 @@ class ReportsController extends Controller
             $CompletedJobsToday = $compUnitsCount7Days[6];
             $ActiveJobsToday = $this->getUnitsCountOfJobsObjects(job::whereNotNull('assignee')->where('stage','!=',-1)->get());
             //dd(job::whereNotNull('assignee')->get());
-            $DeliveriesToday = sCase::where('initial_delivery_date','like', '%' . $last7DaysLabels[6] . '%')->where('delivered_to_client',0)->orderBy('initial_delivery_date')->get();
+            $deliveryWindowStart = now()->copy()->startOfDay();
+            $deliveryWindowEnd = now()->copy()->addDays(2)->endOfDay();
+            $deliveryCases = sCase::with(['client:id,name'])
+                ->whereBetween('initial_delivery_date', [
+                    $deliveryWindowStart->toDateTimeString(),
+                    $deliveryWindowEnd->toDateTimeString(),
+                ])
+                ->where('delivered_to_client', 0)
+                ->orderBy('initial_delivery_date')
+                ->get();
+            $deliveryDayLabels = ['Today', 'Tomorrow', 'Day after tomorrow'];
+            $deliveryScheduleDays = collect(range(0, 2))->map(function (int $offset) use ($deliveryCases, $deliveryDayLabels, $deliveryWindowStart) {
+                $date = $deliveryWindowStart->copy()->addDays($offset)->toDateString();
+
+                return [
+                    'key' => ['today', 'tomorrow', 'following'][$offset],
+                    'label' => $deliveryDayLabels[$offset],
+                    'date' => $date,
+                    'cases' => $deliveryCases->filter(function (sCase $case) use ($date): bool {
+                        $rawDeliveryDate = $case->getRawOriginal('initial_delivery_date') ?: $case->initial_delivery_date;
+
+                        return substr((string) $rawDeliveryDate, 0, 10) === $date;
+                    })->values(),
+                ];
+            });
+            $DeliveriesToday = $deliveryScheduleDays->first()['cases'];
             $paymentsReceivedToday = payment::where('created_at','like', '%' . $last7DaysLabels[6] . '%')->orderBy('created_at')->get();
             $newCustomers = $DeliveriesToday->pluck('client_id')->unique()->count();
-
             $totalUnits = ($CompletedJobsToday ?? 0) + ($ActiveJobsToday ?? 0) + ($waitingJobsToday ?? 0);
             $conversionRate = $totalUnits ? round((($CompletedJobsToday ?? 0) / $totalUnits) * 100, 2) : 0;
 
@@ -396,7 +386,8 @@ class ReportsController extends Controller
             return compact('compUnitsCount7Days','compCasesCount7Days',
             'waitingJobsToday','CompletedJobsToday','ActiveJobsToday','DeliveriesToday',
             'paymentsReceivedToday','last7DaysLabels','compCasesObjectsIn30Days','compUnitsCount30Days',
-            'collectionsInLast30Days','last30DaysLabels','compCasesCount30Days','sales30Days','newCustomers','conversionRate');
+            'collectionsInLast30Days','last30DaysLabels','compCasesCount30Days','sales30Days','newCustomers','conversionRate',
+            'deliveryScheduleDays');
         }, [
             'user_id' => Auth()->id(),
             'date' => now()->toDateString(),
@@ -409,6 +400,72 @@ class ReportsController extends Controller
     public function handleEmployeeRedirection(){
         return redirect('/operations-dashboard');
     }
+
+    private function getDashboardProductionLoadRows(): array
+    {
+        $stageConfigs = collect([
+            ['stage' => 1, 'label' => 'Design'],
+            ['stage' => 2, 'label' => 'Milling'],
+            ['stage' => 3, 'label' => '3D Printing'],
+            ['stage' => 4, 'label' => 'Sintering'],
+        ]);
+
+        $jobsByStage = job::query()
+            ->select('stage', 'case_id', 'assignee', 'is_active', 'is_set', 'milling_build_id', 'printing_build_id', 'pressing_build_id')
+            ->whereIn('stage', $stageConfigs->pluck('stage')->all())
+            ->whereNotNull('case_id')
+            ->get()
+            ->groupBy('stage');
+
+        return $stageConfigs->map(function (array $stageConfig) use ($jobsByStage) {
+            $stageId = (int) $stageConfig['stage'];
+            $stageJobs = $jobsByStage->get($stageId, collect());
+            $activeCaseIds = $stageJobs
+                ->filter(fn ($stageJob) => $this->dashboardStageJobIsActive($stageJob, $stageId))
+                ->pluck('case_id')
+                ->unique()
+                ->values();
+            $waitingCaseIds = $stageJobs
+                ->reject(fn ($stageJob) => $this->dashboardStageJobIsActive($stageJob, $stageId))
+                ->pluck('case_id')
+                ->unique()
+                ->diff($activeCaseIds)
+                ->values();
+            $activeCount = $activeCaseIds->count();
+            $waitingCount = $waitingCaseIds->count();
+            $casesCount = $activeCount + $waitingCount;
+
+            return [
+                'label' => $stageConfig['label'],
+                'jobs' => $casesCount,
+                'cases' => $casesCount,
+                'active' => $activeCount,
+                'waiting' => $waitingCount,
+                'utilization' => $casesCount > 0 ? (int) round(($activeCount / $casesCount) * 100) : 0,
+                'jobsScaled' => 0,
+            ];
+        })->all();
+    }
+
+    private function dashboardStageJobIsActive(job $job, int $stageId): bool
+    {
+        if (in_array($stageId, [2, 4, 5], true)) {
+            return (int) $job->is_set === 1 || (int) $job->is_active === 1;
+        }
+
+        if ($stageId === 3) {
+            return (int) $job->is_set === 1
+                || (int) $job->is_active === 1
+                || !empty($job->printing_build_id);
+        }
+
+        if ($stageId === 1) {
+            return !empty($job->assignee) || (int) $job->is_active === 1;
+        }
+
+        return (int) $job->is_active === 1;
+    }
+
     public function blankPage(){
 
         return view('blank');

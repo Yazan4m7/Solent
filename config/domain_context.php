@@ -14,32 +14,21 @@ return [
     ],
 
     'hosts' => [
-        'jo.lab.alsolentco.com' => [
-            'country_code' => 'JO',
-            'country_name' => 'Jordan',
-            'database' => 'albaswbf_lab_jo',
-            'currency_code' => env('JO_APP_CURRENCY_CODE', 'JOD'),
-            'currency_display' => env('JO_APP_CURRENCY_DISPLAY', env('JO_APP_CURRENCY_CODE', 'JOD')),
-            'currency_symbol' => env('JO_APP_CURRENCY_SYMBOL', 'JOD'),
-            'currency_unit_ar' => env('JO_APP_CURRENCY_UNIT_AR', 'دينار'),
-            'currency_name_ar' => env('JO_APP_CURRENCY_NAME_AR', 'دينار أردني'),
-            'currency_name_en' => env('JO_APP_CURRENCY_NAME_EN', 'Jordanian Dinar'),
-        ],
-        'ps.lab.alsolentco.com' => [
-            'country_code' => 'PS',
-            'country_name' => 'Palestine',
-            'database' => 'albaswbf_lab_ps',
-            'currency_code' => env('PS_APP_CURRENCY_CODE', 'ILS'),
-            'currency_display' => env('PS_APP_CURRENCY_DISPLAY', env('PS_APP_CURRENCY_CODE', 'ILS')),
-            'currency_symbol' => env('PS_APP_CURRENCY_SYMBOL', 'ILS'),
-            'currency_unit_ar' => env('PS_APP_CURRENCY_UNIT_AR', 'شيكل'),
-            'currency_name_ar' => env('PS_APP_CURRENCY_NAME_AR', 'شيكل'),
-            'currency_name_en' => env('PS_APP_CURRENCY_NAME_EN', 'Israeli Shekel'),
+        'demo.solentjo.com' => [
+            'country_code' => 'DEMO',
+            'country_name' => 'Demo',
+            'database' => env('DEMO_DB_DATABASE'),
+            'currency_code' => env('DEMO_APP_CURRENCY_CODE', 'JOD'),
+            'currency_display' => env('DEMO_APP_CURRENCY_DISPLAY', env('DEMO_APP_CURRENCY_CODE', 'JOD')),
+            'currency_symbol' => env('DEMO_APP_CURRENCY_SYMBOL', 'JOD'),
+            'currency_unit_ar' => env('DEMO_APP_CURRENCY_UNIT_AR', 'دينار'),
+            'currency_name_ar' => env('DEMO_APP_CURRENCY_NAME_AR', 'دينار أردني'),
+            'currency_name_en' => env('DEMO_APP_CURRENCY_NAME_EN', 'Jordanian Dinar'),
         ],
         'demo.ceralis.com' => [
             'country_code' => 'DEMO',
             'country_name' => 'Demo',
-            'database' => env('DEMO_DB_DATABASE', env('DB_DATABASE', 'forge')),
+            'database' => env('DEMO_DB_DATABASE'),
             'currency_code' => env('DEMO_APP_CURRENCY_CODE', 'JOD'),
             'currency_display' => env('DEMO_APP_CURRENCY_DISPLAY', env('DEMO_APP_CURRENCY_CODE', 'JOD')),
             'currency_symbol' => env('DEMO_APP_CURRENCY_SYMBOL', 'JOD'),
@@ -50,7 +39,18 @@ return [
         'demo.ceralith.com' => [
             'country_code' => 'DEMO',
             'country_name' => 'Demo',
-            'database' => env('DEMO_DB_DATABASE', env('DB_DATABASE', 'forge')),
+            'database' => env('DEMO_DB_DATABASE'),
+            'currency_code' => env('DEMO_APP_CURRENCY_CODE', 'JOD'),
+            'currency_display' => env('DEMO_APP_CURRENCY_DISPLAY', env('DEMO_APP_CURRENCY_CODE', 'JOD')),
+            'currency_symbol' => env('DEMO_APP_CURRENCY_SYMBOL', 'JOD'),
+            'currency_unit_ar' => env('DEMO_APP_CURRENCY_UNIT_AR', 'دينار'),
+            'currency_name_ar' => env('DEMO_APP_CURRENCY_NAME_AR', 'دينار أردني'),
+            'currency_name_en' => env('DEMO_APP_CURRENCY_NAME_EN', 'Jordanian Dinar'),
+        ],
+        'orva.korviongroup.com' => [
+            'country_code' => 'DEMO',
+            'country_name' => 'Orva',
+            'database' => env('DEMO_DB_DATABASE'),
             'currency_code' => env('DEMO_APP_CURRENCY_CODE', 'JOD'),
             'currency_display' => env('DEMO_APP_CURRENCY_DISPLAY', env('DEMO_APP_CURRENCY_CODE', 'JOD')),
             'currency_symbol' => env('DEMO_APP_CURRENCY_SYMBOL', 'JOD'),
@@ -60,34 +60,25 @@ return [
         ],
     ],
 
-    'selection_domains' => [
-        [
-            'country_code' => 'JO',
-            'country_name' => 'Jordan',
-            'host' => 'jo.lab.alsolentco.com',
-            'url' => 'https://jo.lab.alsolentco.com',
-        ],
-        [
-            'country_code' => 'PS',
-            'country_name' => 'Palestine',
-            'host' => 'ps.lab.alsolentco.com',
-            'url' => 'https://ps.lab.alsolentco.com',
-        ],
-    ],
+    'selection_domains' => [],
 
-    'selection_host' => env('DOMAIN_SELECTION_HOST', 'lab.alsolentco.com'),
+    'selection_host' => env('DOMAIN_SELECTION_HOST', 'solentjo.com'),
 
     'selection_cookie' => [
         'name' => env('DOMAIN_SELECTION_COOKIE', 'lab_country_domain'),
         'minutes' => env('DOMAIN_SELECTION_COOKIE_MINUTES', 525600),
-        'domain' => env('DOMAIN_SELECTION_COOKIE_DOMAIN', '.lab.alsolentco.com'),
+        'domain' => env('DOMAIN_SELECTION_COOKIE_DOMAIN', '.solentjo.com'),
     ],
 
     'demo' => [
         'enabled' => env('DEMO_MODE_ENABLED', true),
+        'read_only' => env('DEMO_READ_ONLY', false),
+        'database' => env('DEMO_DB_DATABASE'),
         'hosts' => array_filter([
+            'demo.solentjo.com',
             env('DEMO_HOST', 'demo.ceralis.com'),
             env('DEMO_ALT_HOST', 'demo.ceralith.com'),
+            env('DEMO_ORVA_HOST', 'orva.korviongroup.com'),
         ]),
         'user' => [
             'username' => env('DEMO_USER_USERNAME', 'demo'),

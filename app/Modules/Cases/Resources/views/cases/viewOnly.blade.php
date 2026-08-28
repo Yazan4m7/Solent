@@ -1,10 +1,13 @@
 @extends('layouts.app' ,[ 'pageSlug' => $viewCase])
 
 @section('content')
+    @php
+        $ui = trans('ui.dom');
+    @endphp
     @if ($case->actual_delivery_date)
         <a href="{{ route('print-invoice', $case->id) }}" class="btn btn-primary">Print Invoice</a>
     @endif
-    <div class="card">
+    <div class="card solent-view-case">
     <link rel="stylesheet" href="{{asset('assets/css/lightgallery.css')}}" />
     <link rel="stylesheet" href="{{asset('assets/css/jquery.imagesloader.css')}}" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -38,8 +41,114 @@
         </style>
 
     <style>
-        #kt_repeater_1 {padding-left:15px}
-        .noteform{padding:10px}
+        .solent-view-case {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 18px;
+            box-shadow: 0 14px 36px rgba(15, 23, 42, 0.08);
+            max-width: 100%;
+            padding: clamp(12px, 2vw, 24px);
+        }
+
+        .solent-view-case #kt_repeater_1 {
+            max-width: 100%;
+            padding-inline: 15px;
+        }
+
+        .solent-view-case .noteform {
+            padding: 10px;
+        }
+
+        .solent-view-case__toolbar {
+            align-items: center;
+            background: transparent;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: flex-start;
+            margin-bottom: 16px;
+            padding: 0;
+        }
+
+        .solent-view-case__toolbar .btn {
+            align-items: center;
+            background: #0f766e !important;
+            border-color: #0f766e !important;
+            display: inline-flex;
+            gap: 8px;
+            justify-content: center;
+            margin: 0;
+            min-height: 42px;
+            padding: 9px 16px;
+        }
+
+        .solent-view-case__toolbar .btn:hover,
+        .solent-view-case__toolbar .btn:focus-visible {
+            background: #115e59 !important;
+            border-color: #115e59 !important;
+            color: #ffffff !important;
+        }
+
+        .solent-view-case__details-grid {
+            background: #f8fafc !important;
+            border: 1px solid #e2e8f0;
+            box-shadow: none !important;
+            display: grid !important;
+            gap: 14px;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            margin-bottom: 12px !important;
+            padding: 14px !important;
+        }
+
+        .solent-view-case__details-grid > [class*="col-"] {
+            flex: none;
+            max-width: none;
+            min-width: 0;
+            padding: 0;
+            width: auto;
+        }
+
+        .solent-view-case__details-grid > [class*="col-"] > [class*="col-"] {
+            max-width: 100%;
+            padding-inline: 0;
+        }
+
+        .solent-view-case__details-grid label {
+            color: #334155;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .solent-view-case__details-grid .form-control,
+        .solent-view-case__details-grid .bootstrap-select,
+        .solent-view-case__details-grid select {
+            max-width: 100%;
+            width: 100% !important;
+        }
+
+        .solent-view-case .kt-portlet__head {
+            align-items: center;
+            display: flex;
+            margin-top: 18px;
+            min-height: 36px;
+        }
+
+        .solent-view-case .kt-portlet__head-title {
+            align-items: center;
+            color: #0f172a;
+            display: flex;
+            font-size: 16px;
+            font-weight: 800;
+            gap: 8px;
+            margin: 0;
+        }
+
+        .solent-view-case hr {
+            border-color: #e2e8f0;
+            margin: 8px 0 14px;
+        }
+
         .checked {
             filter: invert(26%) sepia(73%) saturate(492%) hue-rotate(133deg) brightness(94%) contrast(86%);
         }
@@ -52,24 +161,148 @@
             color: #1a000d !important;
 
         }
-        .historyTable{display:none;}
-        .Timeline{display:block;}
+        .solent-view-case .historyTable {
+            display: none;
+            max-width: 100%;
+            overflow-x: auto;
+            overscroll-behavior-inline: contain;
+            padding: 0;
+        }
+
+        .solent-view-case .historyTable table {
+            margin: 0;
+            min-width: 620px;
+        }
+
+        .solent-view-case__timeline-scroll {
+            direction: ltr;
+            max-width: 100%;
+            overflow-x: auto;
+            overflow-y: hidden;
+            overscroll-behavior-inline: contain;
+            padding: 4px 0 12px;
+        }
+
+        .solent-view-case .solent-view-case__timeline-scroll .Timeline {
+            box-sizing: border-box;
+            direction: ltr;
+            display: flex;
+            min-width: 1050px;
+            padding-inline: 28px;
+            width: max-content;
+        }
+
+        .solent-view-case__additional {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 14px;
+        }
+
+        .solent-view-case__note {
+            background: #ffffff !important;
+            border: 1px solid #dbe4ee;
+            color: #0f172a !important;
+            height: fit-content !important;
+            margin-bottom: 8px;
+            width: 100% !important;
+        }
+
+        .solent-view-case__note-form-row {
+            align-items: stretch;
+            background: transparent !important;
+            display: flex;
+            gap: 10px;
+            padding: 0 !important;
+        }
+
+        .solent-view-case__note-form-row > [class*="col-"] {
+            max-width: none;
+            padding: 0;
+        }
+
+        .solent-view-case__note-form-row > :first-of-type {
+            flex: 1 1 auto;
+        }
+
+        .solent-view-case__note-form-row > :last-child {
+            flex: 0 0 auto;
+        }
+
+        .solent-view-case__note-form-row .btn {
+            height: 100%;
+            margin: 0;
+        }
+
+        .solent-view-case .demo-gallery .row {
+            background: transparent;
+            gap: 10px;
+            padding: 0;
+        }
+
+        .solent-view-case .demo-gallery img {
+            border-radius: 10px;
+            display: block;
+            height: auto;
+            max-width: 100%;
+        }
+
         @media screen and (max-width:760px) {
-            .btnsRow{
+            .solent-view-case__details-grid {
+                grid-template-columns: minmax(0, 1fr);
+            }
+
+            .solent-view-case .historyTable {
+                display: block;
+            }
+
+            .solent-view-case__timeline-scroll {
+                display: none !important;
+            }
+
+            .solent-view-case .Timeline {
+                display: none !important;
+            }
+
+            .solent-view-case .noteform {
+                padding: 0;
+            }
+
+            .solent-view-case #kt_repeater_1 {
+                padding-inline: 0;
+            }
+
+            .solent-view-case__note-form-row {
                 flex-direction: column;
             }
-            .historyTable{display:block;}
-            .Timeline{display:none !important;}
-            .noteform{padding:0}
-            #kt_repeater_1 {padding-left:0}
-            .printMiniLabelBtn{margin-bottom: 5px;}
+
+            .solent-view-case__note-form-row > :last-child,
+            .solent-view-case__note-form-row .btn {
+                width: 100%;
+            }
+        }
+
+        @media screen and (max-width:575.98px) {
+            .solent-view-case {
+                border-radius: 14px;
+                padding: 12px;
+            }
+
+            .solent-view-case__toolbar {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .solent-view-case__toolbar .btn {
+                width: 100%;
+            }
         }
 
     </style>
     <link href="{{ asset('assets') }}/css/timeline.css" rel="stylesheet"/>
 
     @php
-        $jobs = ($stage == -2 || $stage > 5) ? $case->jobs : $case->jobs->where('stage', $stage);
+        $jobs = $jobs ?? (($stage == -2 || $stage > 5) ? $case->jobs : $case->jobs->where('stage', $stage));
         $jobs = $jobs->values();
         $deliveryDateTime = $case->initial_delivery_date
             ? \Carbon\Carbon::parse(str_replace('T', ' ', $case->initial_delivery_date))
@@ -93,29 +326,21 @@
     @endphp
 
 
-    <div class="col-lg-12 col-sm-12 ">
-        <div class="row btnsRow" style="padding-left: 10px;padding-top: 10px; background-color: transparent">
-            <div class=" col-3 ">
+    <div class="solent-view-case__toolbar">
+        <button type="button" class="btn btn-secondary printMiniLabelBtn" onclick="PrintMinimizedLabel()">
+            <i class="fa-solid fa-tag" aria-hidden="true"></i>
+            {{ $ui['Print Mini Label'] ?? 'Print Mini Label' }}
+        </button>
+        <button type="button" class="btn btn-secondary" onclick="PrintLabel()">
+            <i class="fa-solid fa-tag" aria-hidden="true"></i>
+            {{ $ui['Print Label'] ?? 'Print Label' }}
+        </button>
+    </div>
 
-                    <button class="btn btn-secondary printMiniLabelBtn" style=" background-color: #2b7b7d;   padding-left: 20px;
-    padding-right: 20px;" onclick="PrintMinimizedLabel()" >Print Mini Label <i class="fa-solid fa-tag"></i></button>
-
-            </div>
-            <div class="col-2 ">
-
-                    <button class="btn btn-secondary" style="background-color: #2b7b7d;    padding-left: 20px;
-    padding-right: 20px;" onclick="PrintLabel()" >Print Label <i class="fa-solid fa-tag"></i></button>
-
-            </div>
-        </div>
-        </div>
-
-    <form style="" class="kt-form noteform" method="POST" enctype="multipart/form-data" action="#">
-    @csrf
-    <div>
+    <div class="kt-form noteform solent-view-case__body">
     <!-- CASE INFO -->
 
-        <div class="row" style="padding-left: 10px;padding-top: 10px">
+        <div class="row solent-view-case__details-grid">
             <div class="col-md-3 col-xs-6 col-l-3 col-xl-3">
                 <div class="col-md-12 col-xs-12"><label>Doctor:</label></div>
                 <div class="col-md-12 col-xs-12">
@@ -130,11 +355,11 @@
 
                 </div> </div>
             <div class="col-md-3  col-xs-6 col-l-3  col-xl-3">
-                <div class="col-md-12 col-xs-12"><label >Patient name:</label></div>
+                <div class="col-md-12 col-xs-12"><label>{{ $ui['Patient name:'] ?? 'Patient name:' }}</label></div>
                 <div class="col-md-12 col-xs-12"><input class="form-control" type="text" name="patient_name" value="{{$case->patient_name}}" disabled /></div>
             </div>
             <div class="col-md-3  col-xs-6 col-l-3  col-xl-3">
-                <div class="col-md-6 col-xs-12"><label>Case ID:</label></div>
+                <div class="col-md-6 col-xs-12"><label>{{ $ui['Case ID:'] ?? 'Case ID:' }}</label></div>
                 <div class="col-md-12 col-xs-12">
 
                     <label >{{$case->case_id}}</label>
@@ -146,10 +371,10 @@
         </div>
 
 <br/>
-        <div class="row">
+        <div class="row solent-view-case__details-grid">
 
             <div class="col-md-4  col-xs-6 col-l-2  col-xl-3">
-                <div class="col-md-12 col-xs-12"><label>Delivery Date:</label></div>
+                <div class="col-md-12 col-xs-12"><label>{{ $ui['Delivery Date:'] ?? 'Delivery Date:' }}</label></div>
                 <div class="col-md-12 col-xs-12">
                     <input class="form-control SDTP" name="delivery_date"  type="text"   value="{{$case->initial_delivery_date}}" required disabled/>
                 </div>
@@ -282,13 +507,14 @@
         <div class="kt-portlet__head">
             <div class="kt-portlet__head-label">
                 <h5 class="kt-portlet__head-title">
-                    <i class="fa-solid fa-clock-rotate-left"  ></i> Case History
+                    <i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i>
+                    {{ $ui['Case History'] ?? 'Case History' }}
                 </h5>
             </div>
         </div>
         <hr>
         <!-- HISTORY -->
-        <div class="historyTable" style="padding:0 30px 0 30px ">
+        <div class="historyTable">
         <table class="sunriseTable table sunriseTable table-striped " >
             <thead>
             <tr>
@@ -319,11 +545,15 @@
             @endforeach
             <tr>
                 <td class="stageName">Delivery</td>
-                @php $log = $case->logs->where('stage',8)->first(); @endphp
-                @if($case->logs->where('stage',8)->where("is_completion",1)->first() !== null)
-                    <td>{{$case->logs->where('stage',$i)->where("is_completion",1)->first()->user->fullName()}}</td>
-                    <td>{{$case->logs->where('stage',8)->where("is_completion",0)->first() ? substr($case->logs->where('stage',8)->where("is_completion",0)->first()->created_at,0,16) :  substr($case->logs->where('stage',8)->where("is_completion",3)->first()->created_at,0,16)}}</td>
-                    <td>{{substr($case->logs->where('stage',8)->where("is_completion",1)->first()->created_at,0,16)}}</td>
+                @php
+                    $deliveryCompletionLog = $case->logs->where('stage', 8)->where('is_completion', 1)->first();
+                    $deliveryStartLog = $case->logs->where('stage', 8)->where('is_completion', 0)->first()
+                        ?: $case->logs->where('stage', 8)->where('is_completion', 3)->first();
+                @endphp
+                @if($deliveryCompletionLog !== null)
+                    <td>{{optional($deliveryCompletionLog->user)->fullName() ?: '-'}}</td>
+                    <td>{{$deliveryStartLog ? substr($deliveryStartLog->created_at, 0, 16) : '-'}}</td>
+                    <td>{{substr($deliveryCompletionLog->created_at, 0, 16)}}</td>
                 @else
                     <td>-</td><td>-</td><td>-</td>
                 @endif
@@ -334,7 +564,7 @@
         </table>
         </div>
 
-
+        <div class="solent-view-case__timeline-scroll" dir="ltr">
         <div class="Timeline">
 
             <svg height="5" width="10">
@@ -524,24 +754,6 @@
                         -
                         @endif
                     </div>
-                    <div class="eventTitle">
-                        @if ( $case->logs->where('stage',8)->where("is_completion",1)->first() !== null)
-                            {{ $case->logs->where('stage',8)->where("is_completion",1)->first()->user->name_initials }}
-                        @elseif ($case->logs->where('stage',8)->where("is_completion",3)->first() !== null)
-                            {{ $case->logs->where('stage',8)->where("is_completion",3)->first()->user->name_initials }}
-                        @else
-                            -
-                        @endif
-                    </div>
-                    <div class="eventTitle">
-                        @if ( $case->logs->where('stage',8)->where("is_completion",1)->first() !== null)
-                            {{ $case->logs->where('stage',8)->where("is_completion",1)->first()->user->name_initials }}
-                        @elseif ($case->logs->where('stage',8)->where("is_completion",3)->first() !== null)
-                            {{ $case->logs->where('stage',8)->where("is_completion",3)->first()->user->name_initials }}
-                        @else
-                            -
-                        @endif
-                    </div>
                 </div>
 
                 <svg height="20" width="20">
@@ -554,6 +766,7 @@
                 Sorry, your browser does not support inline SVG.
             </svg>
 
+        </div>
         </div>
 
 
@@ -571,28 +784,27 @@
         </div>
         <hr>
         <br>
-        <div class="form-group form-group">
+        <div class="form-group solent-view-case__additional">
             <label >Notes:</label>
 
             @foreach($case->notes as $note)
 
-                <div class="form-control" style="height:fit-content;width:80%;background-color: #dcecfd59;margin-bottom: 5px; color:black" disabled>
+                <div class="form-control solent-view-case__note" disabled>
 
                     <span class="noteHeader">{{'['. substr( $note->created_at,0,16) . '] [' . $note->writtenBy->name_initials . '] : ' }}</span><br> <span class="noteText">{{$note->note}}</span>
                 </div>
             @endforeach
 
-            <form></form>
             <form  style="" class="noteform " method="POST" enctype="multipart/form-data"   action="{{route('new-note')}}">
                 @csrf
-                <div class="row" style="padding:0px">
+                <div class="row solent-view-case__note-form-row">
                     <input type="hidden" name="case_id_for_note" value ="{{$case->id}}">
                     <div class="col-md-6 col-xs-6">
-                        <input class="form-control" type="text" name="newNote"  placeholder="Add a note"  />
+                        <input class="form-control" type="text" name="newNote" placeholder="{{ $ui['Add a note'] ?? 'Add a note' }}" />
                     </div>
 
                     <div class="col-md-3 col-xs-3" style="margin: 0px">
-                    <button type="submit" class="btn btn-primary">Add note</button>
+                    <button type="submit" class="btn btn-primary">{{ $ui['Add note'] ?? 'Add note' }}</button>
                     </div>
 
 
@@ -602,7 +814,8 @@
             <div class="kt-portlet__head">
                 <div class="kt-portlet__head-label">
                     <h5 class="kt-portlet__head-title">
-                        <i class="fa fa-sticky-note" style="width:2%"></i>  Attachments:
+                        <i class="fa fa-paperclip" aria-hidden="true"></i>
+                        {{ $ui['Attachments:'] ?? 'Attachments:' }}
                     </h5>
                 </div>
             </div>
@@ -629,15 +842,10 @@
             {{--<label for="images">Add Photos:</label>--}}
             {{--<input required type="file" id="images" class="form-control" name="images[]" placeholder="address" multiple disabled>--}}
         {{--</div>--}}
-        <br>
-        <div class="kt-portlet__foot">
-            <div class="kt-form__actions">
-                <button type="submit" class="btn btn-primary" disabled>Submit</button>
-                <button type="reset" class="btn btn-danger" disabled>Reset</button>
-            </div>
         </div>
-        </div></div>
-    </form>
+    </div>
+
+    </div>
 
 
 
@@ -651,5 +859,5 @@
         });
         window.casePrintData = @json($printLabelData);
     </script>
-    <script src="{{ asset('assets/js/case-printing.js') }}"></script>
+    @include('cases.partials.case-printing')
 @endpush

@@ -2,6 +2,7 @@
 
 namespace App\Support;
 
+use App\Support\Tenancy\TenantContext;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -24,6 +25,26 @@ class DemoMode
             [self::class, 'normalizeHost'],
             (array) config('domain_context.demo.hosts', [])
         ))));
+    }
+
+    public static function hasIsolatedDatabase(TenantContext $tenantContext): bool
+    {
+        $demoDatabase = trim((string) config('domain_context.demo.database', ''));
+        $resolvedDatabase = trim((string) $tenantContext->database);
+
+        if ($demoDatabase === ''
+            || $resolvedDatabase === ''
+            || strcasecmp($demoDatabase, $resolvedDatabase) !== 0) {
+            return false;
+        }
+
+        foreach (self::protectedDatabaseNames() as $protectedDatabase) {
+            if (strcasecmp($demoDatabase, $protectedDatabase) === 0) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public static function ensureDemoUser(): User
@@ -86,6 +107,28 @@ class DemoMode
             'has_photo' => 0,
             'email_verified_at' => now(),
         ];
+    }
+
+    private static function protectedDatabaseNames(): array
+    {
+        $databases = [
+            config('domain_context.default.database'),
+            config('database.connections.landlord.database'),
+            config('database.connections.mysql.database'),
+        ];
+
+        foreach ((array) config('domain_context.hosts', []) as $context) {
+            if (! is_array($context)
+                || strtoupper((string) ($context['country_code'] ?? '')) === 'DEMO') {
+                continue;
+            }
+
+            $databases[] = $context['database'] ?? null;
+        }
+
+        return array_values(array_unique(array_filter(array_map(function ($database): string {
+            return trim((string) $database);
+        }, $databases))));
     }
 
     private static function normalizeHost(?string $host): string

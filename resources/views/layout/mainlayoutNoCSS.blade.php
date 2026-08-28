@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}" dir="{{ trans('ui.direction') }}">
 <head>
+    @include('components.i18n-assets')
 
     @include('layout.partials.head')
     @yield("head")

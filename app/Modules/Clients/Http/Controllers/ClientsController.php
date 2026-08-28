@@ -212,7 +212,7 @@ class ClientsController extends Controller
                  if(!empty($item->date_applied)) {
                      $item->created_at = $item->date_applied;
                  }
-                 else if(!empty($item->case->actual_delivery_date))
+                 else if(isset($item->case) && !empty($item->case->actual_delivery_date))
                  {
                      $item->created_at = $item->case->actual_delivery_date;
                  }
@@ -226,8 +226,10 @@ class ClientsController extends Controller
         $amountPaidPreDate =  payment::where("doctor_id", $id)->where('created_at','<',$from . ' 00:00')->sum('amount');
 
         $openingBalance  =$amountDuePreDate - $amountPaidPreDate;
+        $currencyLabel = $this->currentCurrencyCode();
+        $printMode = $request->boolean('print');
 
-        return view("clients.statement",compact('amountPaidPreDate','amountDuePreDate','invoices','client','payments','transactions','to','from','openingBalance'));
+        return view("clients.statement",compact('amountPaidPreDate','amountDuePreDate','invoices','client','payments','transactions','to','from','openingBalance','currencyLabel','printMode'));
         }
 
     public function quickAccessDS(Request $request){
@@ -297,6 +299,35 @@ class ClientsController extends Controller
                 );
         }
         return back()->with('success', "Payment received successfully!");
+    }
+
+    protected function sendPaymentNotification(string $token, string $title, string $body): void
+    {
+        $serverKey = config('services.fcm.server_key') ?? config('services.firebase.server_key');
+
+        if ($token === '' || !$serverKey) {
+            return;
+        }
+
+        try {
+            (new GuzzleClient())->post('https://fcm.googleapis.com/fcm/send', [
+                'headers' => [
+                    'Authorization' => 'key=' . $serverKey,
+                    'Content-Type' => 'application/json',
+                ],
+                'json' => [
+                    'to' => $token,
+                    'notification' => [
+                        'title' => $title,
+                        'body' => $body,
+                    ],
+                    'data' => ['destination' => 'statement'],
+                ],
+                'timeout' => 5,
+            ]);
+        } catch (\Throwable $exception) {
+            report($exception);
+        }
     }
     public function paymentsIndex(Request $request){
         if ($request->from && $request->to) {

@@ -454,19 +454,31 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="{{ asset('assets/css/solent-case-workflows.css') }}?v={{ filemtime(public_path('assets/css/solent-case-workflows.css')) }}" />
     @php
         $permissions = Cache::get('user'.Auth()->user()->id);
     @endphp
 
+    <header class="case-workflow-hero case-workflow-hero--edit">
+        <div>
+            <span class="case-workflow-hero__eyebrow">{{ app()->getLocale() === 'ar' ? 'مسار الحالة' : 'Case workflow' }}</span>
+            <h1>{{ app()->getLocale() === 'ar' ? 'تعديل الحالة' : 'Edit case' }}</h1>
+            <p>{{ app()->getLocale() === 'ar' ? 'حدّث بيانات الحالة وخطة العمل والمرفقات من مساحة واحدة.' : 'Update the case details, production plan, notes, and attachments in one workspace.' }}</p>
+        </div>
+        <div class="case-workflow-hero__reference">
+            <span>{{ app()->getLocale() === 'ar' ? 'رقم الحالة' : 'Case reference' }}</span>
+            <strong>{{ $case->case_id }}</strong>
+        </div>
+    </header>
 
-    <form style="padding:10px" class="kt-form card" method="POST" enctype="multipart/form-data" action="{{route('edit-case')}}">
+    <form class="kt-form card case-workflow-form case-workflow-form--edit" method="POST" enctype="multipart/form-data" action="{{route('edit-case')}}">
     @csrf
 
 
         <input name="id" type="hidden" value="{{$case->id}}" />
     <!-- CASE INFO -->
 
-        <div class="row case-summary-row">
+        <div class="row case-summary-row case-workflow-summary">
             <div class="col-md-3 col-xs-6 col-l-3 col-xl-3">
                 <div class="col-md-12 col-xs-12"><label>Doctor:</label></div>
                 <div class="col-md-12 col-xs-12">
@@ -502,7 +514,7 @@
         </div>
 
             <br/>
-        <div class="row case-summary-row">
+        <div class="row case-summary-row case-workflow-summary">
 
             <div class="col-md-4  col-xs-6 col-l-2  col-xl-3">
                 <div class="col-md-12 col-xs-12"><label>Delivery Date:</label></div>
@@ -569,10 +581,10 @@
                                 @php
                                     $unit = explode(', ',$job->unit_num);
                                 @endphp
-                            <div data-repeater-item class="form-group row align-items-center row-item" style="border: 1px solid #ccc;border-radius: 16px;padding:5px">
+                            <div data-repeater-item class="form-group row align-items-center row-item case-edit-job-block case-edit-job-block--existing">
                                 <input type="hidden" name="job_id"  value="{{$job->id}}" />
 
-                                <div class="col-md-2"> <div class="">
+                                <div class="col-md-2 case-edit-job-field case-edit-job-field--units"> <div class="">
                                         <div class="kt-form__label">
                                             <label class="kt-label m-label--single"></label>
                                         </div>
@@ -586,7 +598,7 @@
                                     </div>
 
                                 </div>
-                                <div class="col-md-2"><div class="kt-form__group--inline">
+                                <div class="col-md-2 case-edit-job-field"><div class="kt-form__group--inline">
                                         <div class="kt-form__label">
                                             <label class="kt-label m-label--single">Job type:</label>
                                         </div>
@@ -605,7 +617,7 @@
 
                                     </div>
                                 </div>
-                                <div class="col-md-2"><div class="kt-form__group--inline">
+                                <div class="col-md-2 case-edit-job-field"><div class="kt-form__group--inline">
                                         <div class="kt-form__label">
                                             <label>Material:</label>
                                         </div>
@@ -625,7 +637,7 @@
 
                                     </div>
                                 </div>
-                                <div class="col-md-2"><div class="kt-form__group--inline">
+                                <div class="col-md-2 case-edit-job-field case-edit-job-field--shade"><div class="kt-form__group--inline">
                                         <div class="kt-form__label">
                                             <label>Color:</label>
                                         </div>
@@ -660,19 +672,17 @@
 
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-2 case-edit-job-field case-edit-job-field--style">
                                     <div class="kt-form__group--inline" style="display:{{$job->style == 'None' ? 'None' : 'Block'}}">
                                         <div class="kt-form__label">
                                             <label>Style:</label>
                                         </div>
-                                        <div class="kt-radio-inline">
-                                            <label class="kt-radio">
+                                        <div class="kt-radio-inline case-edit-style-options">
+                                            <label class="kt-radio case-edit-style-option">
                                                 <input {{$job->jobType->id == 6 ? 'disabled' : ''}} type="radio" class="bridge" name="style{{$job->id}}" value="Bridge" {{$job->style == "Bridge" ? 'checked' : '' }} /> Bridge
                                                 <span></span>
                                             </label>
-                                            <label class="kt-radio">
+                                            <label class="kt-radio case-edit-style-option">
                                                 <input {{$job->jobType->id == 6 ? 'disabled' : ''}} type="radio" class="single" {{$job->style == "Single" ? 'checked' : '' }} name="style{{$job->id}}"  value="Single" /> Single
                                                 <span></span>
                                             </label>
@@ -680,35 +690,13 @@
                                                 <input type="hidden"   name="style{{$job->id}}" value="{{$job->style}}">
                                             @endif
                                         </div>
-
-
                                     </div>
-
                                 </div>
-
-                                 <div class="col-md-6" style="margin: auto;">
-                                            <div class="kt-form__group--inline">
-                                                <div class="kt-form__label">
-                                                    <label></label>
-                                                </div>
-                                                <div class="kt-form__control">
-                                                    <b style="color:#2b7b7d">{{$job->status()}}</b>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2" style="padding:0;margin: auto;">
-                                            <div class="kt-form__group--inline">
-                                                <div class="kt-form__label">
-                                                    <label></label>
-                                                </div>
-                                                <div class="kt-form__control">
-                                                    <button data-repeater-delete  class="btn btn-danger  btn-sm" type="button" value="Delete" style="height:100%"> <i class="fa fa-trash"></i></span> </button>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                </div>
-
+                                <div class="col-md-2 case-edit-job-actions">
+                                    <b class="case-edit-job-status">{{$job->status()}}</b>
+                                    <button data-repeater-delete class="btn btn-danger btn-sm case-edit-delete-job" type="button" value="Delete" aria-label="Delete job">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </button>
                                 </div>
 
                                 @if(isset($job->abutmentDelivery))
@@ -749,11 +737,10 @@
                 <div data-repeater-item class="jobRow" >
                     <div class="form-group form-group ">
                         <div data-repeater-list="repeat2" class="col-12 padding5px">
-                            <div data-repeater-item class="form-group row align-items-center row-item"
-                                 style="border: 1px solid #ccc;border-radius: 16px;padding:5px">
+                            <div data-repeater-item class="form-group row align-items-center row-item case-edit-job-block case-edit-job-block--new">
 
 
-                                <div class="col-md-2">
+                                <div class="col-md-2 case-edit-job-field case-edit-job-field--units">
                                     <div class="kt-form__label">
                                         <label class="kt-label m-label--single bold">Units:</label>
                                     </div>
@@ -765,7 +752,7 @@
                                             onclick="preOpenDialog2(this)">Select Units</button>
 
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-2 case-edit-job-field">
                                     <div class="kt-form__group--inline">
                                         <div class="kt-form__label">
                                             <label class="kt-label m-label--single">Job type:</label>
@@ -781,7 +768,7 @@
 
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-2 case-edit-job-field">
                                     <div class="kt-form__group--inline">
                                         <div class="kt-form__label">
                                             <label>Material:</label>
@@ -800,7 +787,7 @@
 
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-2 case-edit-job-field case-edit-job-field--shade">
                                     <div class="kt-form__group--inline">
                                         <div class="kt-form__label">
                                             <label>Color:</label>
@@ -833,18 +820,18 @@
 
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-2 case-edit-job-field case-edit-job-field--style">
                                     <div class="kt-form__group--inline">
                                         <div class="kt-form__label">
                                             <label>Style:</label>
                                         </div>
-                                        <div class="kt-radio-inline">
-                                            <label class="kt-radio">
+                                        <div class="kt-radio-inline case-edit-style-options">
+                                            <label class="kt-radio case-edit-style-option">
                                                 <input type="radio" class="single" checked="checked"
                                                        name="style" value="Single"> Single
                                                 <span></span>
                                             </label>
-                                            <label class="kt-radio">
+                                            <label class="kt-radio case-edit-style-option">
                                                 <input type="radio" class="bridge" name="style"
                                                        value="Bridge"> Bridge
                                                 <span></span>
@@ -856,11 +843,11 @@
 
 
                                 <!-- DELETE BUTTON -->
-                                <div class="col-md-2">
+                                <div class="col-md-2 case-edit-job-actions">
                                     <div class="kt-form__group--inline">
 
                                         <div class="kt-form__control">
-                                            <button data-repeater-delete class="btn deleteBtn btn-sm"
+                                            <button data-repeater-delete class="btn deleteBtn btn-sm case-edit-delete-job"
                                                     type="button" value="Delete" style=""><i
                                                         class="fa fa-trash " style=""></i></span>
                                             </button>
@@ -981,128 +968,90 @@
             @endif
 
         <!-- NOTES SECTION -->
-            <br>
-            <div class="kt-portlet__head">
-                <div class="kt-portlet__head-label">
-                    <h5 class="kt-portlet__head-title">
-                        <i class="fa fa-sticky-note" style="height:3%;color:inherit"></i> Additional
-                        information
-                    </h5>
-                </div>
-            </div>
-            <hr>
-
-            <div class="form-group form-group">
-                <label >Notes:</label>
-
-                @foreach($case->notes as $note)
-
-                    <div class="form-control" style="height:fit-content;width:80%;background-color: #dcecfd59;margin-bottom: 5px; color:black" disabled>
-
-                        <span class="noteHeader">{{'['. substr( $note->created_at,0,16) . '] [' . $note->writtenBy->name_initials . '] : ' }}</span><br> <span class="noteText">{{$note->note}}</span>
+            <section class="case-workflow-section case-workflow-section--notes">
+                <header class="case-workflow-section__header">
+                    <span class="case-workflow-section__icon"><i class="fa fa-sticky-note" aria-hidden="true"></i></span>
+                    <div>
+                        <h2>Additional information</h2>
+                        <p>Keep production notes clear and easy to review.</p>
                     </div>
-                @endforeach
-
-                <form  style="" class="noteform " method="POST" enctype="multipart/form-data"   action="{{route('new-note')}}">
-                    @csrf
-                    <div class="row" style="padding:0px">
-                        <input type="hidden" name="case_id_for_note" value ="{{$case->id}}">
-                        <div class="col-md-6 col-xs-6">
-                            <input class="form-control" type="text" name="newNote"  placeholder="Add a note"  />
-                        </div>
-
-                        <div class="col-md-3 col-xs-3" style="margin: 0px">
-                            <button type="submit" class="btn btn-primary">Add note</button>
-                        </div>
-
-
+                </header>
+                <div class="case-workflow-section__body">
+                    <label for="edit-case-new-note">Notes</label>
+                    <div class="case-note-history">
+                        @forelse($case->notes as $note)
+                            <article class="case-note-entry">
+                                <span class="noteHeader">{{ '['. substr($note->created_at, 0, 16) . '] [' . $note->writtenBy->name_initials . ']' }}</span>
+                                <span class="noteText">{{ $note->note }}</span>
+                            </article>
+                        @empty
+                            <p class="case-workflow-empty">No notes have been added.</p>
+                        @endforelse
                     </div>
-                </form>
-                <br><br>
-                <div class="kt-portlet__head">
-                    <div class="kt-portlet__head-label">
-                        <h5 class="kt-portlet__head-title">
-                            <i class="fa fa-photo" style="height:3%;color:inherit"></i> Attachments
-                        </h5>
+                    <div class="case-note-composer">
+                        <input type="hidden" name="case_id_for_note" value="{{ $case->id }}" form="edit-case-note-form">
+                        <input id="edit-case-new-note" class="form-control" type="text" name="newNote" placeholder="Add a note" form="edit-case-note-form">
+                        <button type="submit" class="btn btn-primary" form="edit-case-note-form">Add note</button>
                     </div>
                 </div>
-                <hr>
-                <!-- Photos SECTION -->
-                <div class="container" style="margin-top:10px;">
-                    <h6>Existing Attachments:</h6>
+            </section>
+
+            <section class="case-workflow-section case-workflow-section--attachments">
+                <header class="case-workflow-section__header">
+                    <span class="case-workflow-section__icon"><i class="fa fa-photo" aria-hidden="true"></i></span>
+                    <div>
+                        <h2>Attachments</h2>
+                        <p>Review existing files or add new case material.</p>
+                    </div>
+                </header>
+                <div class="case-workflow-section__body">
+                    <h3 class="case-workflow-subtitle">Existing attachments</h3>
                     <div class="attachments-grid">
-                        <div class="row">
-                            @foreach($case->photos as $photo)
-                                @php
-                                    $extension = pathinfo($photo->path, PATHINFO_EXTENSION);
-                                    $filename = basename($photo->path);
-                                    $shortFilename = strlen($filename) > 10 ? substr($filename, 0, 10) . '...' : $filename;
-                                    $isImage = in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp']);
-                                @endphp
-                                <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3" style="margin-bottom: 15px;">
-                                    <div class="attachment-item" style="border: 1px solid #ddd; padding: 10px; text-align: center; background: #f8f9fa; position: relative;">
-                                        @if($isImage)
-                                            <div style="position: relative;">
-                                                <img src="{{asset($photo->path)}}" style="max-height: 100px; width: 100%; object-fit: cover; border-radius: 4px;">
-                                                <div style="position: absolute; top: 5px; right: 5px;">
-                                                    <a href="{{asset($photo->path)}}" target="_blank" class="btn btn-sm btn-success" style="padding: 2px 6px; margin-right: 2px;">
-                                                        <i class="fa fa-download"></i>
-                                                    </a>
-                                                    <button type="button" class="btn btn-danger btn-sm delete-attachment" data-photo-id="{{$photo->id}}" style="padding: 2px 6px;">
-                                                        <i class="fa fa-times"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        @else
-                                            <i class="fa fa-file" style="font-size: 40px; color: #6c757d;"></i>
-                                            <div style="position: absolute; top: 5px; right: 5px;">
-                                                <a href="{{asset($photo->path)}}" target="_blank" class="btn btn-sm btn-success" style="padding: 2px 6px; margin-right: 2px;">
-                                                    <i class="fa fa-download"></i>
-                                                </a>
-                                                <button type="button" class="btn btn-danger btn-sm delete-attachment" data-photo-id="{{$photo->id}}" style="padding: 2px 6px;">
-                                                    <i class="fa fa-times"></i>
-                                                </button>
-                                            </div>
-                                        @endif
-                                        <div style="margin-top: 5px; font-size: 12px;" title="{{$filename}}">
-                                            {{$shortFilename}}
-                                        </div>
+                        @forelse($case->photos as $photo)
+                            @php
+                                $extension = pathinfo($photo->path, PATHINFO_EXTENSION);
+                                $filename = basename($photo->path);
+                                $shortFilename = strlen($filename) > 18 ? substr($filename, 0, 18) . '...' : $filename;
+                                $isImage = in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp']);
+                            @endphp
+                            <article class="attachment-item">
+                                <div class="case-attachment-preview">
+                                    @if($isImage)
+                                        <img src="{{ asset($photo->path) }}" alt="{{ $filename }}">
+                                    @else
+                                        <i class="fa fa-file" aria-hidden="true"></i>
+                                    @endif
+                                    <div class="case-attachment-actions">
+                                        <a href="{{ asset($photo->path) }}" target="_blank" class="btn btn-sm btn-success" aria-label="Download {{ $filename }}">
+                                            <i class="fa fa-download" aria-hidden="true"></i>
+                                        </a>
+                                        <button type="button" class="btn btn-danger btn-sm delete-attachment" data-photo-id="{{ $photo->id }}" aria-label="Delete {{ $filename }}">
+                                            <i class="fa fa-times" aria-hidden="true"></i>
+                                        </button>
                                     </div>
                                 </div>
-                            @endforeach
+                                <span class="case-attachment-name" title="{{ $filename }}">{{ $shortFilename }}</span>
+                            </article>
+                        @empty
+                            <p class="case-workflow-empty">No attachments uploaded.</p>
+                        @endforelse
+                    </div>
+
+                    <div class="case-upload-field">
+                        <label class="case-upload-label" for="images">
+                            <i class="fa-solid fa-circle-plus" aria-hidden="true"></i>
+                            <span>Add files</span>
+                        </label>
+                        <input type="file" id="images" class="form-control" name="images[]" multiple>
+                        <small class="form-text text-muted">Upload any file type. Maximum size: 50MB per file.</small>
+
+                        <div id="file-preview-container" class="mt-3" style="display: none;">
+                            <h3 class="case-workflow-subtitle">Selected files</h3>
+                            <div id="file-preview-list" class="row"></div>
                         </div>
                     </div>
                 </div>
-
-                <br>
-                {{--<div class="form-group form-group-last">--}}
-                {{--<label for="images">Add Photos:</label>--}}
-                {{--<input required type="file" id="images" class="form-control" name="images[]" placeholder="address" multiple disabled>--}}
-                {{--</div>--}}
-{{--                <br>--}}
-{{--                <div class="kt-portlet__foot">--}}
-{{--                    <div class="kt-form__actions">--}}
-{{--                        <button type="submit" class="btn btn-primary" disabled>Submit</button>--}}
-{{--                        <button type="reset" class="btn btn-danger" disabled>Reset</button>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-            </div>
-
-            <!-- Attachments SECTION -->
-
-            <div class="form-group form-group-last">
-                <label for="images" style="cursor: pointer;padding: 10px 18px 10px 18px;"><h4><i class="fa-solid fa-circle-plus"></i>
-                    </h4></label>
-                <input type="file" id="images" class="form-control" name="images[]" placeholder="Upload any file type (max 50MB each)"
-                       multiple style="cursor: pointer;">
-                <small class="form-text text-muted">Upload any file type. Maximum size: 50MB per file.</small>
-
-                <!-- File Upload Preview Container -->
-                <div id="file-preview-container" class="mt-3" style="display: none;">
-                    <h6>Selected Files:</h6>
-                    <div id="file-preview-list" class="row"></div>
-                </div>
-            </div>
+            </section>
 
             <br>
             @if (config('site_vars.environment') == 'testing')
@@ -1133,6 +1082,11 @@
                 </div>
             </div>
         </div>
+    </form>
+
+    <form id="edit-case-note-form" method="POST" enctype="multipart/form-data" action="{{ route('new-note') }}">
+        @csrf
+    </form>
 
     <!-- Existing TEETH PICK DIALOG -->
     <div data-repeater-item class="modal fade" id="unitsDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" style="display: none;" aria-hidden="true" name="dialog">

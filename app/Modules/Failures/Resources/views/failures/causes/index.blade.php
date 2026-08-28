@@ -6,8 +6,7 @@
             <div class=" m-b-30">
                 <div class="">
                     <div class="row">
-                        <div class="col-md-6">      </div>
-                        <div class="col-md-6" style="text-align: right">  <a href="{{route('new-f-cause-view')}}" ><button type="button"  class="btn btn-secondary"><i class="fa fa-plus-circle"></i> NEW CAUSE</button></a>   </div>
+                        <div class="col-12 solent-config-create-row">  <a href="{{route('new-f-cause-view')}}" ><button type="button"  class="btn btn-secondary"><i class="fa fa-plus-circle"></i> NEW CAUSE</button></a>   </div>
                     </div>
 
                     <p class="text-muted"></p>

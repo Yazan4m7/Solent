@@ -64,8 +64,16 @@ class TenantProvisioningService
             }
             $this->record($tenant, 'migrations', 'success', 'Tenant schema is ready.');
 
+            $this->randomizeSeededJobTypeSelection();
+            $this->record($tenant, 'job_types', 'success', 'Seeded job types have a teeth-majority teeth/jaw mix.');
+
             $this->createAdminUser($payload);
             $this->record($tenant, 'admin_user', 'success', 'First tenant admin is ready.');
+
+            if ($payload['client_username'] !== '') {
+                $this->createClientUser($payload);
+                $this->record($tenant, 'client_user', 'success', 'First client portal account is ready.');
+            }
 
             $this->createBranding($tenant, $payload);
             $this->record($tenant, 'branding', 'success', 'Tenant branding is ready.');
@@ -130,6 +138,22 @@ class TenantProvisioningService
             throw new InvalidArgumentException('Admin password must be at least 8 characters.');
         }
 
+        $adminUsername = trim((string) ($input['admin_username'] ?? ''));
+        if ($adminUsername === '') {
+            $adminUsername = $adminEmail;
+        }
+
+        $clientUsername = trim((string) ($input['client_username'] ?? ''));
+        $clientPassword = (string) ($input['client_password'] ?? '');
+        if ($clientUsername !== '' && strlen($clientPassword) < 8) {
+            throw new InvalidArgumentException('Client password must be at least 8 characters.');
+        }
+
+        $clientEmail = strtolower(trim((string) ($input['client_email'] ?? '')));
+        if ($clientEmail !== '' && !filter_var($clientEmail, FILTER_VALIDATE_EMAIL)) {
+            throw new InvalidArgumentException('Client email must be valid when provided.');
+        }
+
         $name = trim((string) ($input['name'] ?? $slug));
 
         return [
@@ -140,8 +164,13 @@ class TenantProvisioningService
             'currency_code' => strtoupper((string) ($input['currency_code'] ?? 'JOD')),
             'branding_key' => Str::slug((string) ($input['branding_key'] ?? $slug)),
             'admin_name' => trim((string) ($input['admin_name'] ?? 'Tenant Admin')),
+            'admin_username' => $adminUsername,
             'admin_email' => $adminEmail,
             'admin_password' => $adminPassword,
+            'client_name' => trim((string) ($input['client_name'] ?? 'Client')) ?: 'Client',
+            'client_username' => $clientUsername,
+            'client_email' => $clientEmail,
+            'client_password' => $clientPassword,
         ];
     }
 
@@ -282,6 +311,40 @@ class TenantProvisioningService
         ]))));
     }
 
+    private function randomizeSeededJobTypeSelection(): void
+    {
+        $connection = (string) config('tenancy.tenant_connection', 'tenant');
+        if (
+            !Schema::connection($connection)->hasTable('job_types') ||
+            !Schema::connection($connection)->hasColumn('job_types', 'teeth_or_jaw')
+        ) {
+            return;
+        }
+
+        $query = DB::connection($connection)->table('job_types')->orderBy('id');
+        if (Schema::connection($connection)->hasColumn('job_types', 'deleted_at')) {
+            $query->whereNull('deleted_at');
+        }
+
+        $ids = $query->pluck('id')->all();
+        $total = count($ids);
+        if ($total === 0) {
+            return;
+        }
+
+        shuffle($ids);
+
+        $jawCount = $total >= 3
+            ? max(1, min((int) floor($total * 0.3), (int) floor(($total - 1) / 2)))
+            : 0;
+        $jawIds = array_slice($ids, 0, $jawCount);
+
+        DB::connection($connection)->table('job_types')->whereIn('id', $ids)->update(['teeth_or_jaw' => 0]);
+        if (count($jawIds) > 0) {
+            DB::connection($connection)->table('job_types')->whereIn('id', $jawIds)->update(['teeth_or_jaw' => 1]);
+        }
+    }
+
     private function createAdminUser(array $payload): void
     {
         $connection = (string) config('tenancy.tenant_connection', 'tenant');
@@ -296,14 +359,15 @@ class TenantProvisioningService
 
         $candidate = [
             'name' => $payload['admin_name'],
-            'email' => null,
-            'username' => $payload['admin_email'],
+            'email' => $payload['admin_email'],
+            'username' => $payload['admin_username'],
             'password' => Hash::make($payload['admin_password']),
             'first_name' => $firstName,
             'last_name' => $lastName,
             'name_initials' => strtoupper(substr($firstName, 0, 1) . substr($lastName, 0, 1)),
             'phone' => null,
             'active' => 1,
+            'status' => 1,
             'is_admin' => 1,
             'created_at' => now(),
             'updated_at' => now(),
@@ -323,6 +387,41 @@ class TenantProvisioningService
         }
 
         DB::connection($connection)->table('users')->insert($payload);
+    }
+
+    private function createClientUser(array $payload): void
+    {
+        $connection = (string) config('tenancy.tenant_connection', 'tenant');
+        if (!Schema::connection($connection)->hasTable('clients')) {
+            throw new InvalidArgumentException('Tenant clients table does not exist after migration.');
+        }
+
+        $columns = Schema::connection($connection)->getColumnListing('clients');
+        $candidate = [
+            'name' => $payload['client_name'],
+            'phone' => '',
+            'address' => '',
+            'active' => 1,
+            'username' => $payload['client_username'],
+            'email' => $payload['client_email'] !== '' ? $payload['client_email'] : null,
+            'password' => Hash::make($payload['client_password']),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ];
+        $client = array_intersect_key($candidate, array_flip($columns));
+
+        $existing = DB::connection($connection)
+            ->table('clients')
+            ->where('username', $payload['client_username'])
+            ->first();
+
+        if ($existing) {
+            DB::connection($connection)->table('clients')->where('id', $existing->id)->update($client);
+
+            return;
+        }
+
+        DB::connection($connection)->table('clients')->insert($client);
     }
 
     private function createBranding(Tenant $tenant, array $payload): void
@@ -360,7 +459,7 @@ class TenantProvisioningService
     private function inferFailedStep(Tenant $tenant): string
     {
         $lastSuccess = $tenant->provisioningEvents()->where('status', 'success')->latest()->first();
-        $order = ['registry', 'database', 'schema', 'migrations', 'admin_user', 'branding', 'activation'];
+        $order = ['registry', 'database', 'schema', 'migrations', 'admin_user', 'client_user', 'branding', 'activation'];
         $lastStep = $lastSuccess ? $lastSuccess->step : null;
         $index = array_search($lastStep, $order, true);
 

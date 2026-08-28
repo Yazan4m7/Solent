@@ -34,6 +34,8 @@ use App\User;
 use App\lab;
 use App\editLog;
 use App\Http\Traits\helperTrait;
+use App\Modules\Cases\Exceptions\EmployeeProductionBoardException;
+use App\Modules\Cases\Services\EmployeeProductionBoardActionService;
 use App\Support\Tenancy\TenantDataCache;
 use App\Support\Tenancy\TenantStorage;
 use Illuminate\Support\Facades\Auth;
@@ -141,6 +143,10 @@ class CaseController extends Controller
     public function view($id, $stage = -2)
     {
         $case = sCase::findOrFail($id);
+        $jobs = ($stage == -2 || $stage > 5)
+            ? $case->jobs
+            : $case->jobs->where('stage', $stage);
+        $jobs = $jobs->values();
         $materials = material::all();
         $clients = client::where('active', '!=', 0)->get();
         $types = JobType::all();
@@ -151,7 +157,7 @@ class CaseController extends Controller
         $tags = tag::where('hidden', 0)->get();
         $tagsAsArray = $case->tags->pluck('tag_id')->toArray();
         return view('cases.viewOnly', compact('case', 'clients',
-            'implants', 'abutments', 'materials', 'types', 'impressionTypes', 'tags', 'tagsAsArray', 'jobTypeMaterials', 'stage'));
+            'implants', 'abutments', 'materials', 'types', 'impressionTypes', 'tags', 'tagsAsArray', 'jobTypeMaterials', 'stage', 'jobs'));
     }
 
     // returns the view to create the case
@@ -166,22 +172,17 @@ class CaseController extends Controller
         $implants = implant::all();
         $abutments = abutment::all();
 
-        $year = now()->year;
-        $month = now()->month;
-
-        if (!\Illuminate\Support\Facades\Schema::hasTable('monthly_case_counters')) {
-            DB::statement('CREATE TABLE monthly_case_counters (id INT AUTO_INCREMENT PRIMARY KEY, year INT NOT NULL, month INT NOT NULL, counter INT NOT NULL, created_at TIMESTAMP NULL, updated_at TIMESTAMP NULL)');
-        }
-
-        $counter = DB::table('monthly_case_counters')
-            ->where('year', $year)
-            ->where('month', $month)
+        $latestCase = sCase::whereYear('created_at', '=', now()->year)
+            ->whereMonth('created_at', '=', now()->month)
+            ->orderBy('id', 'desc')
             ->first();
 
-        if ($counter) {
-            $counterValue = $counter->counter + 1;
-        } else {
-            $counterValue = 1;
+        $counterValue = 1;
+        if ($latestCase) {
+            $parts = explode('-', $latestCase->case_id);
+            if (count($parts) === 3) {
+                $counterValue = (int) $parts[2] + 1;
+            }
         }
 
         $tempCaseId = now()->format('M-d') . '-' . $counterValue;
@@ -199,6 +200,14 @@ class CaseController extends Controller
     // takes inputs and creates a new case
     public function returnCreate(Request $request)
     {
+        $jobs = collect($request->input('repeat', []));
+
+        if ($jobs->filter(fn ($job) => is_array($job) && filled($job['units'] ?? null))->isEmpty()) {
+            return back()
+                ->withInput()
+                ->with('error', 'Add at least one job and select its units before creating the case.');
+        }
+
         DB::beginTransaction();
 
         /*
@@ -275,7 +284,7 @@ class CaseController extends Controller
 
                 } catch (\Exception $e) {
                     $request->flash();
-                    return back()->with('error', "Something went Wrong :( ");
+                    return back()->with('error', "Demo version does not allow this operation ");
 
                 }
                 if (isset($newJob))
@@ -310,7 +319,7 @@ class CaseController extends Controller
 
         if (isset($request->discountCB)) {
             $discount = new discount();
-            $discount->discount = $request->discount_amount;
+            $discount->discount = $request->filled('discount_amount') ? $request->discount_amount : 0;
             $discount->case_id = $case->id;
             $discount->reason = $request->discount_reason;
             $discount->save();
@@ -490,7 +499,7 @@ class CaseController extends Controller
 
             if (isset($request->discountCB)) {
                 $discount = discount::where('case_id', $case->id)->first() ?? new discount();
-                $discount->discount = $request->discount_amount;
+                $discount->discount = $request->filled('discount_amount') ? $request->discount_amount : 0;
                 $discount->case_id = $case->id;
                 $discount->reason = $request->discount_reason;
                 $discount->save();
@@ -539,7 +548,7 @@ class CaseController extends Controller
             }
             return back()->with('success', 'Case has been updated successfully ');
         } else {
-            return back()->with('error', 'Something went wrong');
+            return back()->with('error', ' Demo version does not allow this operation');
         }
     }
 
@@ -586,6 +595,44 @@ class CaseController extends Controller
         $case = sCase::findOrFail($request->case_id_for_note);
         $this->createTag($case, 5);
         return back()->with('success', 'Note added successfully ');
+    }
+
+    public function addProductionControlNote(
+        Request $request,
+        EmployeeProductionBoardActionService $actions,
+        $caseId,
+        $stage
+    ) {
+        $caseId = (int) $caseId;
+        $stage = (int) $stage;
+        $returnToCase = route('admin-dashboard-v2', ['stage' => $stage, 'case' => $caseId]);
+        $validator = validator($request->all(), [
+            'note' => ['required', 'string', 'max:255'],
+            'idempotency_key' => ['required', 'uuid'],
+        ]);
+
+        if ($validator->fails()) {
+            return redirect($returnToCase)
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        try {
+            $result = $actions->addNote(
+                Auth::user(),
+                $caseId,
+                $stage,
+                trim((string) $request->input('note')),
+                trim((string) $request->input('idempotency_key'))
+            );
+        } catch (EmployeeProductionBoardException $exception) {
+            return redirect($returnToCase)
+                ->withInput()
+                ->with('error', $exception->getMessage());
+        }
+
+        return redirect($returnToCase)
+            ->with('success', $result['message'] ?? "Note added to case #{$caseId}.");
     }
 
     public function moveJobsToNextStage(Request $request)
@@ -935,7 +982,11 @@ class CaseController extends Controller
         $executionTime = microtime(true) - $startTime;
         \Log::info("Dashboard loaded in {$executionTime} seconds");
 
-        return view('cases.admin-dashboardv2', compact(
+        $dashboardView = request()->query('view') === 'classic'
+            ? 'cases.admin-dashboardv2'
+            : 'cases.production-control-v2';
+
+        return view($dashboardView, compact(
             'labs', 'wDesign', 'aDesign',
             'wMilling', 'aMilling', 'wPrinting', 'aPrinting',
             'wSintering', 'aSintering', 'wPressing', 'aPressing', 'wMetalWork', 'aMetalWork',
@@ -1402,6 +1453,25 @@ class CaseController extends Controller
         if ($allJobsCompleted) {
             $client = $case[0]->client;
             $invoice = $case[0]->invoice;
+
+            // Legacy and seeded cases can reach Delivery without an invoice.
+            // Reuse the normal invoice calculation before applying the balance.
+            if (!$invoice) {
+                $this->issueInvoice($job);
+                $invoice = $case[0]->fresh()->invoice;
+            }
+
+            if (!$invoice) {
+                Log::warning('[applyInvoice] Unable to create invoice for completed case', [
+                    'case_id' => $case[0]->id,
+                    'job_id' => $job->id,
+                ]);
+                return;
+            }
+
+            // A repeated completion request must not add the same invoice twice.
+            if ((int) $invoice->status === 1) return;
+
             $client->balance = $client->balance + ($invoice->amount ?? 0);
             $invoice->status = 1;
             $invoice->date_applied = now();
@@ -1564,8 +1634,39 @@ class CaseController extends Controller
 
     public function viewSingleScreen()
     {
-        $cases = sCase::whereNull('actual_delivery_date')->get();
-        return view('generic.screen', compact('cases'));
+        $monitorStages = [1, 2, 4, 5, 6, 8];
+
+        $cases = sCase::query()
+            ->whereNull('actual_delivery_date')
+            ->whereHas('jobs', function ($query) use ($monitorStages) {
+                $query->whereIn('stage', $monitorStages);
+            })
+            ->with([
+                'client:id,name',
+                'jobs' => function ($query) {
+                    $query->select([
+                        'id', 'case_id', 'stage', 'assignee', 'delivery_accepted',
+                        'type', 'material_id', 'unit_num',
+                    ]);
+                },
+                'jobs.material:id,count_as_unit',
+                'jobs.jobType:id,a_secondary_item',
+                'jobs.assignedTo:id,name_initials',
+                'jobs.deliveryDriver:id,name_initials',
+            ])
+            ->get();
+
+        $casesByStage = [];
+        foreach ($monitorStages as $stage) {
+            $casesByStage[$stage] = $cases
+                ->filter(function (sCase $case) use ($stage) {
+                    return $case->jobs->contains('stage', $stage)
+                        && ($stage !== 6 || $case->shouldShowForFinishing());
+                })
+                ->values();
+        }
+
+        return view('generic.screen', compact('casesByStage'));
     }
 
     public function deleteCase($id)
@@ -1619,7 +1720,20 @@ class CaseController extends Controller
     public function viewInvoice($caseId)
     {
         $case = sCase::with(['jobs.jobType', 'jobs.material', 'invoice', 'client'])
-            ->findOrFail($caseId);
+            ->find($caseId);
+
+        if (!$case) {
+            return redirect()
+                ->route('invoices-index')
+                ->with('error', 'The requested case could not be found.');
+        }
+
+        if (!$case->invoice) {
+            return redirect()
+                ->route('view-case', ['id' => $case->id, 'stage' => -2])
+                ->with('error', 'An invoice has not been created for this case yet.');
+        }
+
         return view('generic.invoice-view', compact('case'));
     }
 
@@ -1667,12 +1781,18 @@ class CaseController extends Controller
 
     public function globalSearch(Request $request)
     {
-        $cases = sCase::query();
+        $searchText = trim((string) $request->input('searchText', ''));
+        $isSearchResults = true;
 
-        $searchText = $request->searchText;
+        if ($searchText === '') {
+            $cases = collect();
+
+            return view('cases.index', compact('cases', 'isSearchResults'));
+        }
 
         // split on 1+ whitespace & ignore empty (eg. trailing space)
         $searchValues = preg_split('/\s+/', $searchText, -1, PREG_SPLIT_NO_EMPTY);
+        $cases = sCase::query();
         $cases = $cases->where(function ($q) use ($searchValues) {
             foreach ($searchValues as $value) {
                 $q->orWhere('patient_name', 'like', "%{$value}%");
@@ -1681,8 +1801,6 @@ class CaseController extends Controller
 
         $cases = $cases->orderByRaw('-`actual_delivery_date` ASC')->orderBy("initial_delivery_date", 'asc')->get();
 
-
-        $isSearchResults = true;
         return view('cases.index', compact('cases', 'isSearchResults'));
     }
 
