@@ -1,27 +1,58 @@
-/* Site-wide typography for both Arabic and English interfaces. */
+/*
+ * Solent independent interface identity
+ * UI-only layer: no routes, permissions, workflow, data, or backend behavior changed.
+ */
+
 :root {
-    --solent-font-family: "Cairo", Arial, sans-serif;
+    --solent-font-family: "Cairo", Inter, "Segoe UI", Arial, sans-serif;
     --font-family-sans-serif: var(--solent-font-family);
+
+    --solent-canvas: #f3f5f4;
+    --solent-surface: #ffffff;
+    --solent-surface-2: #f7f9f8;
+    --solent-surface-3: #edf1ef;
+    --solent-ink: #161b1d;
+    --solent-muted: #687176;
+    --solent-faint: #929b9f;
+    --solent-line: #dde3e0;
+    --solent-line-strong: #ccd5d1;
+    --solent-accent: #087f78;
+    --solent-accent-dark: #066760;
+    --solent-accent-soft: #e6f4f1;
+    --solent-danger: #c53a44;
+    --solent-warning: #b66a17;
+    --solent-success: #197250;
+    --solent-radius-xs: 7px;
+    --solent-radius-sm: 10px;
+    --solent-radius: 14px;
+    --solent-radius-lg: 20px;
+    --solent-shadow-sm: 0 1px 2px rgba(22, 27, 29, .04);
+    --solent-shadow: 0 10px 28px rgba(22, 27, 29, .07);
+    --solent-shadow-lg: 0 22px 54px rgba(22, 27, 29, .12);
+
+    /* Remap legacy theme tokens without touching application logic. */
+    --accent: var(--solent-accent);
+    --accent-lt: #2aa49d;
+    --accent-bg: var(--solent-accent-soft);
+    --text-1: var(--solent-ink);
+    --text-2: var(--solent-muted);
+    --text-3: var(--solent-faint);
+    --surface: var(--solent-surface);
+    --surface-raised: var(--solent-canvas);
+    --border: var(--solent-line);
+    --border-06: var(--solent-line);
+    --border-07: var(--solent-line);
+    --shadow-1: rgba(22, 27, 29, .10);
+    --shadow-2: rgba(22, 27, 29, .04);
+    --sidebar-link: #5d676b;
+    --sidebar-hover: #f1f4f2;
+    --sidebar-border: #e1e6e3;
+    --sidebar-brand-border: #e1e6e3;
+    --sidebar-active-bg: #161b1d;
 }
 
 html,
-body {
-    font-family: var(--solent-font-family) !important;
-}
-
-body h1,
-body h2,
-body h3,
-body h4,
-body h5,
-body h6,
-body p,
-body a,
-body label,
-body small,
-body strong,
-body b,
-body em,
+body,
 body button,
 body input,
 body select,
@@ -41,100 +72,639 @@ body .dataTables_wrapper {
     font-family: var(--solent-font-family) !important;
 }
 
-/* Shared data-table treatment. Keep the contrast subtle so dense mobile tables
-   remain easy to scan without competing with selected or hover states. */
-body table.table > tbody > tr:nth-child(even) > *,
-body table.sunriseTable > tbody > tr:nth-child(even) > *,
-body table.dataTable > tbody > tr:nth-child(even) > *,
-body table.statement-table > tbody > tr:nth-child(even) > * {
-    background-color: var(--surface-raised, #f8fafc) !important;
+html,
+body.white-content,
+body.white-content .wrapper,
+body.white-content .main-panel,
+body.white-content .main-panel > .content,
+body.white-content .content {
+    background: var(--solent-canvas) !important;
+    color: var(--solent-ink) !important;
 }
 
-body table.table > tbody > tr:nth-child(odd) > *,
-body table.sunriseTable > tbody > tr:nth-child(odd) > *,
-body table.dataTable > tbody > tr:nth-child(odd) > *,
-body table.statement-table > tbody > tr:nth-child(odd) > * {
-    background-color: var(--surface, #ffffff) !important;
+body.white-content .main-panel > .content {
+    padding-bottom: 42px !important;
 }
 
-body table.table > tbody > tr:hover > *,
-body table.sunriseTable > tbody > tr:hover > *,
-body table.dataTable > tbody > tr:hover > *,
-body table.statement-table > tbody > tr:hover > * {
-    background-color: var(--accent-bg, #eef2ff) !important;
+body.white-content h1,
+body.white-content h2,
+body.white-content h3,
+body.white-content h4,
+body.white-content h5,
+body.white-content h6,
+body.white-content .pageTitle,
+body.white-content .card-title,
+body.white-content .title {
+    color: var(--solent-ink) !important;
+    letter-spacing: -.025em;
 }
 
-/* Case workflow statuses use one predictable visual language everywhere. */
+body.white-content p,
+body.white-content small,
+body.white-content .text-muted,
+body.white-content .card-category,
+body.white-content .form-text,
+body.white-content .dataTables_info {
+    color: var(--solent-muted) !important;
+}
+
+body.white-content a {
+    color: var(--solent-accent);
+}
+
+body.white-content a:hover,
+body.white-content a:focus {
+    color: var(--solent-accent-dark);
+}
+
+/* ---------- App shell ---------- */
+html body.white-content .wrapper > .sidebar,
+html body.white-content .sidebar {
+    width: 252px !important;
+    background: #fbfcfb !important;
+    border-inline-end: 1px solid var(--solent-line) !important;
+    box-shadow: none !important;
+}
+
+html body.white-content .main-panel {
+    width: calc(100% - 252px) !important;
+    margin-inline-start: 252px !important;
+    margin-left: 252px !important;
+    background: var(--solent-canvas) !important;
+}
+
+html[dir="rtl"] body.white-content .main-panel {
+    margin-left: 0 !important;
+    margin-right: 252px !important;
+}
+
+html body.white-content .wrapper > .sidebar .korvion-sidebar-brand,
+html body.white-content .korvion-sidebar-brand {
+    min-height: 76px !important;
+    padding: 0 20px !important;
+    background: #fbfcfb !important;
+    border-bottom: 1px solid var(--solent-line) !important;
+}
+
+html body.white-content .korvion-sidebar-logo-full {
+    filter: none !important;
+    max-height: 42px !important;
+}
+
+html body.white-content .wrapper > .sidebar .sidebar-wrapper,
+html body.white-content .sidebar .sidebar-wrapper {
+    padding: 12px 10px 18px !important;
+    background: #fbfcfb !important;
+}
+
+html body.white-content .sidebar .solent-sidebar-section-label {
+    color: #8a9397 !important;
+    font-size: 9px !important;
+    font-weight: 800 !important;
+    letter-spacing: .15em !important;
+    padding: 13px 13px 6px !important;
+    opacity: 1 !important;
+}
+
+html body.white-content .sidebar .solent-sidebar-divider {
+    border-color: var(--solent-line) !important;
+    margin: 10px 10px 2px !important;
+}
+
+html body.white-content .sidebar .nav li > a,
+html body.white-content .wrapper > .sidebar .nav li > a {
+    min-height: 46px !important;
+    padding: 7px 9px !important;
+    gap: 10px !important;
+    border: 1px solid transparent !important;
+    border-radius: 11px !important;
+    background: transparent !important;
+    color: #596367 !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+html body.white-content .sidebar .nav li > a span,
+html body.white-content .sidebar .nav li > a p,
+html body.white-content .sidebar .nav li > a i,
+html body.white-content .sidebar .nav li > a svg {
+    color: inherit !important;
+}
+
+html body.white-content .sidebar .solent-sidebar-icon-shell {
+    width: 32px !important;
+    height: 32px !important;
+    flex-basis: 32px !important;
+    border: 1px solid #e3e8e5 !important;
+    border-radius: 9px !important;
+    background: #f4f6f5 !important;
+    color: #5f696d !important;
+}
+
+html body.white-content .sidebar .nav li:not(.active):hover > a,
+html body.white-content .sidebar .nav li:not(.active) > a:focus {
+    background: #f1f4f2 !important;
+    border-color: #e6eae8 !important;
+    color: var(--solent-ink) !important;
+    transform: none !important;
+}
+
+html body.white-content .sidebar .nav li.active > a,
+html body.white-content .sidebar .nav li.active > a:hover,
+html body.white-content .sidebar .nav li.active > a:focus {
+    background: var(--solent-ink) !important;
+    border-color: var(--solent-ink) !important;
+    color: #ffffff !important;
+    box-shadow: 0 6px 16px rgba(22, 27, 29, .12) !important;
+}
+
+html body.white-content .sidebar .nav li.active > a .solent-sidebar-icon-shell {
+    background: rgba(255,255,255,.10) !important;
+    border-color: rgba(255,255,255,.13) !important;
+    color: #ffffff !important;
+}
+
+html body.white-content .sidebar .solent-sidebar-nav > li.active > a::before {
+    display: none !important;
+}
+
+html body.white-content .sidebar .solent-sidebar-link-copy > span {
+    font-size: 12px !important;
+    font-weight: 750 !important;
+    line-height: 1.2 !important;
+}
+
+html body.white-content .sidebar .solent-sidebar-link-copy > small {
+    color: #929a9d !important;
+    font-size: 9px !important;
+    font-weight: 600 !important;
+}
+
+html body.white-content .sidebar .nav li.active > a .solent-sidebar-link-copy > small {
+    color: rgba(255,255,255,.62) !important;
+}
+
+html body.white-content .sidebar .solent-sidebar-quick-action {
+    margin: 4px 2px 15px !important;
+}
+
+html body.white-content .sidebar .solent-sidebar-quick-action > a {
+    min-height: 50px !important;
+    padding: 7px 9px !important;
+    border: 1px solid #cae2de !important;
+    border-radius: 12px !important;
+    background: #edf7f5 !important;
+    box-shadow: none !important;
+    color: #075f5a !important;
+}
+
+html body.white-content .sidebar .solent-sidebar-quick-action > a:hover {
+    background: #e4f2ef !important;
+    border-color: #b3d7d1 !important;
+    transform: none !important;
+}
+
+html body.white-content .sidebar .solent-sidebar-quick-action__icon {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 9px !important;
+    background: var(--solent-accent) !important;
+    color: #fff !important;
+}
+
+html body.white-content .sidebar .solent-sidebar-quick-action__copy strong {
+    color: #075f5a !important;
+}
+
+html body.white-content .sidebar .solent-sidebar-quick-action__copy small {
+    color: #56827e !important;
+}
+
+html body.white-content .solent-sidebar-account {
+    background: #fbfcfb !important;
+    border-color: var(--solent-line) !important;
+    padding: 9px 10px 11px !important;
+}
+
+html body.white-content .solent-sidebar-profile {
+    min-height: 48px !important;
+    border: 1px solid var(--solent-line) !important;
+    border-radius: 11px !important;
+    background: #f5f7f6 !important;
+    color: var(--solent-ink) !important;
+}
+
+html body.white-content .solent-sidebar-profile__avatar {
+    border: 0 !important;
+    border-radius: 9px !important;
+    background: var(--solent-ink) !important;
+    color: #fff !important;
+}
+
+html body.white-content .solent-sidebar-profile__name {
+    color: var(--solent-ink) !important;
+}
+
+html body.white-content .solent-sidebar-profile__role,
+html body.white-content .solent-sidebar-profile__chevron {
+    color: var(--solent-muted) !important;
+}
+
+/* ---------- Floating command bar ---------- */
+html body.white-content .solent-floating-topbar {
+    top: 14px !important;
+    right: 20px !important;
+    left: 20px !important;
+    min-height: 50px;
+    gap: 10px !important;
+    padding: 5px 7px !important;
+    border: 1px solid rgba(210, 218, 214, .88);
+    border-radius: 14px;
+    background: rgba(248, 250, 249, .90);
+    box-shadow: 0 8px 28px rgba(22, 27, 29, .06);
+    backdrop-filter: blur(16px) saturate(120%);
+}
+
+html body.white-content .solent-floating-search {
+    width: min(310px, 42vw) !important;
+}
+
+html body.white-content .solent-floating-topbar #wrapp,
+html body.white-content .solent-floating-topbar #wrapp .SBF2 {
+    height: 40px !important;
+}
+
+html body.white-content .solent-floating-topbar #wrapp .SBF2 {
+    padding: 0 13px !important;
+    border: 1px solid var(--solent-line) !important;
+    border-radius: 10px !important;
+    background: #ffffff !important;
+    box-shadow: none !important;
+}
+
+html body.white-content .solent-floating-topbar #wrapp input[type="text"] {
+    color: var(--solent-ink) !important;
+    font-size: 12px !important;
+    font-weight: 600;
+}
+
+html body.white-content .solent-mobile-sidebar-toggle {
+    border: 1px solid var(--solent-line) !important;
+    border-radius: 10px !important;
+    background: #fff !important;
+    box-shadow: none !important;
+}
+
+/* ---------- Content surfaces ---------- */
+body.white-content .card,
+body.white-content .modal-content,
+body.white-content .dataTables_wrapper,
+body.white-content .kt-portlet,
+body.white-content .portlet,
+body.white-content .invoice-box {
+    border: 1px solid var(--solent-line) !important;
+    border-radius: var(--solent-radius) !important;
+    background: var(--solent-surface) !important;
+    box-shadow: var(--solent-shadow-sm) !important;
+    color: var(--solent-ink) !important;
+}
+
+body.white-content .card-header,
+body.white-content .modal-header,
+body.white-content .modal-footer,
+body.white-content .portlet-heading {
+    background: transparent !important;
+    border-color: var(--solent-line) !important;
+}
+
+body.white-content .card-header {
+    padding-top: 18px !important;
+    padding-bottom: 13px !important;
+}
+
+body.white-content .pageTitleContainer {
+    border: 0 !important;
+    border-image: none !important;
+    padding-inline-start: 0 !important;
+}
+
+body.white-content .pageTitleContainer::before {
+    content: "";
+    display: inline-block;
+    width: 28px;
+    height: 4px;
+    margin-inline-end: 10px;
+    border-radius: 999px;
+    background: var(--solent-accent);
+    vertical-align: middle;
+}
+
+body.white-content .pageTitle,
+body.white-content .pageTitleContainer h1,
+body.white-content .pageTitleContainer h2 {
+    font-weight: 800 !important;
+}
+
+/* ---------- Tables ---------- */
+body.white-content .dataTables_wrapper {
+    padding: 8px !important;
+}
+
+body.white-content table,
+body.white-content table.dataTable,
+body.white-content .table,
+body.white-content .sunriseTable {
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    background: #fff !important;
+    color: var(--solent-ink) !important;
+}
+
+body.white-content table.dataTable thead th,
+body.white-content table thead th,
+body.white-content .sunriseTable thead th {
+    padding: 11px 12px !important;
+    border-top: 0 !important;
+    border-bottom: 1px solid var(--solent-line-strong) !important;
+    background: #f2f5f3 !important;
+    color: #4d585c !important;
+    font-size: 10px !important;
+    font-weight: 800 !important;
+    letter-spacing: .06em !important;
+    text-transform: uppercase !important;
+}
+
+body.white-content table tbody td,
+body.white-content table.dataTable tbody td,
+body.white-content .sunriseTable tbody td {
+    padding: 11px 12px !important;
+    border-bottom: 1px solid #e9edeb !important;
+    background: #fff !important;
+    color: var(--solent-ink) !important;
+    vertical-align: middle !important;
+}
+
+body.white-content table.table > tbody > tr:nth-child(even) > *,
+body.white-content table.sunriseTable > tbody > tr:nth-child(even) > *,
+body.white-content table.dataTable > tbody > tr:nth-child(even) > *,
+body.white-content table.statement-table > tbody > tr:nth-child(even) > * {
+    background: #fafbfa !important;
+}
+
+body.white-content table.table > tbody > tr:nth-child(odd) > *,
+body.white-content table.sunriseTable > tbody > tr:nth-child(odd) > *,
+body.white-content table.dataTable > tbody > tr:nth-child(odd) > *,
+body.white-content table.statement-table > tbody > tr:nth-child(odd) > * {
+    background: #fff !important;
+}
+
+body.white-content table.table > tbody > tr:hover > *,
+body.white-content table.sunriseTable > tbody > tr:hover > *,
+body.white-content table.dataTable > tbody > tr:hover > *,
+body.white-content table.statement-table > tbody > tr:hover > * {
+    background: #eef6f4 !important;
+}
+
+body.white-content .dataTables_wrapper .dataTables_filter input,
+body.white-content .dataTables_wrapper .dataTables_length select {
+    min-height: 36px;
+    border: 1px solid var(--solent-line) !important;
+    border-radius: 9px !important;
+    background: #fff !important;
+    color: var(--solent-ink) !important;
+}
+
+body.white-content .dataTables_wrapper .dataTables_paginate .paginate_button {
+    min-width: 34px !important;
+    min-height: 34px !important;
+    margin: 0 2px !important;
+    padding: 6px 9px !important;
+    border: 1px solid var(--solent-line) !important;
+    border-radius: 8px !important;
+    background: #fff !important;
+    color: var(--solent-muted) !important;
+}
+
+body.white-content .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    border-color: var(--solent-ink) !important;
+    background: var(--solent-ink) !important;
+    color: #fff !important;
+}
+
+/* ---------- Forms ---------- */
+body.white-content input,
+body.white-content select,
+body.white-content textarea,
+body.white-content .form-control,
+body.white-content .bootstrap-select > .dropdown-toggle,
+body.white-content .select2-container .select2-selection {
+    min-height: 40px;
+    border: 1px solid var(--solent-line-strong) !important;
+    border-radius: 10px !important;
+    background: #fff !important;
+    color: var(--solent-ink) !important;
+    box-shadow: none !important;
+}
+
+body.white-content textarea.form-control {
+    min-height: 92px;
+}
+
+body.white-content input::placeholder,
+body.white-content textarea::placeholder {
+    color: #a0a8ab !important;
+}
+
+body.white-content input:focus,
+body.white-content select:focus,
+body.white-content textarea:focus,
+body.white-content .form-control:focus,
+body.white-content .bootstrap-select.show > .dropdown-toggle {
+    border-color: #5da9a4 !important;
+    box-shadow: 0 0 0 3px rgba(8, 127, 120, .10) !important;
+    outline: 0 !important;
+}
+
+body.white-content label {
+    color: #4f595d !important;
+    font-size: 11px;
+    font-weight: 750;
+}
+
+/* ---------- Buttons ---------- */
+body.white-content .btn {
+    min-height: 38px;
+    padding: 8px 14px !important;
+    border-radius: 9px !important;
+    box-shadow: none !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0 !important;
+    text-transform: none !important;
+}
+
+body.white-content .btn-primary,
+body.white-content .btn-success,
+body.white-content .page-item.active .page-link,
+body.white-content .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    border-color: var(--solent-ink) !important;
+    background: var(--solent-ink) !important;
+    color: #fff !important;
+}
+
+body.white-content .btn-info {
+    border-color: var(--solent-accent) !important;
+    background: var(--solent-accent) !important;
+    color: #fff !important;
+}
+
+body.white-content .btn-secondary,
+body.white-content .btn-default,
+body.white-content .btn-light {
+    border-color: var(--solent-line-strong) !important;
+    background: #f5f7f6 !important;
+    color: var(--solent-ink) !important;
+}
+
+body.white-content .btn-danger {
+    border-color: var(--solent-danger) !important;
+    background: var(--solent-danger) !important;
+    color: #fff !important;
+}
+
+body.white-content .btn-warning {
+    border-color: #e8cda9 !important;
+    background: #fff7ea !important;
+    color: #955814 !important;
+}
+
+body.white-content .btn:hover {
+    transform: translateY(-1px);
+}
+
+/* ---------- Statuses / badges ---------- */
+body.white-content .badge,
+body.white-content .solent-case-status-badge {
+    border-radius: 7px !important;
+    box-shadow: none !important;
+    font-weight: 800 !important;
+}
+
 body .solent-case-status-badge {
     align-items: center;
-    background: var(--accent-bg, #eef2ff) !important;
-    border: 1px solid var(--accent-lt, #c7d2fe) !important;
-    border-radius: 999px;
-    box-sizing: border-box;
-    color: var(--accent, #4f46e5) !important;
-    display: flex;
-    font-size: 11px;
-    font-weight: 800;
-    inline-size: 104px !important;
-    justify-content: center;
-    line-height: 1.25;
-    margin-inline: auto;
-    max-inline-size: 104px;
-    min-block-size: 28px;
-    padding: 5px 9px;
-    text-align: center;
-    white-space: normal;
-    width: 104px !important;
-}
-
-body th.solent-case-status-column,
-body td.solent-case-status-column {
-    min-inline-size: 112px;
-    overflow: visible;
-    width: 112px !important;
-}
-
-/* Filter labels share an icon/text baseline in either writing direction. */
-body .solent-filter-label {
-    align-items: center;
     display: inline-flex;
-    gap: 6px;
-    justify-content: flex-start;
-    line-height: 1.35;
+    justify-content: center;
+    inline-size: auto !important;
+    width: auto !important;
+    max-inline-size: 150px;
+    min-block-size: 27px;
+    margin-inline: auto;
+    padding: 5px 9px;
+    border: 1px solid #bdddd8 !important;
+    border-radius: 7px !important;
+    background: #edf7f5 !important;
+    color: #08665f !important;
+    font-size: 10px;
+    font-weight: 800;
+    line-height: 1.2;
+    white-space: normal;
 }
 
-body .solent-filter-label > i {
-    color: var(--accent, #4f46e5) !important;
-    flex: 0 0 16px;
-    inline-size: 16px;
-    text-align: center;
+body.white-content .badge-success {
+    background: #e8f4ee !important;
+    color: #176344 !important;
 }
 
-html[dir="rtl"] body .solent-filter-label {
-    direction: rtl;
+body.white-content .badge-warning {
+    background: #fff4e5 !important;
+    color: #995c16 !important;
 }
 
-html[dir="ltr"] body .solent-filter-label {
-    direction: ltr;
+body.white-content .badge-danger {
+    background: #fdecef !important;
+    color: #a9343d !important;
 }
 
-/* Physical right alignment is intentional for configuration create actions in
-   both locales, per the configuration-page convention. */
-body .solent-config-create-row {
-    display: block;
-    text-align: right;
+/* ---------- Tabs ---------- */
+body.white-content .nav-tabs {
+    gap: 4px;
+    border: 0 !important;
 }
 
-body .solent-config-create-row > a {
-    display: inline-block;
+body.white-content .nav-tabs .nav-link,
+body.white-content .macaw-aurora-tabs [role="tab"],
+body.white-content .macaw-silk-tabs [role="tab"] {
+    border: 1px solid var(--solent-line) !important;
+    border-radius: 9px !important;
+    background: #f8faf9 !important;
+    color: var(--solent-muted) !important;
+    box-shadow: none !important;
 }
 
-@media (max-width: 575.98px) {
-    body .solent-config-create-row {
-        margin-top: 8px;
-    }
+body.white-content .nav-tabs .nav-link.active,
+body.white-content .macaw-aurora-tabs [role="tab"][aria-selected="true"],
+body.white-content .macaw-silk-tabs [role="tab"][aria-selected="true"],
+body.white-content .activeTabText.active {
+    border-color: var(--solent-ink) !important;
+    background: var(--solent-ink) !important;
+    color: #fff !important;
 }
-/* Shared request-processing overlay */
+
+/* ---------- Menus and dialogs ---------- */
+body.white-content .dropdown-menu:not(.inner),
+body.white-content .select2-dropdown,
+body.white-content .popover {
+    padding: 6px !important;
+    border: 1px solid var(--solent-line) !important;
+    border-radius: 12px !important;
+    background: #fff !important;
+    box-shadow: var(--solent-shadow-lg) !important;
+}
+
+body.white-content .dropdown-item,
+body.white-content .bootstrap-select .dropdown-menu li a,
+body.white-content .select2-results__option {
+    border-radius: 8px;
+    color: var(--solent-ink) !important;
+}
+
+body.white-content .dropdown-item:hover,
+body.white-content .dropdown-item:focus,
+body.white-content .bootstrap-select .dropdown-menu li a:hover,
+body.white-content .select2-results__option--highlighted[aria-selected] {
+    background: #f0f4f2 !important;
+    color: var(--solent-ink) !important;
+}
+
+body.white-content .modal-content {
+    overflow: hidden;
+    border-radius: 18px !important;
+    box-shadow: var(--solent-shadow-lg) !important;
+}
+
+/* ---------- Dashboard / report visual language ---------- */
+body.white-content .card-stats .icon-big,
+body.white-content .card .icon-big {
+    border: 1px solid var(--solent-line) !important;
+    border-radius: 10px !important;
+    background: #f2f6f4 !important;
+    color: var(--solent-accent) !important;
+    box-shadow: none !important;
+}
+
+body.white-content .chartjs-render-monitor,
+body.white-content .apexcharts-canvas,
+body.white-content .ct-chart {
+    border-radius: 12px;
+    background: #fff !important;
+}
+
+body.white-content .apexcharts-grid line,
+body.white-content .ct-grid {
+    stroke: #e6ebe8 !important;
+}
+
+/* ---------- Processing overlay ---------- */
 body.solent-processing {
     overflow: hidden;
 }
@@ -146,8 +716,8 @@ body.solent-processing {
     display: grid;
     padding: 20px;
     place-items: center;
-    background: rgba(15, 23, 42, 0.42);
-    backdrop-filter: blur(2px);
+    background: rgba(22, 27, 29, .34);
+    backdrop-filter: blur(4px);
 }
 
 .solent-processing-overlay[hidden] {
@@ -159,21 +729,21 @@ body.solent-processing {
     align-items: center;
     gap: 12px;
     max-width: min(92vw, 360px);
-    padding: 15px 18px;
-    border: 1px solid rgba(15, 23, 42, 0.08);
-    border-radius: 13px;
-    background: #ffffff;
-    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.2);
-    color: #0f172a;
-    font-size: 0.88rem;
+    padding: 14px 16px;
+    border: 1px solid var(--solent-line);
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: var(--solent-shadow-lg);
+    color: var(--solent-ink);
+    font-size: .88rem;
 }
 
 .solent-processing-overlay__spinner {
-    flex: 0 0 24px;
-    width: 24px;
-    height: 24px;
-    border: 3px solid #dbe4ea;
-    border-block-start-color: var(--brand-primary, #176b87);
+    flex: 0 0 22px;
+    width: 22px;
+    height: 22px;
+    border: 3px solid #dfe7e3;
+    border-block-start-color: var(--solent-accent);
     border-radius: 50%;
     animation: solent-processing-spin 700ms linear infinite;
 }
@@ -182,8 +752,94 @@ body.solent-processing {
     to { transform: rotate(360deg); }
 }
 
+/* ---------- Helpers kept for existing pages ---------- */
+body .solent-filter-label {
+    align-items: center;
+    display: inline-flex;
+    gap: 6px;
+    justify-content: flex-start;
+    line-height: 1.35;
+}
+
+body .solent-filter-label > i {
+    color: var(--solent-accent) !important;
+    flex: 0 0 16px;
+    inline-size: 16px;
+    text-align: center;
+}
+
+body .solent-config-create-row {
+    display: block;
+    text-align: right;
+}
+
+body .solent-config-create-row > a {
+    display: inline-block;
+}
+
+html[dir="rtl"] body .solent-filter-label {
+    direction: rtl;
+}
+
+html[dir="ltr"] body .solent-filter-label {
+    direction: ltr;
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 991.98px) {
+    html body.white-content .wrapper > .sidebar,
+    html body.white-content .sidebar {
+        width: 272px !important;
+        border-inline-end: 1px solid var(--solent-line) !important;
+        box-shadow: 18px 0 45px rgba(22, 27, 29, .14) !important;
+    }
+
+    html body.white-content .main-panel,
+    html[dir="rtl"] body.white-content .main-panel {
+        width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    html body.white-content .solent-floating-topbar {
+        top: 10px !important;
+        left: 10px !important;
+        right: 10px !important;
+        padding: 4px !important;
+        border-radius: 12px;
+    }
+
+    html body.white-content .solent-floating-search {
+        width: min(100%, calc(100vw - 72px)) !important;
+    }
+
+    body.white-content .main-panel > .content {
+        padding-inline: 12px !important;
+    }
+}
+
+@media (max-width: 575.98px) {
+    body.white-content .card,
+    body.white-content .dataTables_wrapper {
+        border-radius: 12px !important;
+    }
+
+    body.white-content .btn {
+        min-height: 40px;
+    }
+
+    body .solent-config-create-row {
+        margin-top: 8px;
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
-    .solent-processing-overlay__spinner {
-        animation-duration: 1.4s;
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: .001ms !important;
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
     }
 }
