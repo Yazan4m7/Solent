@@ -1,4 +1,4 @@
-/* Compact, permission-aware shortcuts for the authenticated workspace. */
+/* Solent command strip - intentionally distinct from the legacy SIGMA navigation. */
 
 .solent-floating-topbar .solent-quick-nav--desktop {
     flex: 1 1 auto;
@@ -9,7 +9,7 @@
 .solent-quick-nav {
     align-items: center;
     display: flex;
-    gap: 4px;
+    gap: 3px;
     margin: 0;
     overflow-x: auto;
     scrollbar-width: none;
@@ -22,30 +22,29 @@
 .solent-quick-nav__item {
     align-items: center;
     border: 1px solid transparent;
-    border-radius: 11px;
-    color: var(--text-2, #64748b) !important;
+    border-radius: 9px;
+    color: #657074 !important;
     display: inline-flex;
     flex: 0 0 auto;
     gap: 7px;
-    min-height: 40px;
-    padding: 8px 10px;
+    min-height: 38px;
+    padding: 7px 10px;
     text-decoration: none !important;
-    transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+    transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease;
 }
 
 .solent-quick-nav__item:hover,
 .solent-quick-nav__item:focus-visible {
-    background: var(--surface, #fff);
-    border-color: var(--border, #e2e8f0);
-    color: var(--text-1, #0f172a) !important;
+    background: #eef2f0;
+    border-color: #e2e7e4;
+    color: #161b1d !important;
     outline: none;
 }
 
 .solent-quick-nav__item.is-active {
-    background: var(--accent-bg, #eef2ff);
-    border-color: rgba(99, 102, 241, 0.28);
-    border-color: color-mix(in srgb, var(--accent, #6366f1) 28%, transparent);
-    color: var(--accent, #6366f1) !important;
+    background: #161b1d;
+    border-color: #161b1d;
+    color: #ffffff !important;
 }
 
 .solent-quick-nav__icon {
@@ -68,7 +67,7 @@
 }
 
 .solent-quick-nav__label {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 800;
     line-height: 1;
     white-space: nowrap;
@@ -79,27 +78,32 @@
 }
 
 body.white-content .wrapper .main-panel > .content {
-    padding-top: 97px !important;
+    padding-top: 92px !important;
 }
 
+/* Keep delivery screens compact, but use the new Solent surface language. */
 body.white-content .delivery-page {
     gap: 12px;
 }
 
 body.white-content .delivery-hero {
     gap: 12px;
-    grid-template-columns: minmax(240px, 0.72fr) minmax(520px, 1.28fr);
+    grid-template-columns: minmax(240px, .72fr) minmax(520px, 1.28fr);
 }
 
 body.white-content .delivery-hero__copy {
-    min-height: 116px;
+    min-height: 112px;
     padding: 18px 22px;
+    border: 1px solid var(--solent-line, #dde3e0);
+    border-radius: 14px;
+    background: #fff;
 }
 
 body.white-content .delivery-hero h1 {
-    font-size: clamp(26px, 3.2vw, 36px);
-    line-height: 1.08;
     margin: 0;
+    color: var(--solent-ink, #161b1d) !important;
+    font-size: clamp(25px, 3vw, 35px);
+    line-height: 1.08;
 }
 
 body.white-content .delivery-filter-card {
@@ -153,7 +157,7 @@ body.white-content .delivery-summary-grid {
     }
 
     body.white-content .delivery-hero {
-        grid-template-columns: minmax(210px, 0.62fr) minmax(500px, 1.38fr);
+        grid-template-columns: minmax(210px, .62fr) minmax(500px, 1.38fr);
     }
 }
 
@@ -163,25 +167,21 @@ body.white-content .delivery-summary-grid {
     }
 
     .solent-quick-nav--mobile {
-        background: rgba(255, 255, 255, 0.94);
-        border: 1px solid var(--border, #e2e8f0);
-        border-radius: 14px;
-        box-shadow: 0 10px 28px rgba(15, 23, 42, 0.06);
         display: flex;
         margin: 0 0 12px;
         padding: 4px;
         position: relative;
         z-index: 990;
+        border: 1px solid var(--solent-line, #dde3e0);
+        border-radius: 12px;
+        background: #ffffff;
+        box-shadow: 0 5px 18px rgba(22, 27, 29, .05);
     }
 
     .solent-quick-nav--mobile .solent-quick-nav__item {
         flex: 1 0 auto;
         justify-content: center;
-        min-height: 42px;
-    }
-
-    body.white-content .wrapper .main-panel > .content {
-        /*padding-top: 68px !important;*/
+        min-height: 40px;
     }
 
     body.white-content .delivery-hero {
@@ -206,15 +206,15 @@ body.white-content .delivery-summary-grid {
 @media (max-width: 575.98px) {
     .solent-quick-nav--mobile .solent-quick-nav__item {
         gap: 5px;
-        padding: 7px 9px;
+        padding: 7px 8px;
     }
 
     .solent-quick-nav--mobile .solent-quick-nav__label {
-        font-size: 11px;
+        font-size: 10px;
     }
 
     body.white-content .delivery-hero h1 {
-        font-size: 26px;
+        font-size: 25px;
     }
 
     body.white-content .delivery-filter-card__actions {
