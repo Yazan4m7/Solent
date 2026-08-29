@@ -67,12 +67,17 @@ jobs:
           package.write_text(json.dumps(data, indent=4) + '\n')
           PY
 
+      - name: Install PHP dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          composer install --prefer-dist --no-interaction --no-progress
+
       - name: Validate module source
         shell: bash
         run: |
           set -euo pipefail
           find app/Modules/Stock app/Modules/Financing tests/Feature/Modules -type f -name '*.php' -print0 | xargs -0 -n1 php -l
-          composer dump-autoload --no-interaction
           php artisan route:list --name=stock
           php artisan route:list --name=financing
 
@@ -80,7 +85,11 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          php artisan test tests/Feature/Integration/OptionalModulesIntegrationContractTest.php             tests/Feature/Modules/StockModuleContractTest.php             tests/Feature/Modules/FinancingModuleContractTest.php             tests/Feature/Modules/ModulesSourceIntegrityTest.php
+          php artisan test \
+            tests/Feature/Integration/OptionalModulesIntegrationContractTest.php \
+            tests/Feature/Modules/StockModuleContractTest.php \
+            tests/Feature/Modules/FinancingModuleContractTest.php \
+            tests/Feature/Modules/ModulesSourceIntegrityTest.php
 
       - name: Run Stock and Financing frontend tests
         shell: bash
