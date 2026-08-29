@@ -28,7 +28,7 @@ jobs:
           tar -tzf /tmp/stock-financing.tar.gz >/dev/null
           tar -xzf /tmp/stock-financing.tar.gz -C .
 
-      - name: Integrate module routes, navigation and test command
+      - name: Integrate modules with Solent
         shell: bash
         run: |
           set -euo pipefail
@@ -37,9 +37,8 @@ jobs:
           import re
           from pathlib import Path
 
-          # Solent's ModulesServiceProvider wraps module routes in a controller namespace.
-          # Laravel 8 will double-prefix FQCN array actions inside that group, so module
-          # route files use the legacy short Controller@method form expected by Solent.
+          # Solent wraps each module route file in its controller namespace. Laravel 8
+          # therefore needs short Controller@method actions here rather than FQCN arrays.
           for route_file in [
               Path('app/Modules/Stock/Routes/web.php'),
               Path('app/Modules/Financing/Routes/web.php'),
@@ -56,6 +55,16 @@ jobs:
                   text,
               )
               route_file.write_text(text)
+
+          # The original frontend scoping test mistook @media preludes for selectors.
+          # Inspect every CSS rule prelude, but ignore at-rules themselves.
+          frontend_test = Path('tests/js/modules-frontend-contracts.test.mjs')
+          text = frontend_test.read_text()
+          old = "const selectorGroups = [...cssWithoutComments.matchAll(/(?:^|})\\s*([^@{}][^{}]*)\\{/g)].map(match => match[1].trim());"
+          new = "const selectorGroups = [...cssWithoutComments.matchAll(/([^{}]+)\\{/g)]\\n    .map(match => match[1].trim())\\n    .filter(group => !group.startsWith('@'));"
+          if old not in text:
+              raise SystemExit('Frontend CSS selector parser marker not found')
+          frontend_test.write_text(text.replace(old, new, 1))
 
           sidebar = Path('resources/views/layouts/navbars/leftsidebar.blade.php')
           text = sidebar.read_text()
@@ -106,11 +115,10 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          php artisan test \
-            tests/Feature/Integration/OptionalModulesIntegrationContractTest.php \
-            tests/Feature/Modules/StockModuleContractTest.php \
-            tests/Feature/Modules/FinancingModuleContractTest.php \
-            tests/Feature/Modules/ModulesSourceIntegrityTest.php
+          php artisan test tests/Feature/Integration/OptionalModulesIntegrationContractTest.php
+          php artisan test tests/Feature/Modules/StockModuleContractTest.php
+          php artisan test tests/Feature/Modules/FinancingModuleContractTest.php
+          php artisan test tests/Feature/Modules/ModulesSourceIntegrityTest.php
 
       - name: Run Stock and Financing frontend tests
         shell: bash
