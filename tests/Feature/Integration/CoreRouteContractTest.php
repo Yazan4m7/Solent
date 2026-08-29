@@ -55,7 +55,7 @@ class CoreRouteContractTest extends TestCase
         }
     }
 
-    public function test_every_state_changing_route_is_inside_web_middleware_for_csrf_protection(): void
+    public function test_every_state_changing_web_route_stays_in_web_middleware_for_csrf_protection(): void
     {
         /** @var LaravelRoute $route */
         foreach (app('router')->getRoutes() as $route) {
@@ -64,10 +64,17 @@ class CoreRouteContractTest extends TestCase
                 continue;
             }
 
+            $middleware = $route->gatherMiddleware();
+
+            // Stateless API routes intentionally use the API middleware stack rather than CSRF.
+            if (in_array('api', $middleware, true)) {
+                continue;
+            }
+
             $this->assertContains(
                 'web',
-                $route->gatherMiddleware(),
-                sprintf('Mutating route [%s %s] is outside the web middleware stack.', implode('|', $methods), $route->uri())
+                $middleware,
+                sprintf('Mutating route [%s %s] is outside both the web and API middleware stacks.', implode('|', $methods), $route->uri())
             );
         }
     }
