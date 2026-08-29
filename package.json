@@ -12,7 +12,8 @@
         "test:frontend:hardening": "node --test tests/js/frontend-hardening.test.mjs",
         "test:http": "node --test tests/http/http-smoke.test.mjs",
         "test:browser": "node --test tests/browser/browser-smoke.test.mjs",
-        "test:nonphp": "npm run test:frontend && npm run test:http && npm run test:browser"
+        "test:nonphp": "npm run test:frontend && npm run test:http && npm run test:browser",
+        "test:modules": "node --test tests/js/modules-frontend-contracts.test.mjs"
     },
     "devDependencies": {
         "axios": "^0.21",

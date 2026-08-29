@@ -1,0 +1,146 @@
+.financing-module {
+    padding-top: 18px;
+    padding-bottom: 40px;
+}
+
+.finance-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 10px;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,.08);
+    border-radius: 10px;
+}
+
+.finance-nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    padding: 7px 11px;
+    border-radius: 7px;
+    color: inherit;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.finance-nav a:hover {
+    background: rgba(0,0,0,.05);
+    text-decoration: none;
+}
+
+.finance-card,
+.finance-section,
+.finance-form {
+    background: #fff;
+    border: 1px solid rgba(0,0,0,.08);
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.035);
+}
+
+.finance-card-link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+}
+
+.finance-card-link:hover {
+    color: inherit;
+    text-decoration: none;
+    box-shadow: 0 5px 18px rgba(0,0,0,.08);
+}
+
+.finance-card-label {
+    color: #747b84;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .02em;
+}
+
+.finance-card-value,
+.finance-balance {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.finance-table-wrap {
+    overflow-x: auto;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,.08);
+    border-radius: 10px;
+}
+
+.finance-table-wrap .table {
+    margin-bottom: 0;
+}
+
+.finance-table-wrap thead th {
+    border-top: 0;
+    white-space: nowrap;
+}
+
+.finance-overdue {
+    background: rgba(220,53,69,.07);
+}
+
+.finance-filter,
+.finance-inline-form {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.finance-filter .form-control,
+.finance-inline-form .form-control {
+    width: auto;
+    min-width: 150px;
+}
+
+.finance-check {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+}
+
+.finance-form {
+    max-width: 980px;
+}
+
+.finance-module input[dir="auto"],
+.finance-module textarea[dir="auto"] {
+    text-align: start;
+}
+
+@media (max-width: 767.98px) {
+    .financing-module {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .finance-nav {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+    }
+
+    .finance-card-value,
+    .finance-balance {
+        font-size: 18px;
+    }
+
+    .finance-filter,
+    .finance-inline-form {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .finance-filter .form-control,
+    .finance-inline-form .form-control,
+    .finance-filter .btn,
+    .finance-inline-form .btn {
+        width: 100%;
+    }
+}

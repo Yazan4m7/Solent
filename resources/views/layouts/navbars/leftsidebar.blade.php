@@ -1175,7 +1175,22 @@
             @endif
 
             @if ($sidebarUser->is_admin)
-                <li class="{{ $settingsExpanded ? 'active' : '' }}">
+      <li class="{{ str_starts_with((string) $currentRoute, 'stock.') ? 'active' : '' }}">
+          <a href="{{ route('stock.index') }}">
+              <span class="solent-sidebar-icon-shell">@include('layouts.navbars.partials.sidebar-icon', ['name' => 'database'])</span>
+              <span class="solent-sidebar-link-copy"><span>Stock</span><small>Inventory and purchasing</small></span>
+          </a>
+      </li>
+      @if (function_exists('setting') && (string) setting('module_financing', '0') === '1')
+          <li class="{{ str_starts_with((string) $currentRoute, 'financing.') ? 'active' : '' }}">
+              <a href="{{ route('financing.dashboard') }}">
+                  <span class="solent-sidebar-icon-shell">@include('layouts.navbars.partials.sidebar-icon', ['name' => 'billing'])</span>
+                  <span class="solent-sidebar-link-copy"><span>Financing</span><small>Accounts, expenses and payroll</small></span>
+              </a>
+          </li>
+      @endif
+
+      <li class="{{ $settingsExpanded ? 'active' : '' }}">
                     <a class="solent-sidebar-collapse-toggle" data-toggle="collapse" href="#sidebarSettings"
                         aria-controls="sidebarSettings" aria-expanded="{{ $settingsExpanded ? 'true' : 'false' }}">
                         <span class="solent-sidebar-icon-shell">@include('layouts.navbars.partials.sidebar-icon', ['name' => 'settings'])</span>
