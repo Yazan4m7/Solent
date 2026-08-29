@@ -61,7 +61,9 @@ jobs:
           frontend_test = Path('tests/js/modules-frontend-contracts.test.mjs')
           text = frontend_test.read_text()
           old = "const selectorGroups = [...cssWithoutComments.matchAll(/(?:^|})\\s*([^@{}][^{}]*)\\{/g)].map(match => match[1].trim());"
-          new = "const selectorGroups = [...cssWithoutComments.matchAll(/([^{}]+)\\{/g)]\\n    .map(match => match[1].trim())\\n    .filter(group => !group.startsWith('@'));"
+          new = """const selectorGroups = [...cssWithoutComments.matchAll(/([^{}]+)\\{/g)]
+              .map(match => match[1].trim())
+              .filter(group => !group.startsWith('@'));"""
           if old not in text:
               raise SystemExit('Frontend CSS selector parser marker not found')
           frontend_test.write_text(text.replace(old, new, 1))
