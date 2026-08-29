@@ -7,7 +7,12 @@
         "watch-poll": "mix watch -- --watch-options-poll=1000",
         "hot": "mix watch --hot",
         "prod": "npm run production",
-        "production": "mix --production"
+        "production": "mix --production",
+        "test:frontend": "node --test tests/js/frontend-contracts.test.mjs",
+        "test:frontend:hardening": "node --test tests/js/frontend-hardening.test.mjs",
+        "test:http": "node --test tests/http/http-smoke.test.mjs",
+        "test:browser": "node --test tests/browser/browser-smoke.test.mjs",
+        "test:nonphp": "npm run test:frontend && npm run test:http && npm run test:browser"
     },
     "devDependencies": {
         "axios": "^0.21",
