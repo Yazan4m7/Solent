@@ -1,0 +1,101 @@
+name: Install stock and financing modules
+
+on:
+  push:
+    branches:
+      - feature/stock-financing-modules
+
+permissions:
+  contents: write
+
+jobs:
+  install:
+    if: ${{ !contains(github.event.head_commit.message, '[modules-installed]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/stock-financing-modules
+          fetch-depth: 0
+
+      - name: Reconstruct and verify module payload
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat .module-install/part* > /tmp/stock-financing.b64
+          base64 -d /tmp/stock-financing.b64 > /tmp/stock-financing.tar.gz
+          echo "779927bacf094b680e8b5993a64b6f1b0d45aeb48cfad1f39b2db14a1a2ce8c0  /tmp/stock-financing.tar.gz" | sha256sum -c -
+          tar -tzf /tmp/stock-financing.tar.gz >/dev/null
+          tar -xzf /tmp/stock-financing.tar.gz -C .
+
+      - name: Integrate module navigation and test command
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          sidebar = Path('resources/views/layouts/navbars/leftsidebar.blade.php')
+          text = sidebar.read_text()
+          if "route('stock.index')" not in text:
+              marker = '''            @if ($sidebarUser->is_admin)\n                <li class="{{ $settingsExpanded ? 'active' : '' }}">'''
+              block = '''            @if ($sidebarUser->is_admin)
+                <li class="{{ str_starts_with((string) $currentRoute, 'stock.') ? 'active' : '' }}">
+                    <a href="{{ route('stock.index') }}">
+                        <span class="solent-sidebar-icon-shell">@include('layouts.navbars.partials.sidebar-icon', ['name' => 'database'])</span>
+                        <span class="solent-sidebar-link-copy"><span>Stock</span><small>Inventory and purchasing</small></span>
+                    </a>
+                </li>
+                @if (function_exists('setting') && (string) setting('module_financing', '0') === '1')
+                    <li class="{{ str_starts_with((string) $currentRoute, 'financing.') ? 'active' : '' }}">
+                        <a href="{{ route('financing.dashboard') }}">
+                            <span class="solent-sidebar-icon-shell">@include('layouts.navbars.partials.sidebar-icon', ['name' => 'billing'])</span>
+                            <span class="solent-sidebar-link-copy"><span>Financing</span><small>Accounts, expenses and payroll</small></span>
+                        </a>
+                    </li>
+                @endif
+
+                <li class="{{ $settingsExpanded ? 'active' : '' }}">'''
+              if marker not in text:
+                  raise SystemExit('Sidebar insertion marker not found; refusing unsafe edit')
+              sidebar.write_text(text.replace(marker, block, 1))
+
+          package = Path('package.json')
+          data = json.loads(package.read_text())
+          data.setdefault('scripts', {})['test:modules'] = 'node --test tests/js/modules-frontend-contracts.test.mjs'
+          package.write_text(json.dumps(data, indent=4) + '\n')
+          PY
+
+      - name: Validate module source
+        shell: bash
+        run: |
+          set -euo pipefail
+          find app/Modules/Stock app/Modules/Financing tests/Feature/Modules -type f -name '*.php' -print0 | xargs -0 -n1 php -l
+          composer dump-autoload --no-interaction
+          php artisan route:list --name=stock
+          php artisan route:list --name=financing
+
+      - name: Run Stock and Financing backend tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          php artisan test tests/Feature/Integration/OptionalModulesIntegrationContractTest.php             tests/Feature/Modules/StockModuleContractTest.php             tests/Feature/Modules/FinancingModuleContractTest.php             tests/Feature/Modules/ModulesSourceIntegrityTest.php
+
+      - name: Run Stock and Financing frontend tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test tests/js/modules-frontend-contracts.test.mjs
+
+      - name: Commit installed module files
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf .module-install
+          rm -f .github/workflows/install-stock-financing.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'Add Stock and Financing modules with tests [modules-installed]'
+          git push origin HEAD:feature/stock-financing-modules
