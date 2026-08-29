@@ -28,13 +28,34 @@ jobs:
           tar -tzf /tmp/stock-financing.tar.gz >/dev/null
           tar -xzf /tmp/stock-financing.tar.gz -C .
 
-      - name: Integrate module navigation and test command
+      - name: Integrate module routes, navigation and test command
         shell: bash
         run: |
           set -euo pipefail
           python - <<'PY'
           import json
+          import re
           from pathlib import Path
+
+          # Solent's ModulesServiceProvider wraps module routes in a controller namespace.
+          # Laravel 8 will double-prefix FQCN array actions inside that group, so module
+          # route files use the legacy short Controller@method form expected by Solent.
+          for route_file in [
+              Path('app/Modules/Stock/Routes/web.php'),
+              Path('app/Modules/Financing/Routes/web.php'),
+          ]:
+              text = route_file.read_text()
+              text = re.sub(
+                  r"\[([A-Za-z0-9_]+)::class,\s*'([A-Za-z0-9_]+)'\]",
+                  lambda m: "'{}@{}'".format(m.group(1), m.group(2)),
+                  text,
+              )
+              text = re.sub(
+                  r"(Route::resource\([^,]+,\s*)([A-Za-z0-9_]+)::class",
+                  lambda m: m.group(1) + "'{}'".format(m.group(2)),
+                  text,
+              )
+              route_file.write_text(text)
 
           sidebar = Path('resources/views/layouts/navbars/leftsidebar.blade.php')
           text = sidebar.read_text()
