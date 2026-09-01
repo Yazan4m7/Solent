@@ -282,7 +282,10 @@ class ReportsController extends Controller
     public function adminHomeScreen(Request $request = null){
 
         $request = $request ?: request();
-        if ($request->has('sample_data')) {
+        if (app()->bound('app.tenant_real_context')) {
+            // Tenant previews use actual records from the isolated database, not placeholder totals.
+            $dashboardSampleDataMode = false;
+        } elseif ($request->has('sample_data')) {
             $dashboardSampleDataMode = $request->boolean('sample_data');
             $request->session()->put('dashboard.sample_data', $dashboardSampleDataMode);
         } else {

@@ -67,8 +67,20 @@ class EnforceDemoReadOnly
 
     public function handle(Request $request, Closure $next)
     {
-        if (! DemoMode::isDemoRequest($request)
-            || ! (bool) config('domain_context.demo.read_only', false)) {
+        $tenantDemo = app()->bound('app.tenant_demo_active') && app('app.tenant_demo_active');
+        $key = $request->attributes->get('tenant_demo_session_key');
+        $mutates = ! $request->isMethodSafe() || $this->isMutatingGetRoute($request);
+        if ($key && $mutates && ! $this->isAllowedWrite($request)
+            && $request->session()->get($key . '.switched')
+            && ! hash_equals((string) $request->session()->get($key . '.token'),
+                (string) ($request->header('X-Data-Context') ?: $request->input('_data_context', '')))) {
+            abort(409, 'The data mode changed. Refresh this page before making changes.');
+        }
+        // Internal transport metadata must never reach legacy mass-assignment handlers.
+        $request->query->remove('_data_context');
+        $request->request->remove('_data_context');
+        if (! $tenantDemo && (! DemoMode::isDemoRequest($request)
+            || ! (bool) config('domain_context.demo.read_only', false))) {
             return $next($request);
         }
 
@@ -93,7 +105,7 @@ class EnforceDemoReadOnly
 
     private function isAllowedWrite(Request $request): bool
     {
-        if (in_array($request->route()?->getName(), ['login', 'logout'], true)) {
+        if (in_array($request->route()?->getName(), ['login', 'logout', 'tenant-demo.update'], true)) {
             return true;
         }
 

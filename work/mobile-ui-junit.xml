@@ -1,0 +1,1696 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="" tests="25" assertions="307" errors="0" warnings="0" failures="3" skipped="0" time="1.569157">
+    <testsuite name="Feature" tests="25" assertions="307" errors="0" warnings="0" failures="3" skipped="0" time="1.569157">
+      <testsuite name="Tests\Feature\DashboardScopedMarkupTest" file="C:\Users\Yazan\Desktop\Projects\Solent\app\tests\Feature\DashboardScopedMarkupTest.php" tests="25" assertions="307" errors="0" warnings="0" failures="3" skipped="0" time="1.569157">
+        <testcase name="test_dashboard_uses_the_new_scoped_dashboard_markup_and_css" class="Tests\Feature\DashboardScopedMarkupTest" classname="Tests.Feature.DashboardScopedMarkupTest" file="C:\Users\Yazan\Desktop\Projects\Solent\app\tests\Feature\DashboardScopedMarkupTest.php" line="10" assertions="8" time="0.141164"/>
+        <testcase name="test_dashboard_exposes_a_kpi_sized_sample_data_toggle" class="Tests\Feature\DashboardScopedMarkupTest" classname="Tests.Feature.DashboardScopedMarkupTest" file="C:\Users\Yazan\Desktop\Projects\Solent\app\tests\Feature\DashboardScopedMarkupTest.php" line="26" assertions="9" time="0.202292"/>
+        <testcase name="test_dashboard_can_render_real_zero_values_when_sample_mode_is_disabled_by_config" class="Tests\Feature\DashboardScopedMarkupTest" classname="Tests.Feature.DashboardScopedMarkupTest" file="C:\Users\Yazan\Desktop\Projects\Solent\app\tests\Feature\DashboardScopedMarkupTest.php" line="43" assertions="6" time="0.132839"/>
+        <testcase name="test_stage_daily_utilization_uses_vertical_active_waiting_case_chart" class="Tests\Feature\DashboardScopedMarkupTest" classname="Tests.Feature.DashboardScopedMarkupTest" file="C:\Users\Yazan\Desktop\Projects\Solent\app\tests\Feature\DashboardScopedMarkupTest.php" line="57" assertions="12" time="0.069340"/>
+        <testcase name="test_top_dashboard_cards_render_values_without_mini_charts" class="Tests\Feature\DashboardScopedMarkupTest" classname="Tests.Feature.DashboardScopedMarkupTest" file="C:\Users\Yazan\Desktop\Projects\Solent\app\tests\Feature\DashboardScopedMarkupTest.php" line="84" assertions="7" time="0.203877"/>
+        <testcase name="test_dashboard_polish_keeps_cards_compact_and_mobile_safe" class="Tests\Feature\DashboardScopedMarkupTest" classname="Tests.Feature.DashboardScopedMarkupTest" file="C:\Users\Yazan\Desktop\Projects\Solent\app\tests\Feature\DashboardScopedMarkupTest.php" line="98" assertions="14" time="0.020293"/>
+        <testcase name="test_dashboard_prioritizes_map_revenue_and_modern_order_trend" class="Tests\Feature\DashboardScopedMarkupTest" classname="Tests.Feature.DashboardScopedMarkupTest" file="C:\Users\Yazan\Desktop\Projects\Solent\app\tests\Feature\DashboardScopedMarkupTest.php" line="119" assertions="17" time="0.020795">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">Tests\Feature\DashboardScopedMarkupTest::test_dashboard_prioritizes_map_revenue_and_modern_order_trend
+Failed asserting that '@extends('layouts.app', ['pageSlug' =&gt; 'Dashboard'])\n
+\n
+@push('css')\n
+    &lt;style&gt;\n
+        .solent-dash {\n
+            position: relative;\n
+        }\n
+    &lt;/style&gt;\n
+@endpush\n
+\n
+@section('content')\n
+    @php\n
+        $currencyLabel = (string) ($currencyContext['display'] ?? $currencyContext['code'] ?? 'JOD');\n
+        $dashboardSampleDataMode = (bool) ($dashboardSampleDataMode ?? config('features.dashboard.sample_data', false));\n
+        $tenantDemoSupported = (bool) ($tenantDemoSupported ?? false);\n
+        $demoToggleActive = $tenantDemoSupported ? (bool) ($tenantDemoActive ?? false) : $dashboardSampleDataMode;\n
+\n
+        $paymentsReceivedToday = $paymentsReceivedToday ?? [];\n
+        $DeliveriesToday = $DeliveriesToday ?? [];\n
+        $dashboardUi = trans('ui.dom');\n
+        $deliveryScheduleDays = collect($deliveryScheduleDays ?? []);\n
+        if ($deliveryScheduleDays-&gt;isEmpty()) {\n
+            $deliveryScheduleDays = collect(range(0, 1))-&gt;map(function (int $offset) use ($DeliveriesToday) {\n
+                return [\n
+                    'key' =&gt; ['today', 'tomorrow'][$offset],\n
+                    'label' =&gt; ['Today', 'Tomorrow'][$offset],\n
+                    'date' =&gt; now()-&gt;copy()-&gt;addDays($offset)-&gt;toDateString(),\n
+                    'cases' =&gt; $offset === 0 ? collect($DeliveriesToday) : collect(),\n
+                ];\n
+            });\n
+        }\n
+        $deliveryCardCases = $deliveryScheduleDays\n
+            -&gt;filter(fn (array $day) =&gt; in_array(($day['key'] ?? ''), ['today', 'tomorrow'], true))\n
+            -&gt;flatMap(fn (array $day) =&gt; collect($day['cases'] ?? []))\n
+            -&gt;sortBy(function ($case) {\n
+                return method_exists($case, 'getRawOriginal')\n
+                    ? ($case-&gt;getRawOriginal('initial_delivery_date') ?: $case-&gt;initial_delivery_date)\n
+                    : $case-&gt;initial_delivery_date;\n
+            })\n
+            -&gt;values();\n
+        $compUnitsCount7Days = $compUnitsCount7Days ?? [];\n
+        $compCasesCount7Days = $compCasesCount7Days ?? [];\n
+        $collectionsInLast30Days = $collectionsInLast30Days ?? [];\n
+        $compCasesCount30Days = $compCasesCount30Days ?? [];\n
+        $compUnitsCount30Days = $compUnitsCount30Days ?? [];\n
+        $sales30Days = $sales30Days ?? [];\n
+        $last7DaysLabels = count($last7DaysLabels ?? []) ? $last7DaysLabels : collect(range(6, 0))-&gt;map(fn ($day) =&gt; now()-&gt;subDays($day)-&gt;format('Y-m-d'))-&gt;values()-&gt;all();\n
+        $last30DaysLabels = count($last30DaysLabels ?? []) ? $last30DaysLabels : collect(range(29, 0))-&gt;map(fn ($day) =&gt; now()-&gt;subDays($day)-&gt;format('Y-m-d'))-&gt;values()-&gt;all();\n
+\n
+        $paymentsCount = collect($paymentsReceivedToday)-&gt;count();\n
+        $deliveriesTodayCount = collect($DeliveriesToday)-&gt;count();\n
+        $completedUnits = (int) ($CompletedJobsToday ?? 0);\n
+        $activeUnits = (int) ($ActiveJobsToday ?? 0);\n
+        $waitingUnits = (int) ($waitingJobsToday ?? 0);\n
+        $revenueTotal = collect($collectionsInLast30Days)-&gt;sum();\n
+        $ordersTotal = collect($compCasesCount30Days)-&gt;sum();\n
+        $totalUnits = $completedUnits + $activeUnits + $waitingUnits;\n
+        $conversionRate = $totalUnits &gt; 0 ? round(($completedUnits / $totalUnits) * 100, 2) : 0;\n
+        $newCustomers = collect($DeliveriesToday)-&gt;pluck('client_id')-&gt;unique()-&gt;count();\n
+\n
+        $displayRevenueTotal = $dashboardSampleDataMode ? max($revenueTotal, 428540) : $revenueTotal;\n
+        $displayOrdersTotal = $dashboardSampleDataMode ? max($ordersTotal, 3721) : $ordersTotal;\n
+        $displayNewCustomers = $dashboardSampleDataMode ? max($newCustomers, 2145) : $newCustomers;\n
+        $displayConversionRate = $dashboardSampleDataMode ? max($conversionRate, 2.48) : $conversionRate;\n
+        $serviceRevenueRows = collect();\n
+\n
+        try {\n
+            $serviceMonthStart = now()-&gt;startOfMonth()-&gt;toDateTimeString();\n
+            $serviceMonthEnd = now()-&gt;endOfMonth()-&gt;toDateTimeString();\n
+\n
+            if (\Illuminate\Support\Facades\Schema::hasColumn('cases', 'service_type')) {\n
+                $serviceRevenueRows = \Illuminate\Support\Facades\DB::table('invoices')\n
+                    -&gt;join('cases', 'cases.id', '=', 'invoices.case_id')\n
+                    -&gt;selectRaw("COALESCE(NULLIF(cases.service_type, ''), 'Unassigned') as label, SUM(invoices.amount) as value")\n
+                    -&gt;whereBetween('invoices.date_applied', [$serviceMonthStart, $serviceMonthEnd])\n
+                    -&gt;where('invoices.status', 1)\n
+                    -&gt;whereNull('invoices.deleted_at')\n
+                    -&gt;whereNull('cases.deleted_at')\n
+                    -&gt;groupBy('label')\n
+                    -&gt;orderByDesc('value')\n
+                    -&gt;get();\n
+            } else {\n
+                $caseServiceQuery = \Illuminate\Support\Facades\DB::table('jobs')\n
+                    -&gt;leftJoin('job_types', 'job_types.id', '=', 'jobs.type')\n
+                    -&gt;selectRaw("jobs.case_id, COALESCE(MIN(NULLIF(job_types.name, '')), 'Unassigned') as service_label")\n
+                    -&gt;whereNull('jobs.deleted_at')\n
+                    -&gt;groupBy('jobs.case_id');\n
+\n
+                $serviceRevenueRows = \Illuminate\Support\Facades\DB::table('invoices')\n
+                    -&gt;join('cases', 'cases.id', '=', 'invoices.case_id')\n
+                    -&gt;leftJoinSub($caseServiceQuery, 'case_services', 'case_services.case_id', '=', 'cases.id')\n
+                    -&gt;selectRaw("COALESCE(case_services.service_label, 'Unassigned') as label, SUM(invoices.amount) as value")\n
+                    -&gt;whereBetween('invoices.date_applied', [$serviceMonthStart, $serviceMonthEnd])\n
+                    -&gt;where('invoices.status', 1)\n
+                    -&gt;whereNull('invoices.deleted_at')\n
+                    -&gt;whereNull('cases.deleted_at')\n
+                    -&gt;groupBy('label')\n
+                    -&gt;orderByDesc('value')\n
+                    -&gt;get();\n
+            }\n
+        } catch (\Throwable $exception) {\n
+            $serviceRevenueRows = collect();\n
+        }\n
+\n
+        if ($dashboardSampleDataMode &amp;&amp; $serviceRevenueRows-&gt;sum('value') &lt;= 0) {\n
+            $serviceRevenueRows = collect([\n
+                ['label' =&gt; 'Crowns', 'value' =&gt; 184200],\n
+                ['label' =&gt; 'Implants', 'value' =&gt; 126450],\n
+                ['label' =&gt; 'Bridges', 'value' =&gt; 74300],\n
+                ['label' =&gt; 'Models', 'value' =&gt; 28640],\n
+                ['label' =&gt; 'Repairs', 'value' =&gt; 14950],\n
+            ]);\n
+        }\n
+\n
+        $serviceRevenueTotal = (float) $serviceRevenueRows-&gt;sum('value');\n
+        $serviceRevenueRows = $serviceRevenueRows\n
+            -&gt;map(fn ($row) =&gt; [\n
+                'label' =&gt; (string) (is_array($row) ? $row['label'] : $row-&gt;label),\n
+                'value' =&gt; (float) (is_array($row) ? $row['value'] : $row-&gt;value),\n
+            ])\n
+            -&gt;sortByDesc('value')\n
+            -&gt;take(5)\n
+            -&gt;values()\n
+            -&gt;map(fn (array $row) =&gt; $row + [\n
+                'width' =&gt; $serviceRevenueTotal &gt; 0 ? round(($row['value'] / $serviceRevenueTotal) * 100, 1) : 0,\n
+            ]);\n
+\n
+        $productionLoadRows = collect($productionLoadRows ?? ($dashboardSampleDataMode ? [\n
+            ['label' =&gt; 'Design', 'jobs' =&gt; 42, 'active' =&gt; 31, 'waiting' =&gt; 11, 'utilization' =&gt; 82, 'jobsScaled' =&gt; 76],\n
+            ['label' =&gt; 'Milling', 'jobs' =&gt; 35, 'active' =&gt; 26, 'waiting' =&gt; 9, 'utilization' =&gt; 74, 'jobsScaled' =&gt; 64],\n
+            ['label' =&gt; '3D Printing', 'jobs' =&gt; 27, 'active' =&gt; 19, 'waiting' =&gt; 8, 'utilization' =&gt; 58, 'jobsScaled' =&gt; 50],\n
+            ['label' =&gt; 'Sintering', 'jobs' =&gt; 18, 'active' =&gt; 12, 'waiting' =&gt; 6, 'utilization' =&gt; 41, 'jobsScaled' =&gt; 34],\n
+        ] : [\n
+            ['label' =&gt; 'Design', 'jobs' =&gt; 0, 'active' =&gt; 0, 'waiting' =&gt; 0, 'utilization' =&gt; 0, 'jobsScaled' =&gt; 0],\n
+            ['label' =&gt; 'Milling', 'jobs' =&gt; 0, 'active' =&gt; 0, 'waiting' =&gt; 0, 'utilization' =&gt; 0, 'jobsScaled' =&gt; 0],\n
+            ['label' =&gt; '3D Printing', 'jobs' =&gt; 0, 'active' =&gt; 0, 'waiting' =&gt; 0, 'utilization' =&gt; 0, 'jobsScaled' =&gt; 0],\n
+            ['label' =&gt; 'Sintering', 'jobs' =&gt; 0, 'active' =&gt; 0, 'waiting' =&gt; 0, 'utilization' =&gt; 0, 'jobsScaled' =&gt; 0],\n
+        ]))-&gt;values();\n
+        $productionLoadHighlights = $productionLoadRows-&gt;sortByDesc('jobs')-&gt;values();\n
+\n
+        $dashboardMetrics = [\n
+            'clientCountries' =&gt; $dashboardSampleDataMode ? [\n
+                ['name' =&gt; 'Amman', 'value' =&gt; max(842, $ordersTotal + 220), 'width' =&gt; 96],\n
+                ['name' =&gt; 'Irbid', 'value' =&gt; max(312, $ordersTotal + 80), 'width' =&gt; 62],\n
+                ['name' =&gt; 'Zarqa', 'value' =&gt; max(221, $ordersTotal + 44), 'width' =&gt; 48],\n
+                ['name' =&gt; 'Aqaba', 'value' =&gt; max(198, $deliveriesTodayCount + 120), 'width' =&gt; 38],\n
+                ['name' =&gt; 'Salt', 'value' =&gt; max(152, $paymentsCount + 95), 'width' =&gt; 30],\n
+            ] : [],\n
+        ];\n
+\n
+        $revenueTrendLabels = collect($last30DaysLabels)-&gt;take(-7)-&gt;values()-&gt;all();\n
+        $revenueTrendValues = collect($collectionsInLast30Days)-&gt;take(-7)-&gt;values();\n
+        if ($dashboardSampleDataMode &amp;&amp; $revenueTrendValues-&gt;sum() &lt;= 0) {\n
+            $revenueTrendValues = collect([360, 320, 410, 620, 440, 660, 345]);\n
+        } elseif ($revenueTrendValues-&gt;isEmpty()) {\n
+            $revenueTrendValues = collect(array_fill(0, count($revenueTrendLabels), 0));\n
+        }\n
+\n
+        $ordersTrendLabels = collect($last7DaysLabels)-&gt;values()-&gt;all();\n
+        $ordersTrendSampleValues = collect([820, 710, 960, 880, 835, 930, 948]);\n
+        $ordersTrendValues = collect($compCasesCount7Days)\n
+            -&gt;values()\n
+            -&gt;map(fn ($value) =&gt; (int) max(0, round((float) $value)));\n
+        if ($dashboardSampleDataMode &amp;&amp; $ordersTrendValues-&gt;sum() &lt; $ordersTrendSampleValues-&gt;sum()) {\n
+            $ordersTrendValues = $ordersTrendSampleValues;\n
+        } elseif ($ordersTrendValues-&gt;isEmpty()) {\n
+            $ordersTrendValues = collect(array_fill(0, count($ordersTrendLabels), 0));\n
+        }\n
+\n
+        $activityItems = collect();\n
+        foreach ($paymentsReceivedToday as $payment) {\n
+            $activityItems-&gt;push([\n
+                'title' =&gt; 'Payment received from ' . ($payment-&gt;client-&gt;name ?? 'Doctor'),\n
+                'meta' =&gt; number_format((float) $payment-&gt;amount, 2) . ' ' . $currencyLabel,\n
+                'time' =&gt; optional($payment-&gt;created_at)-&gt;diffForHumans() ?? 'Today',\n
+                'icon' =&gt; 'fa-money-bill-wave',\n
+                'tone' =&gt; 'success',\n
+                'modal' =&gt; '#receivePaymentModal' . $payment-&gt;id,\n
+            ]);\n
+        }\n
+        foreach ($DeliveriesToday as $case) {\n
+            $activityItems-&gt;push([\n
+                'title' =&gt; 'Delivery scheduled for ' . ($case-&gt;client-&gt;name ?? 'Doctor'),\n
+                'meta' =&gt; $case-&gt;patient_name ?? 'Patient',\n
+                'time' =&gt; date('g:i a', strtotime(str_replace('T', ' ', $case-&gt;initial_delivery_date))),\n
+                'icon' =&gt; 'fa-truck-fast',\n
+                'tone' =&gt; 'warning',\n
+                'modal' =&gt; '#updateDeliveryDate' . $case-&gt;id,\n
+            ]);\n
+        }\n
+        if ($dashboardSampleDataMode &amp;&amp; $activityItems-&gt;isEmpty()) {\n
+            $activityItems = collect([\n
+                ['title' =&gt; 'New dental case #CASE-1256', 'meta' =&gt; 'Implant crown | Dr. Lina Haddad', 'time' =&gt; '2m ago', 'icon' =&gt; 'fa-clipboard-list', 'tone' =&gt; 'accent', 'modal' =&gt; null],\n
+                ['title' =&gt; 'Clinic payment received', 'meta' =&gt; '850.00 ' . $currencyLabel . ' | Abdoun Dental Center', 'time' =&gt; '15m ago', 'icon' =&gt; 'fa-money-bill-wave', 'tone' =&gt; 'success', 'modal' =&gt; null],\n
+                ['title' =&gt; 'Case ready for delivery', 'meta' =&gt; 'Zirconia bridge | Sweifieh Clinic', 'time' =&gt; '1h ago', 'icon' =&gt; 'fa-truck-fast', 'tone' =&gt; 'warning', 'modal' =&gt; null],\n
+            ]);\n
+        }\n
+\n
+        $kpiCards = [\n
+            ['label' =&gt; 'Total Revenue', 'prefix' =&gt; $currencyLabel, 'number' =&gt; number_format($displayRevenueTotal, 0)],\n
+            ['label' =&gt; 'Orders', 'prefix' =&gt; null, 'number' =&gt; number_format($displayOrdersTotal)],\n
+            ['label' =&gt; 'Customers', 'prefix' =&gt; null, 'number' =&gt; number_format($displayNewCustomers)],\n
+        ];\n
+\n
+    @endphp\n
+\n
+    &lt;link href="{{ asset('assets/css/elegant-dashboard.css') }}" rel="stylesheet"&gt;\n
+\n
+    &lt;div class="solent-dash" data-dashboard-sample-mode="{{ $demoToggleActive ? 'on' : 'off' }}"&gt;\n
+        &lt;main class="solent-dash-shell"&gt;\n
+            &lt;section class="solent-dash-kpis" aria-label="Dashboard key metrics"&gt;\n
+                @foreach ($kpiCards as $card)\n
+                    &lt;article class="solent-dash-kpi-card card-1"&gt;\n
+                        &lt;div class="solent-dash-kpi-head"&gt;\n
+                            &lt;div&gt;\n
+                                &lt;span class="solent-dash-label"&gt;{{ $card['label'] }}&lt;/span&gt;\n
+                                &lt;strong class="solent-dash-value" aria-label="{{ trim(($card['prefix'] ? $card['prefix'] . ' ' : '') . $card['number']) }}"&gt;\n
+                                    @if ($card['prefix'])\n
+                                        &lt;span class="solent-dash-value-prefix"&gt;{{ $card['prefix'] }}&lt;/span&gt;\n
+                                    @endif\n
+                                    &lt;span class="solent-dash-value-number"&gt;{{ $card['number'] }}&lt;/span&gt;\n
+                                &lt;/strong&gt;\n
+                            &lt;/div&gt;\n
+                        &lt;/div&gt;\n
+                    &lt;/article&gt;\n
+                @endforeach\n
+                &lt;article class="solent-dash-kpi-card solent-dash-sample-card card-1"&gt;\n
+                    &lt;form class="solent-dash-sample-toggle" method="{{ $tenantDemoSupported ? 'POST' : 'GET' }}" action="{{ $tenantDemoSupported ? route('tenant-demo.update') : route('home') }}"&gt;\n
+                        @if ($tenantDemoSupported)\n
+                            @csrf\n
+                        @endif\n
+                        &lt;div&gt;\n
+                            &lt;span class="solent-dash-label"&gt;Demo Data&lt;/span&gt;\n
+                            &lt;strong class="solent-dash-sample-status"&gt;\n
+                                {{ $demoToggleActive ? 'On' : 'Off' }}\n
+                            &lt;/strong&gt;\n
+                        &lt;/div&gt;\n
+                        &lt;button\n
+                            type="submit"\n
+                            class="solent-dash-switch {{ $demoToggleActive ? 'is-active' : '' }}"\n
+                            name="{{ $tenantDemoSupported ? 'enabled' : 'sample_data' }}"\n
+                            value="{{ $demoToggleActive ? '0' : '1' }}"\n
+                            role="switch"\n
+                            aria-checked="{{ $demoToggleActive ? 'true' : 'false' }}"\n
+                            title="{{ $demoToggleActive ? 'Return to real data' : 'Explore sample data' }}"\n
+                        &gt;\n
+                            &lt;span class="sr-only"&gt;{{ $demoToggleActive ? 'Return to real data' : 'Explore sample data' }}&lt;/span&gt;\n
+                            &lt;span class="solent-dash-switch__track" aria-hidden="true"&gt;&lt;/span&gt;\n
+                        &lt;/button&gt;\n
+                    &lt;/form&gt;\n
+                &lt;/article&gt;\n
+            &lt;/section&gt;\n
+\n
+            &lt;section class="solent-dash-layout"&gt;\n
+                &lt;article class="solent-dash-panel solent-dash-customer-panel card-2"&gt;\n
+                    &lt;div class="solent-dash-panel-head"&gt;\n
+                        &lt;div class="solent-dash-map-card-copy"&gt;\n
+                            &lt;span class="solent-dash-map-card-kicker"&gt;{{ $dashboardUi['Geographic activity'] ?? 'Geographic activity' }}&lt;/span&gt;\n
+                            &lt;h2 class="solent-dash-panel-title"&gt;{{ $dashboardUi['Case Activity by Governorate'] ?? 'Case Activity by Governorate' }}&lt;/h2&gt;\n
+                            &lt;p class="solent-dash-map-card-summary"&gt;Explore how active cases are distributed across Jordan.&lt;/p&gt;\n
+                        &lt;/div&gt;\n
+                        &lt;button class="solent-dash-map-card-action" type="button" data-toggle="modal" data-target="#solentJordanMapModal" aria-label="Explore case activity by Jordan governorate"&gt;\n
+                            &lt;i class="fa-solid fa-expand" aria-hidden="true"&gt;&lt;/i&gt;\n
+                            &lt;span&gt;Explore&lt;/span&gt;\n
+                        &lt;/button&gt;\n
+                    &lt;/div&gt;\n
+                    &lt;div class="solent-dash-client-panel"&gt;\n
+                        &lt;div class="solent-dash-map-stage" aria-hidden="true" inert&gt;\n
+                            @include('partials.jordan-dashboard-map')\n
+                        &lt;/div&gt;\n
+                    &lt;/div&gt;\n
+                &lt;/article&gt;\n
+\n
+                &lt;article class="solent-dash-panel solent-dash-panel-large card-2"&gt;\n
+                    &lt;div class="solent-dash-panel-head"&gt;\n
+                        &lt;div&gt;\n
+                            &lt;h2 class="solent-dash-panel-title"&gt;Revenue Overview&lt;/h2&gt;\n
+                            &lt;p class="solent-dash-panel-value"&gt;{{ $currencyLabel }} {{ number_format($displayRevenueTotal, 0) }}&lt;/p&gt;\n
+                        &lt;/div&gt;\n
+                    &lt;/div&gt;\n
+                    &lt;div class="solent-dash-chart-tall"&gt;&lt;canvas id="solentDashRevenueOverview"&gt;&lt;/canvas&gt;&lt;/div&gt;\n
+                &lt;/article&gt;\n
+\n
+                &lt;article class="solent-dash-panel solent-dash-delivery-panel card-2" data-dashboard-delivery-card&gt;\n
+                    &lt;div class="solent-dash-panel-head"&gt;\n
+                        &lt;h2 class="solent-dash-panel-title"&gt;{{ $dashboardUi['Case delivery'] ?? 'Case delivery' }}&lt;/h2&gt;\n
+                        &lt;a class="solent-dash-delivery-link" href="{{ route('delivery-schedule') }}" aria-label="{{ $dashboardUi['View delivery schedule'] ?? 'View delivery schedule' }}"&gt;\n
+                            &lt;i class="fa-regular fa-calendar" aria-hidden="true"&gt;&lt;/i&gt;\n
+                            &lt;span&gt;{{ $dashboardUi['View delivery schedule'] ?? 'View delivery schedule' }}&lt;/span&gt;\n
+                        &lt;/a&gt;\n
+                    &lt;/div&gt;\n
+                    &lt;div class="solent-dash-delivery-case-list" data-dashboard-delivery-cases&gt;\n
+                        @forelse ($deliveryCardCases as $deliveryCase)\n
+                            @php\n
+                                $rawDeliveryDate = method_exists($deliveryCase, 'getRawOriginal')\n
+                                    ? ($deliveryCase-&gt;getRawOriginal('initial_delivery_date') ?: $deliveryCase-&gt;initial_delivery_date)\n
+                                    : $deliveryCase-&gt;initial_delivery_date;\n
+                                $deliveryMoment = \Carbon\Carbon::parse(str_replace('T', ' ', (string) $rawDeliveryDate));\n
+                                $deliveryDoctor = $deliveryCase-&gt;client-&gt;name ?? ($dashboardUi['Doctor'] ?? 'Doctor');\n
+                                $deliveryPatient = $deliveryCase-&gt;patient_name ?? ($dashboardUi['Patient'] ?? 'Patient');\n
+                            @endphp\n
+                            &lt;a class="solent-dash-delivery-case" href="{{ route('view-case', ['id' =&gt; $deliveryCase-&gt;id, 'stage' =&gt; -2]) }}"&gt;\n
+                                &lt;span class="solent-dash-delivery-case-copy"&gt;\n
+                                    &lt;span class="solent-dash-delivery-case-field"&gt;\n
+                                        &lt;small&gt;{{ $dashboardUi['Doctor'] ?? 'Doctor' }}&lt;/small&gt;\n
+                                        &lt;strong title="{{ $deliveryDoctor }}"&gt;{{ $deliveryDoctor }}&lt;/strong&gt;\n
+                                    &lt;/span&gt;\n
+                                    &lt;span class="solent-dash-delivery-case-field"&gt;\n
+                                        &lt;small&gt;{{ $dashboardUi['Patient'] ?? 'Patient' }}&lt;/small&gt;\n
+                                        &lt;strong title="{{ $deliveryPatient }}"&gt;{{ $deliveryPatient }}&lt;/strong&gt;\n
+                                    &lt;/span&gt;\n
+                                &lt;/span&gt;\n
+                                &lt;time datetime="{{ $deliveryMoment-&gt;toIso8601String() }}" dir="ltr"&gt;\n
+                                    &lt;small&gt;{{ $dashboardUi['Delivery time'] ?? 'Delivery time' }}&lt;/small&gt;\n
+                                    &lt;strong&gt;{{ $deliveryMoment-&gt;translatedFormat('d M') }} · {{ $deliveryMoment-&gt;format('H:i') }}&lt;/strong&gt;\n
+                                &lt;/time&gt;\n
+                            &lt;/a&gt;\n
+                        @empty\n
+                            &lt;div class="solent-dash-delivery-empty"&gt;\n
+                                &lt;i class="fa-regular fa-circle-check" aria-hidden="true"&gt;&lt;/i&gt;\n
+                                &lt;span&gt;{{ $dashboardUi['No cases scheduled'] ?? 'No cases scheduled' }}&lt;/span&gt;\n
+                            &lt;/div&gt;\n
+                        @endforelse\n
+                    &lt;/div&gt;\n
+                &lt;/article&gt;\n
+\n
+                &lt;article class="solent-dash-panel solent-dash-service-panel card-2"&gt;\n
+                    &lt;div class="solent-dash-panel-head"&gt;\n
+                        &lt;h2 class="solent-dash-panel-title"&gt;Revenue by Service Type&lt;/h2&gt;\n
+                    &lt;/div&gt;\n
+                    &lt;div class="solent-dash-service-total"&gt;\n
+                        &lt;span&gt;This month&lt;/span&gt;\n
+                        &lt;strong&gt;{{ $currencyLabel }} {{ number_format($serviceRevenueTotal, 0) }}&lt;/strong&gt;\n
+                    &lt;/div&gt;\n
+                    &lt;div class="solent-dash-service-bars"&gt;\n
+                        @forelse ($serviceRevenueRows as $serviceRevenueRow)\n
+                            &lt;div class="solent-dash-service-row"&gt;\n
+                                &lt;div class="solent-dash-service-line"&gt;\n
+                                    &lt;span&gt;{{ $serviceRevenueRow['label'] }}&lt;/span&gt;\n
+                                    &lt;strong&gt;{{ $currencyLabel }} {{ number_format($serviceRevenueRow['value'], 0) }}&lt;/strong&gt;\n
+                                &lt;/div&gt;\n
+                                &lt;div class="solent-dash-service-track"&gt;\n
+                                    &lt;span style="width: {{ $serviceRevenueRow['width'] }}%"&gt;&lt;/span&gt;\n
+                                &lt;/div&gt;\n
+                            &lt;/div&gt;\n
+                        @empty\n
+                            &lt;div class="solent-dash-service-empty"&gt;No service revenue this month&lt;/div&gt;\n
+                        @endforelse\n
+                    &lt;/div&gt;\n
+                &lt;/article&gt;\n
+\n
+                &lt;article class="solent-dash-panel solent-dash-orders-panel card-2"&gt;\n
+                    &lt;div class="solent-dash-panel-head"&gt;\n
+                        &lt;div&gt;\n
+                            &lt;h2 class="solent-dash-panel-title"&gt;Orders Over Time&lt;/h2&gt;\n
+                            &lt;p class="solent-dash-panel-value"&gt;{{ number_format($displayOrdersTotal) }}&lt;/p&gt;\n
+                        &lt;/div&gt;\n
+                    &lt;/div&gt;\n
+                    &lt;div class="solent-dash-chart-medium"&gt;&lt;canvas id="solentDashOrdersOverTime"&gt;&lt;/canvas&gt;&lt;/div&gt;\n
+                &lt;/article&gt;\n
+            &lt;/section&gt;\n
+\n
+            &lt;section class="solent-dash-mid-layout solent-dash-hidden-section" hidden&gt;\n
+                &lt;article class="solent-dash-panel solent-dash-load-panel solent-dash-hidden-card card-2" hidden&gt;\n
+                    &lt;div class="solent-dash-panel-head"&gt;\n
+                        &lt;div&gt;\n
+                            &lt;span class="solent-dash-load-kicker"&gt;Production Load&lt;/span&gt;\n
+                            &lt;h2 class="solent-dash-panel-title"&gt;Stage Daily Utilization&lt;/h2&gt;\n
+                        &lt;/div&gt;\n
+                        &lt;button class="solent-dash-chip" type="button"&gt;Current cases&lt;/button&gt;\n
+                    &lt;/div&gt;\n
+                    &lt;div class="solent-dash-load-body"&gt;\n
+                        &lt;div&gt;\n
+                            &lt;div class="solent-dash-load-chart"&gt;&lt;canvas id="solentDashProductionLoad"&gt;&lt;/canvas&gt;&lt;/div&gt;\n
+                            &lt;div class="solent-dash-load-legend" aria-hidden="true"&gt;\n
+                                &lt;span&gt;&lt;i class="solent-dash-load-swatch solent-dash-load-swatch-primary"&gt;&lt;/i&gt;Active cases&lt;/span&gt;\n
+                                &lt;span&gt;&lt;i class="solent-dash-load-swatch solent-dash-load-swatch-secondary"&gt;&lt;/i&gt;Waiting cases&lt;/span&gt;\n
+                            &lt;/div&gt;\n
+                        &lt;/div&gt;\n
+                        &lt;div class="solent-dash-load-list"&gt;\n
+                            @foreach ($productionLoadHighlights as $stageLoad)\n
+                                &lt;div class="solent-dash-load-item card-3"&gt;\n
+                                    &lt;div&gt;\n
+                                        &lt;strong&gt;{{ $stageLoad['label'] }}&lt;/strong&gt;\n
+                                        &lt;span&gt;{{ number_format($stageLoad['active']) }} active cases&lt;/span&gt;\n
+                                        &lt;span&gt;{{ number_format($stageLoad['waiting']) }} waiting cases&lt;/span&gt;\n
+                                    &lt;/div&gt;\n
+                                    &lt;span class="solent-dash-load-jobs"&gt;{{ number_format($stageLoad['jobs']) }} total cases&lt;/span&gt;\n
+                                &lt;/div&gt;\n
+                            @endforeach\n
+                        &lt;/div&gt;\n
+                    &lt;/div&gt;\n
+                &lt;/article&gt;\n
+\n
+                &lt;article class="solent-dash-panel solent-dash-activity-panel solent-dash-hidden-card card-2" hidden&gt;\n
+                    &lt;div class="solent-dash-panel-head"&gt;\n
+                        &lt;h2 class="solent-dash-panel-title"&gt;Recent Activity&lt;/h2&gt;\n
+                        &lt;button class="solent-dash-chip" type="button"&gt;View all&lt;/button&gt;\n
+                    &lt;/div&gt;\n
+                    &lt;div class="solent-dash-activity-list"&gt;\n
+                        @forelse ($activityItems-&gt;take(5) as $activity)\n
+                            &lt;a class="solent-dash-activity-item card-3" href="{{ $activity['modal'] ?: '#' }}" @if($activity['modal']) data-toggle="modal" @endif&gt;\n
+                                &lt;span class="solent-dash-activity-icon tone-{{ $activity['tone'] }}"&gt;&lt;i class="fa-solid {{ $activity['icon'] }}"&gt;&lt;/i&gt;&lt;/span&gt;\n
+                                &lt;span&gt;\n
+                                    &lt;strong&gt;{{ $activity['title'] }}&lt;/strong&gt;\n
+                                    &lt;span&gt;{{ $activity['meta'] }}&lt;/span&gt;\n
+                                &lt;/span&gt;\n
+                                &lt;span class="solent-dash-activity-meta"&gt;{{ $activity['time'] }}&lt;/span&gt;\n
+                            &lt;/a&gt;\n
+                        @empty\n
+                            &lt;div class="solent-dash-activity-empty"&gt;No recent activity&lt;/div&gt;\n
+                        @endforelse\n
+                    &lt;/div&gt;\n
+                &lt;/article&gt;\n
+            &lt;/section&gt;\n
+        &lt;/main&gt;\n
+    &lt;/div&gt;\n
+\n
+    &lt;div class="modal fade solent-dash-map-modal" id="solentJordanMapModal" tabindex="-1" role="dialog" aria-labelledby="solentJordanMapModalTitle" aria-hidden="true"&gt;\n
+        &lt;div class="modal-dialog modal-dialog-centered modal-lg" role="document"&gt;\n
+            &lt;div class="modal-content"&gt;\n
+                &lt;div class="modal-header"&gt;\n
+                    &lt;div class="solent-dash-map-modal-copy"&gt;\n
+                        &lt;span class="solent-dash-map-modal-eyebrow"&gt;Regional overview&lt;/span&gt;\n
+                        &lt;h5 class="modal-title" id="solentJordanMapModalTitle"&gt;Case Activity Across Jordan&lt;/h5&gt;\n
+                        &lt;p class="solent-dash-map-modal-summary"&gt;Select a governorate to inspect its case activity in more detail.&lt;/p&gt;\n
+                    &lt;/div&gt;\n
+                    &lt;button type="button" class="close" data-dismiss="modal" aria-label="Close"&gt;&lt;span aria-hidden="true"&gt;&amp;times;&lt;/span&gt;&lt;/button&gt;\n
+                &lt;/div&gt;\n
+                &lt;div class="modal-body"&gt;\n
+                    &lt;div class="solent-dash-map-stage"&gt;\n
+                        @include('partials.jordan-dashboard-map', ['expanded' =&gt; true, 'drilldown' =&gt; true])\n
+                    &lt;/div&gt;\n
+                &lt;/div&gt;\n
+            &lt;/div&gt;\n
+        &lt;/div&gt;\n
+    &lt;/div&gt;\n
+\n
+    &lt;div class="modal fade solent-dash-map-detail-modal" id="solentJordanGovernorateModal" tabindex="-1" role="dialog" aria-labelledby="solentJordanGovernorateModalTitle" aria-hidden="true"&gt;\n
+        &lt;div class="modal-dialog modal-dialog-centered modal-lg" role="document"&gt;\n
+            &lt;div class="modal-content"&gt;\n
+                &lt;div class="modal-header"&gt;\n
+                    &lt;div class="solent-dash-map-modal-copy"&gt;\n
+                        &lt;span class="solent-dash-map-modal-eyebrow"&gt;Governorate detail&lt;/span&gt;\n
+                        &lt;h5 class="modal-title" id="solentJordanGovernorateModalTitle"&gt;Governorate Detail&lt;/h5&gt;\n
+                        &lt;p class="solent-dash-map-detail-meta" id="solentJordanGovernorateModalMeta"&gt;0 cases in this governorate&lt;/p&gt;\n
+                    &lt;/div&gt;\n
+                    &lt;button type="button" class="close" data-dismiss="modal" aria-label="Close"&gt;&lt;span aria-hidden="true"&gt;&amp;times;&lt;/span&gt;&lt;/button&gt;\n
+                &lt;/div&gt;\n
+                &lt;div class="modal-body"&gt;\n
+                    &lt;div class="solent-dash-map-stage"&gt;\n
+                        @include('partials.jordan-dashboard-map', ['expanded' =&gt; true, 'focusRegion' =&gt; ''])\n
+                    &lt;/div&gt;\n
+                &lt;/div&gt;\n
+            &lt;/div&gt;\n
+        &lt;/div&gt;\n
+    &lt;/div&gt;\n
+\n
+    @foreach ($paymentsReceivedToday as $payment)\n
+        &lt;div class="modal fade" id="receivePaymentModal{{ $payment-&gt;id }}" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="exampleModalLabelform"&gt;\n
+            &lt;div class="modal-dialog modal-dialog-centered" role="document"&gt;\n
+                &lt;div class="modal-content"&gt;\n
+                    &lt;div class="modal-header"&gt;\n
+                        &lt;h5 class="modal-title" id="exampleModalLabel"&gt;Receive Payment&lt;/h5&gt;\n
+                        &lt;button type="button" class="close" data-dismiss="modal" aria-label="Close"&gt;&lt;span aria-hidden="true"&gt;&amp;times;&lt;/span&gt;&lt;/button&gt;\n
+                    &lt;/div&gt;\n
+                    &lt;div class="modal-body lightGrayTopBorder"&gt;\n
+                        &lt;div class="container"&gt;&lt;div class="row"&gt;&lt;div class="col-md-6"&gt;&lt;strong&gt;Doctor:&lt;/strong&gt;&lt;/div&gt;&lt;div class="col-md-6"&gt;{{ $payment-&gt;client-&gt;name }}&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;\n
+                        &lt;hr class="noMargin lightGrayTopBorder"&gt;\n
+                        &lt;div class="container"&gt;&lt;div class="row"&gt;&lt;div class="col-md-6"&gt;&lt;strong&gt;Collected from doctor by: &lt;/strong&gt;&lt;/div&gt;&lt;div class="col-md-6"&gt;{{ $payment-&gt;collectorFullName() }}&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;\n
+                        &lt;hr class="noMargin lightGrayTopBorder"&gt;\n
+                        &lt;div class="container"&gt;&lt;div class="row"&gt;&lt;div class="col-md-6"&gt;&lt;strong&gt;Payment Amount:&lt;/strong&gt;&lt;/div&gt;&lt;div class="col-md-6"&gt;{{ $payment-&gt;amount }} {{ $currencyLabel }}&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;\n
+                        &lt;hr class="noMargin lightGrayTopBorder"&gt;\n
+                        &lt;div class="container"&gt;&lt;div class="row"&gt;&lt;div class="col-md-6"&gt;&lt;strong&gt;Collected On:&lt;/strong&gt;&lt;/div&gt;&lt;div class="col-md-6"&gt;{{ $payment-&gt;created_at }}&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;\n
+                        @if ($payment-&gt;isCollected())\n
+                            &lt;hr class="noMargin lightGrayTopBorder"&gt;\n
+                            &lt;div class="container"&gt;&lt;div class="row"&gt;&lt;div class="col-md-6"&gt;&lt;strong&gt;Received On:&lt;/strong&gt;&lt;/div&gt;&lt;div class="col-md-6"&gt;{{ $payment-&gt;recieved_on }}&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;\n
+                            &lt;hr class="noMargin lightGrayTopBorder"&gt;\n
+                            &lt;div class="container"&gt;&lt;div class="row"&gt;&lt;div class="col-md-6"&gt;&lt;strong&gt;Received by:&lt;/strong&gt;&lt;/div&gt;&lt;div class="col-md-6"&gt;{{ $payment-&gt;receiverFullName() }}&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;\n
+                        @endif\n
+                        &lt;hr class="noMargin lightGrayTopBorder"&gt;\n
+                        &lt;div class="container"&gt;&lt;div class="row"&gt;&lt;div class="col-md-6"&gt;&lt;strong&gt;Payment Method: &lt;/strong&gt;&lt;/div&gt;&lt;div class="col-md-6"&gt;{{ $payment-&gt;notes }}&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;\n
+                        @if ($payment-&gt;additional_notes)\n
+                            &lt;hr class="noMargin lightGrayTopBorder"&gt;\n
+                            &lt;div class="container"&gt;&lt;div class="row"&gt;&lt;div class="col-md-12"&gt;{{ $payment-&gt;additional_notes }}&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;\n
+                        @endif\n
+                    &lt;/div&gt;\n
+                    &lt;div class="modal-footer"&gt;\n
+                        &lt;button type="button" class="btn btn-secondary" data-dismiss="modal"&gt;Close&lt;/button&gt;\n
+                        @if (! $payment-&gt;isCollected())\n
+                            &lt;a href="{{ route('receive-payment', $payment-&gt;id) }}"&gt;&lt;button type="button" class="btn btn-danger"&gt;Receive&lt;/button&gt;&lt;/a&gt;\n
+                        @endif\n
+                    &lt;/div&gt;\n
+                    &lt;small style="text-align:center;font-size: 60%;color: var(--text-2);"&gt;PAYMENT ID : {{ $payment-&gt;id }}&lt;/small&gt;\n
+                &lt;/div&gt;\n
+            &lt;/div&gt;\n
+        &lt;/div&gt;\n
+    @endforeach\n
+\n
+    @foreach ($DeliveriesToday as $case)\n
+        &lt;div class="modal fade" id="updateDeliveryDate{{ $case-&gt;id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelform" aria-hidden="true"&gt;\n
+            &lt;div class="modal-dialog modal-dialog-centered" role="document"&gt;\n
+                &lt;div class="modal-content"&gt;\n
+                    &lt;form action="{{ route('edit-delivery-date') }}" method="POST"&gt;\n
+                        @csrf\n
+                        &lt;input type="hidden" name="id" value="{{ $case-&gt;id }}"&gt;\n
+                        &lt;div class="modal-header"&gt;\n
+                            &lt;h5 class="modal-title" id="exampleModalLabel"&gt;Update Delivery Time&lt;/h5&gt;\n
+                            &lt;button type="button" class="close" data-dismiss="modal" aria-label="Close"&gt;&lt;span aria-hidden="true"&gt;&amp;times;&lt;/span&gt;&lt;/button&gt;\n
+                        &lt;/div&gt;\n
+                        &lt;div class="modal-body"&gt;\n
+                            @php $time = date('Y-m-d g:i a', strtotime($case-&gt;initial_delivery_date)); @endphp\n
+                            &lt;div class="container"&gt;&lt;div class="row"&gt;&lt;div class="col-md-6"&gt;&lt;strong&gt;Doctor Name &lt;/strong&gt;&lt;/div&gt;&lt;div class="col-md-6"&gt;{{ $case-&gt;client-&gt;name ?? 'Unknown Doctor' }}&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;\n
+                            &lt;hr class="noMargin lightGrayTopBorder"&gt;\n
+                            &lt;div class="container"&gt;&lt;div class="row"&gt;&lt;div class="col-md-6"&gt;&lt;strong&gt;Patient Name:&lt;/strong&gt;&lt;/div&gt;&lt;div class="col-md-6"&gt;{{ $case-&gt;patient_name }}&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;\n
+                            &lt;hr class="noMargin lightGrayTopBorder"&gt;\n
+                            &lt;div class="container"&gt;&lt;div class="row"&gt;&lt;div class="col-md-6"&gt;&lt;strong&gt;Current Delivery Time:&lt;/strong&gt;&lt;/div&gt;&lt;div class="col-md-6"&gt;{{ $time }}&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;\n
+                            &lt;hr class="noMargin lightGrayTopBorder"&gt;\n
+                            &lt;div class="container"&gt;&lt;div class="row"&gt;&lt;div class="col-md-6"&gt;&lt;strong&gt;Change To:&lt;/strong&gt;&lt;/div&gt;&lt;div class="col-md-6"&gt;&lt;input class="form-control SDTP" name="delivery_date" type="text" value="{{ $time }}" required readonly /&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;\n
+                        &lt;/div&gt;\n
+                        &lt;div class="modal-footer"&gt;\n
+                            &lt;button type="button" class="btn btn-secondary" data-dismiss="modal"&gt;Close&lt;/button&gt;\n
+                            &lt;button type="submit" class="btn btn-danger"&gt;UPDATE&lt;/button&gt;\n
+                        &lt;/div&gt;\n
+                        &lt;small style="text-align:center;font-size: 60%;color: var(--text-2);"&gt;CASE ID : {{ $case-&gt;id }}&lt;/small&gt;\n
+                    &lt;/form&gt;\n
+                &lt;/div&gt;\n
+            &lt;/div&gt;\n
+        &lt;/div&gt;\n
+    @endforeach\n
+@endsection\n
+\n
+@push('js')\n
+    &lt;script src="{{ asset('white') }}/js/plugins/chartjs.min.js"&gt;&lt;/script&gt;\n
+    &lt;script&gt;\n
+        const solentDashStyles = getComputedStyle(document.documentElement);\n
+        const solentDashCss = function (name) {\n
+            return solentDashStyles.getPropertyValue(name).trim();\n
+        };\n
+        const solentDashPalette = {\n
+            accent: solentDashCss('--accent'),\n
+            accentLt: solentDashCss('--accent-lt'),\n
+            accentBg: solentDashCss('--accent-bg'),\n
+            success: solentDashCss('--success'),\n
+            warning: solentDashCss('--warning'),\n
+            danger: solentDashCss('--danger'),\n
+            text1: solentDashCss('--text-1'),\n
+            text2: solentDashCss('--text-2'),\n
+            surface: solentDashCss('--surface'),\n
+            grid: solentDashCss('--chart-grid')\n
+        };\n
+        solentDashPalette.stageAccent = '#6366f1';\n
+\n
+        const solentDashData = {\n
+            revenueLabels: {!! json_encode($revenueTrendLabels) !!},\n
+            revenueValues: {!! json_encode($revenueTrendValues-&gt;values()-&gt;all()) !!},\n
+            orderLabels: {!! json_encode($ordersTrendLabels) !!},\n
+            orderValues: {!! json_encode($ordersTrendValues-&gt;values()-&gt;all()) !!},\n
+            productionLoad: {\n
+                labels: {!! json_encode($productionLoadRows-&gt;pluck('label')-&gt;values()-&gt;all()) !!},\n
+                active: {!! json_encode($productionLoadRows-&gt;pluck('active')-&gt;values()-&gt;all()) !!},\n
+                waiting: {!! json_encode($productionLoadRows-&gt;pluck('waiting')-&gt;values()-&gt;all()) !!},\n
+                jobs: {!! json_encode($productionLoadRows-&gt;pluck('jobs')-&gt;values()-&gt;all()) !!}\n
+            }\n
+        };\n
+\n
+        document.addEventListener('DOMContentLoaded', function () {\n
+            solentDashInitJordanMapDrilldown();\n
+            solentDashInitRevenue();\n
+            solentDashInitOrders();\n
+        });\n
+\n
+        function solentDashInitJordanMapDrilldown() {\n
+            const sourceModal = document.getElementById('solentJordanMapModal');\n
+            const targetModal = document.getElementById('solentJordanGovernorateModal');\n
+            const targetTitle = document.getElementById('solentJordanGovernorateModalTitle');\n
+            const targetMeta = document.getElementById('solentJordanGovernorateModalMeta');\n
+            const targetMap = targetModal ? targetModal.querySelector('[data-solent-jordan-map]') : null;\n
+\n
+            if (!sourceModal || !targetModal || !targetMap) return;\n
+\n
+            function formatCaseCount(value) {\n
+                const caseCount = Number(value) || 0;\n
+                return caseCount.toLocaleString() + (caseCount === 1 ? ' case' : ' cases') + ' in this governorate';\n
+            }\n
+\n
+            document.addEventListener('solent:jordan-region-selected', function (event) {\n
+                if (!sourceModal.contains(event.target)) return;\n
+\n
+                const detail = event.detail || {};\n
+                targetMap.dataset.focusRegion = detail.normalizedName || '';\n
+                targetTitle.textContent = (detail.name || 'Governorate') + ' Governorate';\n
+                targetMeta.textContent = formatCaseCount(detail.cases);\n
+\n
+                if (typeof window.solentJordanMapRerender === 'function') {\n
+                    window.solentJordanMapRerender(targetMap, false);\n
+                }\n
+\n
+                if (window.jQuery) {\n
+                    window.jQuery(targetModal).modal({ backdrop: false, keyboard: true, show: true });\n
+                }\n
+            });\n
+\n
+            if (window.jQuery) {\n
+                const $sourceModal = window.jQuery(sourceModal);\n
+                const $targetModal = window.jQuery(targetModal);\n
+\n
+                $targetModal\n
+                    .on('show.bs.modal', function () {\n
+                        sourceModal.setAttribute('aria-hidden', 'true');\n
+                    })\n
+                    .on('hidden.bs.modal', function () {\n
+                        if ($sourceModal.hasClass('show')) {\n
+                            document.body.classList.add('modal-open');\n
+                            sourceModal.setAttribute('aria-hidden', 'false');\n
+                            const sourceCloseButton = sourceModal.querySelector('.modal-header .close');\n
+                            if (sourceCloseButton) sourceCloseButton.focus();\n
+                        }\n
+                    });\n
+            }\n
+        }\n
+\n
+        function solentDashGradient(ctx, color, height, topOpacity) {\n
+            const gradient = ctx.createLinearGradient(0, 0, 0, height);\n
+            gradient.addColorStop(0, Chart.helpers.color(color).alpha(topOpacity || 0.35).rgbString());\n
+            gradient.addColorStop(1, Chart.helpers.color(color).alpha(0).rgbString());\n
+            return gradient;\n
+        }\n
+\n
+        function solentDashDateLabel(value) {\n
+            const date = new Date(value);\n
+            if (Number.isNaN(date.getTime())) {\n
+                return value;\n
+            }\n
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });\n
+        }\n
+\n
+        function solentDashBaseOptions(extra) {\n
+            return Object.assign({\n
+                responsive: true,\n
+                maintainAspectRatio: false,\n
+                legend: { display: false },\n
+                tooltips: {\n
+                    backgroundColor: solentDashPalette.text1,\n
+                    titleFontColor: solentDashPalette.surface,\n
+                    bodyFontColor: solentDashPalette.surface,\n
+                    displayColors: false\n
+                }\n
+            }, extra || {});\n
+        }\n
+\n
+        if (!window.solentDashOrderValueLabelsRegistered) {\n
+            Chart.plugins.register({\n
+                afterDatasetsDraw: function (chart) {\n
+                    if (chart.canvas.id !== 'solentDashOrdersOverTime') return;\n
+\n
+                    const bars = chart.getDatasetMeta(0).data;\n
+                    const values = chart.data.datasets[0].data;\n
+                    const context = chart.ctx;\n
+\n
+                    context.save();\n
+                    context.fillStyle = '#312e81';\n
+                    context.font = '600 11px Inter, Arial, sans-serif';\n
+                    context.textAlign = 'center';\n
+                    context.textBaseline = 'bottom';\n
+\n
+                    bars.forEach(function (bar, index) {\n
+                        const value = Math.max(0, Math.round(Number(values[index]) || 0));\n
+                        const position = bar.tooltipPosition();\n
+                        context.fillText(value.toLocaleString(), position.x, position.y - 7);\n
+                    });\n
+\n
+                    context.restore();\n
+                }\n
+            });\n
+            window.solentDashOrderValueLabelsRegistered = true;\n
+        }\n
+\n
+        function solentDashInitRevenue() {\n
+            const canvas = document.getElementById('solentDashRevenueOverview');\n
+            if (!canvas) return;\n
+            const ctx = canvas.getContext('2d');\n
+            const revenueAccent = '#6366f1';\n
+            const revenueGradient = ctx.createLinearGradient(0, 0, 0, 240);\n
+            revenueGradient.addColorStop(0, 'rgba(99, 102, 241, 0.4)');\n
+            revenueGradient.addColorStop(1, 'rgba(99, 102, 241, 0)');\n
+            new Chart(ctx, {\n
+                type: 'line',\n
+                data: {\n
+                    labels: solentDashData.revenueLabels,\n
+                    datasets: [{\n
+                        data: solentDashData.revenueValues,\n
+                        borderColor: revenueAccent,\n
+                        backgroundColor: revenueGradient,\n
+                        borderWidth: 2.5,\n
+                        pointBackgroundColor: revenueAccent,\n
+                        pointBorderColor: solentDashPalette.surface,\n
+                        pointBorderWidth: 2,\n
+                        pointRadius: 3,\n
+                        fill: true,\n
+                        lineTension: 0.38\n
+                    }]\n
+                },\n
+                options: solentDashBaseOptions({\n
+                    layout: { padding: { right: 10 } },\n
+                    scales: {\n
+                        xAxes: [{ gridLines: { display: false }, ticks: { callback: solentDashDateLabel, fontColor: solentDashPalette.text2, fontSize: 11, autoSkip: true, autoSkipPadding: 12, maxRotation: 0, minRotation: 0 } }],\n
+                        yAxes: [{\n
+                            ticks: {\n
+                                beginAtZero: true,\n
+                                callback: function (value) {\n
+                                    const roundedValue = Number(Number(value).toFixed(1));\n
+                                    return roundedValue === 0 ? '0' : roundedValue + 'K';\n
+                                },\n
+                                fontColor: solentDashPalette.text2,\n
+                                fontSize: 11\n
+                            },\n
+                            gridLines: { color: solentDashPalette.grid, drawBorder: false }\n
+                        }]\n
+                    },\n
+                    tooltips: {\n
+                        callbacks: {\n
+                            label: function (tooltipItem) {\n
+                                return 'JOD ' + Number(tooltipItem.yLabel || 0).toLocaleString();\n
+                            }\n
+                        }\n
+                    }\n
+                })\n
+            });\n
+        }\n
+\n
+        function solentDashInitOrders() {\n
+            const canvas = document.getElementById('solentDashOrdersOverTime');\n
+            if (!canvas) return;\n
+            const ctx = canvas.getContext('2d');\n
+            const orderValues = solentDashData.orderValues.map(function (value) {\n
+                return Math.max(0, Math.round(Number(value) || 0));\n
+            });\n
+            const orderAxisMax = Math.max.apply(null, orderValues.concat([0]));\n
+            const orderTickStep = orderAxisMax &gt;= 500 ? 200 : (orderAxisMax &gt;= 100 ? 50 : (orderAxisMax &gt;= 20 ? 10 : 1));\n
+            const orderGradient = ctx.createLinearGradient(0, 0, 0, 280);\n
+            orderGradient.addColorStop(0, 'rgba(99, 102, 241, 0.92)');\n
+            orderGradient.addColorStop(0.62, 'rgba(129, 140, 248, 0.56)');\n
+            orderGradient.addColorStop(1, 'rgba(199, 210, 254, 0.22)');\n
+            new Chart(ctx, {\n
+                type: 'bar',\n
+                data: {\n
+                    labels: solentDashData.orderLabels,\n
+                    datasets: [\n
+                        {\n
+                            label: 'Orders',\n
+                            data: orderValues,\n
+                            backgroundColor: orderGradient,\n
+                            hoverBackgroundColor: '#4f46e5',\n
+                            borderColor: 'rgba(99, 102, 241, 0.7)',\n
+                            borderWidth: 1,\n
+                            barPercentage: 0.56,\n
+                            categoryPercentage: 0.72,\n
+                            maxBarThickness: 30\n
+                        },\n
+                        {\n
+                            type: 'line',\n
+                            label: 'Order trend',\n
+                            data: orderValues,\n
+                            borderColor: '#312e81',\n
+                            backgroundColor: 'transparent',\n
+                            borderWidth: 2,\n
+                            pointBackgroundColor: '#ffffff',\n
+                            pointBorderColor: '#4f46e5',\n
+                            pointBorderWidth: 2,\n
+                            pointRadius: 2.5,\n
+                            pointHoverRadius: 4,\n
+                            fill: false,\n
+                            lineTension: 0.34,\n
+                            orderTrend: true\n
+                        }\n
+                    ]\n
+                },\n
+                options: solentDashBaseOptions({\n
+                    layout: { padding: { top: 18 } },\n
+                    hover: { mode: 'index', intersect: false },\n
+                    scales: {\n
+                        xAxes: [{ gridLines: { display: false }, ticks: { callback: solentDashDateLabel, fontColor: solentDashPalette.text2, fontSize: 11 } }],\n
+                        yAxes: [{\n
+                            ticks: {\n
+                                beginAtZero: true,\n
+                                precision: 0,\n
+                                stepSize: orderTickStep,\n
+                                suggestedMax: orderAxisMax &gt;= 500 ? Math.ceil(orderAxisMax / 200) * 200 : undefined,\n
+                                fontColor: solentDashPalette.text2,\n
+                                fontSize: 11,\n
+                                callback: function (value) {\n
+                                    return Number.isInteger(value) ? value.toLocaleString() : '';\n
+                                }\n
+                            },\n
+                            gridLines: { color: solentDashPalette.grid, drawBorder: false }\n
+                        }]\n
+                    },\n
+                    tooltips: {\n
+                        mode: 'index',\n
+                        intersect: false,\n
+                        filter: function (tooltipItem, chartData) {\n
+                            return !chartData.datasets[tooltipItem.datasetIndex].orderTrend;\n
+                        },\n
+                        callbacks: {\n
+                            label: function (tooltipItem) {\n
+                                return Number(tooltipItem.yLabel || 0).toLocaleString() + ' orders';\n
+                            }\n
+                        }\n
+                    }\n
+                })\n
+            });\n
+        }\n
+\n
+        function solentDashInitProductionLoad() {\n
+            const canvas = document.getElementById('solentDashProductionLoad');\n
+            if (!canvas) return;\n
+            new Chart(canvas.getContext('2d'), {\n
+                type: 'bar',\n
+                data: {\n
+                    labels: solentDashData.productionLoad.labels,\n
+                    datasets: [\n
+                        {\n
+                            label: @json(trans('ui.dom')['Active cases'] ?? 'Active cases'),\n
+                            data: solentDashData.productionLoad.active,\n
+                            backgroundColor: solentDashPalette.stageAccent,\n
+                            hoverBackgroundColor: solentDashPalette.stageAccent,\n
+                            borderColor: solentDashPalette.stageAccent,\n
+                            borderWidth: 0,\n
+                            barThickness: 14,\n
+                            maxBarThickness: 18\n
+                        },\n
+                        {\n
+                            label: @json(trans('ui.dom')['Waiting cases'] ?? 'Waiting cases'),\n
+                            data: solentDashData.productionLoad.waiting,\n
+                            backgroundColor: solentDashPalette.accentBg,\n
+                            borderWidth: 0,\n
+                            barThickness: 14,\n
+                            maxBarThickness: 18\n
+                        }\n
+                    ]\n
+                },\n
+                options: solentDashBaseOptions({\n
+                    scales: {\n
+                        xAxes: [{\n
+                            ticks: { fontColor: solentDashPalette.text1, fontSize: 10, fontStyle: '600' },\n
+                            gridLines: { display: false }\n
+                        }],\n
+                        yAxes: [{\n
+                            ticks: {\n
+                                beginAtZero: true,\n
+                                precision: 0,\n
+                                fontColor: solentDashPalette.text2,\n
+                                fontSize: 10,\n
+                                callback: function (value) {\n
+                                    return Number.isInteger(value) ? value.toLocaleString() : '';\n
+                                }\n
+                            },\n
+                            gridLines: { color: solentDashPalette.grid, drawBorder: false }\n
+                        }]\n
+                    },\n
+                    tooltips: {\n
+                        backgroundColor: solentDashPalette.text1,\n
+                        titleFontColor: solentDashPalette.surface,\n
+                        bodyFontColor: solentDashPalette.surface,\n
+                        callbacks: {\n
+                            label: function (tooltipItem, data) {\n
+                                const dataset = data.datasets[tooltipItem.datasetIndex];\n
+                                const cases = dataset.data[tooltipItem.index] || 0;\n
+                                return dataset.label + ': ' + Number(cases).toLocaleString() + ' cases';\n
+                            }\n
+                        }\n
+                    }\n
+                })\n
+            });\n
+        }\n
+    &lt;/script&gt;\n
+@endpush\n
+' contains "data-dashboard-delivery-days".
+
+C:\Users\Yazan\Desktop\Projects\Solent\app\tests\Feature\DashboardScopedMarkupTest.php:143</failure>
+        </testcase>
+        <testcase name="test_case_delivery_card_flattens_today_and_tomorrow_into_case_rows" class="Tests\Feature\DashboardScopedMarkupTest" classname="Tests.Feature.DashboardScopedMarkupTest" file="C:\Users\Yazan\Desktop\Projects\Solent\app\tests\Feature\DashboardScopedMarkupTest.php" line="163" assertions="18" time="0.237493"/>
+        <testcase name="test_dashboard_loads_one_pending_delivery_window_for_the_next_three_days" class="Tests\Feature\DashboardScopedMarkupTest" classname="Tests.Feature.DashboardScopedMarkupTest" file="C:\Users\Yazan\Desktop\Projects\Solent\app\tests\Feature\DashboardScopedMarkupTest.php" line="216" assertions="7" time="0.022270"/>
+        <testcase name="test_delivery_voucher_uses_the_solent_logo" class="Tests\Feature\DashboardScopedMarkupTest" classname="Tests.Feature.DashboardScopedMarkupTest" file="C:\Users\Yazan\Desktop\Projects\Solent\app\tests\Feature\DashboardScopedMarkupTest.php" line="229" assertions="1" time="0.025220">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">Tests\Feature\DashboardScopedMarkupTest::test_delivery_voucher_uses_the_solent_logo
+Failed asserting that '\r\n
+\r\n
+&lt;?php $__env-&gt;startSection('content'); ?&gt;\r\n
+&lt;meta name="csrf-token" content="&lt;?php echo e(csrf_token()); ?&gt;"&gt;\r\n
+\r\n
+&lt;style&gt;\r\n
+    /* General Body Styling */\r\n
+    body {\r\n
+        font-family: Arial, sans-serif;\r\n
+        background-color: #f0f0f0;\r\n
+    }\r\n
+\r\n
+    /* Print Button */\r\n
+    .print-button-container {\r\n
+        margin-bottom: 20px;\r\n
+        text-align: center;\r\n
+    }\r\n
+\r\n
+    .btn-print {\r\n
+        background: linear-gradient(135deg, #1E4157 0%, #043c4d 100%);\r\n
+        border: none;\r\n
+        border-radius: 10px;\r\n
+        padding: 14px 32px;\r\n
+        color: white;\r\n
+        font-weight: 600;\r\n
+        font-size: 1rem;\r\n
+        text-transform: uppercase;\r\n
+        letter-spacing: 0.5px;\r\n
+        box-shadow: 0 4px 15px rgba(30, 65, 87, 0.3);\r\n
+        transition: all 0.3s ease;\r\n
+        cursor: pointer;\r\n
+        min-width: 200px;\r\n
+    }\r\n
+\r\n
+    .btn-print:hover {\r\n
+        transform: translateY(-2px);\r\n
+        box-shadow: 0 6px 25px rgba(30, 65, 87, 0.4);\r\n
+    }\r\n
+\r\n
+    .btn-print i {\r\n
+        margin-right: 8px;\r\n
+    }\r\n
+\r\n
+    /* Receipt Container */\r\n
+    .receipt-container {\r\n
+        width: 500px;\r\n
+        margin: 0 auto;\r\n
+        background-color: #fff;\r\n
+        padding: 30px;\r\n
+        border: 2px solid #1E4157;\r\n
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);\r\n
+        position: relative;\r\n
+        transform: scale(0.9);\r\n
+        transform-origin: top center;\r\n
+    }\r\n
+\r\n
+    /* Header */\r\n
+    .header {\r\n
+        text-align: center;\r\n
+        margin-bottom: 20px;\r\n
+        border-bottom: 2px solid #1E4157;\r\n
+        padding-bottom: 15px;\r\n
+    }\r\n
+\r\n
+    .header img {\r\n
+        max-width: 120px;\r\n
+        margin-bottom: 10px;\r\n
+    }\r\n
+\r\n
+    .header h1 {\r\n
+        font-size: 24px;\r\n
+        margin: 5px 0;\r\n
+        color: #1E4157;\r\n
+        font-weight: bold;\r\n
+    }\r\n
+\r\n
+    .header p {\r\n
+        font-size: 13px;\r\n
+        color: #666;\r\n
+        margin: 3px 0;\r\n
+    }\r\n
+\r\n
+    /* Voucher Title */\r\n
+    .voucher-title {\r\n
+        font-size: 20px;\r\n
+        font-weight: bold;\r\n
+        text-align: center;\r\n
+        margin-bottom: 25px;\r\n
+        color: #1E4157;\r\n
+        padding: 10px;\r\n
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\r\n
+        border-radius: 5px;\r\n
+    }\r\n
+\r\n
+    /* Info Rows */\r\n
+    .info-row {\r\n
+        display: flex;\r\n
+        justify-content: space-between;\r\n
+        margin-bottom: 10px;\r\n
+        font-size: 14px;\r\n
+    }\r\n
+\r\n
+    .info-row div {\r\n
+        flex: 1;\r\n
+    }\r\n
+\r\n
+    .info-row .label {\r\n
+        font-weight: bold;\r\n
+        color: #1E4157;\r\n
+    }\r\n
+\r\n
+    .info-row .value {\r\n
+        text-align: right;\r\n
+    }\r\n
+\r\n
+    /* Table Container */\r\n
+    .table-container {\r\n
+        margin-top: 25px;\r\n
+        margin-bottom: 30px;\r\n
+        border: 2px solid #1E4157;\r\n
+        border-radius: 5px;\r\n
+        overflow: hidden;\r\n
+    }\r\n
+\r\n
+    table {\r\n
+        width: 100%;\r\n
+        border-collapse: collapse;\r\n
+        font-size: 13px;\r\n
+    }\r\n
+\r\n
+    th, td {\r\n
+        border: 1px solid #ddd;\r\n
+        padding: 10px 8px;\r\n
+        text-align: left;\r\n
+    }\r\n
+\r\n
+    th {\r\n
+        background: linear-gradient(135deg, #1E4157 0%, #043c4d 100%);\r\n
+        color: white;\r\n
+        font-weight: bold;\r\n
+        text-align: center;\r\n
+    }\r\n
+\r\n
+    tbody tr:nth-child(odd) {\r\n
+        background-color: #f8f9fa;\r\n
+    }\r\n
+\r\n
+    tbody tr:nth-child(even) {\r\n
+        background-color: #ffffff;\r\n
+    }\r\n
+\r\n
+    /* Signature Section */\r\n
+    .signature-section {\r\n
+        margin-top: 80px;\r\n
+        padding-top: 20px;\r\n
+        border-top: 2px dashed #ccc;\r\n
+    }\r\n
+\r\n
+    .signature-row {\r\n
+        display: flex;\r\n
+        justify-content: space-between;\r\n
+        margin-bottom: 15px;\r\n
+        font-size: 14px;\r\n
+    }\r\n
+\r\n
+    .signature-row .label {\r\n
+        font-weight: bold;\r\n
+        color: #1E4157;\r\n
+    }\r\n
+\r\n
+    .signature-line {\r\n
+        display: inline-block;\r\n
+        border-bottom: 1px solid #000;\r\n
+        min-width: 150px;\r\n
+        margin-left: 10px;\r\n
+    }\r\n
+\r\n
+    .footer-note {\n
+        margin-top: 20px;\n
+        font-size: 11px;\n
+        color: #999;\n
+        text-align: center;\n
+    }\n
+\n
+    /* Print Styles - A4 Portrait */\n
+    @media  print {\n
+        @page {\n
+            size: A4 portrait;\n
+            margin: 12mm;\n
+        }\n
+\n
+        html,\n
+        body {\n
+            background: white !important;\n
+            width: auto !important;\n
+            min-height: 0 !important;\n
+            margin: 0 !important;\n
+            padding: 0 !important;\n
+        }\n
+\n
+        /* The application shell must never be part of the printed voucher. */\n
+        html body.white-content .wrapper &gt; .sidebar,\n
+        html body .wrapper &gt; .sidebar,\n
+        body.white-content .solent-floating-topbar,\n
+        body.white-content .solent-quick-nav,\n
+        .solent-floating-topbar,\n
+        .solent-quick-nav,\n
+        .main-panel &gt; .navbar,\n
+        .main-panel &gt; footer,\n
+        .sidebar,\n
+        .print-button-container,\n
+        .btn-print,\n
+        nav,\n
+        .navbar,\n
+        .footer,\n
+        .overlay,\n
+        #overlay {\n
+            display: none !important;\n
+        }\n
+\n
+        .wrapper {\n
+            display: block !important;\n
+            min-height: 0 !important;\n
+            overflow: visible !important;\n
+        }\n
+\n
+        html body.white-content .wrapper &gt; .main-panel,\n
+        html body .wrapper &gt; .main-panel,\n
+        .main-panel,\n
+        .container-fluid {\n
+            float: none !important;\n
+            width: 100% !important;\n
+            min-height: 0 !important;\n
+            margin: 0 !important;\n
+            padding: 0 !important;\n
+            max-width: 100% !important;\n
+            transform: none !important;\n
+            overflow: visible !important;\n
+        }\n
+\n
+        html body.white-content .wrapper &gt; .main-panel &gt; .content,\n
+        html body .wrapper &gt; .main-panel &gt; .content,\n
+        .main-panel &gt; .content,\n
+        .content {\n
+            width: 100% !important;\n
+            min-height: 0 !important;\n
+            margin: 0 !important;\n
+            padding: 0 !important;\n
+            max-width: 100% !important;\n
+            transform: none !important;\n
+            overflow: visible !important;\n
+        }\n
+\n
+        .voucher-page,\n
+        .voucher-page &gt; .col-md-12 {\n
+            display: block !important;\n
+            float: none !important;\n
+            flex: none !important;\n
+            width: 100% !important;\n
+            max-width: 100% !important;\n
+            margin: 0 !important;\n
+            padding: 0 !important;\n
+        }\n
+\n
+        .receipt-container {\n
+            box-sizing: border-box !important;\n
+            width: 100% !important;\n
+            max-width: none !important;\n
+            min-height: 0 !important;\n
+            margin: 0 !important;\n
+            padding: 8mm !important;\n
+            border: none !important;\n
+            box-shadow: none !important;\n
+            transform: none !important;\n
+            overflow: visible !important;\n
+            font-size: 9pt;\n
+        }\n
+\n
+        .header {\n
+            margin-bottom: 4mm;\n
+            padding-bottom: 3mm;\n
+        }\n
+\n
+        .header img {\n
+            max-width: 26mm;\n
+            max-height: 24mm;\n
+        }\n
+\n
+        .header h1 {\n
+            font-size: 15pt;\n
+            margin: 1mm 0;\n
+        }\n
+\n
+        .header p {\n
+            font-size: 8pt !important;\n
+            margin: 1mm 0 !important;\n
+        }\n
+\n
+        .voucher-title {\n
+            font-size: 12pt;\n
+            margin-bottom: 4mm;\n
+            padding: 2.5mm;\n
+        }\n
+\n
+        .info-row {\n
+            font-size: 9pt;\n
+            margin-bottom: 2mm;\n
+        }\n
+\n
+        .table-container {\n
+            margin-top: 4mm;\n
+            margin-bottom: 6mm;\n
+            overflow: visible !important;\n
+        }\n
+\n
+        table {\n
+            width: 100% !important;\n
+            table-layout: fixed;\n
+            font-size: 8.5pt;\n
+        }\n
+\n
+        th, td {\n
+            padding: 2.2mm;\n
+            overflow-wrap: anywhere;\n
+        }\n
+\n
+        thead {\n
+            display: table-header-group;\n
+        }\n
+\n
+        tr,\n
+        .header,\n
+        .voucher-title,\n
+        .info-section,\n
+        .signature-section {\n
+            break-inside: avoid;\n
+            page-break-inside: avoid;\n
+        }\n
+\n
+        .signature-section {\n
+            margin-top: 12mm;\n
+            padding-top: 4mm;\n
+        }\n
+\n
+        .signature-row {\n
+            font-size: 9pt;\n
+            margin-bottom: 3mm;\n
+        }\n
+\n
+        .signature-line {\n
+            min-width: 35mm;\n
+        }\n
+\n
+        .footer-note {\n
+            font-size: 7.5pt;\n
+            margin-top: 3mm;\n
+        }\n
+\n
+        * {\r\n
+            -webkit-print-color-adjust: exact;\r\n
+            print-color-adjust: exact;\r\n
+        }\r\n
+    }\r\n
+&lt;/style&gt;\r\n
+\r\n
+&lt;div class="row voucher-page"&gt;\n
+    &lt;?php\n
+        $voucherBrandName = $brandingName ?? config('branding.defaults.name', 'Solent');\n
+        $voucherBrandLogo = asset($brandingLogoPath ?? config('branding.defaults.logo_path'));\n
+        $voucherContact = data_get($brandingSettings ?? null, 'copy.contact');\n
+    ?&gt;\n
+    &lt;div class="col-md-12"&gt;\n
+        &lt;div class="print-button-container"&gt;\r\n
+            &lt;button class="btn-print" onclick="window.print()"&gt;\r\n
+                &lt;i class="fas fa-print"&gt;&lt;/i&gt;\r\n
+                Print Voucher\r\n
+            &lt;/button&gt;\r\n
+        &lt;/div&gt;\r\n
+\r\n
+        &lt;div class="receipt-container"&gt;\r\n
+            &lt;!-- Header --&gt;\r\n
+            &lt;div class="header"&gt;\r\n
+                &lt;img src="&lt;?php echo e($voucherBrandLogo); ?&gt;" alt="&lt;?php echo e($voucherBrandName); ?&gt; Dental Laboratory Logo"&gt;\n
+                &lt;h1&gt;&lt;?php echo e($voucherBrandName); ?&gt; Dental Laboratory&lt;/h1&gt;\n
+\n
+                &lt;?php if($voucherContact): ?&gt;\n
+                    &lt;p style="font-size: 11px; margin-top: 5px;"&gt;&lt;?php echo e($voucherContact); ?&gt;&lt;/p&gt;\n
+                &lt;?php endif; ?&gt;\n
+            &lt;/div&gt;\r\n
+\r\n
+            &lt;!-- Voucher Title --&gt;\r\n
+            &lt;div class="voucher-title"&gt;Receipt Voucher | سند استلام&lt;/div&gt;\r\n
+\r\n
+            &lt;!-- Case Information --&gt;\r\n
+            &lt;div class="info-row"&gt;\r\n
+                &lt;div&gt;&lt;span class="label"&gt;Dentist:&lt;/span&gt; &lt;?php echo e($case-&gt;client-&gt;name); ?&gt;&lt;/div&gt;\r\n
+                &lt;div class="value"&gt;&lt;span class="label"&gt;Date:&lt;/span&gt; &lt;?php echo e(now()-&gt;format('Y-m-d H:i')); ?&gt;&lt;/div&gt;\r\n
+            &lt;/div&gt;\r\n
+            &lt;div class="info-row"&gt;\r\n
+                &lt;div&gt;&lt;span class="label"&gt;Patient:&lt;/span&gt; &lt;?php echo e($case-&gt;patient_name); ?&gt;&lt;/div&gt;\r\n
+                &lt;div class="value"&gt;&lt;span class="label"&gt;Case ID:&lt;/span&gt; &lt;?php echo e($case-&gt;case_id); ?&gt;&lt;/div&gt;\r\n
+            &lt;/div&gt;\r\n
+\r\n
+            &lt;!-- Jobs Table --&gt;\r\n
+            &lt;div class="table-container"&gt;\r\n
+                &lt;table&gt;\r\n
+                    &lt;thead&gt;\r\n
+                    &lt;tr&gt;\r\n
+                        &lt;th&gt;ID&lt;/th&gt;\r\n
+                        &lt;th&gt;Job Type&lt;/th&gt;\r\n
+                        &lt;th&gt;Material&lt;/th&gt;\r\n
+                        &lt;th&gt;Color&lt;/th&gt;\r\n
+                        &lt;th&gt;Style&lt;/th&gt;\r\n
+                        &lt;th&gt;Quantity&lt;/th&gt;\r\n
+                    &lt;/tr&gt;\r\n
+                    &lt;/thead&gt;\r\n
+                    &lt;tbody&gt;\r\n
+                    &lt;?php $i = 1; ?&gt;\r\n
+                    &lt;?php $__currentLoopData = $case-&gt;jobs; $__env-&gt;addLoop($__currentLoopData); foreach($__currentLoopData as $job): $__env-&gt;incrementLoopIndices(); $loop = $__env-&gt;getLastLoop(); ?&gt;\r\n
+                    &lt;tr&gt;\r\n
+                        &lt;td style="text-align: center;"&gt;&lt;?php echo e($i); ?&gt;&lt;/td&gt;\r\n
+                        &lt;td&gt;&lt;?php echo e($job-&gt;jobType-&gt;name ?? '-'); ?&gt;&lt;/td&gt;\r\n
+                        &lt;td&gt;&lt;?php echo e($job-&gt;material-&gt;name ?? '-'); ?&gt;&lt;/td&gt;\r\n
+                        &lt;td style="text-align: center;"&gt;&lt;?php echo e($job-&gt;color == 0 ? 'None' : $job-&gt;color); ?&gt;&lt;/td&gt;\r\n
+                        &lt;td&gt;&lt;?php echo e($job-&gt;style ?? '-'); ?&gt;&lt;/td&gt;\r\n
+                        &lt;td style="text-align: center;"&gt;&lt;?php echo e($job-&gt;unit_num ? count(explode(',', $job-&gt;unit_num)) : 0); ?&gt;&lt;/td&gt;\r\n
+                    &lt;/tr&gt;\r\n
+                        &lt;?php $i++; ?&gt;\r\n
+                    &lt;?php endforeach; $__env-&gt;popLoop(); $loop = $__env-&gt;getLastLoop(); ?&gt;\r\n
+\r\n
+\r\n
+                    &lt;?php for($j = $i; $j &lt;= 5; $j++): ?&gt;\r\n
+                    &lt;tr&gt;\r\n
+                        &lt;td style="text-align: center;"&gt;&lt;?php echo e($j); ?&gt;&lt;/td&gt;\r\n
+                        &lt;td&gt;&lt;/td&gt;\r\n
+                        &lt;td&gt;&lt;/td&gt;\r\n
+                        &lt;td&gt;&lt;/td&gt;\r\n
+                        &lt;td&gt;&lt;/td&gt;\r\n
+                        &lt;td&gt;&lt;/td&gt;\r\n
+                    &lt;/tr&gt;\r\n
+                    &lt;?php endfor; ?&gt;\r\n
+                    &lt;/tbody&gt;\r\n
+                &lt;/table&gt;\r\n
+            &lt;/div&gt;\r\n
+\r\n
+            &lt;!-- Signature Section --&gt;\r\n
+            &lt;div class="signature-section"&gt;\r\n
+                &lt;div class="signature-row"&gt;\r\n
+                    &lt;div&gt;\r\n
+                        &lt;span class="label"&gt;Received By:&lt;/span&gt;\r\n
+                        &lt;span class="signature-line"&gt;&lt;/span&gt;\r\n
+                    &lt;/div&gt;\r\n
+                    &lt;div style="text-align: right;"&gt;\r\n
+                        &lt;span class="label"&gt;Stamp / Signature:&lt;/span&gt;\r\n
+                        &lt;span class="signature-line"&gt;&lt;/span&gt;\r\n
+                    &lt;/div&gt;\r\n
+                &lt;/div&gt;\r\n
+\r\n
+                &lt;div class="footer-note"&gt;\n
+                    Thank you for choosing &lt;?php echo e($voucherBrandName); ?&gt; Dental Lab\n
+                &lt;/div&gt;\n
+            &lt;/div&gt;\n
+        &lt;/div&gt;\n
+    &lt;/div&gt;\r\n
+&lt;/div&gt;\r\n
+\r\n
+&lt;?php $__env-&gt;stopSection(); ?&gt;\r\n
+\r\n
+&lt;?php echo $__env-&gt;make('layouts.app', ['pageSlug' =&gt; 'View' . ' '. $voucher], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))-&gt;render(); ?&gt;&lt;?php /**PATH C:\Users\Yazan\Desktop\cCL\alsolent\alsolent_web_app\resources\views/delivery/view-voucher.blade.php ENDPATH**/ ?&gt;\r\n
+' contains "asset('images/brands/solent/solent_h.svg')".
+
+C:\Users\Yazan\Desktop\Projects\Solent\app\tests\Feature\DashboardScopedMarkupTest.php:233</failure>
+        </testcase>
+        <testcase name="test_home_uses_top_floating_search_without_bottom_search" class="Tests\Feature\DashboardScopedMarkupTest" classname="Tests.Feature.DashboardScopedMarkupTest" file="C:\Users\Yazan\Desktop\Projects\Solent\app\tests\Feature\DashboardScopedMarkupTest.php" line="240" assertions="10" time="0.047839"/>
+        <testcase name="test_payments_index_renders_formatted_total_without_raw_blade_expression" class="Tests\Feature\DashboardScopedMarkupTest" classname="Tests.Feature.DashboardScopedMarkupTest" file="C:\Users\Yazan\Desktop\Projects\Solent\app\tests\Feature\DashboardScopedMarkupTest.php" line="258" assertions="6" time="0.025630"/>
+        <testcase name="test_authenticated_layout_uses_floating_search_and_sidebar_account" class="Tests\Feature\DashboardScopedMarkupTest" classname="Tests.Feature.DashboardScopedMarkupTest" file="C:\Users\Yazan\Desktop\Projects\Solent\app\tests\Feature\DashboardScopedMarkupTest.php" line="272" assertions="10" time="0.021025"/>
+        <testcase name="test_floating_search_and_sidebar_are_mobile_safe" class="Tests\Feature\DashboardScopedMarkupTest" classname="Tests.Feature.DashboardScopedMarkupTest" file="C:\Users\Yazan\Desktop\Projects\Solent\app\tests\Feature\DashboardScopedMarkupTest.php" line="292" assertions="6" time="0.027729"/>
+        <testcase name="test_footer_mobile_nav_toggle_is_null_safe_and_animates_the_bars" class="Tests\Feature\DashboardScopedMarkupTest" classname="Tests.Feature.DashboardScopedMarkupTest" file="C:\Users\Yazan\Desktop\Projects\Solent\app\tests\Feature\DashboardScopedMarkupTest.php" line="304" assertions="8" time="0.024375"/>
+        <testcase name="test_sidebar_brand_header_supports_the_mobile_close_control" class="Tests\Feature\DashboardScopedMarkupTest" classname="Tests.Feature.DashboardScopedMarkupTest" file="C:\Users\Yazan\Desktop\Projects\Solent\app\tests\Feature\DashboardScopedMarkupTest.php" line="318" assertions="4" time="0.038653"/>
+        <testcase name="test_main_sidebar_uses_reconstructed_navigation_hierarchy" class="Tests\Feature\DashboardScopedMarkupTest" classname="Tests.Feature.DashboardScopedMarkupTest" file="C:\Users\Yazan\Desktop\Projects\Solent\app\tests\Feature\DashboardScopedMarkupTest.php" line="328" assertions="55" time="0.038427"/>
+        <testcase name="test_delivery_schedule_uses_reconstructed_delivery_workspace" class="Tests\Feature\DashboardScopedMarkupTest" classname="Tests.Feature.DashboardScopedMarkupTest" file="C:\Users\Yazan\Desktop\Projects\Solent\app\tests\Feature\DashboardScopedMarkupTest.php" line="380" assertions="8" time="0.038453">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">Tests\Feature\DashboardScopedMarkupTest::test_delivery_schedule_uses_reconstructed_delivery_workspace
+Failed asserting that '@extends('layouts.app' ,[ 'pageSlug' =&gt; 'Delivery Schedule' ])\n
+\n
+@section('content')\n
+    @php\n
+        $permissions = Cache::get('user' . Auth()-&gt;user()-&gt;id);\n
+        $now = \Carbon\Carbon::now();\n
+        $rangeFrom = $data['from'] ?? null;\n
+        $rangeTo = $data['to'] ?? null;\n
+        $totalCases = count($cases);\n
+        $overdue = 0;\n
+        $dueToday = 0;\n
+        $dueTomorrow = 0;\n
+        $dueThisWeek = 0;\n
+        $numOfUnits = 0;\n
+        $deliveryUi = trans('ui.dom');\n
+        $isArabic = app()-&gt;isLocale('ar');\n
+\n
+        foreach ($cases as $case) {\n
+            $numOfUnits += $case-&gt;unitsAmount();\n
+\n
+            try {\n
+                $deliveryAt = $case-&gt;initial_delivery_date\n
+                    ? \Carbon\Carbon::parse(str_replace('T', ' ', $case-&gt;initial_delivery_date))\n
+                    : null;\n
+            } catch (\Exception $exception) {\n
+                $deliveryAt = null;\n
+            }\n
+\n
+            if (!$deliveryAt) {\n
+                continue;\n
+            }\n
+\n
+            if ($deliveryAt-&gt;lt($now)) {\n
+                $overdue++;\n
+            }\n
+\n
+            if ($deliveryAt-&gt;isSameDay($now)) {\n
+                $dueToday++;\n
+            }\n
+\n
+            if ($deliveryAt-&gt;isSameDay($now-&gt;copy()-&gt;addDay())) {\n
+                $dueTomorrow++;\n
+            }\n
+\n
+            if ($deliveryAt-&gt;betweenIncluded($now-&gt;copy()-&gt;startOfDay(), $now-&gt;copy()-&gt;addDays(7)-&gt;endOfDay())) {\n
+                $dueThisWeek++;\n
+            }\n
+        }\n
+    @endphp\n
+\n
+    &lt;div class="delivery-page"&gt;\n
+        &lt;section class="delivery-hero"&gt;\n
+            &lt;div class="delivery-hero__copy"&gt;\n
+\n
+                &lt;h1&gt;{{ $deliveryUi['Delivery Schedule'] ?? 'Delivery Schedule' }}&lt;/h1&gt;\n
+            &lt;/div&gt;\n
+\n
+            &lt;form class="kt-form delivery-filter-card" method="GET" action="{{ route('delivery-schedule') }}"&gt;\n
+                @csrf\n
+                &lt;div class="delivery-filter-card__grid"&gt;\n
+                    &lt;div class="delivery-filter-card__field"&gt;\n
+                        &lt;label class="solent-filter-label" for="deliveryFrom"&gt;&lt;i class="fa-regular fa-calendar" aria-hidden="true"&gt;&lt;/i&gt;&lt;span&gt;{{ $deliveryUi['From date'] ?? 'From date' }}&lt;/span&gt;&lt;/label&gt;\n
+                        &lt;input id="deliveryFrom" class="form-control SDTP" name="from" type="text"\n
+                            value="{{ $rangeFrom ?? '' }}" required readonly&gt;\n
+\n
+                        @if ($errors-&gt;has('from'))\n
+                            &lt;span class="help-block"&gt;{{ $errors-&gt;first('from') }}&lt;/span&gt;\n
+                        @endif\n
+                    &lt;/div&gt;\n
+\n
+                    &lt;div class="delivery-filter-card__field"&gt;\n
+                        &lt;label class="solent-filter-label" for="deliveryTo"&gt;&lt;i class="fa-regular fa-calendar" aria-hidden="true"&gt;&lt;/i&gt;&lt;span&gt;{{ $deliveryUi['To date'] ?? 'To date' }}&lt;/span&gt;&lt;/label&gt;\n
+                        &lt;input id="deliveryTo" class="form-control SDTP" name="to" type="text"\n
+                            value="{{ $rangeTo ?? '' }}" required readonly&gt;\n
+\n
+                        @if ($errors-&gt;has('to'))\n
+                            &lt;span class="help-block"&gt;{{ $errors-&gt;first('to') }}&lt;/span&gt;\n
+                        @endif\n
+                    &lt;/div&gt;\n
+                &lt;/div&gt;\n
+\n
+                &lt;div class="delivery-filter-card__actions"&gt;\n
+                    &lt;button type="submit" class="btn btn-primary"&gt;{{ $deliveryUi['Apply filter'] ?? 'Apply filter' }}&lt;/button&gt;\n
+                    &lt;button type="button" onclick="printResult()" class="btn btn-secondary"&gt;{{ $deliveryUi['Print schedule'] ?? 'Print schedule' }}&lt;/button&gt;\n
+                &lt;/div&gt;\n
+            &lt;/form&gt;\n
+        &lt;/section&gt;\n
+\n
+        &lt;section class="delivery-summary-grid delivery-summary-grid--standalone"\n
+            aria-label="{{ $deliveryUi['Delivery summary'] ?? 'Delivery summary' }}"&gt;\n
+            &lt;article class="delivery-summary-card delivery-summary-card--primary"&gt;\n
+                &lt;span class="delivery-summary-card__label"&gt;{{ $deliveryUi['Total deliveries'] ?? 'Total deliveries' }}&lt;/span&gt;\n
+                &lt;strong class="delivery-summary-card__value"&gt;{{ $totalCases }}&lt;/strong&gt;\n
+            &lt;/article&gt;\n
+            &lt;article class="delivery-summary-card delivery-summary-card--danger"&gt;\n
+                &lt;span class="delivery-summary-card__label"&gt;{{ $deliveryUi['Overdue'] ?? 'Overdue' }}&lt;/span&gt;\n
+                &lt;strong class="delivery-summary-card__value"&gt;{{ $overdue }}&lt;/strong&gt;\n
+            &lt;/article&gt;\n
+            &lt;article class="delivery-summary-card"&gt;\n
+                &lt;span class="delivery-summary-card__label"&gt;{{ $deliveryUi['Due today'] ?? 'Due today' }}&lt;/span&gt;\n
+                &lt;strong class="delivery-summary-card__value"&gt;{{ $dueToday }}&lt;/strong&gt;\n
+            &lt;/article&gt;\n
+            &lt;article class="delivery-summary-card"&gt;\n
+                &lt;span class="delivery-summary-card__label"&gt;{{ $deliveryUi['Due tomorrow'] ?? 'Due tomorrow' }}&lt;/span&gt;\n
+                &lt;strong class="delivery-summary-card__value"&gt;{{ $dueTomorrow }}&lt;/strong&gt;\n
+            &lt;/article&gt;\n
+            &lt;article class="delivery-summary-card"&gt;\n
+                &lt;span class="delivery-summary-card__label"&gt;{{ $deliveryUi['Next 7 days'] ?? 'Next 7 days' }}&lt;/span&gt;\n
+                &lt;strong class="delivery-summary-card__value"&gt;{{ $dueThisWeek }}&lt;/strong&gt;\n
+            &lt;/article&gt;\n
+            &lt;article class="delivery-summary-card"&gt;\n
+                &lt;span class="delivery-summary-card__label"&gt;{{ $deliveryUi['Units'] ?? 'Units' }}&lt;/span&gt;\n
+                &lt;strong class="delivery-summary-card__value"&gt;{{ $numOfUnits }}&lt;/strong&gt;\n
+            &lt;/article&gt;\n
+        &lt;/section&gt;\n
+\n
+        &lt;section class="list-results-shell delivery-results-shell solent-table-frame"&gt;\n
+            &lt;div class="delivery-results-shell__header"&gt;\n
+                &lt;span class="delivery-results-shell__range"&gt;\n
+                    &lt;bdi dir="ltr"&gt;{{ $rangeFrom ? str_replace('T', ' ', $rangeFrom) : ($deliveryUi['Open range'] ?? 'Open range') }}&lt;/bdi&gt;\n
+                    &lt;span&gt;→&lt;/span&gt;\n
+                    &lt;bdi dir="ltr"&gt;{{ $rangeTo ? str_replace('T', ' ', $rangeTo) : ($deliveryUi['Now'] ?? 'Now') }}&lt;/bdi&gt;\n
+                &lt;/span&gt;\n
+            &lt;/div&gt;\n
+\n
+            &lt;div class="delivery-table-wrap"&gt;\n
+                &lt;table id="datatable" class="table dataTable no-footer sunriseTable delivery-table" role="grid"\n
+                    aria-describedby="datatable_info"&gt;\n
+                    &lt;thead&gt;\n
+                        &lt;tr&gt;\n
+                            &lt;th&gt;{{ $deliveryUi['Doctor'] ?? 'Doctor' }}&lt;/th&gt;\n
+                            &lt;th&gt;{{ $deliveryUi['Patient'] ?? 'Patient' }}&lt;/th&gt;\n
+                            &lt;th&gt;{{ $deliveryUi['Delivery date'] ?? 'Delivery date' }}&lt;/th&gt;\n
+                            &lt;th&gt;{{ $deliveryUi['Time'] ?? 'Time' }}&lt;/th&gt;\n
+                            &lt;th&gt;{{ $deliveryUi['Units'] ?? 'Units' }}&lt;/th&gt;\n
+                            &lt;th&gt;{{ $deliveryUi['Status'] ?? 'Status' }}&lt;/th&gt;\n
+                        &lt;/tr&gt;\n
+                    &lt;/thead&gt;\n
+\n
+                    &lt;tbody&gt;\n
+                        @foreach ($cases as $case)\n
+                            @php\n
+                                $status = $case-&gt;status();\n
+\n
+                                try {\n
+                                    $deliveryAt = $case-&gt;initial_delivery_date\n
+                                        ? \Carbon\Carbon::parse(str_replace('T', ' ', $case-&gt;initial_delivery_date))\n
+                                        : null;\n
+                                } catch (\Exception $exception) {\n
+                                    $deliveryAt = null;\n
+                                }\n
+\n
+                                $isOverdue = $deliveryAt ? $deliveryAt-&gt;lt($now) : false;\n
+                                $isToday = $deliveryAt ? $deliveryAt-&gt;isSameDay($now) : false;\n
+                                $deliveryDate = $deliveryAt ? $deliveryAt-&gt;format('Y-m-d') : '-';\n
+                                $deliveryTime = $deliveryAt ? $deliveryAt-&gt;format('g:i') : '-';\n
+                                $deliveryPeriod = $deliveryAt\n
+                                    ? ($isArabic\n
+                                        ? ($deliveryAt-&gt;format('a') === 'am' ? 'ص' : 'م')\n
+                                        : $deliveryAt-&gt;format('a'))\n
+                                    : null;\n
+                                $rowState = $isOverdue ? 'is-overdue' : ($isToday ? 'is-today' : '');\n
+                                $statusClass = 'delivery-status--warning';\n
+\n
+                                if (str_contains($status, 'Completed')) {\n
+                                    $statusClass = 'delivery-status--success';\n
+                                } elseif (str_contains($status, 'Active') || str_contains($status, 'In-Progress')) {\n
+                                    $statusClass = 'delivery-status--active';\n
+                                } elseif (str_contains($status, 'Waiting')) {\n
+                                    $statusClass = 'delivery-status--danger';\n
+                                }\n
+\n
+                                $displayStatus = str_contains($status, 'In-Progress') ? 'Active' : $status;\n
+                            @endphp\n
+\n
+                            &lt;tr data-row="{{ $case-&gt;id }}" class="delivery-row clickable {{ $rowState }}"\n
+                                data-toggle="modal" data-target="#caseActionsModal{{ $case-&gt;id }}"&gt;\n
+                                &lt;td&gt;\n
+                                    &lt;span class="delivery-table__primary"&gt;{{ $case-&gt;client-&gt;name ?? ($deliveryUi['Unknown doctor'] ?? 'Unknown doctor') }}&lt;/span&gt;\n
+                                    &lt;span class="delivery-table__meta"&gt;{{ $deliveryUi['Doctor'] ?? 'Doctor' }}&lt;/span&gt;\n
+                                &lt;/td&gt;\n
+                                &lt;td&gt;\n
+                                    &lt;span class="delivery-table__primary"&gt;{{ $case-&gt;patient_name }}&lt;/span&gt;\n
+                                    &lt;span class="delivery-table__meta"&gt;{{ $deliveryUi['Patient'] ?? 'Patient' }}&lt;/span&gt;\n
+                                &lt;/td&gt;\n
+                                &lt;td data-order="{{ $deliveryAt ? $deliveryAt-&gt;timestamp : 0 }}"&gt;\n
+                                    &lt;span class="delivery-date-pill {{ $isOverdue ? 'delivery-date-pill--late' : '' }}"&gt;\n
+                                        {{ $deliveryDate }}\n
+                                    &lt;/span&gt;\n
+                                &lt;/td&gt;\n
+                                &lt;td data-order="{{ $deliveryAt ? $deliveryAt-&gt;format('H:i:s') : '' }}"&gt;\n
+                                    &lt;span class="delivery-time" dir="ltr"&gt;\n
+                                        &lt;span&gt;{{ $deliveryTime }}&lt;/span&gt;\n
+                                        @if ($deliveryPeriod)\n
+                                            &lt;span class="delivery-time__period"&gt;{{ $deliveryPeriod }}&lt;/span&gt;\n
+                                        @endif\n
+                                    &lt;/span&gt;\n
+                                &lt;/td&gt;\n
+                                &lt;td&gt;\n
+                                    &lt;span class="delivery-units-pill"&gt;{{ $case-&gt;unitsAmount(-2) }}&lt;/span&gt;\n
+                                &lt;/td&gt;\n
+                                &lt;td&gt;\n
+                                    &lt;span class="delivery-status solent-case-status-badge {{ $statusClass }}"&gt;\n
+                                        {{ $deliveryUi[$displayStatus] ?? $displayStatus }}\n
+                                    &lt;/span&gt;\n
+                                &lt;/td&gt;\n
+                            &lt;/tr&gt;\n
+                        @endforeach\n
+                    &lt;/tbody&gt;\n
+                &lt;/table&gt;\n
+            &lt;/div&gt;\n
+        &lt;/section&gt;\n
+    &lt;/div&gt;\n
+\n
+    @if (($permissions &amp;&amp; $permissions-&gt;contains('permission_id', 110)) || Auth()-&gt;user()-&gt;is_admin)\n
+        @foreach ($cases as $case)\n
+            &lt;div class="modal delivery-date-modal" tabindex="-1" role="dialog" id="myModal{{ $case-&gt;id }}"&gt;\n
+                &lt;form action="{{ route('edit-delivery-date') }}" method="POST"&gt;\n
+                    @csrf\n
+                    &lt;input type="hidden" name="id" value="{{ $case-&gt;id }}"&gt;\n
+                    &lt;div class="modal-dialog modal-dialog-centered" role="document"&gt;\n
+                        &lt;div class="modal-content"&gt;\n
+                            &lt;div class="modal-header"&gt;\n
+                                &lt;div&gt;\n
+                                    &lt;span class="delivery-modal-eyebrow"&gt;{{ $deliveryUi['Delivery date'] ?? 'Delivery date' }}&lt;/span&gt;\n
+                                    &lt;h5 class="modal-title"&gt;{{ $case-&gt;client-&gt;name ?? ($deliveryUi['Unknown doctor'] ?? 'Unknown doctor') }} · {{ $case-&gt;patient_name }}&lt;/h5&gt;\n
+                                &lt;/div&gt;\n
+                                &lt;button type="button" class="btn btn-secondary" data-dismiss="modal"&gt;{{ $deliveryUi['Close'] ?? 'Close' }}&lt;/button&gt;\n
+                            &lt;/div&gt;\n
+                            &lt;div class="modal-body"&gt;\n
+                                @php($time = str_replace(' ', 'T', $case-&gt;initial_delivery_date))\n
+                                &lt;label for="deliveryDate{{ $case-&gt;id }}"&gt;{{ $deliveryUi['Change delivery date'] ?? 'Change delivery date' }}&lt;/label&gt;\n
+                                &lt;input id="deliveryDate{{ $case-&gt;id }}" class="form-control SDTP" name="delivery_date"\n
+                                    type="text" value="{{ $time }}" required readonly&gt;\n
+                            &lt;/div&gt;\n
+                            &lt;div class="modal-footer"&gt;\n
+                                &lt;button type="submit" class="btn btn-primary"&gt;{{ $deliveryUi['Save changes'] ?? 'Save changes' }}&lt;/button&gt;\n
+                            &lt;/div&gt;\n
+                        &lt;/div&gt;\n
+                    &lt;/div&gt;\n
+                &lt;/form&gt;\n
+            &lt;/div&gt;\n
+        @endforeach\n
+    @endif\n
+\n
+    @foreach ($cases as $case)\n
+        &lt;x-partiels.caseActionsModal\n
+            :case="$case"\n
+            :modalId="'caseActionsModal' . $case-&gt;id"\n
+            :allowDeliveryDateChange="true"\n
+            :deliveryDateModalId="'myModal' . $case-&gt;id" /&gt;\n
+    @endforeach\n
+@endsection\n
+\n
+@push('js')\n
+    &lt;script type="text/javascript"&gt;\n
+        $(document).ready(function() {\n
+            if ($.fn.DataTable.isDataTable('#datatable')) {\n
+                return;\n
+            }\n
+\n
+            const deliveryTableLanguage = @json(trans('ui.datatables'));\n
+            deliveryTableLanguage.search = '';\n
+            deliveryTableLanguage.searchPlaceholder = @json($deliveryUi['Search deliveries...'] ?? 'Search deliveries...');\n
+\n
+            $('#datatable').DataTable({\n
+                "order": [[2, "asc"], [3, "asc"]],\n
+                "buttons": window.solentDataTableButtons ? window.solentDataTableButtons(true) : [],\n
+                "paging": true,\n
+                "pageLength": 25,\n
+                "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],\n
+                "searching": true,\n
+                "lengthChange": true,\n
+                "responsive": false,\n
+                "autoWidth": false,\n
+                "dom": "&lt;'solent-datatable-toolbar'Bfl&gt;r&lt;'solent-table-scroll't&gt;&lt;'solent-datatable-foot'ip&gt;",\n
+                "columnDefs": [\n
+                    { "targets": [0, 1], "className": "solent-table-name" },\n
+                    { "width": "18%", "targets": 5 }\n
+                ],\n
+                "language": deliveryTableLanguage\n
+            });\n
+        });\n
+\n
+        function printResult() {\n
+            if ($.fn.DataTable.isDataTable('#datatable')) {\n
+                const deliveryTable = $('#datatable').DataTable();\n
+                const printButton = deliveryTable.button('.buttons-print');\n
+\n
+                if (printButton.any()) {\n
+                    printButton.trigger();\n
+                    return true;\n
+                }\n
+            }\n
+\n
+            window.print();\n
+            return false;\n
+        }\n
+    &lt;/script&gt;\n
+@endpush\n
+' contains ""dom": "&lt;'solent-datatable-toolbar'Bfl&gt;rt&lt;'solent-datatable-foot'ip&gt;"".
+
+C:\Users\Yazan\Desktop\Projects\Solent\app\tests\Feature\DashboardScopedMarkupTest.php:392</failure>
+        </testcase>
+        <testcase name="test_shared_footer_provides_delivery_exports_without_the_live_clock" class="Tests\Feature\DashboardScopedMarkupTest" classname="Tests.Feature.DashboardScopedMarkupTest" file="C:\Users\Yazan\Desktop\Projects\Solent\app\tests\Feature\DashboardScopedMarkupTest.php" line="412" assertions="8" time="0.035363"/>
+        <testcase name="test_case_activity_card_enables_the_expandable_jordan_map" class="Tests\Feature\DashboardScopedMarkupTest" classname="Tests.Feature.DashboardScopedMarkupTest" file="C:\Users\Yazan\Desktop\Projects\Solent\app\tests\Feature\DashboardScopedMarkupTest.php" line="426" assertions="27" time="0.041671"/>
+        <testcase name="test_dashboard_sample_activity_is_dental_lab_specific" class="Tests\Feature\DashboardScopedMarkupTest" classname="Tests.Feature.DashboardScopedMarkupTest" file="C:\Users\Yazan\Desktop\Projects\Solent\app\tests\Feature\DashboardScopedMarkupTest.php" line="461" assertions="5" time="0.040470"/>
+        <testcase name="test_operations_dashboard_case_rows_open_the_rendered_case_actions_modal" class="Tests\Feature\DashboardScopedMarkupTest" classname="Tests.Feature.DashboardScopedMarkupTest" file="C:\Users\Yazan\Desktop\Projects\Solent\app\tests\Feature\DashboardScopedMarkupTest.php" line="472" assertions="14" time="0.031153"/>
+        <testcase name="test_case_actions_modal_keeps_each_job_compact_and_hover_actions_readable" class="Tests\Feature\DashboardScopedMarkupTest" classname="Tests.Feature.DashboardScopedMarkupTest" file="C:\Users\Yazan\Desktop\Projects\Solent\app\tests\Feature\DashboardScopedMarkupTest.php" line="494" assertions="7" time="0.027852"/>
+        <testcase name="test_sidebar_uses_inline_svg_icons_without_material_symbol_font" class="Tests\Feature\DashboardScopedMarkupTest" classname="Tests.Feature.DashboardScopedMarkupTest" file="C:\Users\Yazan\Desktop\Projects\Solent\app\tests\Feature\DashboardScopedMarkupTest.php" line="509" assertions="7" time="0.024926"/>
+        <testcase name="test_summary_reports_share_the_datatable_initializer" class="Tests\Feature\DashboardScopedMarkupTest" classname="Tests.Feature.DashboardScopedMarkupTest" file="C:\Users\Yazan\Desktop\Projects\Solent\app\tests\Feature\DashboardScopedMarkupTest.php" line="524" assertions="33" time="0.030008"/>
+      </testsuite>
+    </testsuite>
+  </testsuite>
+</testsuites>

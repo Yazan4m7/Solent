@@ -59,6 +59,10 @@
     font-size: clamp(1.45rem, 5vw, 2rem);
 }
 
+.pc-page-header {
+    flex-wrap: wrap;
+}
+
 .pc-page-header p,
 .pc-panel-header p {
     margin: 5px 0 0;
@@ -87,28 +91,11 @@
 
 .pc-header-actions {
     display: flex;
-    flex: 0 0 auto;
+    flex: 0 1 auto;
+    flex-wrap: wrap;
+    min-width: 0;
     align-items: center;
     gap: 7px;
-}
-
-.pc-board a.pc-classic-link {
-    display: inline-grid;
-    min-height: 30px;
-    padding-inline: 11px;
-    place-items: center;
-    border-radius: 999px;
-    color: var(--pc-accent-strong);
-    font-size: 0.72rem;
-    font-weight: 700;
-    text-decoration: none;
-}
-
-.pc-board a.pc-classic-link:hover,
-.pc-board a.pc-classic-link:focus-visible {
-    background: var(--pc-accent-soft);
-    color: var(--pc-accent-strong);
-    text-decoration: none;
 }
 
 .pc-stage-strip {

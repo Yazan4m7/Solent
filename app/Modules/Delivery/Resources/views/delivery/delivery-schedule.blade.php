@@ -114,7 +114,7 @@
             </article>
         </section>
 
-        <section class="list-results-shell delivery-results-shell">
+        <section class="list-results-shell delivery-results-shell solent-table-frame">
             <div class="delivery-results-shell__header">
                 <span class="delivery-results-shell__range">
                     <bdi dir="ltr">{{ $rangeFrom ? str_replace('T', ' ', $rangeFrom) : ($deliveryUi['Open range'] ?? 'Open range') }}</bdi>
@@ -271,10 +271,11 @@
                 "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
                 "searching": true,
                 "lengthChange": true,
-                "responsive": true,
+                "responsive": false,
                 "autoWidth": false,
-                "dom": "<'solent-datatable-toolbar'Bfl>rt<'solent-datatable-foot'ip>",
+                "dom": "<'solent-datatable-toolbar'Bfl>r<'solent-table-scroll't><'solent-datatable-foot'ip>",
                 "columnDefs": [
+                    { "targets": [0, 1], "className": "solent-table-name" },
                     { "width": "18%", "targets": 5 }
                 ],
                 "language": deliveryTableLanguage

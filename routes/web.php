@@ -25,6 +25,8 @@ Route::middleware('ViewPayments')->group(function (): void {
 
 Route::middleware(['web', 'auth'])->group(function (): void {
 
+    Route::post('/demo-data', [App\Http\Controllers\TenantDemoController::class, 'update'])->name('tenant-demo.update');
+
     Route::get('/oops', [App\Modules\System\Http\Controllers\SystemController::class, 'oopsScreen'])->name('oops-screen');
 
     Route::domain(config('tenancy.platform_admin_host'))

@@ -1401,16 +1401,32 @@ html[dir="rtl"] .solent-dash .card-1::before {
         padding: 0;
     }
 
-    .solent-dash .solent-dash-customer-panel .solent-dash-client-panel {
-        margin-top: 0;
-    }
-
     .solent-dash .solent-dash-map-card-summary {
         max-width: 220px;
     }
 
     .solent-dash .solent-dash-map-card-action {
         min-height: 44px;
+    }
+
+    .solent-dash .solent-dash-customer-panel > .solent-dash-panel-head {
+        position: relative;
+        inset: auto;
+        margin: 7px 10px 0;
+    }
+
+    .solent-dash .solent-dash-customer-panel .solent-dash-client-panel {
+        height: auto;
+        flex: none;
+        margin-top: 0;
+    }
+
+    .solent-dash .solent-dash-customer-panel .solent-dash-map-stage .solent-dash-jordan-map {
+        height: clamp(260px, 75vw, 340px);
+    }
+
+    .solent-dash .solent-dash-customer-panel .solent-dash-jordan-canvas {
+        padding: 8px 12px 0;
     }
 
     .solent-dash .solent-dash-delivery-days {
@@ -1464,6 +1480,8 @@ html[dir="rtl"] .solent-dash .card-1::before {
     .solent-dash .solent-dash-chart-medium {
         height: 190px;
         min-height: 190px;
+        flex: none;
+        width: 100%;
     }
 
     .solent-dash .solent-dash-load-chart {

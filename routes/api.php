@@ -15,7 +15,8 @@ use App\Modules\Api\Http\Controllers\ApiController;
 |
 */
 
-Route::get('/doctor-cases/{id}', [ApiController::class, 'getDoctorCases']);
+// Also used by the web invoice form: honor its tenant demo session.
+Route::get('/doctor-cases/{id}', [ApiController::class, 'getDoctorCases'])->middleware('web');
 
 Route::get('/test',function(){
     return "test success";

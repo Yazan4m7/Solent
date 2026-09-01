@@ -61,6 +61,10 @@
             filter: brightness(4);
         }
 
+        .tenant-logo-preview img.is-white {
+            filter: brightness(0) invert(1);
+        }
+
         .tenant-logo-upload {
             align-items: center;
             background: #f8fafc;
@@ -81,6 +85,29 @@
             font-size: 13px;
             line-height: 1.55;
             margin-top: 9px;
+        }
+
+        .tenant-logo-filter-toggle {
+            align-items: center;
+            background: #fff;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            color: #1e293b;
+            cursor: pointer;
+            display: flex;
+            font-size: 13px;
+            font-weight: 700;
+            gap: 10px;
+            margin-top: 12px;
+            min-height: 44px;
+            padding: 10px 12px;
+        }
+
+        .tenant-logo-filter-toggle input {
+            flex: 0 0 auto;
+            height: 18px;
+            margin: 0;
+            width: 18px;
         }
 
         .tenant-logo-crop-button {
@@ -294,7 +321,7 @@
 
                     <section class="tenant-logo-option" data-logo-field>
                         <div class="tenant-logo-preview">
-                            <img src="{{ asset($currentLoginLogoPath) }}" alt="Current {{ $tenant->name }} login logo" data-logo-preview-image data-logo-fallback="{{ asset(config('branding.defaults.login_logo_path')) }}">
+                            <img class="{{ $currentLoginLogoForceWhite ? 'is-white' : '' }}" src="{{ asset($currentLoginLogoPath) }}" alt="Current {{ $tenant->name }} login logo" data-logo-preview-image data-logo-fallback="{{ asset(config('branding.defaults.login_logo_path')) }}">
                         </div>
                         <div>
                             <h2>Login screen logo</h2>
@@ -307,12 +334,16 @@
                                 <div class="text-danger mt-2" role="alert">{{ $message }}</div>
                             @enderror
                             <div class="tenant-logo-help">PNG, JPG, or WebP. Maximum 5 MB. Between 64×64 and 4096×4096 pixels.</div>
+                            <label class="tenant-logo-filter-toggle">
+                                <input type="checkbox" name="login_logo_force_white" value="1" data-logo-white-toggle {{ old('login_logo_force_white', $currentLoginLogoForceWhite) ? 'checked' : '' }}>
+                                <span>Make this logo completely white</span>
+                            </label>
                         </div>
                     </section>
 
                     <section class="tenant-logo-option" data-logo-field>
                         <div class="tenant-logo-preview">
-                            <img src="{{ asset($currentSidebarLogoPath) }}" alt="Current {{ $tenant->name }} sidebar logo" data-logo-preview-image data-logo-fallback="{{ asset(config('branding.defaults.sidebar_mark_path')) }}">
+                            <img class="{{ $currentSidebarLogoForceWhite ? 'is-white' : '' }}" src="{{ asset($currentSidebarLogoPath) }}" alt="Current {{ $tenant->name }} sidebar logo" data-logo-preview-image data-logo-fallback="{{ asset(config('branding.defaults.sidebar_mark_path')) }}">
                         </div>
                         <div>
                             <h2>Sidebar logo</h2>
@@ -325,6 +356,10 @@
                                 <div class="text-danger mt-2" role="alert">{{ $message }}</div>
                             @enderror
                             <div class="tenant-logo-help">PNG, JPG, or WebP. Maximum 5 MB. Between 64×64 and 4096×4096 pixels.</div>
+                            <label class="tenant-logo-filter-toggle">
+                                <input type="checkbox" name="sidebar_logo_force_white" value="1" data-logo-white-toggle {{ old('sidebar_logo_force_white', $currentSidebarLogoForceWhite) ? 'checked' : '' }}>
+                                <span>Make this logo completely white</span>
+                            </label>
                         </div>
                     </section>
 
@@ -452,10 +487,18 @@
                 const input = field.querySelector('[data-logo-input]');
                 const preview = field.querySelector('[data-logo-preview-image]');
                 const adjustButton = field.querySelector('[data-logo-adjust-crop]');
+                const whiteToggle = field.querySelector('[data-logo-white-toggle]');
 
-                if (!input || !preview || !adjustButton) {
+                if (!input || !preview || !adjustButton || !whiteToggle) {
                     return;
                 }
+
+                function syncWhitePreview() {
+                    preview.classList.toggle('is-white', whiteToggle.checked);
+                }
+
+                whiteToggle.addEventListener('change', syncWhitePreview);
+                syncWhitePreview();
 
                 const state = {
                     input: input,

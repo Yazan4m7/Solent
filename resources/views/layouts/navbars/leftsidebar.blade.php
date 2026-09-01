@@ -86,9 +86,13 @@
             display: block;
             width: min(154px, 100%);
             height: auto;
-            max-height: 50px;
+            max-height: 74px;
             object-fit: contain;
             filter: brightness(4);
+        }
+
+        .korvion-sidebar-logo-full--white {
+            filter: brightness(0) invert(1);
         }
 
         .solent-sidebar-close {
@@ -292,6 +296,29 @@
             background: var(--sidebar-hover) !important;
             color: var(--surface) !important;
             transform: translateX(2px);
+        }
+
+        .sidebar .nav li > a.solent-sidebar-disabled-link,
+        .sidebar .nav li:hover > a.solent-sidebar-disabled-link {
+            background: transparent !important;
+            color: var(--sidebar-link) !important;
+            cursor: not-allowed;
+            opacity: 0.52;
+            transform: none;
+        }
+
+        .sidebar .solent-sidebar-soon-badge {
+            flex: 0 0 auto;
+            padding: 3px 6px;
+            border: 1px solid rgba(129, 140, 248, 0.28);
+            border-radius: 999px;
+            background: rgba(99, 102, 241, 0.12);
+            color: #c7d2fe !important;
+            font-size: 8px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            line-height: 1;
+            text-transform: uppercase;
         }
 
         .sidebar .solent-sidebar-icon-shell {
@@ -998,7 +1025,7 @@
             @if ($isPlatformAdminPage)
                 <strong style="color:#fff;font-size:15px;line-height:1.25;">Platform<br>Administration</strong>
             @else
-                <img class="korvion-sidebar-logo-full" src="{{ $sidebarBrandMark }}" alt="{{ $sidebarBrandName }} sidebar logo" onerror="this.onerror=null;this.src='{{ $sidebarBrandMarkFallback }}';">
+                <img class="korvion-sidebar-logo-full{{ !empty($brandingSidebarLogoForceWhite) ? ' korvion-sidebar-logo-full--white' : '' }}" src="{{ $sidebarBrandMark }}" alt="{{ $sidebarBrandName }} sidebar logo" onerror="this.onerror=null;this.src='{{ $sidebarBrandMarkFallback }}';">
             @endif
         </a>
         <button type="button" class="solent-sidebar-close" aria-label="{{ $ui['Close menu'] ?? 'Close menu' }}">
@@ -1096,6 +1123,16 @@
                     <a href="{{ route('clients-index') }}">
                         <span class="solent-sidebar-icon-shell">@include('layouts.navbars.partials.sidebar-icon', ['name' => 'users'])</span>
                         <span class="solent-sidebar-link-copy"><span>{{ $ui['Clients'] ?? 'Clients' }}</span><small>{{ $ui['Doctors and clinics'] ?? 'Doctors and clinics' }}</small></span>
+                    </a>
+                </li>
+            @endif
+
+            @if ($showWorkspace)
+                <li>
+                    <a href="#" class="solent-sidebar-disabled-link" aria-disabled="true" tabindex="-1" onclick="return false;">
+                        <span class="solent-sidebar-icon-shell">@include('layouts.navbars.partials.sidebar-icon', ['name' => 'boxes'])</span>
+                        <span class="solent-sidebar-link-copy"><span>{{ $ui['Stock'] ?? 'Stock' }}</span><small>{{ $ui['Inventory tracking'] ?? 'Inventory tracking' }}</small></span>
+                        <span class="solent-sidebar-soon-badge">soon</span>
                     </a>
                 </li>
             @endif

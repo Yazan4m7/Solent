@@ -53,7 +53,7 @@
 @endphp
 
 @push('css')
-    <link href="{{ asset('assets/css/admin-production-control-v2.css') }}?v=20260824-1" rel="stylesheet">
+    <link href="{{ asset('assets/css/admin-production-control-v2.css') }}?v=20260831-1" rel="stylesheet">
 @endpush
 
 @section('content')
@@ -68,7 +68,7 @@
                 <p>Monitor every production stage, inspect cases and manage assignments.</p>
             </div>
             <div class="pc-header-actions">
-                <a class="pc-classic-link" href="{{ route('admin-dashboard-v2', ['view' => 'classic']) }}">Classic tools</a>
+                @include('cases.partials.operations-view-toggle', ['operationsView' => 'new'])
                 <span class="pc-admin-label">Admin workspace</span>
             </div>
         </header>

@@ -6,6 +6,21 @@ use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
 {
+    // Authentication/branding stay on the real database; bindings and page queries use the selected mode.
+    protected $middlewarePriority = [
+        \Illuminate\Cookie\Middleware\EncryptCookies::class,
+        \Illuminate\Session\Middleware\StartSession::class,
+        \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+        \Illuminate\Contracts\Auth\Middleware\AuthenticatesRequests::class,
+        \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        \Illuminate\Routing\Middleware\ThrottleRequestsWithRedis::class,
+        \Illuminate\Session\Middleware\AuthenticateSession::class,
+        \App\Http\Middleware\ApplyBranding::class,
+        \App\Http\Middleware\UseTenantDemoDatabase::class,
+        \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        \Illuminate\Auth\Middleware\Authorize::class,
+    ];
+
     /**
      * The application's global HTTP middleware stack.
      *
@@ -38,6 +53,7 @@ class Kernel extends HttpKernel
             \Illuminate\Session\Middleware\StartSession::class,
              \Illuminate\Session\Middleware\AuthenticateSession::class,
             \App\Http\Middleware\ApplyBranding::class,
+            \App\Http\Middleware\UseTenantDemoDatabase::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,

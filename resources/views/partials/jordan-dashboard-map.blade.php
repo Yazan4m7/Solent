@@ -19,7 +19,9 @@
         <span></span>
     </div>
     <div class="solent-dash-jordan-canvas" data-map-canvas hidden></div>
-    <div class="solent-dash-jordan-overlay" data-map-empty hidden>No activity data for this period</div>
+    <div class="solent-dash-jordan-overlay" data-map-empty role="status" hidden>
+        <span class="solent-dash-jordan-empty-message">No activity data for this period</span>
+    </div>
     <div class="solent-dash-jordan-error" data-map-error hidden>
         <span>Map data could not be loaded.</span>
         <span class="solent-dash-jordan-retry" role="button" tabindex="0" data-map-retry>Retry</span>
@@ -54,19 +56,23 @@
             display: block;
             height: 100%;
             margin: 0 auto;
-            overflow: visible;
+            overflow: hidden;
             width: 100%;
         }
 
         .solent-dash-jordan-region {
-            cursor: pointer;
+            cursor: default;
             stroke: #ffffff;
             stroke-width: 1.2;
             transition: filter 140ms ease, opacity 140ms ease;
         }
 
-        .solent-dash-jordan-region:hover,
-        .solent-dash-jordan-region:focus {
+        .solent-dash-jordan-region.is-interactive {
+            cursor: pointer;
+        }
+
+        .solent-dash-jordan-region.is-interactive:hover,
+        .solent-dash-jordan-region.is-interactive:focus {
             filter: brightness(0.8);
             opacity: 1;
             outline: none;
@@ -140,6 +146,23 @@
             color: #ffffff;
             cursor: pointer;
             padding: 5px 12px;
+        }
+
+        .solent-dash-jordan-overlay {
+            pointer-events: none;
+        }
+
+        .solent-dash-jordan-empty-message {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            box-shadow: 0 4px 16px rgba(15, 23, 42, 0.12);
+            color: #1e293b;
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 1.5;
+            max-width: 100%;
+            padding: 10px 14px;
         }
 
         .solent-dash-jordan-tooltip {
@@ -219,23 +242,12 @@
         }
 
         .solent-dash-jordan-adm2-region {
-            cursor: pointer;
-            pointer-events: auto;
+            pointer-events: none;
             stroke: #ffffff;
             stroke-linejoin: round;
             stroke-opacity: 0.96;
             stroke-width: 1.7;
-            transition: filter 140ms ease, opacity 140ms ease, stroke 140ms ease, stroke-width 140ms ease;
             vector-effect: non-scaling-stroke;
-        }
-
-        .solent-dash-jordan-adm2-region:hover,
-        .solent-dash-jordan-adm2-region:focus {
-            filter: brightness(0.82) saturate(1.08);
-            opacity: 1;
-            outline: none;
-            stroke: #0f172a;
-            stroke-width: 2.3;
         }
 
         .solent-dash-jordan-map-focus .solent-dash-jordan-legend {
@@ -476,16 +488,7 @@
             }
 
             function featureBelongsToGovernorate(feature, governorateFeature) {
-                if (pointInFeature(representativePoint(feature), governorateFeature)) {
-                    return true;
-                }
-
-                const coordinates = featureCoordinates(feature);
-                const sampleStep = Math.max(1, Math.ceil(coordinates.length / 24));
-
-                return coordinates.some(function (point, index) {
-                    return index % sampleStep === 0 && pointInFeature(point, governorateFeature);
-                });
+                return pointInFeature(representativePoint(feature), governorateFeature);
             }
 
             function adm2FeaturesForGovernorate(adm2GeoJson, governorateFeature) {
@@ -496,16 +499,21 @@
                 });
             }
 
-            function placeLabels(labels, height) {
+            function placeLabels(labels, width, height, characterWidth) {
                 labels.slice().sort(function (a, b) {
                     return a.y - b.y;
                 }).forEach(function (label, index, sorted) {
                     const previous = sorted[index - 1];
+                    const estimatedHalfWidth = Math.min(
+                        (width / 2) - 8,
+                        Math.max(10, (String(label.name).length * (characterWidth || 4.2)) / 2)
+                    );
 
                     if (previous && Math.abs(label.x - previous.x) < 58 && label.y - previous.y < 15) {
                         label.y = previous.y + 15;
                     }
 
+                    label.x = Math.max(estimatedHalfWidth + 8, Math.min(width - estimatedHalfWidth - 8, label.x));
                     label.y = Math.max(12, Math.min(height - 10, label.y));
                 });
 
@@ -546,18 +554,6 @@
                 return element.dataset.mapDrilldown === 'true';
             }
 
-            function staticMetric(name, min, max, salt) {
-                const key = name + salt;
-                let hash = 0;
-
-                for (let index = 0; index < key.length; index++) {
-                    hash = ((hash << 5) - hash) + key.charCodeAt(index);
-                    hash |= 0;
-                }
-
-                return min + (Math.abs(hash) % (max - min + 1));
-            }
-
             function escapeHtml(value) {
                 return String(value).replace(/[&<>"']/g, function (character) {
                     return {
@@ -596,20 +592,10 @@
                 });
             }
 
-            function areaMetrics(areaName, regionCases) {
-                const completedCeiling = Math.max(12, Math.min(96, Math.round((regionCases || 24) * 0.28)));
-                const completedFloor = Math.max(4, Math.min(24, Math.round(completedCeiling * 0.4)));
-                const completed = staticMetric(areaName, completedFloor, completedCeiling, 'completed');
-                const waiting = staticMetric(areaName, 1, Math.max(3, Math.min(18, Math.round(completed * 0.45))), 'waiting');
-
-                return { waiting: waiting, completed: completed };
-            }
-
-            function tooltipMarkup(name, firstLabel, firstValue, secondLabel, secondValue) {
+            function tooltipMarkup(name, cases) {
                 return '<strong class="solent-dash-jordan-tooltip-title">' + escapeHtml(name) + '</strong>'
                     + '<span class="solent-dash-jordan-tooltip-stats">'
-                    + '<span class="solent-dash-jordan-tooltip-stat"><small>' + escapeHtml(firstLabel) + '</small><strong>' + Number(firstValue || 0).toLocaleString() + '</strong></span>'
-                    + '<span class="solent-dash-jordan-tooltip-stat"><small>' + escapeHtml(secondLabel) + '</small><strong>' + Number(secondValue || 0).toLocaleString() + '</strong></span>'
+                    + '<span class="solent-dash-jordan-tooltip-stat"><small>Cases</small><strong>' + Number(cases || 0).toLocaleString() + '</strong></span>'
                     + '</span>';
             }
 
@@ -617,10 +603,7 @@
                 const tooltip = element.querySelector('[data-map-tooltip]');
 
                 path.addEventListener('mousemove', function (event) {
-                    const waiting = staticMetric(name, 1, 9, 'waiting');
-                    const thisMonth = staticMetric(name, 12, 42, 'month');
-
-                    tooltip.innerHTML = tooltipMarkup(name, 'Waiting', waiting, 'This month', thisMonth);
+                    tooltip.innerHTML = tooltipMarkup(name, cases);
                     tooltip.hidden = false;
                     tooltipPosition(element, tooltip, event);
                 });
@@ -628,10 +611,7 @@
                     tooltip.hidden = true;
                 });
                 path.addEventListener('focus', function () {
-                    const waiting = staticMetric(name, 1, 9, 'waiting');
-                    const thisMonth = staticMetric(name, 12, 42, 'month');
-
-                    tooltip.innerHTML = tooltipMarkup(name, 'Waiting', waiting, 'This month', thisMonth);
+                    tooltip.innerHTML = tooltipMarkup(name, cases);
                     tooltip.hidden = false;
                     tooltipPositionForNode(element, tooltip, path);
                 });
@@ -640,35 +620,9 @@
                 });
             }
 
-            function areaTooltipHandlers(element, node, areaName, metrics) {
-                const tooltip = element.querySelector('[data-map-tooltip]');
-
-                function show(event) {
-                    tooltip.innerHTML = tooltipMarkup(areaName, 'Waiting', metrics.waiting, 'Completed', metrics.completed);
-                    tooltip.hidden = false;
-
-                    if (event) {
-                        tooltipPosition(element, tooltip, event);
-                    } else {
-                        tooltipPositionForNode(element, tooltip, node);
-                    }
-                }
-
-                node.addEventListener('mousemove', function (event) {
-                    show(event);
-                });
-                node.addEventListener('mouseleave', function () {
-                    tooltip.hidden = true;
-                });
-                node.addEventListener('focus', function () {
-                    show();
-                });
-                node.addEventListener('blur', function () {
-                    tooltip.hidden = true;
-                });
-            }
-
             function dispatchRegionSelected(element, name, cases) {
+                if (Number(cases) <= 0) return;
+
                 element.dispatchEvent(new CustomEvent('solent:jordan-region-selected', {
                     bubbles: true,
                     detail: {
@@ -686,6 +640,7 @@
                 const values = regionIndex(element);
                 const cases = Object.keys(values).map(function (name) { return values[name]; });
                 const maximum = cases.length ? Math.max.apply(null, cases) : 0;
+                const hasActivity = cases.some(function (value) { return value > 0; });
                 const allFeatures = geoJson.features || [];
                 const focusRegion = focusRegionName(element);
                 const filteredFeatures = focusRegion
@@ -700,28 +655,24 @@
                     ? adm2FeaturesForGovernorate(adm2GeoJson, filteredFeatures[0])
                     : [];
                 const focusedAreaRows = focusedAdm2Features.map(function (feature) {
-                    const name = featureDisplayName(feature);
-                    const metrics = areaMetrics(name, values[focusRegion] || 0);
-
                     return {
                         feature: feature,
-                        name: name,
-                        metrics: metrics,
-                        value: metrics.waiting + metrics.completed
+                        name: featureDisplayName(feature)
                     };
                 });
-                const focusedAreaMaximum = focusedAreaRows.length
-                    ? Math.max.apply(null, focusedAreaRows.map(function (area) { return area.value; }))
-                    : 0;
+                const hasVisibleActivity = isFocusedView
+                    ? Number(values[focusRegion] || 0) > 0
+                    : hasActivity;
                 canvas.hidden = false;
                 element.classList.toggle('solent-dash-jordan-map-focus', isFocusedView);
                 const isExpandedView = element.classList.contains('solent-dash-jordan-map-expanded');
+                const isMobilePreview = !isExpandedView && window.matchMedia('(max-width: 760px)').matches;
                 const width = isExpandedView ? 720 : 360;
-                const height = isExpandedView ? 420 : 180;
+                const height = isExpandedView ? 420 : (isMobilePreview ? 300 : 180);
                 const project = fitExtentProjector(features, width, height);
                 const svg = svgElement('svg', {
                     viewBox: '0 0 ' + width + ' ' + height,
-                    preserveAspectRatio: isExpandedView ? 'xMidYMid meet' : 'xMidYMid slice',
+                    preserveAspectRatio: isExpandedView || isMobilePreview ? 'xMidYMid meet' : 'xMidYMid slice',
                     role: 'img',
                     'aria-label': 'Jordan clinic activity heatmap'
                 });
@@ -733,15 +684,19 @@
                 features.forEach(function (feature) {
                     const name = feature.properties.shapeName || feature.properties.name || '';
                     const value = Object.prototype.hasOwnProperty.call(values, normalize(name)) ? values[normalize(name)] : null;
+                    const canDrilldown = isDrilldownEnabled(element) && Number(value) > 0;
                     const path = svgElement('path', {
-                        class: 'solent-dash-jordan-region',
+                        class: 'solent-dash-jordan-region' + (canDrilldown ? ' is-interactive' : ''),
                         d: geometryPath(feature, project),
                         fill: color(value, maximum),
-                        tabindex: '0'
+                        role: 'img',
+                        tabindex: canDrilldown ? '0' : '-1',
+                        'aria-label': name + ': ' + Number(value || 0).toLocaleString() + ' cases',
+                        'aria-disabled': isDrilldownEnabled(element) && !canDrilldown ? 'true' : 'false'
                     });
                     const labelPosition = centroid(feature, project);
                     tooltipHandlers(element, path, name, value);
-                    if (isDrilldownEnabled(element)) {
+                    if (canDrilldown) {
                         path.addEventListener('click', function (event) {
                             event.preventDefault();
                             event.stopPropagation();
@@ -777,20 +732,17 @@
                         const path = svgElement('path', {
                             class: 'solent-dash-jordan-adm2-region',
                             d: geometryPath(area.feature, project),
-                            fill: color(area.value, focusedAreaMaximum),
+                            fill: neutralFill,
                             role: 'img',
-                            tabindex: '0',
-                            'aria-label': area.name + ': ' + area.metrics.waiting + ' waiting, ' + area.metrics.completed + ' completed'
+                            'aria-label': area.name
                         });
                         const labelPosition = centroid(area.feature, project);
 
-                        areaTooltipHandlers(element, path, area.name, area.metrics);
                         adm2Layer.appendChild(path);
                         areaLabels.push({ name: area.name, x: labelPosition[0], y: labelPosition[1] });
                     });
-                    svg.appendChild(adm2Layer);
 
-                    placeLabels(areaLabels, height).forEach(function (areaLabel) {
+                    placeLabels(areaLabels, width, height, 6).forEach(function (areaLabel) {
                         const label = svgElement('text', {
                             class: 'solent-dash-jordan-area-label',
                             x: areaLabel.x,
@@ -798,12 +750,13 @@
                         });
 
                         label.textContent = areaLabel.name;
-                        svg.appendChild(label);
+                        adm2Layer.appendChild(label);
                     });
+                    svg.appendChild(adm2Layer);
                 }
 
                 if (!isFocusedView) {
-                    placeLabels(labels, height).forEach(function (labelData) {
+                    placeLabels(labels, width, height, 4.2).forEach(function (labelData) {
                         const label = svgElement('text', { class: 'solent-dash-jordan-label', x: labelData.x, y: labelData.y });
 
                         label.textContent = labelData.name;
@@ -814,8 +767,8 @@
                 canvas.appendChild(svg);
                 element.solentJordanGeoJson = geoJson;
                 element.solentJordanAdm2GeoJson = adm2GeoJson || element.solentJordanAdm2GeoJson || null;
-                legend.hidden = isFocusedView || cases.length === 0;
-                empty.hidden = cases.length > 0;
+                legend.hidden = isFocusedView || !hasActivity;
+                empty.hidden = hasVisibleActivity;
                 element.querySelector('[data-map-midpoint]').textContent = Math.round(maximum / 2);
                 element.querySelector('[data-map-maximum]').textContent = maximum;
             }
@@ -876,6 +829,14 @@
             document.readyState === 'loading'
                 ? document.addEventListener('DOMContentLoaded', initialize)
                 : initialize();
+
+            window.matchMedia('(max-width: 760px)').addEventListener('change', function () {
+                document.querySelectorAll('[data-solent-jordan-map]:not(.solent-dash-jordan-map-expanded)').forEach(function (element) {
+                    if (element.solentJordanGeoJson) {
+                        window.solentJordanMapRerender(element);
+                    }
+                });
+            });
         })();
     </script>
 @endonce

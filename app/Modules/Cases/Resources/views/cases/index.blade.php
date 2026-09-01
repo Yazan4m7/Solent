@@ -69,9 +69,61 @@
             margin-bottom: 1.5rem;
         }
 
-        /* Button groups styling */
-        .btn-group .btn {
-            margin-left: 5px;
+        .cases-filter-tools {
+            display: flex;
+            align-items: stretch;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .cases-filter-tools .btn-group {
+            min-width: 0;
+        }
+
+        .cases-filter-tools .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-height: 44px;
+            margin: 0;
+        }
+
+        .cases-filter-tools .btn > i {
+            position: static;
+            margin: 0;
+        }
+
+        .cases-filter-tools .cases-columns-menu {
+            width: 220px;
+            max-width: calc(100vw - 32px);
+            max-height: min(440px, calc(100dvh - 32px));
+            overflow-y: auto;
+            padding: 8px;
+        }
+
+        .cases-columns-menu .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-height: 40px;
+            margin: 0;
+            padding: 8px 12px;
+            white-space: normal;
+            text-align: start;
+        }
+
+        .cases-columns-menu .form-check-input {
+            position: static;
+            flex: 0 0 16px;
+            width: 16px;
+            height: 16px;
+            margin: 0;
+        }
+
+        .cases-results #casesTable {
+            min-width: 700px;
+            table-layout: auto;
         }
 
         /* Table actions styling */
@@ -81,10 +133,6 @@
 
         /* Responsive adjustments */
         @media screen and (max-width: 768px) {
-            table {
-                table-layout: fixed;
-            }
-
             .content {
                 padding-left: 10px !important;
                 padding-right: 10px !important;
@@ -94,18 +142,15 @@
                 padding: 3px;
             }
 
-            .initDeliDateHeader, .initDeliDateTD, .tagsHeader, .tagsTD {
-                display: none;
-            }
-
             .pagination {
                 flex-wrap: wrap;
             }
 
             /* Better button display on mobile */
-            .btn-primary {
+            .cases-filter-actions .btn-primary {
                 width: 100%;
-                margin-bottom: 0.5rem;
+                min-height: 44px;
+                margin: 0;
             }
 
             /* Fix filter layout on mobile */
@@ -123,20 +168,59 @@
                 display: none;
             }
 
-            .dataTables_wrapper .dataTables_filter {
-                text-align: center;
+            body.white-content .cases-results .dataTables_length {
+                display: none;
+            }
+
+            body.white-content .cases-results .solent-datatable-toolbar {
+                justify-content: flex-end;
+            }
+
+            body.white-content .cases-results .dataTables_filter {
+                width: auto;
+                max-width: 100%;
+                margin: 0;
+                float: none;
+                text-align: end;
+            }
+
+            body.white-content .cases-results .dataTables_filter label {
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                gap: 8px;
+                width: auto;
+            }
+
+            body.white-content .cases-results .dataTables_filter input {
+                width: 160px;
+                height: 40px;
+                min-height: 40px;
+                padding: 6px 10px;
+                font-size: 16px;
             }
 
             /* Responsive button group on mobile */
-            .btn-group {
-                display: flex;
+            .cases-filter-tools > .btn-group,
+            .cases-filter-tools > a {
+                flex: 1 1 0;
+            }
+
+            .cases-filter-tools .btn-group,
+            .cases-filter-tools .dropdown-toggle {
                 width: 100%;
             }
 
-            .btn-group .btn {
-                flex: 1;
-                margin-left: 2px;
-                margin-right: 2px;
+            .cases-filter-tools .cases-columns-menu {
+                left: 0 !important;
+                right: auto !important;
+                transform: translate3d(0, 44px, 0) !important;
+            }
+
+            .cases-results > .row,
+            .cases-results > .row > .col-12 {
+                margin: 0;
+                padding: 0;
             }
         }
     </style>
@@ -205,27 +289,27 @@
                                 </div>
 
                                 <!-- Second row for additional filters and actions -->
-                                <div class="row" style="padding-bottom:0;">
+                                <div class="row cases-filter-actions" style="padding-bottom:0;">
                                     <!-- Submit button - Left aligned -->
-                                    <div class="col-md-6 col-6 mb-3">
+                                    <div class="col-md-6 col-12 mb-3">
                                         <button type="submit" class="btn btn-primary">
                                             <i class="fas fa-search mr-1"></i> Apply Filters
                                         </button>
                                     </div>
 
                                     <!-- Actions aligned to the right -->
-                                    <div class="col-md-6 col-6 mb-3 text-right">
+                                    <div class="col-md-6 col-12 mb-3 text-right cases-filter-tools">
                                         <div class="btn-group" role="group" aria-label="Table actions">
                                             <!-- Show/Hide columns button -->
                                             <div class="btn-group" role="group">
                                                 <button class="btn btn-outline-secondary dropdown-toggle" type="button"
                                                         id="dropdownMenuButton" data-toggle="dropdown"
+                                                        data-boundary="viewport"
                                                         aria-haspopup="true"
                                                         aria-expanded="false">
-                                                    <i class="fas fa-columns"></i> <span class="d-none d-md-inline">Columns</span>
+                                                    <i class="fas fa-columns"></i> <span>Columns</span>
                                                 </button>
-                                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton"
-                                                     style="padding-left:10px">
+                                                <div class="dropdown-menu dropdown-menu-right cases-columns-menu" aria-labelledby="dropdownMenuButton">
                                                     <a class="toggle-vis dropdown-item" data-column="0" href="#"
                                                        onclick="toggleCheckBox(this); toggleColumnVisibilty(1);"><input
                                                             type="checkbox"
@@ -276,8 +360,8 @@
                                         </div>
 
                                         <!-- Trash icon button - now separate from the columns button -->
-                                        <a href="{{route('deleted-cases')}}" class="btn btn-outline-danger ml-2">
-                                            <i class="fa-regular fa-trash-can"></i> <span class="d-none d-md-inline">Deleted</span>
+                                        <a href="{{route('deleted-cases')}}" class="btn btn-outline-danger">
+                                            <i class="fa-regular fa-trash-can"></i> <span>Deleted</span>
                                         </a>
                                     </div>
                                 </div>
@@ -287,7 +371,7 @@
                         </form>
                     @endif
                     @endif
-                    <div class="container full-width list-results-shell">
+                    <div class="container full-width list-results-shell cases-results solent-table-frame">
                         <div class="row" style="justify-content: flex-end;">
                             <div class="col-12">
                                 <br>
@@ -651,14 +735,20 @@
                     {{--<script src="//cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>--}}
                     <!-- Responsive and datable js -->
                     <script type="text/javascript">
-                        $('td:nth-child(2),th:nth-child(2)').hide();
-                        $('td:nth-child(9),th:nth-child(9)').hide();
                         $(document).ready(function () {
 
                             $("#casesTable").DataTable({
                                 "pageLength": 25,
                                 "searching": true,
                                 "lengthChange": true,
+                                "autoWidth": false,
+                                "responsive": false,
+                                "dom": "<'solent-datatable-toolbar'lf>r<'solent-table-scroll't><'solent-datatable-foot'ip>",
+                                "columnDefs": [
+                                    { targets: [1, 8], visible: false },
+                                    { targets: [4, 7], visible: !window.matchMedia('(max-width: 768px)').matches },
+                                    { targets: [2, 3], className: 'solent-table-name' }
+                                ],
                                 "order": []
                                 //{targets: [0, 1, 8], visible: false}
                             });
@@ -668,14 +758,8 @@
 
                         function toggleColumnVisibilty(colNumber) {
 
-                            var selector = 'td:nth-child(' + colNumber + '),th:nth-child(' + colNumber + ')';
-                            console.log(selector);
-                            $(selector).toggle();
-                            // Get the column API object
-//                                var column = table.column($(this).attr('data-column'));
-//
-//                                // Toggle the visibility
-//                                column.visible(!column.visible());
+                            var column = $('#casesTable').DataTable().column(colNumber - 1);
+                            column.visible(!column.visible());
                         }
 
                         function toggleCheckBox(ele) {

@@ -81,6 +81,8 @@ class AppServiceProvider extends ServiceProvider
             'brandingLoginLogoPath' => $settings->extra['login_logo_path']
                 ?? config('branding.defaults.login_logo_path'),
             'brandingSidebarMarkPath' => $settings->extra['sidebar_mark_path'] ?? config('branding.defaults.sidebar_mark_path'),
+            'brandingLoginLogoForceWhite' => (bool) ($settings->extra['login_logo_force_white'] ?? false),
+            'brandingSidebarLogoForceWhite' => (bool) ($settings->extra['sidebar_logo_force_white'] ?? false),
             'brandingFaviconPath' => $settings->faviconPath ?? config('branding.defaults.favicon_path'),
             'brandingName' => $settings->name ?? config('branding.defaults.name'),
         ];

@@ -713,17 +713,6 @@
                 padding-right: 6px;
             }
 
-            .activeTable tr > *:nth-child(3),
-            .activeTable tr > *:nth-child(5),
-            .activeTable tr > *:nth-child(6) {
-                display: none;
-            }
-
-            .waitingTable tr > *:nth-child(4),
-            .waitingTable tr > *:nth-child(5) {
-                display: none;
-            }
-
             .innerSpan4DeskTop {
                 display: none;
             }
@@ -824,6 +813,7 @@
 
         .ops-dashboard .macaw-tabs.macaw-aurora-tabs {
             display: block !important;
+            min-width: 0;
         }
 
         .ops-dashboard .macaw-tabs.macaw-aurora-tabs > [role="tablist"].stageSidebar {
@@ -1395,10 +1385,17 @@
         }
 
         @media (max-width: 575.98px) {
+            .ops-dashboard .macaw-tabs.macaw-aurora-tabs > [role="tablist"].stageSidebar {
+                display: grid !important;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 8px;
+                margin-block: 12px;
+            }
+
             .ops-dashboard .macaw-tabs.macaw-aurora-tabs > [role="tablist"].stageSidebar > [role="tab"] {
-                flex-basis: 68px !important;
-                width: 68px !important;
-                max-width: 68px !important;
+                width: 100% !important;
+                max-width: none !important;
+                min-width: 0;
                 min-height: 90px;
                 padding: 9px 5px !important;
             }
@@ -1449,6 +1446,8 @@
         .ops-dashboard .macaw-tabs.macaw-aurora-tabs > [role="tabpanel"],
         .ops-dashboard .macaw-tabs.macaw-silk-tabs > [role="tabpanel"],
         .ops-dashboard .dataTables_wrapper {
+            min-width: 0;
+            max-width: 100%;
             background: var(--surface) !important;
             border: 1px solid var(--border) !important;
             border-radius: 16px !important;
@@ -1457,8 +1456,6 @@
 
         .ops-dashboard .dataTables_wrapper {
             padding: 10px !important;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
         }
 
         .ops-dashboard .YSH-operations-table-tools {
@@ -1751,9 +1748,10 @@
 
     @endphp
         <!-- Begin .site-wrapper -->
-    <div class="site-wrapper ops-dashboard">
+    <div class="site-wrapper ops-dashboard solent-table-frame">
         <!-- Begin Main -->
         <main class="ops-main">
+            @include('cases.partials.operations-view-toggle', ['operationsView' => 'classic'])
             <!-- Begin .macaw-tabs -->
             <div class="macaw-tabs macaw-aurora-tabs notransition">
                 <div role="tablist" class="stageSidebar" aria-orientation="vertical">
@@ -2299,6 +2297,7 @@
 
                     var $table = $(this);
                     var nonOrderableColumns = [$table.find('thead th').length - 1];
+                    var nameColumnOffset = $table.find('thead input[type="checkbox"]').length ? 1 : 0;
 
                     if ($table.find('thead input[type="checkbox"]').length) {
                         nonOrderableColumns.unshift(0);
@@ -2306,6 +2305,7 @@
 
                     $table.DataTable({
                         autoWidth: false,
+                        responsive: false,
                         buttons: window.solentDataTableButtons ? window.solentDataTableButtons(true) : [],
                         pageLength: 10,
                         lengthChange: true,
@@ -2317,8 +2317,11 @@
                             targets: nonOrderableColumns,
                             orderable: false,
                             searchable: false
+                        }, {
+                            targets: [nameColumnOffset, nameColumnOffset + 1],
+                            className: 'solent-table-name'
                         }],
-                        dom: "<'YSH-operations-table-tools solent-datatable-toolbar'Bfl>rt<'YSH-operations-table-footer'ip>",
+                        dom: "<'YSH-operations-table-tools solent-datatable-toolbar'Bfl>r<'solent-table-scroll't><'YSH-operations-table-footer'ip>",
                         language: Object.assign({}, (window.SolentI18n && window.SolentI18n.dataTables) || {}, {
                             search: '',
                             searchPlaceholder: @json(trans('ui.dom')['Search cases...'] ?? 'Search cases...')

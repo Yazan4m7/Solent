@@ -1,0 +1,2473 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="csrf-token" content="">
+        <link rel="icon" href="http://solent.test/images/brands/solent/solent_icon_white.svg?v=20260603-favwhite1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Georgia&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400..700&display=swap" rel="stylesheet">
+    <style>
+:root {
+    --brand-primary: #c89b3c;
+    --brand-secondary: #e6c77a;
+    --brand-accent: #0f141c;
+    --brand-background: #0b1117;
+}
+</style>
+            <title>Invoices List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Alexandria:wght@100..900&family=Cairo:wght@400;500;600;700;800&family=Noto+Naskh+Arabic:wght@400..700&family=Tajawal:wght@200;300;400;500;700;800;900&display=swap"
+        rel="stylesheet">
+    <!-- Reset/Base CSS -->
+    <style>
+        :root {
+            --font-family-sans-serif: "Cairo", sans-serif;
+            --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+            --accent:#6366f1;
+            --accent-lt:#818cf8;
+            --accent-bg:rgba(99,102,241,.12);
+            --success:#10b981;
+            --warning:#f59e0b;
+            --danger:#ef4444;
+            --text-1:#0f172a;
+            --text-2:#64748b;
+            --text-3:#94a3b8;
+            --surface:#ffffff;
+            --surface-raised:#f8fafc;
+            --border:rgba(0,0,0,.08);
+            --border-06:rgba(0,0,0,.06);
+            --border-07:rgba(0,0,0,.07);
+            --shadow-1:rgba(0,0,0,.1);
+            --shadow-2:rgba(0,0,0,.04);
+            --chart-grid:rgba(0,0,0,.05);
+            --sidebar-link:rgba(255,255,255,.78);
+            --sidebar-hover:rgba(255,255,255,.06);
+            --sidebar-border:rgba(216,220,227,.14);
+            --sidebar-brand-border:rgba(99,102,241,.28);
+            --sidebar-active-bg:rgba(99,102,241,.15);
+            --overlay-bg:rgba(0,0,0,.5);
+
+            /* Solent premium palette */
+            --color-main-bg: var(--surface-raised);
+            --color-sidebar: var(--text-1);
+            --color-topbar: var(--text-1);
+            --color-card: var(--surface);
+            --color-card-border: var(--border);
+            --color-text: var(--text-1);
+            --color-muted: var(--text-2);
+            --color-primary-teal: var(--accent);
+            --color-secondary-purple: var(--accent);
+            --color-brand-gold: var(--accent);
+            --color-warning-orange: var(--warning);
+            --color-danger-pink: var(--danger);
+
+            --color-shell-bg: var(--color-sidebar);
+            --color-accent-gold: var(--color-brand-gold);
+            --color-surface: var(--color-main-bg);
+            --color-surface-alt: var(--surface-raised);
+            --color-surface-soft: var(--accent-bg);
+
+            --brand-primary: var(--color-primary-teal);
+            --brand-secondary: var(--color-secondary-purple);
+            --brand-accent: var(--color-brand-gold);
+
+            /* Legacy aliases */
+            --main-blue: var(--color-primary-teal);
+            --main-orange: var(--color-warning-orange);
+            --main-green: var(--color-primary-teal);
+            --air-force-blue: var(--color-shell-bg);
+            --timber-wolf: var(--color-surface);
+            --rich-black: var(--color-shell-bg);
+            --indigo-dye: var(--color-shell-bg);
+            --cadet-gray: var(--color-surface-alt);
+            --dark-teal: var(--color-shell-bg);
+        }
+
+        @font-face {
+            font-family: SegoeUI;
+            src: local("Segoe UI Bold"),
+                url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/bold/latest.woff2) format("woff2"),
+                url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/bold/latest.woff) format("woff"),
+                url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/bold/latest.ttf) format("truetype");
+            font-weight: 600;
+        }
+
+        .noto-naskh-arabic {
+            font-family: "Noto Naskh Arabic", serif;
+            font-optical-sizing: auto;
+            font-weight: 700;
+            font-style: normal;
+        }
+
+        .noto-naskh-arabic {
+            font-family: "Noto Naskh Arabic", serif;
+            font-optical-sizing: auto;
+            font-weight: 600;
+            font-style: normal;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--overlay-bg);
+            display: none;
+            z-index: 5;
+        }
+
+        .overlay.active {
+            display: flex;
+        }
+
+        .no-scroll {
+            overflow: hidden;
+        }
+    </style>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,300" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway&family=Rubik:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/montserrat" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+
+    <!-- Core Framework CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" media="all"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l')" crossorigin="anonymous">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+
+    <!-- Third-party/Plugin CSS -->
+    <link href="http://solent.test/assets/css/jquery.datetimepicker.min.css" rel="stylesheet">
+    <link href="//cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <link href="//cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css" rel="stylesheet"
+        type="text/css" />
+    <link href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css" rel="stylesheet"
+        type="text/css" />
+    <link href="http://solent.test/assets/css/sweetalert2.min.css" rel="stylesheet" />
+
+    <!-- Theme CSS -->
+    <link href="http://solent.test/assets/css/white-dashboard.css" rel="stylesheet" />
+    <link href="http://solent.test/assets/css/theme.css" rel="stylesheet" />
+    <link href="http://solent.test/assets/css/nucleo-icons.css" rel="stylesheet" />
+
+    <!-- Custom CSS -->
+    <link href="http://solent.test/assets/css/callouts.css" rel="stylesheet" />
+    <link href="http://solent.test/assets/css/ysh-custom-css/dialog.css" rel="stylesheet" />
+    <link href="http://solent.test/assets/css/custom-styling.css" rel="stylesheet" />
+    <link href="http://solent.test/assets/css/sidebar-fix.css" rel="stylesheet" />
+    <link href="http://solent.test/css/georgia-font.css" rel="stylesheet" />
+    <link href="http://solent.test/css/ysh-custom-css/machine-images.css" rel="stylesheet" />
+    <link href="http://solent.test/assets/css/brand-overrides.css" rel="stylesheet" />
+    <link href="http://solent.test/assets/css/brand-overrides.css" rel="stylesheet" />
+
+    <!-- Dynamic styling -->
+    <style>
+    body,
+    html, .wrapper {
+        height: 100%;
+    }
+
+    <!-- tooltop -->
+     .tooltipY {
+         position: relative;
+         display: inline-block;
+         border-bottom: 1px dotted black;
+     }
+
+    .tooltipY .tooltiptextY {
+        visibility: hidden;
+        width: auto;
+        background-color: var(--text-1);
+        color: var(--surface);
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px;
+        position: absolute;
+        z-index: 1;
+        bottom: 100%;
+        left: 50%;
+        margin-left: -60px;
+
+        /* Fade in tooltip - takes 1 second to go from 0% to 100% opac: */
+        opacity: 0;
+        transition: opacity 1s;
+    }
+
+    .tooltipY:hover .tooltiptextY {
+        visibility: visible;
+        opacity: 1;
+    }
+    <!-- End tooltop -->
+
+
+    <!-- Sidebar -->
+    a {
+        color: var(--color-accent-gold, var(--accent));
+    }
+    a:hover, a:focus {
+        color: var(--color-surface-soft, var(--accent-bg));
+    }
+    .sidebar, .off-canvas-sidebar {
+
+        background: var(--color-shell-bg, var(--text-1));
+       }
+    .main-panel {
+        border-top: 2px solid var(--color-accent-gold, var(--accent));
+    }
+
+    <!-- Buttons -->
+    .deleteBtn{
+        padding:10px , 20px;
+        background-color:20;
+    }
+    .btn-primary {
+    
+    
+    
+    
+
+}
+    .btn-secondary {
+        
+    }
+    .btn:hover, .btn:focus, .btn-primary:hover, .btn-primary:focus {
+        
+        
+    }
+
+</style>
+
+    <!-- Page-specific CSS -->
+    <link href="http://solent.test/assets/css/solent-demo.css" rel="stylesheet" />
+
+        <link href="http://solent.test/assets/css/rtl.css" rel="stylesheet" />
+    <link href="http://solent.test/assets/css/site-typography.css?v=20260823-2" rel="stylesheet" />
+    <link href="http://solent.test/assets/css/solent-quick-nav.css" rel="stylesheet" />
+
+    <script>
+        window.SolentI18n = {"locale":"en","direction":"ltr","messages":{"Account Statement":"Account Statement","Statement Of Account":"Statement Of Account","From date":"From date","To date":"To date","Apply":"Apply","All time":"All time","Print":"Print","Print account statement":"Print account statement","Prepared for":"Prepared for","Account overview":"Account overview","logo":"logo","Doctor prefix":"Dr.","A complete record of invoices, payments, discounts, and the resulting account balance.":"A complete record of invoices, payments, discounts, and the resulting account balance.","Opening balance":"Opening balance","Invoices":"Invoices","Payments":"Payments","Discounts":"Discounts","Balance due":"Balance due","Transaction history":"Transaction history","Transactions count":":count transactions","Date":"Date","Transaction":"Transaction","Description":"Description","Payment":"Payment","Amount":"Amount","Balance":"Balance","Invoice":"Invoice","Discount":"Discount","No transactions were recorded for this period.":"No transactions were recorded for this period.","* Discount applied to one or more transactions.":"* Discount applied to one or more transactions.","Generated from the account ledger for the selected period.":"Generated from the account ledger for the selected period.","Closing balance":"Closing balance","Precision dental labs, refined.":"Precision dental labs, refined."},"dataTables":{"emptyTable":"No data available in table","info":"Showing _START_ to _END_ of _TOTAL_ entries","infoEmpty":"Showing 0 to 0 of 0 entries","infoFiltered":"(filtered from _MAX_ total entries)","lengthMenu":"Show _MENU_ entries","loadingRecords":"Loading...","processing":"Processing...","search":"Search:","zeroRecords":"No matching records found","paginate":{"first":"First","last":"Last","next":"Next","previous":"Previous"}}};
+    </script>
+
+</head>
+
+
+<body  class="white-content">
+
+
+            <div class="solent-processing-overlay"
+     data-solent-processing-overlay
+     role="status"
+     aria-live="polite"
+     aria-label="Processing your request..."
+     hidden>
+    <div class="solent-processing-overlay__panel">
+        <span class="solent-processing-overlay__spinner" aria-hidden="true"></span>
+        <strong data-solent-processing-message>Processing your request...</strong>
+    </div>
+</div>
+
+<script>
+    window.SolentProcessingOverlay = window.SolentProcessingOverlay || (function () {
+        function element() {
+            return document.querySelector('[data-solent-processing-overlay]');
+        }
+
+        return {
+            show: function (message) {
+                var overlay = element();
+                if (!overlay) return;
+
+                var label = overlay.querySelector('[data-solent-processing-message]');
+                if (label && message) label.textContent = String(message);
+                overlay.hidden = false;
+                document.body.classList.add('solent-processing');
+            },
+            hide: function () {
+                var overlay = element();
+                if (!overlay) return;
+
+                overlay.hidden = true;
+                document.body.classList.remove('solent-processing');
+            }
+        };
+    }());
+</script>
+
+        <!-- Loading Overlay -->
+        <!-- Loading Spinner Overlay -->
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <div class="wrapper" >
+            <div class="overlay" id="overlay"></div>
+            <div class="sidebar">
+    <style>
+        body.white-content .wrapper > .sidebar,
+        .wrapper > .sidebar,
+        .sidebar {
+            display: flex !important;
+            flex-direction: column !important;
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 280px !important;
+            height: 100vh !important;
+            margin-left: 0 !important;
+            margin-top: 0 !important;
+            background: linear-gradient(180deg, #0c1426 0%, #111c32 58%, #0a1221 100%) !important;
+            box-shadow: 18px 0 48px rgba(15, 23, 42, 0.08) !important;
+            border-right: 1px solid var(--sidebar-border) !important;
+            border-radius: 0 !important;
+        }
+
+        body.white-content .wrapper > .sidebar::before,
+        body.white-content .wrapper > .sidebar::after,
+        .wrapper > .sidebar::before,
+        .wrapper > .sidebar::after,
+        .sidebar::before,
+        .sidebar::after {
+            display: none !important;
+        }
+
+        body.white-content .wrapper > .sidebar .sidebar-wrapper,
+        .wrapper > .sidebar .sidebar-wrapper,
+        .sidebar .sidebar-wrapper {
+            background: transparent !important;
+            flex: 1 1 auto !important;
+            height: auto !important;
+            min-height: 0 !important;
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
+            padding: 10px 12px 18px !important;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .sidebar .sidebar-wrapper::-webkit-scrollbar {
+            display: none;
+            width: 0;
+            height: 0;
+        }
+
+        body.white-content .wrapper > .sidebar .korvion-sidebar-brand,
+        .wrapper > .sidebar .korvion-sidebar-brand,
+        .korvion-sidebar-brand {
+            min-height: 82px;
+            padding: 0 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(8, 15, 29, 0.38) !important;
+            border-bottom: 1px solid var(--sidebar-brand-border);
+        }
+
+        .sidebar .nav {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        .sidebar .nav > li,
+        .sidebar .nav > div {
+            margin: 0 !important;
+            width: 100%;
+        }
+
+        .korvion-sidebar-logo {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            max-width: 100%;
+            margin: 0 auto;
+            text-decoration: none !important;
+        }
+
+        .korvion-sidebar-logo-full {
+            display: block;
+            width: min(154px, 100%);
+            height: auto;
+            max-height: 74px;
+            object-fit: contain;
+            filter: brightness(4);
+        }
+
+        .korvion-sidebar-logo-full--white {
+            filter: brightness(0) invert(1);
+        }
+
+        .solent-sidebar-close {
+            align-items: center;
+            justify-content: center;
+            display: none;
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            border: 1px solid rgba(255, 255, 255, 0.11);
+            border-radius: 13px;
+            background: rgba(255, 255, 255, 0.06);
+            color: #ffffff;
+        }
+
+        .solent-sidebar-close svg {
+            width: 18px;
+            height: 18px;
+            fill: none;
+            stroke: currentColor;
+            stroke-linecap: round;
+            stroke-width: 2;
+        }
+
+        .solent-sidebar-link-copy {
+            min-width: 0;
+        }
+
+        .solent-sidebar-quick-action {
+            margin: 5px 2px 13px;
+        }
+
+        .solent-sidebar-quick-action > a {
+            align-items: center;
+            display: grid;
+            grid-template-columns: 36px minmax(0, 1fr);
+            gap: 10px;
+            min-height: 52px;
+            padding: 8px 10px;
+            border: 1px solid rgba(148, 163, 184, 0.16);
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.045);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035);
+            color: #ffffff !important;
+            text-decoration: none !important;
+            transition: background-color 0.16s ease, border-color 0.16s ease, transform 0.16s ease;
+        }
+
+        .solent-sidebar-quick-action > a:hover,
+        .solent-sidebar-quick-action > a:focus {
+            border-color: rgba(129, 140, 248, 0.28);
+            background: rgba(99, 102, 241, 0.09);
+            transform: translateY(-1px);
+        }
+
+        .solent-sidebar-quick-action.active > a {
+            border-color: rgba(129, 140, 248, 0.34);
+            background: rgba(99, 102, 241, 0.12);
+            box-shadow: inset 3px 0 0 #818cf8;
+        }
+
+        .solent-sidebar-quick-action__icon {
+            align-items: center;
+            justify-content: center;
+            display: inline-flex;
+            width: 36px;
+            height: 36px;
+            border-radius: 12px;
+            background: rgba(129, 140, 248, 0.12);
+        }
+
+        .solent-sidebar-quick-action__icon svg {
+            width: 19px !important;
+            height: 19px !important;
+            color: #ffffff !important;
+            fill: none !important;
+            stroke: currentColor !important;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-width: 1.9;
+        }
+
+        .solent-sidebar-quick-action__copy strong,
+        .solent-sidebar-quick-action__copy small {
+            display: block;
+        }
+
+        .solent-sidebar-quick-action__copy strong {
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .solent-sidebar-quick-action__copy small {
+            margin-top: 2px;
+            color: rgba(226, 232, 240, 0.5);
+            font-size: 9px;
+            font-weight: 700;
+        }
+
+        html[dir="rtl"] .solent-sidebar-quick-action.active > a {
+            box-shadow: inset -3px 0 0 #818cf8;
+        }
+
+        .sidebar .nav li a i,
+        .sidebar .nav li svg {
+            width: 28px !important;
+            text-align: center !important;
+            flex-shrink: 0 !important;
+            margin-right: 0 !important;
+            align-items: center !important;
+            justify-content: center !important;
+            font-size: 20px !important;
+        }
+
+        .sidebar .nav li svg.solent-sidebar-icon {
+            fill: none;
+            height: 22px !important;
+            stroke: currentColor;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-width: 1.8;
+        }
+
+        body.white-content .wrapper > .sidebar .nav li > a,
+        .wrapper > .sidebar .nav li > a,
+        .sidebar .nav li > a {
+            display: flex;
+            align-items: center;
+            position: relative;
+            gap: 11px;
+            min-height: 50px;
+            margin: 0 !important;
+            padding: 10px 14px !important;
+            border: 1px solid transparent !important;
+            border-radius: 15px !important;
+            color: var(--sidebar-link) !important;
+            transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+        }
+
+        body.white-content .wrapper > .sidebar .nav li > a span,
+        body.white-content .wrapper > .sidebar .nav li > a p,
+        .wrapper > .sidebar .nav li > a span,
+        .wrapper > .sidebar .nav li > a p,
+        .sidebar .nav li > a span,
+        .sidebar .nav li > a p {
+            margin: 0;
+            display: inline;
+            color: var(--sidebar-link) !important;
+            font-weight: 600;
+            transition: color 0.15s ease;
+        }
+
+        body.white-content .wrapper > .sidebar .nav li > a,
+        body.white-content .wrapper > .sidebar .nav li > a i,
+        body.white-content .wrapper > .sidebar .nav li > a svg,
+        .wrapper > .sidebar .nav li > a,
+        .wrapper > .sidebar .nav li > a i,
+        .wrapper > .sidebar .nav li > a svg,
+        .sidebar .nav li > a,
+        .sidebar .nav li > a i,
+        .sidebar .nav li > a svg {
+            color: var(--sidebar-link) !important;
+            transition: color 0.15s ease;
+        }
+
+        .sidebar .nav li.active > a,
+        .sidebar .nav li.active > a:hover,
+        .sidebar .nav li.active > a:focus {
+            background: linear-gradient(90deg, rgba(99, 102, 241, 0.23), rgba(99, 102, 241, 0.08)) !important;
+            border-color: rgba(129, 140, 248, 0.27) !important;
+            color: var(--surface) !important;
+            font-weight: 700 !important;
+        }
+
+        .sidebar .solent-sidebar-nav > li.active > a::before {
+            position: absolute;
+            top: 12px;
+            bottom: 12px;
+            left: -13px;
+            width: 3px;
+            border-radius: 0 999px 999px 0;
+            background: linear-gradient(180deg, #818cf8, #38bdf8);
+            box-shadow: 0 0 14px rgba(99, 102, 241, 0.7);
+            content: "";
+        }
+
+        .sidebar .nav li.active > a span,
+        .sidebar .nav li.active > a p {
+            color: var(--surface) !important;
+            font-weight: 500 !important;
+        }
+
+        .sidebar .nav li.active > a i,
+        .sidebar .nav li.active > a svg {
+            color: var(--accent-lt) !important;
+            font-weight: 500 !important;
+        }
+
+        .sidebar .nav li:not(.active):hover > a {
+            background: var(--sidebar-hover) !important;
+            color: var(--surface) !important;
+            transform: translateX(2px);
+        }
+
+        .sidebar .nav li > a.solent-sidebar-disabled-link,
+        .sidebar .nav li:hover > a.solent-sidebar-disabled-link {
+            background: transparent !important;
+            color: var(--sidebar-link) !important;
+            cursor: not-allowed;
+            opacity: 0.52;
+            transform: none;
+        }
+
+        .sidebar .solent-sidebar-soon-badge {
+            flex: 0 0 auto;
+            padding: 3px 6px;
+            border: 1px solid rgba(129, 140, 248, 0.28);
+            border-radius: 999px;
+            background: rgba(99, 102, 241, 0.12);
+            color: #c7d2fe !important;
+            font-size: 8px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            line-height: 1;
+            text-transform: uppercase;
+        }
+
+        .sidebar .solent-sidebar-icon-shell {
+            align-items: center;
+            justify-content: center;
+            display: inline-flex !important;
+            flex: 0 0 34px;
+            width: 34px;
+            height: 34px;
+            border: 1px solid rgba(255, 255, 255, 0.055);
+            border-radius: 11px;
+            background: rgba(255, 255, 255, 0.045);
+            color: var(--sidebar-link) !important;
+        }
+
+        .sidebar .nav li.active > a .solent-sidebar-icon-shell {
+            border-color: rgba(129, 140, 248, 0.2);
+            background: rgba(99, 102, 241, 0.19);
+            color: #a5b4fc !important;
+        }
+
+        .sidebar .solent-sidebar-icon-shell svg.solent-sidebar-icon {
+            width: 19px !important;
+            height: 19px !important;
+        }
+
+        .sidebar .solent-sidebar-link-copy {
+            display: flex !important;
+            flex: 1 1 auto;
+            flex-direction: column;
+            justify-content: center;
+            gap: 2px;
+        }
+
+        .sidebar .solent-sidebar-link-copy > span,
+        .sidebar .solent-sidebar-link-copy > small {
+            display: block !important;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .sidebar .solent-sidebar-link-copy > span {
+            color: inherit !important;
+            font-size: 12px;
+            font-weight: 700 !important;
+            line-height: 1.2;
+        }
+
+        .sidebar .solent-sidebar-link-copy > small {
+            color: rgba(226, 232, 240, 0.43);
+            font-size: 9px;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        .sidebar .nav li.active > a .solent-sidebar-link-copy > small {
+            color: rgba(224, 231, 255, 0.62);
+        }
+
+        .sidebar .solent-sidebar-section-label {
+            color: var(--sidebar-link);
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            opacity: 0.62;
+            padding: 11px 12px 5px;
+            text-transform: uppercase;
+        }
+
+        .sidebar .solent-sidebar-divider {
+            border-top: 1px solid var(--sidebar-border);
+            height: 1px;
+            margin: 8px 8px 4px !important;
+        }
+
+        .sidebar .solent-sidebar-collapse-toggle .caret {
+            margin-left: auto;
+            transition: transform 0.18s ease;
+        }
+
+        .sidebar .solent-sidebar-collapse-toggle[aria-expanded="true"] .caret {
+            transform: rotate(180deg);
+        }
+
+        .sidebar .solent-sidebar-submenu {
+            gap: 2px;
+            position: relative;
+            padding: 5px 0 7px 25px !important;
+        }
+
+        .sidebar .solent-sidebar-submenu::before {
+            position: absolute;
+            top: 7px;
+            bottom: 9px;
+            left: 16px;
+            width: 1px;
+            background: rgba(148, 163, 184, 0.18);
+            content: "";
+        }
+
+        .sidebar .solent-sidebar-submenu li > a {
+            min-height: 34px;
+            padding: 7px 10px !important;
+            border-radius: 11px !important;
+        }
+
+        .sidebar .solent-sidebar-submenu li > a span {
+            font-size: 11px;
+            font-weight: 600 !important;
+        }
+
+        .sidebar .solent-sidebar-submenu li > .solent-sidebar-disabled-link {
+            align-items: center;
+            display: flex;
+            min-height: 34px;
+            padding: 7px 10px;
+            position: relative;
+            border-radius: 11px;
+            color: var(--sidebar-link);
+            cursor: not-allowed;
+            opacity: 0.42;
+            user-select: none;
+        }
+
+        .sidebar .solent-sidebar-submenu li > .solent-sidebar-disabled-link span {
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .sidebar .solent-sidebar-submenu li > .solent-sidebar-disabled-link::before {
+            position: absolute;
+            top: 50%;
+            left: -12px;
+            width: 7px;
+            height: 7px;
+            border: 2px solid #111c32;
+            border-radius: 999px;
+            background: #475569;
+            content: '';
+            transform: translateY(-50%);
+        }
+
+        .sidebar .solent-sidebar-submenu li > a::before {
+            position: absolute;
+            top: 50%;
+            left: -12px;
+            width: 7px;
+            height: 7px;
+            border: 2px solid #111c32;
+            border-radius: 999px;
+            background: #64748b;
+            content: "";
+            transform: translateY(-50%);
+        }
+
+        .sidebar .solent-sidebar-submenu li.active > a::before {
+            background: #818cf8;
+            box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.12);
+        }
+
+        .sidebar .solent-sidebar-submenu li > a svg.solent-sidebar-icon {
+            height: 18px !important;
+            width: 22px !important;
+        }
+
+        .sidebar hr {
+            border-color: var(--sidebar-border) !important;
+        }
+
+        .solent-sidebar-account {
+            flex: 0 0 auto;
+            margin-top: auto;
+            padding: 8px 12px 10px;
+            border-top: 1px solid var(--sidebar-border);
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0), rgba(15, 23, 42, 0.72));
+        }
+
+        .solent-sidebar-account .dropdown,
+        .solent-sidebar-account .dropup {
+            width: 100%;
+        }
+
+        .solent-sidebar-profile {
+            align-items: center;
+            display: grid !important;
+            grid-template-columns: 34px minmax(0, 1fr) 14px;
+            gap: 8px;
+            width: 100%;
+            min-height: 48px;
+            padding: 6px 8px !important;
+            border: 1px solid var(--sidebar-border);
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.055);
+            color: var(--surface) !important;
+            text-decoration: none !important;
+        }
+
+        .solent-sidebar-profile:hover,
+        .solent-sidebar-profile:focus {
+            background: rgba(255, 255, 255, 0.09);
+            color: var(--surface) !important;
+        }
+
+        .solent-sidebar-profile::after {
+            display: none;
+        }
+
+        .solent-sidebar-profile__avatar {
+            align-items: center;
+            display: inline-flex;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            border: 2px solid rgba(255, 255, 255, 0.12);
+            border-radius: 11px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-lt));
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 900;
+            letter-spacing: 0.03em;
+        }
+
+        .solent-sidebar-profile__meta {
+            min-width: 0;
+        }
+
+        .solent-sidebar-profile__name,
+        .solent-sidebar-profile__role {
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .solent-sidebar-profile__name {
+            color: var(--surface);
+            font-size: 13px;
+            font-weight: 900;
+            line-height: 1.2;
+        }
+
+        .solent-sidebar-profile__role {
+            color: var(--sidebar-link);
+            font-size: 11px;
+            font-weight: 700;
+            margin-top: 2px;
+        }
+
+        .solent-sidebar-profile__chevron {
+            color: var(--sidebar-link);
+            fill: none;
+            height: 14px;
+            justify-self: end;
+            stroke: currentColor;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-width: 2.2;
+            width: 14px;
+        }
+
+        .solent-sidebar-account .dropdown-menu {
+            width: 100%;
+            min-width: 0;
+            margin-bottom: 8px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            box-shadow: 0 20px 44px rgba(15, 23, 42, 0.22);
+            overflow: hidden;
+        }
+
+        .solent-sidebar-account .solent-sidebar-language-menu-item {
+            padding: 6px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .solent-sidebar-account .dropdown-menu .solent-sidebar-language {
+            justify-content: flex-start;
+            width: 100%;
+            min-height: 42px;
+            margin: 0;
+            border: 0;
+            border-radius: 9px;
+            background: transparent;
+            color: var(--text-1) !important;
+        }
+
+        .solent-sidebar-account .dropdown-menu .solent-sidebar-language:hover,
+        .solent-sidebar-account .dropdown-menu .solent-sidebar-language:focus {
+            background: var(--surface-raised);
+        }
+
+        html[dir="rtl"] .solent-sidebar-account .dropdown-menu,
+        html[dir="rtl"] .solent-sidebar-account .dropdown-menu .dropdown-item,
+        html[dir="rtl"] .solent-sidebar-account .dropdown-menu .solent-sidebar-language {
+            direction: rtl !important;
+            text-align: right !important;
+        }
+
+        html[dir="ltr"] .solent-sidebar-account .dropdown-menu,
+        html[dir="ltr"] .solent-sidebar-account .dropdown-menu .dropdown-item,
+        html[dir="ltr"] .solent-sidebar-account .dropdown-menu .solent-sidebar-language {
+            direction: ltr !important;
+            text-align: left !important;
+        }
+
+        .solent-floating-topbar {
+            align-items: center;
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            position: absolute;
+            top: 18px;
+            right: 24px;
+            left: 24px;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        .solent-floating-search,
+        .solent-mobile-sidebar-toggle {
+            pointer-events: auto;
+        }
+
+        .solent-floating-search {
+            display: flex;
+            justify-content: flex-end;
+            margin: 0;
+            width: min(336px, 48vw);
+        }
+
+        .solent-floating-topbar #wrapp {
+            align-items: center;
+            display: flex;
+            height: 44px;
+            margin: 0;
+            padding: 0;
+            position: relative;
+            width: 100%;
+        }
+
+        .solent-floating-topbar #wrapp .SBF2 {
+            align-items: center;
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            height: 44px;
+            padding: 0 16px;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.94);
+
+            backdrop-filter: blur(14px);
+            box-sizing: border-box;
+        }
+
+        .solent-floating-topbar #wrapp input[type="text"] {
+            flex: 1 1 auto;
+            min-width: 0;
+            height: 100%;
+            padding: 0;
+            border: 0;
+            outline: 0;
+            background: transparent;
+            color: var(--text-1);
+            font-family: var(--font-family-sans-serif, "Cairo", sans-serif);
+            font-size: 14px;
+            line-height: 1;
+        }
+
+        .solent-floating-topbar #wrapp input[type="text"]::placeholder {
+            color: var(--text-2);
+        }
+
+        .solent-floating-topbar #wrapp #search_submit {
+            order: -1;
+            flex: 0 0 16px;
+            width: 16px;
+            height: 16px;
+            border: 0;
+            background: url("data:image/svg+xml,%3Csvg width='18' height='18' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10.75 18.5C6.47 18.5 3 15.03 3 10.75S6.47 3 10.75 3s7.75 3.47 7.75 7.75a7.72 7.72 0 0 1-1.68 4.82l3.31 3.31-1.25 1.25-3.31-3.31a7.72 7.72 0 0 1-4.82 1.68Zm0-1.8a5.95 5.95 0 1 0 0-11.9 5.95 5.95 0 0 0 0 11.9Z' fill='%2364748B'/%3E%3C/svg%3E") center center / 16px auto no-repeat;
+            opacity: 0.72;
+            pointer-events: none;
+            text-indent: -10000px;
+        }
+
+        .solent-mobile-sidebar-toggle {
+            align-items: center;
+            justify-content: center;
+            display: none;
+            width: 44px;
+            height: 44px;
+            padding: 0 !important;
+            border: 1px solid var(--border) !important;
+            border-radius: 14px !important;
+            background: rgba(255, 255, 255, 0.94) !important;
+            box-shadow: 0 14px 34px rgba(15, 23, 42, 0.1);
+        }
+
+        .solent-mobile-sidebar-toggle .navbar-toggler-bar {
+            display: block;
+            width: 18px;
+            height: 2px;
+            margin: 2px 0;
+            border-radius: 999px;
+            background: var(--text-1);
+        }
+
+        .main-panel {
+            margin-left: 280px !important;
+            width: calc(100% - 280px) !important;
+            min-height: 100vh;
+            background: var(--surface-raised) !important;
+            border-top: 0 !important;
+        }
+
+        body.white-content,
+        body.white-content .main-panel,
+        body.white-content .content,
+        body.white-content .main-panel > .content {
+            background: var(--surface-raised) !important;
+        }
+
+        .main-panel > .content {
+            min-height: 100vh;
+            padding: 86px 24px 24px !important;
+            background: var(--surface-raised) !important;
+        }
+
+        /* Keep the default navigation fully visible on standard laptop screens. */
+        @media  screen and (min-width: 992px) and (max-height: 850px) {
+            body.white-content .wrapper > .sidebar .korvion-sidebar-brand,
+            .wrapper > .sidebar .korvion-sidebar-brand,
+            .korvion-sidebar-brand {
+                min-height: 68px;
+            }
+
+            .korvion-sidebar-logo-full {
+                max-height: 42px;
+            }
+
+            body.white-content .wrapper > .sidebar .sidebar-wrapper,
+            .wrapper > .sidebar .sidebar-wrapper,
+            .sidebar .sidebar-wrapper {
+                padding: 6px 10px 8px !important;
+            }
+
+            .solent-sidebar-quick-action {
+                margin: 2px 0 7px;
+            }
+
+            .solent-sidebar-quick-action > a {
+                min-height: 44px;
+                padding: 5px 8px;
+            }
+
+            .solent-sidebar-quick-action__icon {
+                width: 32px;
+                height: 32px;
+                flex-basis: 32px;
+            }
+
+            .sidebar .nav {
+                gap: 1px;
+            }
+
+            body.white-content .wrapper > .sidebar .nav li > a,
+            .wrapper > .sidebar .nav li > a,
+            .sidebar .nav li > a {
+                min-height: 42px;
+                padding: 5px 10px !important;
+            }
+
+            .sidebar .solent-sidebar-section-label {
+                padding: 6px 10px 2px;
+            }
+
+            .solent-sidebar-account {
+                padding: 5px 10px 7px;
+            }
+
+            .solent-sidebar-account > .dropdown > a,
+            .solent-sidebar-account > .dropup > a {
+                min-height: 44px;
+                padding: 4px 7px !important;
+            }
+        }
+
+        @media  screen and (min-width: 992px) and (max-height: 700px) {
+            body.white-content .wrapper > .sidebar .korvion-sidebar-brand,
+            .wrapper > .sidebar .korvion-sidebar-brand,
+            .korvion-sidebar-brand {
+                min-height: 60px;
+            }
+
+            .korvion-sidebar-logo-full {
+                max-height: 38px;
+            }
+
+            .solent-sidebar-quick-action > a {
+                min-height: 40px;
+            }
+
+            .solent-sidebar-quick-action__copy small,
+            .sidebar .solent-sidebar-link-copy small {
+                display: none;
+            }
+
+            body.white-content .wrapper > .sidebar .nav li > a,
+            .wrapper > .sidebar .nav li > a,
+            .sidebar .nav li > a {
+                min-height: 38px;
+                padding-top: 3px !important;
+                padding-bottom: 3px !important;
+            }
+
+            .solent-sidebar-account {
+                padding-top: 3px;
+                padding-bottom: 5px;
+            }
+
+            .solent-sidebar-account > .dropdown > a,
+            .solent-sidebar-account > .dropup > a {
+                min-height: 40px;
+            }
+        }
+
+        @media  screen and (max-width: 991px) {
+            .overlay.active {
+                left: 280px;
+                width: calc(100% - 280px);
+                z-index: 1030;
+            }
+
+            .sidebar {
+                z-index: 1031 !important;
+                transform: translate3d(-290px, 0, 0) !important;
+                transition: transform 0.35s ease !important;
+            }
+
+            .nav-open .sidebar {
+                transform: translate3d(0, 0, 0) !important;
+                box-shadow: 0 10px 35px var(--shadow-1) !important;
+            }
+
+            .solent-sidebar-close {
+                display: inline-flex;
+            }
+
+            .sidebar .sidebar-wrapper {
+                height: auto !important;
+                overflow-y: auto !important;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .main-panel {
+                margin-left: 0 !important;
+                width: 100% !important;
+            }
+
+            .main-panel > .content {
+                padding: 82px 14px 18px !important;
+            }
+
+            .solent-floating-topbar {
+                left: 12px;
+                right: 12px;
+                top: 12px;
+                justify-content: space-between;
+            }
+
+            .solent-mobile-sidebar-toggle {
+                display: inline-flex;
+                flex-direction: column;
+                flex: 0 0 44px;
+            }
+
+            .solent-floating-search {
+                width: min(336px, calc(100vw - 72px));
+            }
+        }
+
+        @media  screen and (max-width: 575.98px) {
+            .solent-floating-topbar {
+                gap: 8px;
+            }
+
+            .solent-floating-topbar #wrapp,
+            .solent-floating-topbar #wrapp .SBF2 {
+                height: 40px;
+            }
+
+            .solent-mobile-sidebar-toggle {
+                width: 40px;
+                height: 40px;
+                flex-basis: 40px;
+            }
+
+            .solent-floating-search {
+                width: calc(100vw - 68px);
+            }
+        }
+
+        html[dir="rtl"] body.white-content .wrapper > .sidebar,
+        html[dir="rtl"] .wrapper > .sidebar,
+        html[dir="rtl"] .sidebar {
+            right: 0 !important;
+            left: auto !important;
+            margin-right: 0 !important;
+            box-shadow: -18px 0 48px rgba(15, 23, 42, 0.08) !important;
+            border-right: 0 !important;
+            border-left: 1px solid var(--sidebar-border) !important;
+        }
+
+        html[dir="rtl"] .main-panel {
+            margin-right: 280px !important;
+            margin-left: 0 !important;
+        }
+
+        html[dir="rtl"] .solent-floating-topbar {
+            right: 24px;
+            left: 24px;
+        }
+
+        html[dir="rtl"] .sidebar .solent-sidebar-nav > li.active > a::before {
+            right: -12px;
+            left: auto;
+        }
+
+        html[dir="rtl"] .sidebar .solent-sidebar-submenu {
+            margin-right: 24px !important;
+            margin-left: 0 !important;
+            padding-right: 19px !important;
+            padding-left: 0 !important;
+        }
+
+        html[dir="rtl"] .sidebar .solent-sidebar-submenu::before {
+            right: 0;
+            left: auto;
+        }
+
+        @media  screen and (max-width: 991px) {
+            html[dir="rtl"] .overlay.active {
+                right: 280px;
+                left: auto;
+            }
+
+            html[dir="rtl"] .sidebar {
+                transform: translate3d(290px, 0, 0) !important;
+            }
+
+            html[dir="rtl"].nav-open .sidebar {
+                transform: translate3d(0, 0, 0) !important;
+            }
+
+            html[dir="rtl"] .main-panel {
+                margin-right: 0 !important;
+            }
+
+            html[dir="rtl"] .solent-floating-topbar {
+                right: 12px;
+                left: 12px;
+            }
+        }
+    </style>
+        <div class="korvion-sidebar-brand">
+        <a class="korvion-sidebar-logo" href="http://solent.test/main-dashboard"
+            aria-label="Solent home">
+                            <img class="korvion-sidebar-logo-full" src="http://solent.test/images/brands/solent/solent_ui_icon.png" alt="Solent sidebar logo" onerror="this.onerror=null;this.src='http://solent.test/images/brands/solent/solent_ui_icon.png';">
+                    </a>
+        <button type="button" class="solent-sidebar-close" aria-label="Close menu">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"></path></svg>
+        </button>
+    </div>
+    <div class="sidebar-wrapper">
+                            <div class="solent-sidebar-quick-action">
+                <a href="http://solent.test/new-case">
+                    <span class="solent-sidebar-quick-action__icon">
+                        <svg class="solent-sidebar-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <rect x="4" y="4" width="16" height="16" rx="3"/>
+            <path d="M12 8v8M8 12h8"/>
+            </svg>
+                    </span>
+                    <span class="solent-sidebar-quick-action__copy">
+                        <strong>Create new case</strong>
+                        <small>Start a production order</small>
+                    </span>
+                </a>
+            </div>
+                <ul class="nav solent-sidebar-nav">
+                            <li class="solent-sidebar-section-label"><span>Overview</span></li>
+            
+                            <li class="">
+                    <a href="http://solent.test/main-dashboard">
+                        <span class="solent-sidebar-icon-shell"><svg class="solent-sidebar-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M3 11.5 12 4l9 7.5"/>
+            <path d="M5.5 10v9h13v-9M9.5 19v-5h5v5"/>
+            </svg>
+</span>
+                        <span class="solent-sidebar-link-copy"><span>Home</span><small>Business snapshot</small></span>
+                    </a>
+                </li>
+            
+                            <li class="">
+                    <a href="http://solent.test/operations-dashboard">
+                        <span class="solent-sidebar-icon-shell"><svg class="solent-sidebar-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <rect x="4" y="4" width="6" height="6" rx="1"/>
+            <rect x="14" y="4" width="6" height="6" rx="1"/>
+            <rect x="4" y="14" width="6" height="6" rx="1"/>
+            <rect x="14" y="14" width="6" height="6" rx="1"/>
+            </svg>
+</span>
+                        <span class="solent-sidebar-link-copy"><span>Operations</span><small>Live production overview</small></span>
+                    </a>
+                </li>
+            
+                            <li class="solent-sidebar-divider" role="separator"></li>
+                <li class="solent-sidebar-section-label"><span>Workspace</span></li>
+            
+                            <li class="">
+                    <a href="http://solent.test/cases">
+                        <span class="solent-sidebar-icon-shell"><svg class="solent-sidebar-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <rect x="4" y="6" width="16" height="13" rx="2"/>
+            <path d="M9 6V4h6v2M4 11h16M10 11v2h4v-2"/>
+            </svg>
+</span>
+                        <span class="solent-sidebar-link-copy"><span>Cases</span><small>Search and manage orders</small></span>
+                    </a>
+                </li>
+            
+                            <li class="">
+                    <a href="http://solent.test/cases-monitor">
+                        <span class="solent-sidebar-icon-shell"><svg class="solent-sidebar-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <rect x="3" y="4" width="18" height="13" rx="2"/>
+            <path d="M8 21h8M12 17v4M7 9h3v4H7zM14 7h3v6h-3z"/>
+            </svg>
+</span>
+                        <span class="solent-sidebar-link-copy"><span>Live monitor</span><small>Track active workflow</small></span>
+                    </a>
+                </li>
+            
+                            <li class="">
+                    <a href="http://solent.test/delivery-schedule">
+                        <span class="solent-sidebar-icon-shell"><svg class="solent-sidebar-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <circle cx="12" cy="12" r="8"/>
+            <path d="M12 8v4l3 2"/>
+            </svg>
+</span>
+                        <span class="solent-sidebar-link-copy"><span>Deliveries</span><small>Schedule and dispatch</small></span>
+                    </a>
+                </li>
+            
+                            <li class="">
+                    <a href="http://solent.test/doctors/index">
+                        <span class="solent-sidebar-icon-shell"><svg class="solent-sidebar-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <circle cx="9" cy="9" r="3"/>
+            <circle cx="17" cy="10" r="2"/>
+            <path d="M4 19c.5-3 2.2-4.5 5-4.5s4.5 1.5 5 4.5M15 15c2.8 0 4.3 1.3 4.8 3.5"/>
+            </svg>
+</span>
+                        <span class="solent-sidebar-link-copy"><span>Clients</span><small>Doctors and clinics</small></span>
+                    </a>
+                </li>
+            
+                            <li>
+                    <a href="#" class="solent-sidebar-disabled-link" aria-disabled="true" tabindex="-1" onclick="return false;">
+                        <span class="solent-sidebar-icon-shell"><svg class="solent-sidebar-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="m8 4 4 2-4 2-4-2 4-2ZM16 4l4 2-4 2-4-2 4-2ZM12 12l4 2-4 2-4-2 4-2Z"/>
+            <path d="M4 6v4l4 2 4-2V6M12 6v4l4 2 4-2V6M8 14v4l4 2 4-2v-4"/>
+            </svg>
+</span>
+                        <span class="solent-sidebar-link-copy"><span>Stock</span><small>Inventory tracking</small></span>
+                        <span class="solent-sidebar-soon-badge">soon</span>
+                    </a>
+                </li>
+            
+                            <li class="solent-sidebar-divider" role="separator"></li>
+                <li class="solent-sidebar-section-label"><span>Management</span></li>
+            
+                            <li class="">
+                    <a class="solent-sidebar-collapse-toggle" data-toggle="collapse" href="#sidebarReports"
+                        aria-controls="sidebarReports" aria-expanded="false">
+                        <span class="solent-sidebar-icon-shell"><svg class="solent-sidebar-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M5 19V9M12 19V5M19 19v-7M3 19h18"/>
+            </svg>
+</span>
+                        <span class="solent-sidebar-link-copy"><span>Reports</span><small>Performance insights</small></span>
+                        <b class="caret"></b>
+                    </a>
+                    <div class="collapse" id="sidebarReports">
+                        <ul class="nav solent-sidebar-submenu">
+                            <li class="">
+                                <a href="http://solent.test/reports/num-of-units">
+                                    <span>Units Summary</span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="http://solent.test/reports/job-types">
+                                    <span>Job Mix</span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="http://solent.test/reports/QC">
+                                    <span>QC Summary</span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="http://solent.test/reports/repeats">
+                                    <span>Remakes</span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="http://solent.test/reports/material">
+                                    <span>Materials Usage</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            
+                            <li class="">
+                    <a class="solent-sidebar-collapse-toggle" data-toggle="collapse" href="#sidebarBilling"
+                        aria-controls="sidebarBilling" aria-expanded="false">
+                        <span class="solent-sidebar-icon-shell"><svg class="solent-sidebar-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <rect x="4" y="5" width="16" height="14" rx="2"/>
+            <path d="M4 10h16M8 15h3"/>
+            </svg>
+</span>
+                        <span class="solent-sidebar-link-copy"><span>Billing</span><small>Invoices and payments</small></span>
+                        <b class="caret"></b>
+                    </a>
+                    <div class="collapse" id="sidebarBilling">
+                        <ul class="nav solent-sidebar-submenu">
+                                                            <li class="">
+                                    <a href="http://solent.test/invoices">
+                                        <span>Invoices</span>
+                                    </a>
+                                </li>
+                                                                                        <li class="">
+                                    <a href="http://solent.test/payments/index">
+                                        <span>Payments</span>
+                                    </a>
+                                </li>
+                                                    </ul>
+                    </div>
+                </li>
+            
+                            <li class="">
+                    <a class="solent-sidebar-collapse-toggle" data-toggle="collapse" href="#sidebarSettings"
+                        aria-controls="sidebarSettings" aria-expanded="false">
+                        <span class="solent-sidebar-icon-shell"><svg class="solent-sidebar-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <circle cx="12" cy="12" r="3"/>
+            <path d="M19 13.5v-3l-2-.6a6 6 0 0 0-.7-1.6l1-1.8-2-2-1.8 1a6 6 0 0 0-1.6-.7L10.5 3h-3l-.6 2a6 6 0 0 0-1.6.7l-1.8-1-2 2 1 1.8A6 6 0 0 0 1.8 10l-2 .6v3l2 .6a6 6 0 0 0 .7 1.6l-1 1.8 2 2 1.8-1a6 6 0 0 0 1.6.7l.6 2h3l.6-2a6 6 0 0 0 1.6-.7l1.8 1 2-2-1-1.8a6 6 0 0 0 .7-1.6Z" transform="translate(2.25 -.75) scale(.8)"/>
+            </svg>
+</span>
+                        <span class="solent-sidebar-link-copy"><span>Configuration</span><small>Lab setup and access</small></span>
+                        <b class="caret"></b>
+                    </a>
+                    <div class="collapse" id="sidebarSettings">
+                        <ul class="nav solent-sidebar-submenu">
+                            <li class="">
+                                <a href="http://solent.test/materials">
+                                    <span>Materials</span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="http://solent.test/Job-type/index">
+                                    <span>Job Types</span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="http://solent.test/users/index">
+                                    <span>Users</span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="http://solent.test/implants/index">
+                                    <span>Implants</span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="http://solent.test/tags/index">
+                                    <span>Tags</span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="http://solent.test/f-cause/index">
+                                    <span>Failure Reasons</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                    </ul>
+            </div>
+    <div class="solent-sidebar-account">
+        <div class="dropup">
+            <a href="#" class="dropdown-toggle solent-sidebar-profile" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <span class="solent-sidebar-profile__avatar" aria-hidden="true">PR</span>
+                <span class="solent-sidebar-profile__meta">
+                    <span class="solent-sidebar-profile__name">Preview</span>
+                    <span class="solent-sidebar-profile__role">Administrator</span>
+                </span>
+
+            </a>
+            <ul class="dropdown-menu">
+                <li class="solent-sidebar-language-menu-item">
+                    <a href="http://main_dental_labs_app.test/?ui_locale=ar" class="solent-language-switcher solent-sidebar-language" lang="ar"
+    dir="rtl" hreflang="ar"
+    aria-label="التبديل إلى العربية">
+    <i class="fa-solid fa-language" aria-hidden="true"></i>
+    <span>العربية</span>
+</a>
+                </li>
+                <li>
+                    <a href="http://solent.test/logout" class="dropdown-item"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Log out</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+            <div class="main-panel">
+                                <div class="solent-floating-topbar" aria-label="Workspace actions">
+                    <button type="button" class="navbar-toggle solent-mobile-sidebar-toggle" aria-label="Open menu">
+                        <span class="navbar-toggler-bar bar1"></span>
+                        <span class="navbar-toggler-bar bar2"></span>
+                        <span class="navbar-toggler-bar bar3"></span>
+                    </button>
+                                            <nav class="solent-quick-nav solent-quick-nav--desktop"
+        aria-label="Quick navigation">
+                    <a class="solent-quick-nav__item"
+                href="http://solent.test/main-dashboard"
+                >
+                <span class="solent-quick-nav__icon">
+                    <svg class="solent-sidebar-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M3 11.5 12 4l9 7.5"/>
+            <path d="M5.5 10v9h13v-9M9.5 19v-5h5v5"/>
+            </svg>
+                </span>
+                <span class="solent-quick-nav__label">Home</span>
+            </a>
+                    <a class="solent-quick-nav__item"
+                href="http://solent.test/operations-dashboard"
+                >
+                <span class="solent-quick-nav__icon">
+                    <svg class="solent-sidebar-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <rect x="4" y="4" width="6" height="6" rx="1"/>
+            <rect x="14" y="4" width="6" height="6" rx="1"/>
+            <rect x="4" y="14" width="6" height="6" rx="1"/>
+            <rect x="14" y="14" width="6" height="6" rx="1"/>
+            </svg>
+                </span>
+                <span class="solent-quick-nav__label">Operations</span>
+            </a>
+                    <a class="solent-quick-nav__item"
+                href="http://solent.test/cases"
+                >
+                <span class="solent-quick-nav__icon">
+                    <svg class="solent-sidebar-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <rect x="4" y="6" width="16" height="13" rx="2"/>
+            <path d="M9 6V4h6v2M4 11h16M10 11v2h4v-2"/>
+            </svg>
+                </span>
+                <span class="solent-quick-nav__label">Cases</span>
+            </a>
+                    <a class="solent-quick-nav__item"
+                href="http://solent.test/cases-monitor"
+                >
+                <span class="solent-quick-nav__icon">
+                    <svg class="solent-sidebar-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <rect x="3" y="4" width="18" height="13" rx="2"/>
+            <path d="M8 21h8M12 17v4M7 9h3v4H7zM14 7h3v6h-3z"/>
+            </svg>
+                </span>
+                <span class="solent-quick-nav__label">Live monitor</span>
+            </a>
+                    <a class="solent-quick-nav__item"
+                href="http://solent.test/delivery-schedule"
+                >
+                <span class="solent-quick-nav__icon">
+                    <svg class="solent-sidebar-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <circle cx="12" cy="12" r="8"/>
+            <path d="M12 8v4l3 2"/>
+            </svg>
+                </span>
+                <span class="solent-quick-nav__label">Deliveries</span>
+            </a>
+            </nav>
+                        <form class="solent-floating-search" action="http://solent.test/search" method="GET">
+                            <div id="wrapp" class="searchBox2">
+                                <div class="SBF2">
+                                    <input id="search" name="searchText" type="text" placeholder="Search cases, doctors...">
+                                    <span id="search_submit" aria-hidden="true"></span>
+                                </div>
+                            </div>
+                        </form>
+                                    </div>
+
+                
+                <div class="content" >
+                                            <nav class="solent-quick-nav solent-quick-nav--mobile"
+        aria-label="Quick navigation">
+                    <a class="solent-quick-nav__item"
+                href="http://solent.test/main-dashboard"
+                >
+                <span class="solent-quick-nav__icon">
+                    <svg class="solent-sidebar-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M3 11.5 12 4l9 7.5"/>
+            <path d="M5.5 10v9h13v-9M9.5 19v-5h5v5"/>
+            </svg>
+                </span>
+                <span class="solent-quick-nav__label">Home</span>
+            </a>
+                    <a class="solent-quick-nav__item"
+                href="http://solent.test/operations-dashboard"
+                >
+                <span class="solent-quick-nav__icon">
+                    <svg class="solent-sidebar-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <rect x="4" y="4" width="6" height="6" rx="1"/>
+            <rect x="14" y="4" width="6" height="6" rx="1"/>
+            <rect x="4" y="14" width="6" height="6" rx="1"/>
+            <rect x="14" y="14" width="6" height="6" rx="1"/>
+            </svg>
+                </span>
+                <span class="solent-quick-nav__label">Operations</span>
+            </a>
+                    <a class="solent-quick-nav__item"
+                href="http://solent.test/cases"
+                >
+                <span class="solent-quick-nav__icon">
+                    <svg class="solent-sidebar-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <rect x="4" y="6" width="16" height="13" rx="2"/>
+            <path d="M9 6V4h6v2M4 11h16M10 11v2h4v-2"/>
+            </svg>
+                </span>
+                <span class="solent-quick-nav__label">Cases</span>
+            </a>
+                    <a class="solent-quick-nav__item"
+                href="http://solent.test/cases-monitor"
+                >
+                <span class="solent-quick-nav__icon">
+                    <svg class="solent-sidebar-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <rect x="3" y="4" width="18" height="13" rx="2"/>
+            <path d="M8 21h8M12 17v4M7 9h3v4H7zM14 7h3v6h-3z"/>
+            </svg>
+                </span>
+                <span class="solent-quick-nav__label">Live monitor</span>
+            </a>
+                    <a class="solent-quick-nav__item"
+                href="http://solent.test/delivery-schedule"
+                >
+                <span class="solent-quick-nav__icon">
+                    <svg class="solent-sidebar-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <circle cx="12" cy="12" r="8"/>
+            <path d="M12 8v4l3 2"/>
+            </svg>
+                </span>
+                <span class="solent-quick-nav__label">Deliveries</span>
+            </a>
+            </nav>
+                                                            
+                            <head>
+
+    </head>
+<style>
+    .invoice-page .card-body{
+        padding: 0;
+    }
+    .invoice-page .row, .invoice-page .container-fluid{
+        padding-left:0px;
+        padding-right:0px;
+    }
+    /*.col-sm-12 {*/
+        /*padding-right:0px;*/
+        /*padding-left:0px;*/
+    /*}*/
+    .invoice-page tr { cursor: pointer; }
+    .invoice-page td {border : 0 !important;}
+
+    .invoice-page {
+        --invoice-accent: #6366f1;
+        --invoice-border: #dfe4ec;
+        --invoice-muted: #64748b;
+        --invoice-text: #0f172a;
+        display: grid;
+        width: calc(100% - 24px);
+        max-width: 1500px;
+        gap: 18px;
+        margin: 20px auto 40px;
+    }
+
+    .invoice-panel {
+        min-width: 0;
+        padding: 20px;
+        background: var(--color-card, #ffffff) !important;
+        border: 1px solid var(--invoice-border);
+        border-inline-start: 4px solid var(--invoice-accent);
+        border-radius: 16px;
+        box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+    }
+
+    .invoice-filter-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        align-items: end;
+        gap: 14px;
+    }
+
+    .invoice-filter-field {
+        min-width: 0;
+    }
+
+    .invoice-filter-field .form-control,
+    .invoice-filter-field .bootstrap-select,
+    .invoice-filter-field .bootstrap-select > .dropdown-toggle {
+        width: 100% !important;
+        min-width: 0;
+        max-width: 100%;
+        min-height: 44px;
+        margin: 0;
+        border-radius: 10px;
+    }
+
+    .invoice-table {
+        min-width: 640px;
+    }
+
+    .invoice-table th:first-child,
+    .invoice-table td:first-child {
+        min-width: 64px;
+        white-space: nowrap;
+    }
+
+    .invoice-filter-actions .btn {
+        width: 100%;
+        min-height: 44px;
+        margin: 0;
+        border-radius: 10px;
+        font-weight: 800;
+    }
+
+    .invoice-results-summary {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 12px;
+        margin-block-end: 16px;
+        padding-block-end: 14px;
+        border-block-end: 1px solid var(--invoice-border);
+    }
+
+    .invoice-results-summary .header-title {
+        margin: 0;
+        color: var(--invoice-muted);
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+    }
+
+    .invoice-results-summary h2 {
+        margin: 0;
+        color: var(--invoice-text);
+        font-size: 28px;
+        font-weight: 800;
+    }
+
+    .invoice-results-summary h2 span:first-child {
+        color: var(--invoice-text) !important;
+    }
+
+    @media (max-width: 991.98px) {
+        .invoice-filter-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    @media (max-width: 575.98px) {
+        .invoice-page {
+            width: 100%;
+            gap: 12px;
+            margin-block: 12px 28px;
+        }
+
+        .invoice-panel {
+            padding: 14px;
+            border-radius: 14px;
+        }
+
+        .invoice-filter-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .invoice-filter-field--doctor,
+        .invoice-filter-actions {
+            grid-column: 1 / -1;
+        }
+
+        .invoice-results-summary {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+    }
+</style>
+<div class="invoice-page solent-table-frame">
+    <section class="invoice-panel invoice-panel--filters" aria-label="Invoice filters">
+            <form class="kt-form invoice-filter-form" method="GET" action="http://solent.test/invoices">
+                <div class="invoice-filter-grid">
+                <div class="invoice-filter-field">
+                    <div class="kt-subheader__search">
+                    <label class="solent-filter-label"><i class="fa-regular fa-calendar" aria-hidden="true"></i><span>From:</span></label>
+                    <input type="date" class="form-control" name="from" value="2026-08-01">
+                    </div>
+                </div>
+                <div class="invoice-filter-field">
+                    <div class="kt-subheader__search">
+                    <label class="solent-filter-label"><i class="fa-regular fa-calendar" aria-hidden="true"></i><span>To:</span></label>
+                    <input type="date" class="form-control" name="to" value="2026-08-30">
+                    </div>
+                </div>
+                                <div class="invoice-filter-field invoice-filter-field--doctor">
+                    <div class="dropdown">
+                        <label class="solent-filter-label"><i class="fa-solid fa-user-doctor" aria-hidden="true"></i><span>Doctor:</span></label>
+                        <select style="width:100%"  class="selectpicker clearOnAll" multiple name="doctor[]" id="doctor" data-live-search="true" title="All" data-hide-disabled="true">
+
+                            <option value="all" >All</option>
+                            
+                        </select>
+                    </div>
+                </div>
+                                <div class="invoice-filter-field invoice-filter-actions">
+                    <div class="kt-form__actions">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </section>
+
+    <section class="invoice-panel invoice-panel--results" aria-label="Invoice results">
+            <div class="invoice-results-summary">
+                <h5 class="header-title">Total Amount:</h5>
+                <h2 style=""><span style="font-weight: bold;color:#a13030">0</span> <span style="font-weight: bold;font-size:18px;">JOD</span></h2>
+            </div>
+                                <table id="datatable" class="dataTable no-footer order-column display compact cell-border sunriseTable invoice-table" role="grid" aria-describedby="datatable_info">
+                                    <thead>
+                                    <tr role="row">
+                                        <th>ID</th>
+                                        <th>Doctor</th>
+                                        <th>Patient name</th>
+                                        <th>Amount</th>
+                                        <th>Delivered on</th>
+
+                      </tr>
+                                    </thead>
+
+
+                                    <tbody>
+                                                                        </tbody>
+                                </table>
+    </section>
+</div>
+
+
+
+
+
+    
+                </div>
+            </div>
+
+        </div>
+        <form id="logout-form" action="http://solent.test/logout" method="POST" >
+            <input type="hidden" name="_token" value="">        </form>
+    
+<script>
+document.querySelectorAll('.solent-table-frame table.sunriseTable').forEach(function (table) {
+    const headers = Array.from(table.querySelectorAll('thead th'));
+    const body = table.tBodies[0] || table.createTBody();
+    body.innerHTML = '';
+    for (let row = 0; row < 30; row++) {
+        const tr = body.insertRow();
+        headers.forEach(function (th) {
+            const td = tr.insertCell();
+            const label = th.textContent.trim().toLowerCase();
+            td.textContent = label.includes('doctor') ? 'د. أحمد العجلوني' : label.includes('patient') ? 'ريم النجار / اسم مريض طويل للفحص' : label.includes('amount') ? '125 JOD' : label.includes('date') || label.includes('delivered') ? '2026-08-30 10:30' : label.includes('status') ? 'Waiting in Design' : label.includes('tag') ? 'Normal' : String(1001 + row);
+            if (th.querySelector('input')) td.innerHTML = '<input type="checkbox" aria-label="Select preview row">';
+        });
+    }
+});
+</script></body>
+
+
+
+<footer class="footer">
+    <script>
+        // Show the spinner as soon as the page starts loading
+        // window.addEventListener('beforeunload', function() {
+        //     document.getElementById('loadingOverlay').style.display = 'flex';  // Show overlay before the page unloads
+        // });
+
+        // Show the spinner once the page is loaded
+        // window.addEventListener('load', function() {
+        //     setTimeout(function() {
+        //         hideLoadingOverlay();  // Hide the overlay after 3 seconds
+        //     }, 3000);  // Delay for demonstration; adjust as needed
+        // });
+        //Show the loading overlay when the page loads (on refresh)
+        // window.addEventListener('load', function() {
+        //     document.getElementById('loadingOverlay').style.display = 'flex';
+        // });
+
+        // Hide the loading overlay after a short delay (you can adjust this as needed)
+        // window.addEventListener('load', function() {
+        //     setTimeout(function() {
+        //         document.getElementById('loadingOverlay').style.display = 'none';
+        //     }, 2000); // 2 seconds delay (adjust as needed)
+        // });
+    </script>
+
+
+    <!-- Core Libraries -->
+    <script src="http://solent.test/white/js/core/jquery.min.js"></script>
+    <script src="http://solent.test/white/js/core/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
+
+    <!-- Moment.js (needed by several plugins) -->
+    <script src="http://solent.test/assets/js/moment-with-locales.min.js"></script>
+
+    <!-- jQuery Plugins & Extensions -->
+    <script src="http://solent.test/assets/js/jquery.datetimepicker.full.js"></script>
+    <script src="http://solent.test/assets/js/jquery.imagesloader-1.0.1.js"></script>
+    <script src="http://solent.test/assets/js/jquery.repeater.js" defer></script>
+    <script src="http://solent.test/assets/js/lightgallery.js"></script>
+
+    <!-- Bootstrap Plugins -->
+    <script src="http://solent.test/white/js/plugins/bootstrap-notify.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+    <!-- DataTables Core & Extensions (keep together) -->
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js" integrity="sha512-a9NgEEK7tsCvABL7KqtUTQjl69z7091EVPpw5KxPlZ93T141ffe1woLtbXTX+r2/8TtTvRX/v4zTL2UlMUPgwg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.colVis.min.js"></script>
+
+    <!-- Font Awesome (Kit disabled - 403 error, using CDN versions loaded in pages) -->
+    
+    <script src="http://solent.test/assets/js/fontawesome-iconpicker.js"></script>
+
+    <!-- Third-party Utilities -->
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="http://solent.test/assets/js/ysh-custom-js/v3scripts.js" defer></script>
+    <!-- UI Components & Features -->
+    <script src="http://solent.test/assets/js/sweetalert2.min.js"></script>
+    <script src="http://solent.test/assets/js/sidebar-scroll.js"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/js/all.min.js" integrity="sha512-6BTOlkauINO65nLhXhthZMtepgJSghyimIalb+crKRPhvhmsCdnIuGcVbR5/aQY2A+260iC1OPy1oCdB6pSSwQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- Theme & Custom Scripts (load last) -->
+    <script src="http://solent.test/white/js/white-dashboard.min.js?v=1.0.0"></script>
+    <script src="http://solent.test/white/js/theme.js"></script>
+    <script src="http://solent.test/assets/js/ysh-custom-js/ysh-fuzzy-tools.js"></script>
+    <script>
+        window.solentDataTableButtons = function (withColumns) {
+            if (!window.jQuery || !jQuery.fn.dataTable || !jQuery.fn.dataTable.Buttons) {
+                return [];
+            }
+
+            var buttons = [
+                { extend: 'copyHtml5', text: window.SolentI18n?.messages?.Copy || 'Copy' },
+                { extend: 'csvHtml5', text: 'CSV' },
+                { extend: 'excelHtml5', text: 'Excel' },
+                { extend: 'print', text: window.SolentI18n?.messages?.Print || 'Print' }
+            ];
+
+            if (withColumns) {
+                buttons.push({ extend: 'colvis', text: window.SolentI18n?.messages?.Columns || 'Columns' });
+            }
+
+            return buttons;
+        };
+    </script>
+    <script>
+        $(document).ready(function () {
+            $().ready(function () {
+                $sidebar = $('.sidebar');
+                $navbar = $('.navbar');
+                $main_panel = $('.main-panel');
+
+                $full_page = $('.full-page');
+
+                $sidebar_responsive = $('body > .navbar-collapse');
+                sidebar_mini_active = true;
+                white_color = false;
+
+                window_width = $(window).width();
+
+                fixed_plugin_open = $('.sidebar .sidebar-wrapper .nav li.active a p').html();
+
+                $('.fixed-plugin a').click(function (event) {
+                    if ($(this).hasClass('switch-trigger')) {
+                        if (event.stopPropagation) {
+                            event.stopPropagation();
+                        } else if (window.event) {
+                            window.event.cancelBubble = true;
+                        }
+                    }
+                });
+                console.log('Plugin');
+
+                $('.fixed-plugin .background-color span').click(function () {
+                    $(this).siblings().removeClass('active');
+                    $(this).addClass('active');
+
+                    var new_color = $(this).data('color');
+
+                    if ($sidebar.length != 0) {
+                        $sidebar.attr('data', new_color);
+                    }
+
+                    if ($main_panel.length != 0) {
+                        $main_panel.attr('data', new_color);
+                    }
+
+                    if ($full_page.length != 0) {
+                        $full_page.attr('filter-color', new_color);
+                    }
+
+                    if ($sidebar_responsive.length != 0) {
+                        $sidebar_responsive.attr('data', new_color);
+                    }
+                });
+
+                $('.switch-sidebar-mini input').on("switchChange.bootstrapSwitch", function () {
+                    var $btn = $(this);
+
+                    if (sidebar_mini_active == true) {
+                        $('body').removeClass('sidebar-mini');
+                        sidebar_mini_active = false;
+                        whiteDashboard.showSidebarMessage('Sidebar mini deactivated...');
+                    } else {
+                        $('body').addClass('sidebar-mini');
+                        sidebar_mini_active = true;
+                        whiteDashboard.showSidebarMessage('Sidebar mini activated...');
+                    }
+
+                    // we simulate the window Resize so the charts will get updated in realtime.
+                    var simulateWindowResize = setInterval(function () {
+                        window.dispatchEvent(new Event('resize'));
+                    }, 180);
+
+                    // we stop the simulation of Window Resize after the animations are completed
+                    setTimeout(function () {
+                        clearInterval(simulateWindowResize);
+                    }, 1000);
+                });
+
+                $('.switch-change-color input').on("switchChange.bootstrapSwitch", function () {
+                    var $btn = $(this);
+
+                    if (white_color == true) {
+                        $('body').addClass('change-background');
+                        setTimeout(function () {
+                            $('body').removeClass('change-background');
+                            $('body').removeClass('white-content');
+                        }, 900);
+                        white_color = false;
+                    } else {
+                        $('body').addClass('change-background');
+                        setTimeout(function () {
+                            $('body').removeClass('change-background');
+                            $('body').addClass('white-content');
+                        }, 900);
+
+                        white_color = true;
+                    }
+                });
+
+                $('.light-badge').click(function () {
+                    $('body').addClass('white-content');
+                });
+
+                $('.dark-badge').click(function () {
+                    $('body').removeClass('white-content');
+                });
+            });
+            document.querySelectorAll('td.clickable[data-toggle="modal"][data-target^="#waitingDialogdelivery"]').forEach(el => {
+
+                el.addEventListener('click', function () {
+                    const target = this.getAttribute('data-target'); // e.g. "#waitingDialogdelivery175"
+                    const match = target.match(/#waitingDialogdelivery(\d+)/);
+                    console.log("row clicked, match:", match);
+                    if (match) {
+                        console.log("setting lastCaseClickedCase:", match);
+                        window.lastCaseClickedCase = parseInt(match[1]);
+                        console.log("Clicked case ID:", window.lastCaseClickedCase);
+                    }
+                });
+            });
+
+        });
+    </script>
+    <script>
+
+        function setCookie(name, value, days) {
+            var expires = "";
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        }
+
+        let datePickersInPage = $('.SDTP');
+        $(document).ready(function () {
+            $('.body-content').click(function (e) {
+                var body = jQuery('body');
+                var bodyposition = body.css('position');
+
+                if (bodyposition != 'relative') {
+
+
+                } else {
+                    if (body.hasClass('sidebar-open'))
+                        body.removeClass('sidebar-open');
+
+                }
+            });
+            if (datePickersInPage.length < 0)
+                setDateTimePickersInPage();
+            if (datePickersInPage.length != 0) {
+                $.datetimepicker.setDateFormatter('moment');
+                $.datetimepicker.setDateFormatter({
+                    parseDate: function (date, format) {
+                        var d = moment(date, format);
+                        return d.isValid() ? d.toDate() : false;
+                    },
+
+                    formatDate: function (date, format) {
+                        return moment(date).format(format);
+                    },
+
+                    //Optional if using mask input
+                    formatMask: function (format) {
+                        return format
+                            .replace(/Y{4}/g, '9999')
+                            .replace(/Y{2}/g, '99')
+                            .replace(/M{2}/g, '19')
+                            .replace(/D{2}/g, '39')
+                            .replace(/H{2}/g, '29')
+                            .replace(/m{2}/g, '59')
+                            .replace(/s{2}/g, '59');
+                    }
+                });
+                datePickersInPage.each(function () {
+                    let loadedDate = new Date($(this).val());
+                    let formattedForPicker = moment(loadedDate).format('DD MMM, YYYY hh:mm a');
+                    $(this).val(formattedForPicker);
+                });
+                datePickersInPage.each(function () {
+                    $(this).datetimepicker({
+
+                        format: 'DD MMM, YYYY hh:mm a',
+                        formatTime: 'hh:mm a',
+                        formatDate: 'DD MMM, YYYY',
+                        step: 30,
+                        widgetPositioning: {
+                            horizontal: 'right',
+                            vertical: 'top'
+                        }
+
+                    });
+                });
+                $('form').submit(formatDateForSubmittion);
+            }
+
+
+            $(".clearOnAll").on("changed.bs.select", function (e, clickedIndex, isSelected, oldValue) {
+                    console.log('clear on all');
+                    if (clickedIndex == null && isSelected == null) {
+                        var selectedItems = ($(this).selectpicker('val') || []).length;
+                        var allItems = $(this).find('option:not([disabled])').length;
+                        if (selectedItems == allItems) {
+                            console.log('selected all');
+                        } else {
+                            console.log('deselected all');
+                        }
+                    } else {
+
+                        var selectedD = $(this).find('option').eq(clickedIndex).text().trim();
+                        console.log('selectedD');
+                        console.log(selectedD);
+                        //console.log('selectedD: ' + selectedD +  ' oldValue: ' + oldValue);
+                        if (selectedD == "All" || selectedD == "All") {
+                            $(this).val('all');
+                            $(this).selectpicker('refresh');
+                            console.log('inside if all')
+                        } else {
+                            $(this).children("option[value='all']").prop("selected", false);
+                            $(this).selectpicker('refresh');
+                        }
+                    }
+                }
+            );
+
+
+            $('.reOverlay').hover(
+                function () {
+                    // When hover the #slide_img img hide the div.shadow
+                    $('.reOverlay').hide();
+                }, function () {
+                    // When out of hover the #slide_img img show the div.shadow
+                    $('.reOverlay').show();
+                }
+            );
+        });
+
+        function setDateTimePickersInPage() {
+            datePickersInPage = $('.SDTP');
+        }
+
+        function formatDateForSubmittion() {
+            if (datePickersInPage.length < 0)
+                setDateTimePickersInPage();
+            datePickersInPage.each(function () {
+                var d = $(this).datetimepicker('getValue');
+                var dateFormattedForDB = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ":" + d.getMinutes();
+                console.log("Date value: " + d + ' formatted : ' + dateFormattedForDB);
+                $(this).val(dateFormattedForDB);
+            });
+        }
+
+
+        let tables = $('.globalTable');
+        if (tables) {
+            tables.DataTable({
+                "pageLength": 25,
+                "searching": false,
+                "lengthChange": false,
+
+                "columnDefs": [
+                    {targets: [0], visible: false}
+                ]
+
+
+            });
+            tables.addClass("hover compact  stripe");
+        }
+        var tables2 = $('.casesFlowTable');
+        if (tables2) {
+            tables2.DataTable({
+                "pageLength": 25,
+                "searching": false,
+                "lengthChange": false,
+                "fixedHeader": true,
+
+            });
+            tables2.addClass("nowrap compact  stripe");
+        }
+
+        //            var myVar;
+        //
+        //            function myFunction() {
+        //            myVar = setTimeout(showPage, 3000);
+        //        }
+        //
+        //            function showPage() {
+        //            document.getElementById("loader").style.display = "none";
+        //            document.getElementById("myDiv").style.display = "block";
+        //        }
+
+
+    </script>
+
+    <script>
+        // document.addEventListener('DOMContentLoaded', function () {
+        //     // Select all forms on the page
+        //     const forms = document.querySelectorAll('form');
+
+        //     // Loop through each form
+        //     forms.forEach(function (form) {
+        //         // Listen for the submit event on the form
+        //         form.addEventListener('submit', function (event) {
+        //             // Prevent the default form submission (if you want to handle it with AJAX, etc.)
+        //             // event.preventDefault();
+
+        //             // Select all submit buttons within the current form
+        //             const submitButtons = form.querySelectorAll('button[type="submit"], input[type="submit"]');
+
+        //             // Disable all submit buttons
+        //             submitButtons.forEach(function (button) {
+        //                 button.disabled = true; // Disable the button
+        //                 button.innerHTML = `<div class="spinner-grow text-success" role="status"><span class="sr-only">Submitting...</span></div>`; // Optionally change button text
+        //             });
+
+        //             // Simulate form submission (e.g., using AJAX)
+
+        //         });
+        //     });
+        // });
+    </script>
+    <script>
+        const navbarToggle = document.querySelector('.solent-mobile-sidebar-toggle');
+        const sidebarClose = document.querySelector('.solent-sidebar-close');
+        const overlay = document.getElementById('overlay');
+
+        const setSidebarOpen = function (isOpen) {
+            document.documentElement.classList.toggle('nav-open', isOpen);
+            document.body.classList.toggle('no-scroll', isOpen);
+
+            if (navbarToggle) {
+                navbarToggle.classList.toggle('toggled', isOpen);
+                navbarToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                navbarToggle.setAttribute('aria-label', isOpen
+                    ? (window.SolentI18n?.messages?.['Close menu'] || 'Close menu')
+                    : (window.SolentI18n?.messages?.['Open menu'] || 'Open menu'));
+            }
+
+            if (overlay) {
+                overlay.classList.toggle('active', isOpen);
+            }
+        };
+
+        if (navbarToggle) {
+            navbarToggle.setAttribute('aria-expanded', 'false');
+            navbarToggle.addEventListener('click', function () {
+                setSidebarOpen(!document.documentElement.classList.contains('nav-open'));
+            });
+        }
+
+        if (overlay) {
+            overlay.addEventListener('click', function () {
+                setSidebarOpen(false);
+            });
+        }
+
+        if (sidebarClose) {
+            sidebarClose.addEventListener('click', function () {
+                setSidebarOpen(false);
+                navbarToggle?.focus();
+            });
+        }
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape' && document.documentElement.classList.contains('nav-open')) {
+                setSidebarOpen(false);
+                navbarToggle?.focus();
+            }
+        });
+
+        window.addEventListener('resize', function () {
+            if (window.innerWidth > 991 && document.documentElement.classList.contains('nav-open')) {
+                setSidebarOpen(false);
+            }
+        });
+    </script>
+
+    <div class="copyright">
+        <span class="solent-app-release" dir="ltr" style="margin-inline-end: 12px; color: #8a8f98; font-size: 11px; white-space: nowrap;">
+            Version 1.1 &middot; Updated Aug 2026
+        </span>
+        2026
+        <a target="_blank">©  <b style="color: var(--brand-primary, #c89b3c)"> Korvion </b></a>
+
+    </div>
+    <script>
+        if (typeof $.fn.dataTable === 'undefined' && typeof jQuery.fn.dataTable !== 'undefined') {
+            $.fn.dataTable = jQuery.fn.dataTable;
+            $.fn.DataTable = jQuery.fn.DataTable;
+        }
+    </script>
+    <script src="http://solent.test/assets/js/solent-i18n.js"></script>
+    
+    
+    <script type="text/javascript">
+//        $(document).ready(function() {
+//            $('#datatable').DataTable({
+//                dom: 'Bfrtip',
+//                buttons: [ 'csv', 'excel', 'pdf', 'print' ],
+//                "pageLength": 25,
+//                "searching": false,
+//                "lengthChange": false,
+//                "order": [[ 4, "desc" ]]
+//            });
+//        });
+$(document).ready(function() {
+
+        $('#datatable').dataTable({
+            "fixedHeader": true,
+            "colReorder": true,
+            "responsive": false,
+            "autoWidth": false,
+            "columnDefs": [{ targets: [1, 2], className: 'solent-table-name' }],
+            "sPaginationType": "full_numbers",
+            "bLengthChange": true,
+            "aLengthMenu": [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"]],
+            "iDisplayLength": 20,
+            "order": [[ 4, "desc" ]],
+            "dom": "<'solent-datatable-toolbar'Bf><'solent-table-scroll't><'solent-datatable-foot'ip>",
+            "bProcessing": true,
+            buttons: [
+                {extend: 'excel',text: 'Export Excel'}
+
+            ]
+            //{ dom: 'Bfrtip', buttons: ['colvis', 'excel', 'print'] }
+            //  "bJQueryUI": true
+            // "sDom": 'l<"H"Rf>t<"F"ip>'
+        });
+});
+    </script>
+        
+
+</footer>
+
+</html>

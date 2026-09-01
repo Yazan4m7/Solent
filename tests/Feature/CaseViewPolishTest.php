@@ -53,6 +53,15 @@ class CaseViewPolishTest extends TestCase
         $this->assertStringContainsString('$jobs = $jobs ?? (', $view);
     }
 
+    public function test_case_printing_uses_the_external_asset_instead_of_inline_document_markup(): void
+    {
+        $printingPartial = file_get_contents(base_path('app/Modules/Cases/Resources/views/cases/partials/case-printing.blade.php'));
+
+        $this->assertStringContainsString("asset('assets/js/case-printing.js')", $printingPartial);
+        $this->assertStringNotContainsString('printWindow.document.write', $printingPartial);
+        $this->assertStringNotContainsString('</body></html>', $printingPartial);
+    }
+
     public function test_requested_case_labels_have_arabic_translations(): void
     {
         $messages = (require resource_path('lang/ar/ui.php'))['dom'];

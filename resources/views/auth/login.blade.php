@@ -134,6 +134,10 @@
             width: 100%;
         }
 
+        body.login-page .brand-logo--white {
+            filter: brightness(0) invert(1);
+        }
+
         body.login-page .brand-text {
             color: var(--login-text);
             font-size: 40px;
@@ -484,7 +488,7 @@
         <section class="login-brand" aria-label="{{ $brandName }} branding">
             <div>
                 @unless($isOrvaLogin)
-                    <img class="brand-logo" src="{{ $brandLogo }}" alt="{{ $brandName }} login logo" onerror="this.onerror=null;this.src='{{ $brandLogoFallback }}';">
+                    <img class="brand-logo{{ !empty($brandingLoginLogoForceWhite) ? ' brand-logo--white' : '' }}" src="{{ $brandLogo }}" alt="{{ $brandName }} login logo" onerror="this.onerror=null;this.src='{{ $brandLogoFallback }}';">
                 @else
                     <div class="brand-text">{{ $brandName }}</div>
                 @endunless

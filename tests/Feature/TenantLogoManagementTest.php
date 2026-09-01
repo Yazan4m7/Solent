@@ -33,6 +33,8 @@ class TenantLogoManagementTest extends TestCase
         $this->assertStringContainsString("->table('brand_settings')->updateOrInsert(", $controller);
         $this->assertStringContainsString("$" . "extra['login_logo_path'] = $" . "relativePaths['login_logo']", $controller);
         $this->assertStringContainsString("$" . "extra['sidebar_mark_path'] = $" . "relativePaths['sidebar_logo']", $controller);
+        $this->assertStringContainsString("$" . "extra['login_logo_force_white'] = $" . "forceWhite['login_logo']", $controller);
+        $this->assertStringContainsString("$" . "extra['sidebar_logo_force_white'] = $" . "forceWhite['sidebar_logo']", $controller);
         $this->assertStringContainsString("'logo_path' => $" . "relativePaths['login_logo']", $controller);
         $this->assertStringContainsString("Cache::forget('branding:' . $" . "brandingKey)", $controller);
         $this->assertStringContainsString("'step' => 'branding_logos'", $controller);
@@ -52,6 +54,10 @@ class TenantLogoManagementTest extends TestCase
         $this->assertStringContainsString('enctype="multipart/form-data"', $editor);
         $this->assertStringContainsString('name="login_logo"', $editor);
         $this->assertStringContainsString('name="sidebar_logo"', $editor);
+        $this->assertStringContainsString('name="login_logo_force_white"', $editor);
+        $this->assertStringContainsString('name="sidebar_logo_force_white"', $editor);
+        $this->assertSame(2, substr_count($editor, 'Make this logo completely white'));
+        $this->assertStringContainsString("preview.classList.toggle('is-white', whiteToggle.checked);", $editor);
         $this->assertSame(2, substr_count($editor, 'required data-logo-input'));
         $this->assertStringContainsString('data-logo-preview-image', $editor);
         $this->assertStringContainsString('data-logo-fallback', $editor);
@@ -85,11 +91,17 @@ class TenantLogoManagementTest extends TestCase
         );
         $this->assertFileExists(public_path('images/brands/solent/solent_ui_icon.png'));
         $this->assertStringContainsString("'brandingLoginLogoPath'", $provider);
+        $this->assertStringContainsString("'brandingLoginLogoForceWhite'", $provider);
+        $this->assertStringContainsString("'brandingSidebarLogoForceWhite'", $provider);
         $this->assertStringNotContainsString("$" . "settings->extra['login_logo_path']\n                ?? $" . "settings->extra['sidebar_mark_path']", $provider);
         $this->assertStringContainsString('$brandingLoginLogoPath', $login);
         $this->assertStringContainsString('$brandingSidebarMarkPath', $sidebar);
+        $this->assertStringContainsString("!empty($" . "brandingLoginLogoForceWhite)", $login);
+        $this->assertStringContainsString("!empty($" . "brandingSidebarLogoForceWhite)", $sidebar);
         $this->assertStringContainsString('filter: brightness(4);', $login);
         $this->assertStringContainsString('filter: brightness(4);', $sidebar);
+        $this->assertStringContainsString('filter: brightness(0) invert(1);', $login);
+        $this->assertStringContainsString('filter: brightness(0) invert(1);', $sidebar);
         $this->assertStringContainsString('onerror="this.onerror=null;', $login);
         $this->assertStringContainsString('onerror="this.onerror=null;', $sidebar);
     }

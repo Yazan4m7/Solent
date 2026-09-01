@@ -7,11 +7,6 @@
 
     </head>
 <style>
-    @media screen and (max-width: 991px){
-        #datatable_wrapper {
-            overflow: auto;
-        }
-    }
     .invoice-page .card-body{
         padding: 0;
     }
@@ -63,9 +58,21 @@
     .invoice-filter-field .bootstrap-select,
     .invoice-filter-field .bootstrap-select > .dropdown-toggle {
         width: 100% !important;
+        min-width: 0;
+        max-width: 100%;
         min-height: 44px;
         margin: 0;
         border-radius: 10px;
+    }
+
+    .invoice-table {
+        min-width: 640px;
+    }
+
+    .invoice-table th:first-child,
+    .invoice-table td:first-child {
+        min-width: 64px;
+        white-space: nowrap;
     }
 
     .invoice-filter-actions .btn {
@@ -114,7 +121,7 @@
 
     @media (max-width: 575.98px) {
         .invoice-page {
-            width: calc(100% - 16px);
+            width: 100%;
             gap: 12px;
             margin-block: 12px 28px;
         }
@@ -125,7 +132,13 @@
         }
 
         .invoice-filter-grid {
-            grid-template-columns: 1fr;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .invoice-filter-field--doctor,
+        .invoice-filter-actions {
+            grid-column: 1 / -1;
         }
 
         .invoice-results-summary {
@@ -134,7 +147,7 @@
         }
     }
 </style>
-<div class="invoice-page">
+<div class="invoice-page solent-table-frame">
     <section class="invoice-panel invoice-panel--filters" aria-label="Invoice filters">
     @if(isset($clients))
         <form class="kt-form invoice-filter-form" method="GET" action="{{route('invoices-index')}}">
@@ -156,7 +169,7 @@
                     </div>
                 </div>
                 @if(isset($clients))
-                <div class="invoice-filter-field">
+                <div class="invoice-filter-field invoice-filter-field--doctor">
                     <div class="dropdown">
                         <label class="solent-filter-label"><i class="fa-solid fa-user-doctor" aria-hidden="true"></i><span>Doctor:</span></label>
                         <select style="width:100%"  class="selectpicker clearOnAll" multiple name="doctor[]" id="doctor" data-live-search="true" title="All" data-hide-disabled="true">
@@ -184,18 +197,14 @@
                 <h5 class="header-title">Total Amount:</h5>
                 <h2 style=""><span style="font-weight: bold;color:#a13030">{{number_format($invoices->sum('amount'))}}</span> <span style="font-weight: bold;font-size:18px;">{{ $currencyLabel }}</span></h2>
             </div>
-            <div class="card-body table-responsive">
-                <div class="table-odd">
-                    <div id="datatable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer"><div class="row"><div class="col-sm-12" style="padding:5px">
-
-                                <table id="datatable" class="dataTable no-footer  order-column  display nowrap compact cell-border sunriseTable" role="grid" aria-describedby="datatable_info">
+                                <table id="datatable" class="dataTable no-footer order-column display compact cell-border sunriseTable invoice-table" role="grid" aria-describedby="datatable_info">
                                     <thead>
                                     <tr role="row">
-                                        <th class="sorting_asc" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 50.93px;">ID</th>
-                                        <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 240px;">Doctor</th>
-                                        <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 148.32px;">Patient name</th>
-                                        <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 83.1445px;">Amount</th>
-                                        <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 160.664px;">Delivered on</th>
+                                        <th>ID</th>
+                                        <th>Doctor</th>
+                                        <th>Patient name</th>
+                                        <th>Amount</th>
+                                        <th>Delivered on</th>
 
                       </tr>
                                     </thead>
@@ -221,9 +230,7 @@
                                         </tr>
                                     @endforeach
                                     </tbody>
-                                </table></div></div></div>
-                </div>
-            </div>
+                                </table>
     </section>
 </div>
 
@@ -254,13 +261,15 @@ $(document).ready(function() {
         $('#datatable').dataTable({
             "fixedHeader": true,
             "colReorder": true,
-            "responsive": true,
+            "responsive": false,
+            "autoWidth": false,
+            "columnDefs": [{ targets: [1, 2], className: 'solent-table-name' }],
             "sPaginationType": "full_numbers",
             "bLengthChange": true,
             "aLengthMenu": [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"]],
             "iDisplayLength": 20,
             "order": [[ 4, "desc" ]],
-            "dom": 'Bfrtip',
+            "dom": "<'solent-datatable-toolbar'Bf><'solent-table-scroll't><'solent-datatable-foot'ip>",
             "bProcessing": true,
             buttons: [
                 {extend: 'excel',text: 'Export Excel'}

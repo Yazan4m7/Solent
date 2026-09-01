@@ -336,6 +336,9 @@ class DashboardScopedMarkupTest extends TestCase
         $this->assertStringContainsString('solent-sidebar-quick-action', $view);
         $this->assertStringContainsString('solent-sidebar-icon-shell', $view);
         $this->assertStringContainsString('solent-sidebar-link-copy', $view);
+        $this->assertStringContainsString("$" . "ui['Stock'] ?? 'Stock'", $view);
+        $this->assertStringContainsString('class="solent-sidebar-disabled-link" aria-disabled="true" tabindex="-1"', $view);
+        $this->assertStringContainsString('<span class="solent-sidebar-soon-badge">soon</span>', $view);
         $this->assertStringContainsString('solent-sidebar-close', $view);
         $this->assertStringContainsString('grid-template-columns: 34px minmax(0, 1fr) 14px;', $view);
         $this->assertStringContainsString('html[dir="rtl"] .solent-sidebar-account .dropdown-menu', $view);
@@ -386,7 +389,7 @@ class DashboardScopedMarkupTest extends TestCase
         $this->assertStringContainsString('delivery-table-wrap', $view);
         $this->assertStringContainsString('delivery-row clickable', $view);
         $this->assertStringContainsString(':modalId="\'caseActionsModal\' . $case->id"', $view);
-        $this->assertStringContainsString('"dom": "<\'solent-datatable-toolbar\'Bfl>rt<\'solent-datatable-foot\'ip>"', $view);
+        $this->assertStringContainsString('"dom": "<\'solent-datatable-toolbar\'Bfl>r<\'solent-table-scroll\'t><\'solent-datatable-foot\'ip>"', $view);
         $this->assertStringContainsString('window.solentDataTableButtons', $view);
         $this->assertStringContainsString('"paging": true', $view);
         $this->assertStringContainsString("deliveryTable.button('.buttons-print')", $view);

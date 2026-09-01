@@ -6,6 +6,19 @@ use Tests\TestCase;
 
 class AdminProductionControlV2Test extends TestCase
 {
+    public function test_both_designs_render_the_same_two_way_view_toggle(): void
+    {
+        foreach (['new' => 'production-control-v2', 'classic' => 'admin-dashboardv2'] as $selected => $view) {
+            $source = file_get_contents(base_path("app/Modules/Cases/Resources/views/cases/{$view}.blade.php"));
+            $this->assertStringContainsString("@include('cases.partials.operations-view-toggle', ['operationsView' => '{$selected}'])", $source);
+            $html = view('cases.partials.operations-view-toggle', ['operationsView' => $selected])->render();
+            $this->assertStringContainsString('view=new', $html);
+            $this->assertStringContainsString('view=classic', $html);
+            $this->assertMatchesRegularExpression('/view=' . $selected . '"\s+aria-current="page"/', $html);
+            $this->assertSame(1, preg_match_all('/<a\b[^>]*aria-current="page"/', $html));
+        }
+    }
+
     public function test_operations_dashboard_uses_the_new_production_control_view(): void
     {
         $controller = file_get_contents(
@@ -25,7 +38,7 @@ class AdminProductionControlV2Test extends TestCase
         $this->assertStringContainsString('data-pc-detail-panel', $view);
         $this->assertStringContainsString('admin-production-control-v2.css', $view);
         $this->assertStringContainsString('adminProductionControlV2.js', $view);
-        $this->assertStringContainsString("route('admin-dashboard-v2', ['view' => 'classic'])", $view);
+        $this->assertStringContainsString("@include('cases.partials.operations-view-toggle', ['operationsView' => 'new'])", $view);
         $this->assertStringContainsString("name('production-control.notes.store')", $routes);
         $this->assertStringContainsString('addProductionControlNote', $controller);
         $this->assertStringContainsString('EmployeeProductionBoardActionService $actions', $controller);

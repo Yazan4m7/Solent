@@ -137,8 +137,18 @@ class TenantController extends Controller
         $currentSidebarLogoPath = $settingExtra['sidebar_mark_path']
             ?? data_get($registryBranding, 'sidebar_mark_path')
             ?? config('branding.defaults.sidebar_mark_path');
+        $currentLoginLogoForceWhite = (bool) ($settingExtra['login_logo_force_white']
+            ?? data_get($registryBranding, 'login_logo_force_white', false));
+        $currentSidebarLogoForceWhite = (bool) ($settingExtra['sidebar_logo_force_white']
+            ?? data_get($registryBranding, 'sidebar_logo_force_white', false));
 
-        return view('system.tenants.logo', compact('tenant', 'currentLoginLogoPath', 'currentSidebarLogoPath'));
+        return view('system.tenants.logo', compact(
+            'tenant',
+            'currentLoginLogoPath',
+            'currentSidebarLogoPath',
+            'currentLoginLogoForceWhite',
+            'currentSidebarLogoForceWhite'
+        ));
     }
 
     public function updateLogo(Request $request, Tenant $tenant, TenantDatabaseManager $databases)
@@ -153,7 +163,13 @@ class TenantController extends Controller
         $data = $request->validate([
             'login_logo' => $logoRules,
             'sidebar_logo' => $logoRules,
+            'login_logo_force_white' => ['nullable', 'boolean'],
+            'sidebar_logo_force_white' => ['nullable', 'boolean'],
         ]);
+        $forceWhite = [
+            'login_logo' => $request->boolean('login_logo_force_white'),
+            'sidebar_logo' => $request->boolean('sidebar_logo_force_white'),
+        ];
 
         try {
             [$connection, $brandingKey] = $this->configureTenantConnection($tenant, $databases);
@@ -210,7 +226,7 @@ class TenantController extends Controller
         }
 
         try {
-            DB::connection($connection)->transaction(function () use ($connection, $columns, $brandingKey, $relativePaths, $tenant): void {
+            DB::connection($connection)->transaction(function () use ($connection, $columns, $brandingKey, $relativePaths, $forceWhite, $tenant): void {
                 $existing = DB::connection($connection)
                     ->table('brand_settings')
                     ->where('tenant', $brandingKey)
@@ -223,6 +239,8 @@ class TenantController extends Controller
                 $extra['mark_path'] = $relativePaths['login_logo'];
                 $extra['login_logo_path'] = $relativePaths['login_logo'];
                 $extra['sidebar_mark_path'] = $relativePaths['sidebar_logo'];
+                $extra['login_logo_force_white'] = $forceWhite['login_logo'];
+                $extra['sidebar_logo_force_white'] = $forceWhite['sidebar_logo'];
 
                 $values = [
                     'name' => $tenant->name,
@@ -245,6 +263,8 @@ class TenantController extends Controller
             $registryBranding['logo_path'] = $relativePaths['login_logo'];
             $registryBranding['login_logo_path'] = $relativePaths['login_logo'];
             $registryBranding['sidebar_mark_path'] = $relativePaths['sidebar_logo'];
+            $registryBranding['login_logo_force_white'] = $forceWhite['login_logo'];
+            $registryBranding['sidebar_logo_force_white'] = $forceWhite['sidebar_logo'];
             $registryBranding['updated_at'] = now()->toIso8601String();
             $tenant->forceFill(['branding' => $registryBranding])->save();
 
@@ -255,6 +275,8 @@ class TenantController extends Controller
                 'payload' => [
                     'login_logo_path' => $relativePaths['login_logo'],
                     'sidebar_mark_path' => $relativePaths['sidebar_logo'],
+                    'login_logo_force_white' => $forceWhite['login_logo'],
+                    'sidebar_logo_force_white' => $forceWhite['sidebar_logo'],
                 ],
             ]);
 

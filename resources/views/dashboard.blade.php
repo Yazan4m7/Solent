@@ -12,6 +12,8 @@
     @php
         $currencyLabel = (string) ($currencyContext['display'] ?? $currencyContext['code'] ?? 'JOD');
         $dashboardSampleDataMode = (bool) ($dashboardSampleDataMode ?? config('features.dashboard.sample_data', false));
+        $tenantDemoSupported = (bool) ($tenantDemoSupported ?? false);
+        $demoToggleActive = $tenantDemoSupported ? (bool) ($tenantDemoActive ?? false) : $dashboardSampleDataMode;
 
         $paymentsReceivedToday = $paymentsReceivedToday ?? [];
         $DeliveriesToday = $DeliveriesToday ?? [];
@@ -204,7 +206,7 @@
 
     <link href="{{ asset('assets/css/elegant-dashboard.css') }}" rel="stylesheet">
 
-    <div class="solent-dash" data-dashboard-sample-mode="{{ $dashboardSampleDataMode ? 'on' : 'off' }}">
+    <div class="solent-dash" data-dashboard-sample-mode="{{ $demoToggleActive ? 'on' : 'off' }}">
         <main class="solent-dash-shell">
             <section class="solent-dash-kpis" aria-label="Dashboard key metrics">
                 @foreach ($kpiCards as $card)
@@ -223,23 +225,26 @@
                     </article>
                 @endforeach
                 <article class="solent-dash-kpi-card solent-dash-sample-card card-1">
-                    <form class="solent-dash-sample-toggle" method="GET" action="{{ route('home') }}">
+                    <form class="solent-dash-sample-toggle" method="{{ $tenantDemoSupported ? 'POST' : 'GET' }}" action="{{ $tenantDemoSupported ? route('tenant-demo.update') : route('home') }}">
+                        @if ($tenantDemoSupported)
+                            @csrf
+                        @endif
                         <div>
                             <span class="solent-dash-label">Demo Data</span>
                             <strong class="solent-dash-sample-status">
-                                {{ $dashboardSampleDataMode ? 'On' : 'Off' }}
+                                {{ $demoToggleActive ? 'On' : 'Off' }}
                             </strong>
                         </div>
                         <button
                             type="submit"
-                            class="solent-dash-switch {{ $dashboardSampleDataMode ? 'is-active' : '' }}"
-                            name="sample_data"
-                            value="{{ $dashboardSampleDataMode ? '0' : '1' }}"
+                            class="solent-dash-switch {{ $demoToggleActive ? 'is-active' : '' }}"
+                            name="{{ $tenantDemoSupported ? 'enabled' : 'sample_data' }}"
+                            value="{{ $demoToggleActive ? '0' : '1' }}"
                             role="switch"
-                            aria-checked="{{ $dashboardSampleDataMode ? 'true' : 'false' }}"
-                            title="{{ $dashboardSampleDataMode ? 'Show real dashboard data' : 'Show demo dashboard data' }}"
+                            aria-checked="{{ $demoToggleActive ? 'true' : 'false' }}"
+                            title="{{ $demoToggleActive ? 'Return to real data' : 'Explore sample data' }}"
                         >
-                            <span class="sr-only">Show demo dashboard data</span>
+                            <span class="sr-only">{{ $demoToggleActive ? 'Return to real data' : 'Explore sample data' }}</span>
                             <span class="solent-dash-switch__track" aria-hidden="true"></span>
                         </button>
                     </form>
@@ -697,8 +702,9 @@
                     }]
                 },
                 options: solentDashBaseOptions({
+                    layout: { padding: { right: 10 } },
                     scales: {
-                        xAxes: [{ gridLines: { display: false }, ticks: { callback: solentDashDateLabel, fontColor: solentDashPalette.text2, fontSize: 11 } }],
+                        xAxes: [{ gridLines: { display: false }, ticks: { callback: solentDashDateLabel, fontColor: solentDashPalette.text2, fontSize: 11, autoSkip: true, autoSkipPadding: 12, maxRotation: 0, minRotation: 0 } }],
                         yAxes: [{
                             ticks: {
                                 beginAtZero: true,
