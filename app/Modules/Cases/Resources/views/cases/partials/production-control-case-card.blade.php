@@ -1,9 +1,32 @@
 @php
     $stageJobs = $case->jobs->where('stage', $stage['number'])->values();
-    $currentJob = $stageJobs->first();
-    $assignee = $currentJob?->assignedTo?->name_initials;
-    $isAssigned = filled($assignee) || ($stage['number'] === 8 && filled($currentJob?->delivery_accepted));
-    $assigneeText = filled($assignee) ? $assignee : ($isAssigned ? 'Assigned' : 'Unassigned');
+    $cardStageJobs = $stageJobs;
+
+    if (!$isAdmin) {
+        $currentUserId = (int) Auth::id();
+        $ownedJobs = $stageJobs->filter(function ($job) use ($stage, $currentUserId): bool {
+            if ($stage['number'] === 8) {
+                return (int) $job->delivery_accepted === $currentUserId
+                    || (int) $job->assignee === $currentUserId;
+            }
+
+            return (int) $job->assignee === $currentUserId;
+        })->values();
+
+        $cardStageJobs = $ownedJobs->isNotEmpty()
+            ? $ownedJobs
+            : $stageJobs->whereNull('assignee')->values();
+    }
+
+    $assigneeNames = $cardStageJobs
+        ->map(fn ($job) => $job->assignedTo?->name_initials)
+        ->filter()
+        ->unique()
+        ->values();
+    $hasDeliveryOwner = $stage['number'] === 8 && $cardStageJobs->contains(fn ($job): bool => filled($job->delivery_accepted));
+    $assigneeText = $assigneeNames->isNotEmpty()
+        ? $assigneeNames->implode(', ')
+        : ($hasDeliveryOwner ? 'Assigned' : 'Unassigned');
     $deliveryText = 'Not scheduled';
     $dueToday = false;
 
@@ -17,7 +40,7 @@
         $deliveryText = str_replace('T', ' ', (string) $case->initial_delivery_date);
     }
 
-    $jobLabels = $stageJobs->map(function ($job): string {
+    $jobLabels = $cardStageJobs->map(function ($job): string {
         return collect([
             $job->unit_num,
             $job->jobType?->name,
@@ -25,6 +48,8 @@
             ($job->color && $job->color !== '0') ? $job->color : null,
         ])->filter(fn ($value): bool => filled($value))->implode(' · ');
     })->filter()->values();
+    $visibleJobLabels = $jobLabels->take(2);
+    $remainingJobCount = max(0, $jobLabels->count() - $visibleJobLabels->count());
 
     $searchText = collect([
         $case->id,
@@ -42,25 +67,43 @@
          data-case-id="{{ $case->id }}"
          data-stage="{{ $stage['key'] }}"
          data-state="{{ $state }}"
-         data-assignment="{{ $isAssigned ? 'assigned' : 'unassigned' }}"
          data-due-today="{{ $dueToday ? 'true' : 'false' }}"
          data-search="{{ \Illuminate\Support\Str::lower($searchText) }}">
-    <button class="pc-case-card" type="button" data-pc-open-details aria-current="false">
+    <button class="pc-case-card"
+            type="button"
+            data-pc-open-details
+            aria-current="false"
+            aria-label="Open case #{{ $case->id }} for {{ $case->patient_name ?: 'patient not provided' }}">
         <div class="pc-case-card__top">
-            <strong><span>#{{ $case->id }}</span> {{ $case->patient_name ?: 'Patient not provided' }}</strong>
-            <span class="pc-state pc-state--{{ $state }}">{{ $state === 'active' ? 'In progress' : 'Ready' }}</span>
+            <span class="pc-case-id"><i class="fa-regular fa-folder-open" aria-hidden="true"></i>#{{ $case->id }}</span>
+            <span class="pc-case-card__signals">
+                @if($dueToday)
+                    <span class="pc-due-badge"><i class="fa-regular fa-clock" aria-hidden="true"></i>Due today</span>
+                @endif
+                <i class="fa-solid fa-chevron-right pc-case-chevron" aria-hidden="true"></i>
+            </span>
         </div>
-        <p>{{ $case->client?->name ?? 'Doctor not assigned' }}</p>
-        <ul>
-            @forelse($jobLabels as $jobLabel)
-                <li>{{ $jobLabel }}</li>
+        <h3>{{ $case->patient_name ?: 'Patient not provided' }}</h3>
+        <p class="pc-case-doctor"><i class="fa-solid fa-user-doctor" aria-hidden="true"></i>{{ $case->client?->name ?? 'Doctor not assigned' }}</p>
+        <div class="pc-case-jobs" aria-label="Stage jobs">
+            @forelse($visibleJobLabels as $jobLabel)
+                <span>{{ $jobLabel }}</span>
             @empty
-                <li>No jobs listed for this stage.</li>
+                <span>No jobs listed for this stage</span>
             @endforelse
-        </ul>
-        <div class="pc-case-card__footer">
-            <span>{{ $deliveryText }}</span>
-            <span>{{ $assigneeText }}</span>
+            @if($remainingJobCount > 0)
+                <span class="pc-case-jobs__more">+{{ $remainingJobCount }} more</span>
+            @endif
+        </div>
+        <div class="pc-case-card__footer" aria-label="Case delivery and assignment">
+            <span>
+                <i class="fa-regular fa-calendar" aria-hidden="true"></i>
+                <span><small>Delivery</small><strong>{{ $deliveryText }}</strong></span>
+            </span>
+            <span>
+                <i class="fa-regular fa-user" aria-hidden="true"></i>
+                <span><small>Assigned</small><strong>{{ $assigneeText }}</strong></span>
+            </span>
         </div>
     </button>
 
@@ -69,7 +112,7 @@
             'case' => $case,
             'stage' => $stage,
             'state' => $state,
-            'stageJobs' => $stageJobs,
+            'stageJobs' => $cardStageJobs,
             'assigneeText' => $assigneeText,
             'deliveryText' => $deliveryText,
             'canAssignEmployees' => $canAssignEmployees,

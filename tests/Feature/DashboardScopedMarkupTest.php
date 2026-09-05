@@ -438,10 +438,12 @@ class DashboardScopedMarkupTest extends TestCase
         $this->assertStringContainsString('solentDashInitJordanMapDrilldown', $view);
         $this->assertStringContainsString('/gbOpen/JOR/ADM1/', $map);
         $this->assertStringContainsString('/gbOpen/JOR/ADM2/', $map);
-        $this->assertStringContainsString('fill: color(area.value, focusedAreaMaximum)', $map);
-        $this->assertStringContainsString('areaTooltipHandlers(element, path, area.name, area.metrics)', $map);
+        $this->assertStringContainsString('fill: neutralFill', $map);
+        $this->assertStringContainsString("const canDrilldown = isDrilldownEnabled(element) && Number(value) > 0;", $map);
+        $this->assertStringNotContainsString('areaTooltipHandlers', $map);
+        $this->assertStringNotContainsString('staticMetric', $map);
         $this->assertStringContainsString('solent-dash-jordan-tooltip-stats', $map);
-        $this->assertStringContainsString('.solent-dash-jordan-adm2-region:hover', $map);
+        $this->assertStringNotContainsString('.solent-dash-jordan-adm2-region:hover', $map);
         $this->assertStringNotContainsString("svgElement('circle'", $map);
         $this->assertStringNotContainsString("svgElement('radialGradient'", $map);
         $this->assertStringNotContainsString('solent-dash-jordan-area-heat', $map);

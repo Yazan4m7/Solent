@@ -10,20 +10,24 @@
     root.setAttribute('data-pc-initialized', 'true');
 
     var stageButtons = Array.prototype.slice.call(root.querySelectorAll('[data-pc-stage-button]'));
+    var statusButtons = Array.prototype.slice.call(root.querySelectorAll('[data-pc-status-toggle]'));
     var cards = Array.prototype.slice.call(root.querySelectorAll('[data-pc-case-card]'));
     var search = root.querySelector('[data-pc-search]');
-    var statusFilter = root.querySelector('[data-pc-status-filter]');
-    var assignmentFilter = root.querySelector('[data-pc-assignment-filter]');
-    var dueFilter = root.querySelector('[data-pc-due-filter]');
+    var dueToggle = root.querySelector('[data-pc-due-toggle]');
     var detailPanel = root.querySelector('[data-pc-detail-panel]');
     var detailContent = root.querySelector('[data-pc-detail-content]');
     var detailBackdrop = root.querySelector('[data-pc-detail-backdrop]');
     var visibleCount = root.querySelector('[data-pc-visible-count]');
-    var stageTitle = root.querySelector('[data-pc-stage-title]');
+    var stageTitles = Array.prototype.slice.call(root.querySelectorAll('[data-pc-stage-title]'));
+    var mobileViewport = window.matchMedia('(max-width: 919px)');
     var selectedStage = root.getAttribute('data-pc-selected-stage') || (stageButtons[0] ? stageButtons[0].getAttribute('data-stage') : '');
+    var selectedStatus = root.getAttribute('data-pc-selected-status') || 'active';
     var requestedCaseId = root.getAttribute('data-pc-selected-case') || '';
+    var dueOnly = dueToggle ? dueToggle.getAttribute('aria-pressed') === 'true' : false;
     var selectedCard = null;
     var lastFocused = null;
+    var bodyOverflowBeforeLock = null;
+    var bodyScrollLocked = false;
 
     function showProcessing() {
         if (window.SolentProcessingOverlay && typeof window.SolentProcessingOverlay.show === 'function') {
@@ -45,28 +49,98 @@
         summaryValue('active', active);
         summaryValue('due', Number(button.getAttribute('data-due') || 0));
         summaryValue('total', ready + active);
-        if (stageTitle) stageTitle.textContent = button.getAttribute('data-label') || '';
+        stageTitles.forEach(function (title) {
+            title.textContent = button.getAttribute('data-label') || '';
+        });
     }
 
     function cardMatches(card) {
         var term = search ? search.value.trim().toLowerCase() : '';
-        var status = statusFilter ? statusFilter.value : 'all';
-        var assignment = assignmentFilter ? assignmentFilter.value : 'all';
-        var due = dueFilter ? dueFilter.value : 'all';
 
         return card.getAttribute('data-stage') === selectedStage
-            && (status === 'all' || card.getAttribute('data-state') === status)
-            && (assignment === 'all' || card.getAttribute('data-assignment') === assignment)
-            && (due === 'all' || card.getAttribute('data-due-today') === 'true')
+            && card.getAttribute('data-state') === selectedStatus
+            && (!dueOnly || card.getAttribute('data-due-today') === 'true')
             && (!term || (card.getAttribute('data-search') || '').indexOf(term) !== -1);
     }
 
-    function closeDetails() {
+    function setDetailPanelInert(inert) {
+        if (!detailPanel) return;
+
+        if ('inert' in detailPanel) detailPanel.inert = inert;
+        if (inert) detailPanel.setAttribute('inert', '');
+        else detailPanel.removeAttribute('inert');
+    }
+
+    function lockBodyScroll() {
+        if (bodyScrollLocked || !document.body) return;
+
+        bodyOverflowBeforeLock = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+        bodyScrollLocked = true;
+    }
+
+    function unlockBodyScroll() {
+        if (!bodyScrollLocked || !document.body) return;
+
+        document.body.style.overflow = bodyOverflowBeforeLock || '';
+        bodyOverflowBeforeLock = null;
+        bodyScrollLocked = false;
+    }
+
+    function clearCardSelection() {
+        cards.forEach(function (card) {
+            var trigger = card.querySelector('[data-pc-open-details]');
+            if (trigger) trigger.setAttribute('aria-current', 'false');
+        });
+    }
+
+    function configureMobileDetail(open) {
+        if (!detailPanel) return;
+
+        if (open) {
+            detailPanel.setAttribute('aria-hidden', 'false');
+            detailPanel.setAttribute('role', 'dialog');
+            detailPanel.setAttribute('aria-modal', 'true');
+            setDetailPanelInert(false);
+            lockBodyScroll();
+            return;
+        }
+
+        detailPanel.setAttribute('aria-hidden', 'true');
+        detailPanel.removeAttribute('role');
+        detailPanel.removeAttribute('aria-modal');
+        setDetailPanelInert(true);
+        unlockBodyScroll();
+    }
+
+    function configureDesktopDetail() {
+        if (detailPanel) {
+            detailPanel.removeAttribute('aria-hidden');
+            detailPanel.removeAttribute('role');
+            detailPanel.removeAttribute('aria-modal');
+            setDetailPanelInert(false);
+        }
+        unlockBodyScroll();
+    }
+
+    function closeDetails(options) {
+        var settings = options || {};
+
         root.classList.remove('pc-detail-open');
         if (detailBackdrop) detailBackdrop.hidden = true;
-        if (lastFocused && document.documentElement.contains(lastFocused)) {
+
+        if (mobileViewport.matches) {
+            configureMobileDetail(false);
+            clearCardSelection();
+            if (settings.keepSelection !== true) selectedCard = null;
+        } else {
+            configureDesktopDetail();
+        }
+
+        if (settings.restoreFocus !== false && lastFocused && document.documentElement.contains(lastFocused)) {
             lastFocused.focus({ preventScroll: true });
         }
+        lastFocused = null;
     }
 
     function openDetails(card, focusTrigger) {
@@ -83,8 +157,24 @@
         detailContent.replaceChildren(template.content.cloneNode(true));
         selectedCard = card;
         if (focusTrigger) lastFocused = trigger || document.activeElement;
-        root.classList.add('pc-detail-open');
-        if (detailBackdrop) detailBackdrop.hidden = false;
+
+        if (mobileViewport.matches) {
+            root.classList.add('pc-detail-open');
+            if (detailBackdrop) detailBackdrop.hidden = false;
+            configureMobileDetail(true);
+
+            var closeButton = detailContent.querySelector('[data-pc-detail-close]');
+            if (closeButton) closeButton.focus({ preventScroll: true });
+            window.requestAnimationFrame(function () {
+                if (closeButton && root.classList.contains('pc-detail-open') && mobileViewport.matches) {
+                    closeButton.focus({ preventScroll: true });
+                }
+            });
+        } else {
+            root.classList.remove('pc-detail-open');
+            if (detailBackdrop) detailBackdrop.hidden = true;
+            configureDesktopDetail();
+        }
     }
 
     function applyFilters(preferCurrent) {
@@ -100,6 +190,13 @@
         var empty = root.querySelector('[data-pc-empty]');
         if (empty) empty.hidden = visible.length !== 0;
 
+        if (mobileViewport.matches) {
+            requestedCaseId = '';
+            selectedCard = null;
+            closeDetails({ restoreFocus: false });
+            return;
+        }
+
         if (preferCurrent && selectedCard && visible.indexOf(selectedCard) !== -1) {
             return;
         }
@@ -110,10 +207,10 @@
         requestedCaseId = '';
         if (selectedCard) {
             openDetails(selectedCard, false);
-            if (window.matchMedia('(max-width: 919px)').matches) closeDetails();
         } else if (detailContent) {
             detailContent.innerHTML = '<div class="pc-detail-placeholder"><p>No case is available for these filters.</p></div>';
-            closeDetails();
+            clearCardSelection();
+            closeDetails({ restoreFocus: false });
         }
     }
 
@@ -128,16 +225,41 @@
         applyFilters(false);
     }
 
+    function selectStatus(button, applyImmediately) {
+        if (!button) return;
+        selectedStatus = button.getAttribute('data-pc-status-toggle') || selectedStatus;
+        root.setAttribute('data-pc-selected-status', selectedStatus);
+        statusButtons.forEach(function (item) {
+            item.setAttribute('aria-pressed', item === button ? 'true' : 'false');
+        });
+        if (applyImmediately !== false) applyFilters(false);
+    }
+
     root.addEventListener('click', function (event) {
         var stageButton = event.target.closest('[data-pc-stage-button]');
+        var statusButton = event.target.closest('[data-pc-status-toggle]');
         var cardTrigger = event.target.closest('[data-pc-open-details]');
         var close = event.target.closest('[data-pc-detail-close]');
+        var dueButton = event.target.closest('[data-pc-due-toggle]');
         var noteToggle = event.target.closest('[data-pc-note-toggle]');
         var noteCancel = event.target.closest('[data-pc-note-cancel]');
         var processingLink = event.target.closest('a[data-pc-processing]');
 
         if (stageButton && root.contains(stageButton)) {
             selectStage(stageButton);
+            return;
+        }
+
+        if (statusButton && root.contains(statusButton)) {
+            selectStatus(statusButton, true);
+            return;
+        }
+
+        if (dueButton && root.contains(dueButton)) {
+            dueOnly = !dueOnly;
+            dueButton.setAttribute('aria-pressed', dueOnly ? 'true' : 'false');
+            dueButton.setAttribute('aria-label', dueOnly ? 'Show all delivery dates' : 'Show cases due today');
+            applyFilters(true);
             return;
         }
 
@@ -194,17 +316,70 @@
         }
     });
 
-    [search, statusFilter, assignmentFilter, dueFilter].forEach(function (control) {
-        if (!control) return;
-        control.addEventListener(control === search ? 'input' : 'change', function () {
+    if (search) {
+        search.addEventListener('input', function () {
             applyFilters(true);
         });
-    });
+    }
 
     if (detailBackdrop) detailBackdrop.addEventListener('click', closeDetails);
     document.addEventListener('keydown', function (event) {
-        if (event.key === 'Escape' && root.classList.contains('pc-detail-open')) closeDetails();
+        var drawerOpen = mobileViewport.matches && root.classList.contains('pc-detail-open');
+
+        if (event.key === 'Escape' && drawerOpen) {
+            closeDetails();
+            return;
+        }
+
+        if (event.key !== 'Tab' || !drawerOpen || !detailPanel) return;
+
+        var focusable = Array.prototype.slice.call(detailPanel.querySelectorAll(
+            'a[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )).filter(function (element) {
+            return !element.closest('[hidden]')
+                && element.getAttribute('aria-hidden') !== 'true'
+                && (element.offsetWidth || element.offsetHeight || element.getClientRects().length);
+        });
+
+        if (!focusable.length) {
+            event.preventDefault();
+            return;
+        }
+
+        var first = focusable[0];
+        var last = focusable[focusable.length - 1];
+        var active = document.activeElement;
+
+        if (event.shiftKey && (active === first || !detailPanel.contains(active))) {
+            event.preventDefault();
+            last.focus();
+        } else if (!event.shiftKey && (active === last || !detailPanel.contains(active))) {
+            event.preventDefault();
+            first.focus();
+        }
     });
+
+    function handleViewportChange() {
+        if (mobileViewport.matches) {
+            closeDetails({ restoreFocus: false });
+            return;
+        }
+
+        root.classList.remove('pc-detail-open');
+        if (detailBackdrop) detailBackdrop.hidden = true;
+        configureDesktopDetail();
+        applyFilters(true);
+    }
+
+    if (typeof mobileViewport.addEventListener === 'function') {
+        mobileViewport.addEventListener('change', handleViewportChange);
+    } else if (typeof mobileViewport.addListener === 'function') {
+        mobileViewport.addListener(handleViewportChange);
+    }
+
+    selectStatus(statusButtons.find(function (button) {
+        return button.getAttribute('data-pc-status-toggle') === selectedStatus;
+    }) || statusButtons[0], false);
 
     selectStage(stageButtons.find(function (button) {
         return button.getAttribute('data-stage') === selectedStage;

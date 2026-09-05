@@ -44,6 +44,10 @@
             position: relative;
         }
 
+        .solent-dash-jordan-map [hidden] {
+            display: none !important;
+        }
+
         .solent-dash-jordan-canvas {
             align-items: center;
             display: flex;

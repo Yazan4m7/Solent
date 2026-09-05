@@ -772,112 +772,66 @@ class CaseController extends Controller
             })
             ->get();
 
-            // Apply different queries for admin vs normal users
-            if ($isAdmin) {
-                $aDesign = $allCases->filter(function ($case) {
-                    return $case->jobs->where('stage', 1)->whereNotNull('assignee')->isNotEmpty();
-                });
-                $aMilling = $allCases->filter(function ($case) {
-                    return $case->jobs->where('stage', 2)->whereNotNull('assignee')->isNotEmpty();
-                });
-                $aPrinting = $allCases->filter(function ($case) {
-                    return $case->jobs->where('stage', 3)->whereNotNull('assignee')->isNotEmpty();
-                });
-                $aSintering = $allCases->filter(function ($case) {
-                    return $case->jobs->where('stage', 4)->whereNotNull('assignee')->isNotEmpty();
-                });
-                $aPressing = $allCases->filter(function ($case) {
-                    return $case->jobs->where('stage', 5)->whereNotNull('assignee')->isNotEmpty();
-                });
-                $aMetalWork = $allCases->filter(function ($case) {
-                    return $case->jobs->where('stage', 9)->whereNotNull('assignee')->isNotEmpty();
-                });
-                $aFinishing = $allCases->filter(function ($case) {
-                    return $case->jobs->where('stage', 6)->whereNotNull('assignee')->isNotEmpty();
-                });
-                $aQC = $allCases->filter(function ($case) {
-                    return $case->jobs->where('stage', 7)->whereNotNull('assignee')->isNotEmpty();
-                });
-                $aDelivery = $allCases->filter(function ($case) {
-                    return $case->jobs->where('stage', 8)->whereNotNull('delivery_accepted')->isNotEmpty();
-                });
+            // Ready/In progress is an operational state, not an assignment state.
+            // Employees keep the legacy visibility rule: the unassigned queue plus
+            // work assigned to them, while another employee's work stays hidden.
+            $splitStageCases = function (int $stage) use ($allCases, $currentUserId, $isAdmin): array {
+                $activeCases = collect();
+                $waitingCases = collect();
 
-                $wDesign = $allCases->filter(function ($case) {
-                    return $case->jobs->where('stage', 1)->whereNull('assignee')->isNotEmpty();
-                });
-                $wMilling = $allCases->filter(function ($case) {
-                    return $case->jobs->where('stage', 2)->whereNull('assignee')->isNotEmpty();
-                });
-                $wPrinting = $allCases->filter(function ($case) {
-                    return $case->jobs->where('stage', 3)->whereNull('assignee')->isNotEmpty();
-                });
-                $wSintering = $allCases->filter(function ($case) {
-                    return $case->jobs->where('stage', 4)->whereNull('assignee')->isNotEmpty();
-                });
-                $wPressing = $allCases->filter(function ($case) {
-                    return $case->jobs->where('stage', 5)->whereNull('assignee')->isNotEmpty();
-                });
-                $wMetalWork = $allCases->filter(function ($case) {
-                    return $case->jobs->where('stage', 9)->whereNull('assignee')->isNotEmpty();
-                });
-                $wFinishing = $allCases->filter(function ($case) {
-                    return $case->jobs->where('stage', 6)->whereNull('assignee')->isNotEmpty();
-                });
-                $wQC = $allCases->filter(function ($case) {
-                    return $case->jobs->where('stage', 7)->whereNull('assignee')->isNotEmpty();
-                });
-            } else {
-                // User-specific queries using collection filtering
-                $aDesign = $allCases->filter(function ($case) use ($currentUserId) {
-                    return $case->jobs->where('stage', 1)->where('assignee', $currentUserId)->isNotEmpty();
-                });
-                $aMilling = $allCases->filter(function ($case) use ($currentUserId) {
-                    return $case->jobs->where('stage', 2)->where('assignee', $currentUserId)->isNotEmpty();
-                });
-                $aPrinting = $allCases->filter(function ($case) use ($currentUserId) {
-                    return $case->jobs->where('stage', 3)->where('assignee', $currentUserId)->isNotEmpty();
-                });
-                $aSintering = $allCases->filter(function ($case) use ($currentUserId) {
-                    return $case->jobs->where('stage', 4)->where('assignee', $currentUserId)->isNotEmpty();
-                });
-                $aPressing = $allCases->filter(function ($case) use ($currentUserId) {
-                    return $case->jobs->where('stage', 5)->where('assignee', $currentUserId)->isNotEmpty();
-                });
-                $aMetalWork = $allCases->filter(function ($case) use ($currentUserId) {
-                    return $case->jobs->where('stage', 9)->where('assignee', $currentUserId)->isNotEmpty();
-                });
-                $aFinishing = $allCases->filter(function ($case) use ($currentUserId) {
-                    return $case->jobs->where('stage', 6)->where('assignee', $currentUserId)->isNotEmpty();
-                });
-                $aQC = $allCases->filter(function ($case) use ($currentUserId) {
-                    return $case->jobs->where('stage', 7)->where('assignee', $currentUserId)->isNotEmpty();
-                });
-                $aDelivery = $allCases->filter(function ($case) use ($currentUserId) {
-                    return $case->jobs->where('stage', 8)->where('assignee', $currentUserId)->whereNotNull('delivery_accepted')->isNotEmpty();
-                });
+                foreach ($allCases as $case) {
+                    $stageJobs = $case->jobs->where('stage', $stage)->values();
 
-                // For non-admins, waiting tabs are for cases assigned to them but not yet active.
-                // With the new logic, there are no waiting cases for non-admins.
-                $wDesign = collect();
-                $wMilling = collect();
-                $wPrinting = collect();
-                $wSintering = collect();
-                $wPressing = collect();
-                $wMetalWork = collect();
-                $wFinishing = collect();
-                $wQC = collect();
-            }
+                    if (!$isAdmin) {
+                        $ownedJobs = $stageJobs->filter(function ($job) use ($stage, $currentUserId): bool {
+                            if ($stage === 8) {
+                                return (int) $job->delivery_accepted === $currentUserId
+                                    || (int) $job->assignee === $currentUserId;
+                            }
 
-            // Optimized: Delivery cases using collection filtering
-            if ($isAdmin || $permissions->contains('permission_id', 129)) {
-                $wDelivery = $allCases->filter(function ($case) {
-                    return $case->jobs->where('stage', 8)->whereNull('delivery_accepted')->isNotEmpty();
-                });
-            } else {
-                $wDelivery = $allCases->filter(function ($case) use ($currentUserId) {
-                    return $case->jobs->where('stage', 8)->where('assignee', $currentUserId)->whereNull('delivery_accepted')->isNotEmpty();
-                });
-            }
+                            return (int) $job->assignee === $currentUserId;
+                        })->values();
+
+                        $stageJobs = $ownedJobs->isNotEmpty()
+                            ? $ownedJobs
+                            : $stageJobs->whereNull('assignee')->values();
+                    }
+
+                    if ($stageJobs->isEmpty()) {
+                        continue;
+                    }
+
+                    $inProgress = $stageJobs->contains(function ($job) use ($stage, $currentUserId, $isAdmin): bool {
+                        if ($stage === 8) {
+                            return $isAdmin
+                                ? $job->delivery_accepted !== null
+                                : (int) $job->delivery_accepted === $currentUserId;
+                        }
+
+                        if (in_array($stage, [2, 3], true)) {
+                            return ($isAdmin || (int) $job->assignee === $currentUserId)
+                                && (int) $job->is_set === 1;
+                        }
+
+                        return ($isAdmin || (int) $job->assignee === $currentUserId)
+                            && (int) $job->is_active === 1;
+                    });
+
+                    ($inProgress ? $activeCases : $waitingCases)->push($case);
+                }
+
+                return [$activeCases->values(), $waitingCases->values()];
+            };
+
+            [$aDesign, $wDesign] = $splitStageCases(1);
+            [$aMilling, $wMilling] = $splitStageCases(2);
+            [$aPrinting, $wPrinting] = $splitStageCases(3);
+            [$aSintering, $wSintering] = $splitStageCases(4);
+            [$aPressing, $wPressing] = $splitStageCases(5);
+            [$aMetalWork, $wMetalWork] = $splitStageCases(9);
+            [$aFinishing, $wFinishing] = $splitStageCases(6);
+            [$aQC, $wQC] = $splitStageCases(7);
+            [$aDelivery, $wDelivery] = $splitStageCases(8);
 
             // REMOVED: Device feature - no longer loading device data
             // $devices = collect(device::select('id', 'name', 'type', 'img', 'sorting_order', 'hidden')->get()->toArray());

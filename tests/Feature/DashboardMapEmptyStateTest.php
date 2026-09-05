@@ -12,6 +12,7 @@ class DashboardMapEmptyStateTest extends TestCase
         $this->assertStringContainsString('data-map-empty role="status" hidden', $html);
         $this->assertStringContainsString('<span class="solent-dash-jordan-empty-message">No activity data for this period</span>', $html);
         $this->assertStringContainsString('data-map-canvas', $html);
+        $this->assertMatchesRegularExpression('/\.solent-dash-jordan-map \[hidden\]\s*\{[^}]*display: none !important;/s', $html);
         $this->assertMatchesRegularExpression('/\.solent-dash-jordan-empty-message\s*\{[^}]*background: #ffffff;[^}]*color: #1e293b;[^}]*font-size: 14px;/s', $html);
     }
 

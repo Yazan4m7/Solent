@@ -36,6 +36,9 @@ class AdminProductionControlV2Test extends TestCase
         $this->assertStringContainsString('data-pc-stage-button', $view);
         $this->assertStringContainsString('data-pc-case-list', $view);
         $this->assertStringContainsString('data-pc-detail-panel', $view);
+        $this->assertStringContainsString('pc-page-header__icon', $view);
+        $this->assertStringContainsString('pc-stage-card__icon', $view);
+        $this->assertStringContainsString("'icon' =>", $view);
         $this->assertStringContainsString('admin-production-control-v2.css', $view);
         $this->assertStringContainsString('adminProductionControlV2.js', $view);
         $this->assertStringContainsString("@include('cases.partials.operations-view-toggle', ['operationsView' => 'new'])", $view);
@@ -52,6 +55,9 @@ class AdminProductionControlV2Test extends TestCase
         $js = file_get_contents(public_path('assets/js/ysh-custom-js/adminProductionControlV2.js'));
         $details = file_get_contents(
             base_path('app/Modules/Cases/Resources/views/cases/partials/production-control-details.blade.php')
+        );
+        $view = file_get_contents(
+            base_path('app/Modules/Cases/Resources/views/cases/production-control-v2.blade.php')
         );
 
         $this->assertStringContainsString('SolentProcessingOverlay.show', $js);
@@ -77,9 +83,74 @@ class AdminProductionControlV2Test extends TestCase
             '/@media\s*\(min-width:\s*920px\)[\s\S]*\.pc-workspace\s*\{[^}]*grid-template-columns:/i',
             $css
         );
-        $this->assertStringNotContainsString('overflow-x: auto', $css);
-        $this->assertStringContainsString('--pc-blue-wash:', $css);
-        $this->assertStringContainsString('min-height: 48px', $css);
-        $this->assertStringContainsString('height: auto;', $css);
+        $this->assertMatchesRegularExpression(
+            '/\.pc-stage-strip\s*\{[^}]*overflow-x:\s*auto/is',
+            $css
+        );
+        $this->assertMatchesRegularExpression(
+            '/(?:body\.production-control-v2-page|\.pc-board)\s*\{[^}]*overflow-x:\s*(?:hidden|clip)/is',
+            $css
+        );
+        $this->assertStringContainsString('var(--accent)', $css);
+        $this->assertStringContainsString('var(--surface)', $css);
+        $this->assertStringContainsString('min-height: 44px', $css);
+        $this->assertMatchesRegularExpression(
+            '/\.pc-detail-action-zone\s*\{[^}]*position:\s*sticky[^}]*bottom:\s*0/is',
+            $css
+        );
+        $this->assertMatchesRegularExpression(
+            '/<div class="pc-detail-body">[\s\S]*?<\/div>\s*<section class="pc-detail-action-zone"/',
+            $details
+        );
+        $this->assertStringContainsString('aria-hidden="true"', $view);
+        $this->assertStringContainsString('aria-modal', $view . $js);
+        $this->assertStringContainsString("detailPanel.setAttribute('aria-hidden'", $js);
+        $this->assertStringContainsString("querySelector('[data-pc-detail-close]')", $js);
+    }
+
+    public function test_work_state_uses_the_legacy_operational_flags_and_employee_visibility(): void
+    {
+        $controller = file_get_contents(
+            app_path('Modules/Cases/Http/Controllers/CaseController.php')
+        );
+        $card = file_get_contents(
+            base_path('app/Modules/Cases/Resources/views/cases/partials/production-control-case-card.blade.php')
+        );
+
+        $this->assertStringContainsString('$splitStageCases', $controller);
+        $this->assertStringContainsString("in_array(\$stage, [2, 3], true)", $controller);
+        $this->assertStringContainsString('(int) $job->is_set === 1', $controller);
+        $this->assertStringContainsString('(int) $job->is_active === 1', $controller);
+        $this->assertStringContainsString("\$stageJobs->whereNull('assignee')->values()", $controller);
+        $this->assertStringNotContainsString('With the new logic, there are no waiting cases for non-admins.', $controller);
+        $this->assertStringContainsString("'stageJobs' => \$cardStageJobs", $card);
+        $this->assertStringNotContainsString("'stageJobs' => \$stageJobs", $card);
+    }
+
+    public function test_ready_and_in_progress_are_a_toggle_in_the_merged_control_row(): void
+    {
+        $view = file_get_contents(
+            base_path('app/Modules/Cases/Resources/views/cases/production-control-v2.blade.php')
+        );
+        $css = file_get_contents(public_path('assets/css/admin-production-control-v2.css'));
+        $js = file_get_contents(public_path('assets/js/ysh-custom-js/adminProductionControlV2.js'));
+
+        $this->assertStringContainsString('class="pc-control-deck"', $view);
+        $this->assertStringContainsString('data-pc-status-toggle="waiting"', $view);
+        $this->assertStringContainsString('data-pc-status-toggle="active"', $view);
+        $this->assertStringContainsString('data-pc-due-toggle', $view);
+        $this->assertStringContainsString('aria-pressed="false"', $view);
+        $this->assertStringNotContainsString('data-pc-status-filter', $view);
+        $this->assertStringNotContainsString('data-pc-assignment-filter', $view);
+        $this->assertStringNotContainsString('data-pc-due-filter', $view);
+        $this->assertStringNotContainsString('pc-summary-grid', $view);
+        $this->assertStringNotContainsString('data-pc-summary="total"', $view);
+        $this->assertStringContainsString('.pc-status-toggle__button', $css);
+        $this->assertStringContainsString('.pc-due-toggle', $css);
+        $this->assertStringContainsString('.pc-search', $css);
+        $this->assertStringContainsString("var selectedStatus = root.getAttribute('data-pc-selected-status')", $js);
+        $this->assertStringContainsString("var dueToggle = root.querySelector('[data-pc-due-toggle]')", $js);
+        $this->assertStringNotContainsString('assignmentFilter', $js);
+        $this->assertStringNotContainsString('dueFilter', $js);
     }
 }
