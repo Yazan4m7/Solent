@@ -1000,6 +1000,7 @@
         $sidebarProfileInitials = $sidebarProfileInitials !== '' ? $sidebarProfileInitials : 'U';
         $sidebarProfileRole = ($sidebarUser->is_admin ?? false) ? __('Administrator') : __('Regular User');
         $currentRoute = Route::currentRouteName();
+        $hideUsersSidebar = strtolower((string) request()->getHost()) === 'demo.solentjo.com';
         $canAccessSidebar = static function (int $permissionId) use ($permissions, $sidebarUser): bool {
             return (bool) ($sidebarUser->is_admin ?? false)
                 || ($permissions && $permissions->contains('permission_id', $permissionId));
@@ -1231,11 +1232,13 @@
                                     <span>Job Types</span>
                                 </a>
                             </li>
-                            <li class="{{ $currentRoute === 'users-index' ? 'active' : '' }}">
-                                <a href="{{ route('users-index') }}">
-                                    <span>{{ $ui['Users'] ?? 'Users' }}</span>
-                                </a>
-                            </li>
+                            @unless ($hideUsersSidebar)
+                                <li class="{{ $currentRoute === 'users-index' ? 'active' : '' }}">
+                                    <a href="{{ route('users-index') }}">
+                                        <span>{{ $ui['Users'] ?? 'Users' }}</span>
+                                    </a>
+                                </li>
+                            @endunless
                             <li class="{{ $currentRoute === 'implants-index' ? 'active' : '' }}">
                                 <a href="{{ route('implants-index') }}">
                                     <span>{{ $ui['Implants'] ?? 'Implants' }}</span>

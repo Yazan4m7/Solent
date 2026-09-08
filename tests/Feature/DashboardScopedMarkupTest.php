@@ -354,6 +354,8 @@ class DashboardScopedMarkupTest extends TestCase
         $this->assertStringContainsString('id="sidebarSettings"', $view);
         $this->assertStringContainsString('<a href="{{ route(\'users-index\') }}">', $view);
         $this->assertStringContainsString("{{ $" . "ui['Users'] ?? 'Users' }}", $view);
+        $this->assertStringContainsString("$" . "hideUsersSidebar = strtolower((string) request()->getHost()) === 'demo.solentjo.com';", $view);
+        $this->assertStringContainsString('@unless ($hideUsersSidebar)', $view);
         $this->assertStringContainsString('.overlay.active {', $view);
         $this->assertStringContainsString('width: calc(100% - 280px);', $view);
         $this->assertStringContainsString('z-index: 1030;', $view);
