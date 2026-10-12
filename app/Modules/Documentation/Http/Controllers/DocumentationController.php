@@ -16,6 +16,10 @@ class DocumentationController extends Controller
      */
     public function generatePDF()
     {
+        if (!class_exists(PDF::class)) {
+            return view('documentation.features', ['printable' => true]);
+        }
+
         // Create PDF instance
         $pdf = PDF::loadView('documentation.features');
         

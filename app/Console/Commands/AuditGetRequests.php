@@ -7,9 +7,13 @@ use App\User;
 use App\client;
 use App\failureCause;
 use App\implant;
+use App\job;
 use App\material;
 use App\sCase;
 use App\tag;
+use App\Support\Tenancy\TenantDemoDatabase;
+use App\Support\Tenancy\TenantResolver;
+use App\Modules\Cases\Support\ProductionStageMap;
 use Illuminate\Console\Command;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,11 +27,29 @@ class AuditGetRequests extends Command
     protected $signature = 'routes:audit-get-requests
         {--user= : Username to audit as; defaults to the first enabled administrator}
         {--json=storage/app/route-load-audit/get-requests-latest.json : Where to save the JSON report}
+        {--data=real : Data mode to audit: real or demo}
         {--include-unsafe : Also invoke GET routes that can change application data}';
 
     protected $description = 'Audit every safe web GET route and report exceptions or server errors.';
 
     public function handle(): int
+    {
+        if (!in_array($this->option('data'), ['real', 'demo'], true)) {
+            $this->error('Use --data=real or --data=demo.');
+            return self::FAILURE;
+        }
+
+        // Audit preferences must never modify an administrator's browser session.
+        $sessionDriver = config('session.driver');
+        config(['session.driver' => 'array']);
+        try {
+            return $this->runAudit();
+        } finally {
+            config(['session.driver' => $sessionDriver]);
+        }
+    }
+
+    private function runAudit(): int
     {
         $user = $this->auditUser();
 
@@ -41,6 +63,11 @@ class AuditGetRequests extends Command
 
         foreach ($this->routesToAudit() as $route) {
             $details = $this->routeDetails($route);
+
+            if ($details['domain'] && $details['domain'] !== Request::create('/', 'GET')->getHost()) {
+                $results[] = $this->result($details, null, null, 'skipped', 'Route belongs to a different host: ' . $details['domain']);
+                continue;
+            }
 
             if (!$this->option('include-unsafe') && $this->isUnsafe($details)) {
                 $results[] = $this->result($details, null, null, 'skipped', 'Potentially state-changing GET route.');
@@ -59,13 +86,15 @@ class AuditGetRequests extends Command
             $startedAt = microtime(true);
 
             try {
+                $this->prepareDataMode($request, $user);
                 Auth::onceUsingId($user->id);
                 $response = $kernel->handle($request);
                 $kernel->terminate($request, $response);
 
                 $status = method_exists($response, 'getStatusCode') ? $response->getStatusCode() : null;
                 $state = $status !== null && $status >= 500 ? 'failed' : 'ok';
-                $results[] = $this->result($details, $uri, $status, $state, null, $startedAt);
+                $error = $state === 'failed' ? $this->responseError($response) : null;
+                $results[] = $this->result($details, $uri, $status, $state, $error, $startedAt);
             } catch (Throwable $exception) {
                 $results[] = $this->result(
                     $details,
@@ -127,6 +156,24 @@ class AuditGetRequests extends Command
         return $query->orderBy('id')->first();
     }
 
+    private function prepareDataMode(Request $request, User $user): void
+    {
+        $session = app('session')->driver('array');
+        $session->flush();
+        $request->setLaravelSession($session);
+        $context = app(TenantResolver::class)->resolve($request);
+        $key = app(TenantDemoDatabase::class)->sessionKey($context, $user);
+        $session->put($key . '.preference_version', TenantDemoDatabase::PREFERENCE_VERSION);
+        $session->put($key . '.active', $this->option('data') === 'demo');
+    }
+
+    private function responseError($response): string
+    {
+        $body = preg_replace('/<(script|style)\b[^>]*>.*?<\/\1>/is', '', (string) $response->getContent());
+        $text = html_entity_decode(strip_tags($body), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        return mb_substr(trim(preg_replace('/\s+/u', ' ', $text)), 0, 350);
+    }
+
     private function routesToAudit(): array
     {
         $routes = [];
@@ -158,6 +205,7 @@ class AuditGetRequests extends Command
             'name' => $route->getName() ?: '(unnamed)',
             'uri' => $route->uri(),
             'action' => (string) $route->getActionName(),
+            'domain' => $route->getDomain(),
             'parameters' => $this->parameterNames($route->uri()),
         ];
     }
@@ -173,13 +221,26 @@ class AuditGetRequests extends Command
     {
         $routeText = strtolower(implode(' ', [$route['name'], $route['uri'], $route['action']]));
 
-        return (bool) preg_match('/assign|delete|destroy|remove|toggle|lock|unlock|restore|finish|complete|reset|send|accept|switch|authenticate|createdummy|createinvoice|testnotification|generatejwt/', $routeText);
+        return (bool) preg_match('/assign|delete|destroy|remove|toggle|lock|unlock|restore|finish|complete|reset|send|accept|switch|update|receivepayment|authenticate|createdummy|createinvoice|testnotification|generatejwt/', $routeText);
     }
 
     private function parametersFor(array $route): ?array
     {
         if ($route['parameters'] === []) {
             return [];
+        }
+
+        foreach (app(ProductionStageMap::class)->definitions() as $stage => $definition) {
+            if ($route['name'] === $definition['route']) {
+                return ['id' => $stage];
+            }
+        }
+
+        if ($route['name'] === 'employee-production-board-v2.details') {
+            $stageJob = job::query()->whereHas('case')
+                ->whereIn('stage', app(ProductionStageMap::class)->stages())
+                ->orderBy('id')->first();
+            return $stageJob ? ['caseId' => $stageJob->case_id, 'stage' => $stageJob->stage] : null;
         }
 
         $modelClass = $this->modelForRoute($route['uri']);
@@ -217,14 +278,15 @@ class AuditGetRequests extends Command
 
     private function modelForRoute(string $uri): ?string
     {
-        $uri = strtolower($uri);
+        // Parameter names such as {stage} must not match the "tag" resource.
+        $uri = strtolower(preg_replace('/\{[^}]+\}/', '', $uri));
 
         return match (true) {
             str_contains($uri, 'job-type') => JobType::class,
             str_contains($uri, 'f-cause') => failureCause::class,
             str_contains($uri, 'implant') => implant::class,
             str_contains($uri, 'material') => material::class,
-            str_contains($uri, 'tag') => tag::class,
+            preg_match('~(?:^|/)tags?(?:/|$)~', $uri) === 1 => tag::class,
             str_contains($uri, 'user') => User::class,
             str_contains($uri, 'doctor'), str_contains($uri, 'dentist'), str_contains($uri, 'client') => client::class,
             str_contains($uri, '3d-printing'), str_contains($uri, 'delivery/'), str_contains($uri, 'pressing'),
@@ -267,6 +329,7 @@ class AuditGetRequests extends Command
         File::put($path, json_encode([
             'created_at' => now()->toDateTimeString(),
             'user' => $user->username,
+            'data_mode' => $this->option('data'),
             'results' => $results,
         ], JSON_PRETTY_PRINT));
     }

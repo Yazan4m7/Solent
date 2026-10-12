@@ -69,9 +69,16 @@
             font-size: 12px;
             color: #777;
         }
+        @media print {
+            @page { size: A4 portrait; margin: 15mm; }
+            .documentation-print { display: none; }
+        }
     </style>
 </head>
 <body>
+    @if($printable ?? false)
+        <button class="documentation-print" type="button" onclick="window.print()">Print / Save as PDF</button>
+    @endif
     <h1>Lab Management Pro - Complete Features Guide</h1>
     
     <div class="feature-box">

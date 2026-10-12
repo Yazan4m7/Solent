@@ -9,6 +9,7 @@ class RunAuditShortcut extends Command
     protected $signature = 'audit
         {target : Use gets to audit safe GET routes}
         {--user= : Username to audit as}
+        {--data=real : Data mode to audit: real or demo}
         {--include-unsafe : Also invoke GET routes that can change application data}';
 
     protected $description = 'Shortcut for application route audits.';
@@ -22,6 +23,7 @@ class RunAuditShortcut extends Command
 
         return $this->call('routes:audit-get-requests', [
             '--user' => $this->option('user'),
+            '--data' => $this->option('data'),
             '--include-unsafe' => (bool) $this->option('include-unsafe'),
         ]);
     }

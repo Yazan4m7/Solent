@@ -8,14 +8,14 @@ Route::get('/', function () {
 
 });
 Route::get('/testme', function () {
-    return view('enc');
+    return redirect('/home');
 
 });
 Auth::routes(['register' => false]);
 
 Route::get('/new-case', [App\Modules\Cases\Http\Controllers\CaseController::class, 'create'])->name('new-case-view');
 Route::get('/login-attempt', '\App\Http\Controllers\Auth\LoginController@authenticate')->name('login-attempt');
-Route::get('/t-p', [App\Modules\Cases\Http\Controllers\CaseController::class, 'teethPopup'])->name('teeth-selecion-popup');
+Route::view('/t-p', 'cases.teeth')->name('teeth-selecion-popup');
 Route::get('/welcome-screen', [App\Modules\Reports\Http\Controllers\ReportsController::class, 'blankPage'])->name('blank-page');
 Route::post('logout', '\App\Http\Controllers\Auth\LoginController@logout')->name('logout');
 
@@ -62,7 +62,9 @@ Route::middleware(['web', 'auth'])->group(function (): void {
 
     Route::post('/assign-to-stage-employee', [App\Modules\Cases\Http\Controllers\CaseController::class, 'assignToStageEmployee'])->name('assign-to-stage-employee');
 
-    Route::get('/lab-workflow', [App\Modules\Cases\Http\Controllers\CaseController::class, 'adminDashboard'])->name('admin-dashboard');
+    Route::get('/lab-workflow', function (\Illuminate\Http\Request $request) {
+        return redirect()->route('admin-dashboard-v2', $request->query());
+    })->name('admin-dashboard');
 
     Route::get('/operations-dashboard', [App\Modules\Cases\Http\Controllers\CaseController::class, 'adminDashboard_v2'])->name('admin-dashboard-v2');
 

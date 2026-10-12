@@ -57,10 +57,8 @@
                                 {{--<th  style="font-weight: bold">Clinic Phone</th>--}}
                                 <th  style="font-weight: bold">Doc. 30 Days Access</th>
                                 <th  style="font-weight: bold">Doc. Last sign-in</th>
-                                <th  style="font-weight: bold">Doc. Device</th>
                                 <th  style="font-weight: bold">Clinic. 30 Days Access</th>
                                 <th  style="font-weight: bold">Clinic. Last sign-in</th>
-                                <th  style="font-weight: bold">Clinic. Device</th>
 
                             </tr>
                             </thead>
@@ -80,13 +78,9 @@
                                     <td class="tabledit-view-mode"><span
                                                 class="tabledit-span">{{substr($client->lastSignIn(),0,16)}}</span></td>
                                     <td class="tabledit-view-mode"><span
-                                                class="tabledit-span">{{$client->docDevice()}}</span></td>
-                                    <td class="tabledit-view-mode"><span
                                                 class="tabledit-span">{{$client->clinicLoginInLast30Days()}}</span></td>
                                     <td class="tabledit-view-mode"><span
                                                 class="tabledit-span">{{substr($client->clinicLastSignIn(),0,16)}}</span></td>
-                                    <td class="tabledit-view-mode"><span
-                                                class="tabledit-span">{{$client->clinicDevice()}}</span></td>
 
                                 </tr>
 

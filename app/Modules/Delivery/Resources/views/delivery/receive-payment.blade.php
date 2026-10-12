@@ -1,7 +1,9 @@
 @extends('layouts.app' ,[ 'pageSlug' =>'Receive Payments'])
 
 @section('content')
-       @php($currencyLabel = (string) ($currencyContext['display'] ?? $currencyContext['code'] ?? 'JOD'))
+       @php
+           $currencyLabel = (string) ($currencyContext['display'] ?? $currencyContext['code'] ?? 'JOD');
+       @endphp
 
 
        <form  class="kt-form" method="GET" action="{{route('payments-with-collectors')}}">

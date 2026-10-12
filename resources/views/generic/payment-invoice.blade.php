@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    @php($brandLogo = asset($brandingLogoPath ?? config('branding.defaults.logo_path')))
-    @php($brandTitle = $brandingName ?? config('branding.defaults.name'))
-    @php($currencyLabel = (string) ($currencyContext['display'] ?? $currencyContext['code'] ?? 'JOD'))
-    @php($currencyUnitAr = (string) ($currencyContext['unit_ar'] ?? 'دينار'))
-    @php($currencyNameAr = (string) ($currencyContext['name_ar'] ?? 'دينار أردني'))
-    @php($currencyPhraseAr = $currencyNameAr . ' لا غير')
+    @php
+        $brandLogo = asset($brandingLogoPath ?? config('branding.defaults.logo_path'));
+        $brandTitle = $brandingName ?? config('branding.defaults.name');
+        $currencyLabel = (string) ($currencyContext['display'] ?? $currencyContext['code'] ?? 'JOD');
+        $currencyUnitAr = (string) ($currencyContext['unit_ar'] ?? 'دينار');
+        $currencyNameAr = (string) ($currencyContext['name_ar'] ?? 'دينار أردني');
+        $currencyPhraseAr = $currencyNameAr . ' لا غير';
+    @endphp
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $brandTitle }} | Invoice</title>

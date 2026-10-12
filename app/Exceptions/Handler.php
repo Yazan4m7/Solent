@@ -49,6 +49,8 @@ class Handler extends ExceptionHandler
             return parent::render($request, $e);
         }
 
+        $e = $this->prepareException($e);
+
         $statusCode = 500;
         if ($e instanceof HttpExceptionInterface) {
             $statusCode = $e->getStatusCode();
